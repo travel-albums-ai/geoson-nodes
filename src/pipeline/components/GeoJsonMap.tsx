@@ -77,9 +77,13 @@ export default function GeoJsonMap({ features, emptyMessage }: GeoJsonMapProps) 
           });
         },
         onEachFeature: (feature: GeoJsonFeature, featureLayer: { bindTooltip: (content: string) => unknown }) => {
-          const name = feature.properties?.name || feature.properties?.name_en;
-          if (typeof name === 'string' && name.length > 0) {
-            featureLayer.bindTooltip(name);
+          // Flight routes carry a tooltip with their price, date and extra text.
+          const tooltip = feature.properties?.tooltip;
+          const label = typeof tooltip === 'string' && tooltip.length > 0
+            ? tooltip
+            : feature.properties?.name || feature.properties?.name_en;
+          if (typeof label === 'string' && label.length > 0) {
+            featureLayer.bindTooltip(label);
           }
         },
       }

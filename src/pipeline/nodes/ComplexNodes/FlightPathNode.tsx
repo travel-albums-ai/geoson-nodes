@@ -11,7 +11,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type FlightPathNodeData = { flights?: FlightEntry[]; flightsFileName?: string };
-type FlightSide = keyof FlightEntry;
+type FlightSide = 'from' | 'to';
 
 const filterAirports = createFilterOptions<Airport>({
   limit: 50,

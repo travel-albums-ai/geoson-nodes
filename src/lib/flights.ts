@@ -72,19 +72,27 @@ export function buildFlightPathCollections(flights: FlightEntry[] | undefined): 
     airports.set(`${airport.iata}@${lon}`, { airport, lon });
   };
 
-  for (const { from, to } of flights ?? []) {
+  for (const { from, to, price, currency, date, extraText } of flights ?? []) {
     if (!from || !to || from.iata === to.iata) continue;
 
     const path = flightArcPath(from, to);
+    const name = `${from.iata} → ${to.iata}`;
+    const priceText = [price, currency].filter((part) => part !== null && part !== '').join(' ');
+    const tooltip = [name, priceText, date, extraText].filter((part) => part !== null && part !== '').join(' · ');
 
     features.push({
       type: 'Feature',
       geometry: { type: 'LineString', coordinates: path },
       properties: {
-        name: `${from.iata} → ${to.iata}`,
+        name,
         kind: 'flight',
         from: from.iata,
         to: to.iata,
+        price,
+        currency,
+        date,
+        extraText,
+        tooltip,
       },
     });
 
@@ -116,8 +124,9 @@ export type ParsedFlights = {
   unknownCodes: string[];
 };
 
-// Expects {"flights": [{"from": "WAW", "to": "JFK"}, ...]}. Airports are matched by IATA code;
-// flights with an unknown code are left out and their codes are returned so the user can see them.
+// Expects {"flights": [{"from": "WAW", "to": "JFK", "price": 412.5, "currency": "EUR", "date": "2025-06-14", "extraText": "Window seat"}, ...]}.
+// Airports are matched by IATA code; flights with an unknown code are left out and their codes are returned so the user can see them.
+// The price, currency, date and extraText fields are optional and read as null when missing.
 export function parseFlightsFile(text: string, airports: Airport[]): ParsedFlights {
   const parsed: unknown = JSON.parse(text);
   const entries = (parsed as { flights?: unknown } | null)?.flights;
@@ -148,12 +157,19 @@ export function parseFlightsFile(text: string, airports: Airport[]): ParsedFligh
       throw new Error('Each flight must be an object');
     }
 
-    const { from, to } = entry as { from?: unknown; to?: unknown };
+    const { from, to, price, currency, date, extraText } = entry as Record<string, unknown>;
     const fromAirport = lookup(from);
     const toAirport = lookup(to);
 
     if (fromAirport && toAirport) {
-      flights.push({ from: fromAirport, to: toAirport });
+      flights.push({
+        from: fromAirport,
+        to: toAirport,
+        price: typeof price === 'number' ? price : null,
+        currency: typeof currency === 'string' ? currency : null,
+        date: typeof date === 'string' ? date : null,
+        extraText: typeof extraText === 'string' ? extraText : null,
+      });
     }
   }
 

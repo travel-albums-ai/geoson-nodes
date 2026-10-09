@@ -39,9 +39,14 @@ export type Airport = {
 };
 
 // One flight on the flight path node. A side stays null until an airport is picked.
+// The price, currency, date and extra text come from the flights file and stay null when it leaves them out.
 export type FlightEntry = {
   from: Airport | null;
   to: Airport | null;
+  price: number | null;
+  currency: string | null;
+  date: string | null;
+  extraText: string | null;
 };
 
 // Node types the pipeline engine can evaluate.

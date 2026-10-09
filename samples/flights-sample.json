@@ -1,9 +1,9 @@
 {
   "flights": [
-    { "from": "KRK", "to": "CDG" },
-    { "from": "NRT", "to": "LAX" },
-    { "from": "GRU", "to": "CPT" },
-    { "from": "DXB", "to": "YVR" },
-    { "from": "SIN", "to": "KEF" }
+    { "from": "KRK", "to": "CDG", "price": 287.4, "currency": "EUR", "date": "2024-05-18", "extraText": "Window seat" },
+    { "from": "NRT", "to": "LAX", "price": 1149.99, "currency": "USD", "date": "2023-11-02", "extraText": "Business class" },
+    { "from": "GRU", "to": "CPT", "price": 893.25, "currency": "USD", "date": "2025-01-27", "extraText": "One stop" },
+    { "from": "DXB", "to": "YVR", "price": 1376.8, "currency": "CAD", "date": "2024-08-09", "extraText": "Carry-on only" },
+    { "from": "SIN", "to": "KEF", "price": 642.1, "currency": "GBP", "date": "2022-12-21", "extraText": "Late departure" }
   ]
 }
