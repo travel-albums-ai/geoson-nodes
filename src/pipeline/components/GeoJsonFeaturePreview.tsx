@@ -1,3 +1,4 @@
+import { readFeatureStyle } from '@/lib/geojsonStyle';
 import type { GeoJsonFeature } from '@/types/types';
 import { Box } from '@mui/material';
 
@@ -102,6 +103,9 @@ type GeoJsonFeaturePreviewProps = {
 };
 
 export default function GeoJsonFeaturePreview({ feature }: GeoJsonFeaturePreviewProps) {
+  const style = readFeatureStyle(feature.properties);
+  const fill = style.fill ?? COLOR;
+  const stroke = style.stroke ?? COLOR;
   const shapes = toShapes(feature.geometry);
   const positions = allPositions(shapes);
   const project = positions.length > 0 ? createProjector(positions) : null;
@@ -113,13 +117,25 @@ export default function GeoJsonFeaturePreview({ feature }: GeoJsonFeaturePreview
       width={SIZE}
       height={SIZE}
       aria-hidden="true"
-      sx={{ flexShrink: 0, borderRadius: 1, bgcolor: 'action.hover', color: COLOR }}
+      sx={{ flexShrink: 0, borderRadius: 1, bgcolor: 'action.hover' }}
     >
       {project &&
         shapes.map((shape, index) => {
           if (shape.kind === 'point') {
             const [x, y] = project(shape.position);
-            return <circle key={index} cx={x} cy={y} r={2.5} fill="currentColor" stroke="#ffffff" strokeWidth={1} />;
+            return (
+              <circle
+                key={index}
+                cx={x}
+                cy={y}
+                r={2.5}
+                fill={fill}
+                fillOpacity={style.fillOpacity}
+                stroke={style.stroke ?? '#ffffff'}
+                strokeOpacity={style.strokeOpacity}
+                strokeWidth={1}
+              />
+            );
           }
           if (shape.kind === 'line') {
             return (
@@ -127,7 +143,8 @@ export default function GeoJsonFeaturePreview({ feature }: GeoJsonFeaturePreview
                 key={index}
                 d={linePath(shape.positions.map(project), false)}
                 fill="none"
-                stroke="currentColor"
+                stroke={stroke}
+                strokeOpacity={style.strokeOpacity}
                 strokeWidth={1.5}
                 strokeLinejoin="round"
                 strokeLinecap="round"
@@ -138,9 +155,10 @@ export default function GeoJsonFeaturePreview({ feature }: GeoJsonFeaturePreview
             <path
               key={index}
               d={shape.rings.map((ring) => linePath(ring.map(project), true)).join('')}
-              fill="currentColor"
-              fillOpacity={0.3}
-              stroke="currentColor"
+              fill={fill}
+              fillOpacity={style.fillOpacity ?? 0.3}
+              stroke={stroke}
+              strokeOpacity={style.strokeOpacity}
               strokeWidth={1}
               fillRule="evenodd"
             />

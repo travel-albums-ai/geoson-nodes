@@ -8,6 +8,7 @@ import GeoJsonInputNode from '@/pipeline/nodes/ComplexNodes/GeoJsonInputNode';
 import GeoJsonJsonataNode from '@/pipeline/nodes/ComplexNodes/GeoJsonJsonataNode';
 import GeoJsonMergeNode from '@/pipeline/nodes/ComplexNodes/GeoJsonMergeNode';
 import GeoJsonSetNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSetNode';
+import GeoJsonStyleNode from '@/pipeline/nodes/ComplexNodes/GeoJsonStyleNode';
 import GeoJsonSwitchNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSwitchNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
 import GeoJsonWithinAreaNode from '@/pipeline/nodes/ComplexNodes/GeoJsonWithinAreaNode';
@@ -32,6 +33,7 @@ export const pipelineNodeTypes = {
   'geojson-merge': GeoJsonMergeNode,
   'flight-path': FlightPathNode,
   'geojson-switch': GeoJsonSwitchNode,
+  'geojson-style': GeoJsonStyleNode,
   'geojson-zip': GeoJsonZipNode,
   'geojson-union': GeoJsonSetNode,
   'geojson-intersection': GeoJsonSetNode,

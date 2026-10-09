@@ -1,7 +1,10 @@
 import type { GeoJsonFeature } from '@/types/types';
+import { readFeatureStyle } from '@/lib/geojsonStyle';
 import { Box, Typography } from '@mui/material';
 import L from 'leaflet';
 import { useEffect, useRef } from 'react';
+
+const DEFAULT_COLOR = '#d32f2f';
 
 type GeoJsonMapProps = {
   features: GeoJsonFeature[];
@@ -52,20 +55,27 @@ export default function GeoJsonMap({ features, emptyMessage }: GeoJsonMapProps) 
     const layer = L.geoJSON(
       { type: 'FeatureCollection', features } as unknown as Parameters<typeof L.geoJSON>[0],
       {
-        style: {
-          color: '#d32f2f',
-          weight: 3,
-          fillColor: '#d32f2f',
-          fillOpacity: 0.3,
+        style: (feature?: GeoJsonFeature) => {
+          const style = readFeatureStyle(feature?.properties);
+          return {
+            color: style.stroke ?? DEFAULT_COLOR,
+            opacity: style.strokeOpacity ?? 1,
+            weight: 3,
+            fillColor: style.fill ?? DEFAULT_COLOR,
+            fillOpacity: style.fillOpacity ?? 0.3,
+          };
         },
-        pointToLayer: (_feature: GeoJsonFeature, latlng: { lat: number; lng: number }) =>
-          L.circleMarker(latlng, {
+        pointToLayer: (feature: GeoJsonFeature, latlng: { lat: number; lng: number }) => {
+          const style = readFeatureStyle(feature.properties);
+          return L.circleMarker(latlng, {
             radius: 7,
-            color: '#ffffff',
+            color: style.stroke ?? '#ffffff',
+            opacity: style.strokeOpacity ?? 1,
             weight: 2,
-            fillColor: '#d32f2f',
-            fillOpacity: 0.9,
-          }),
+            fillColor: style.fill ?? DEFAULT_COLOR,
+            fillOpacity: style.fillOpacity ?? 0.9,
+          });
+        },
         onEachFeature: (feature: GeoJsonFeature, featureLayer: { bindTooltip: (content: string) => unknown }) => {
           const name = feature.properties?.name || feature.properties?.name_en;
           if (typeof name === 'string' && name.length > 0) {

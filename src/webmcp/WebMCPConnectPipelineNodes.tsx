@@ -33,6 +33,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: ['geojson'],
     targets: [...GEOJSON_SWITCH_INPUT_HANDLES],
   },
+  'geojson-style': {
+    sources: ['geojson'],
+    targets: ['geojson'],
+  },
   'geojson-zip': {
     sources: ['geojson'],
     targets: [...GEOJSON_ZIP_INPUT_HANDLES],

@@ -24,6 +24,7 @@ import {
   parseGeoJsonFeatureCollections,
 } from "@/lib/geojson";
 import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
+import { applyGeoJsonStyle, readGeoJsonStyleSettings } from "@/lib/geojsonStyle";
 import { filterGeoJsonWithinArea } from "@/lib/geojsonWithinArea";
 import { loadGeoJsonFile } from "@/lib/geojsonFileStore";
 import { commonPropertyKeys, zipGeoJsonByKey } from "@/lib/geojsonZip";
@@ -192,6 +193,15 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       };
     },
   },
+  "geojson-style": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
+
+      return { geojson: applyGeoJsonStyle(collections, readGeoJsonStyleSettings(inputs.style)) };
+    },
+  },
   "geojson-zip": {
     async execute(inputs) {
       await Promise.resolve();
@@ -309,6 +319,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "geojson-zip") {
         inputs.key = node.data.key;
+      }
+
+      if (node.type === "geojson-style") {
+        inputs.style = node.data.style;
       }
 
       if (node.type === "geojson-switch") {
