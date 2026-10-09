@@ -12,33 +12,10 @@
 
 import { lutStage, parseCubeLut } from "@/lib/lut";
 import {
-  blackAndWhiteStage,
-  brightnessStage,
-  contrastStage,
   detectFilmBaseColor,
-  exposureStage,
-  fadeStage,
   filmBaseRemoverStage,
-  gammaStage,
-  grainStage,
-  hdrEffectStage,
-  highlightsStage,
-  hueRotationStage,
-  invertStage,
-  luminosityStage,
-  popStage,
-  rgbBlackPointStage,
-  rgbMidtonesStage,
-  rgbWhitePointStage,
-  saturationStage,
-  sepiaStage,
-  shadowsStage,
-  sharpenStage,
   splitToningStage,
-  temperatureTintStage,
-  vibranceStage,
   vignetteStage,
-  whitesBlacksStage,
 } from "@/lib/utils";
 import type {
   NodeInputs,
@@ -445,8 +422,6 @@ function createCanvas(
 const IMAGE_TILE_SIZE = 1024;
 const NON_TILE_SAFE_GPU_OPERATIONS = new Set<GpuOperation["kind"]>([
   "vignette",
-  "sharpen",
-  "hdr",
 ]);
 
 type GpuRenderer = {
@@ -827,89 +802,6 @@ function mergeChannels(
       };
     }
   );
-}
-
-type Point = { x: number; y: number };
-
-function drawTriangle(
-  ctx: OffscreenCanvasRenderingContext2D,
-  source: [Point, Point, Point],
-  destination: [Point, Point, Point],
-  bitmap: ImageBitmap
-) {
-  const [a, b, c] = source;
-  const [u, v, w] = destination;
-  const determinant = (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
-
-  if (Math.abs(determinant) < 0.001) return;
-
-  const m11 = ((v.x - u.x) * (c.y - a.y) - (w.x - u.x) * (b.y - a.y)) / determinant;
-  const m12 = ((v.y - u.y) * (c.y - a.y) - (w.y - u.y) * (b.y - a.y)) / determinant;
-  const m21 = ((w.x - u.x) * (b.x - a.x) - (v.x - u.x) * (c.x - a.x)) / determinant;
-  const m22 = ((w.y - u.y) * (b.x - a.x) - (v.y - u.y) * (c.x - a.x)) / determinant;
-  const dx = u.x - m11 * a.x - m21 * a.y;
-  const dy = u.y - m12 * a.x - m22 * a.y;
-  const center = {
-    x: (u.x + v.x + w.x) / 3,
-    y: (u.y + v.y + w.y) / 3,
-  };
-  const expand = (point: Point): Point => {
-    const length = Math.hypot(point.x - center.x, point.y - center.y) || 1;
-    const overlap = 1.25;
-    return {
-      x: point.x + ((point.x - center.x) / length) * overlap,
-      y: point.y + ((point.y - center.y) / length) * overlap,
-    };
-  };
-  const clipDestination = [expand(u), expand(v), expand(w)] as [Point, Point, Point];
-
-  ctx.save();
-  ctx.beginPath();
-  ctx.moveTo(clipDestination[0].x, clipDestination[0].y);
-  ctx.lineTo(clipDestination[1].x, clipDestination[1].y);
-  ctx.lineTo(clipDestination[2].x, clipDestination[2].y);
-  ctx.closePath();
-  ctx.clip();
-  ctx.setTransform(m11, m12, m21, m22, dx, dy);
-  ctx.drawImage(bitmap, 0, 0);
-  ctx.restore();
-}
-
-function drawPerspective(
-  ctx: OffscreenCanvasRenderingContext2D,
-  canvas: OffscreenCanvas,
-  source: WorkerImage,
-  offsets: number[]
-) {
-  const points: [Point, Point, Point, Point] = [
-    { x: offsets[0] * canvas.width / 100, y: offsets[1] * canvas.height / 100 },
-    { x: canvas.width * (1 + offsets[2] / 100), y: offsets[3] * canvas.height / 100 },
-    { x: offsets[4] * canvas.width / 100, y: canvas.height * (1 + offsets[5] / 100) },
-    { x: canvas.width * (1 + offsets[6] / 100), y: canvas.height * (1 + offsets[7] / 100) },
-  ];
-  const divisions = 16;
-
-  for (let row = 0; row < divisions; row += 1) {
-    for (let column = 0; column < divisions; column += 1) {
-      const x0 = column / divisions;
-      const x1 = (column + 1) / divisions;
-      const y0 = row / divisions;
-      const y1 = (row + 1) / divisions;
-      const sourceCorners: [Point, Point, Point, Point] = [
-        { x: x0 * source.width, y: y0 * source.height },
-        { x: x1 * source.width, y: y0 * source.height },
-        { x: x0 * source.width, y: y1 * source.height },
-        { x: x1 * source.width, y: y1 * source.height },
-      ];
-      const interpolate = (x: number, y: number): Point => ({
-        x: points[0].x * (1 - x) * (1 - y) + points[1].x * x * (1 - y) + points[2].x * (1 - x) * y + points[3].x * x * y,
-        y: points[0].y * (1 - x) * (1 - y) + points[1].y * x * (1 - y) + points[2].y * (1 - x) * y + points[3].y * x * y,
-      });
-      const destinationCorners: [Point, Point, Point, Point] = [interpolate(x0, y0), interpolate(x1, y0), interpolate(x0, y1), interpolate(x1, y1)];
-      drawTriangle(ctx, [sourceCorners[0], sourceCorners[1], sourceCorners[2]], [destinationCorners[0], destinationCorners[1], destinationCorners[2]], source.bitmap);
-      drawTriangle(ctx, [sourceCorners[1], sourceCorners[3], sourceCorners[2]], [destinationCorners[1], destinationCorners[3], destinationCorners[2]], source.bitmap);
-    }
-  }
 }
 
 async function scaleImage(source: WorkerImage, scale: number): Promise<WorkerImage> {
@@ -1405,185 +1297,11 @@ function createAIImageEditNodeDefinition(
 // Node implementations
 // ============================================================
 
-// Node types whose only parameter is a single slider value
-// stored on node.data.amount.
-const SLIDER_NODE_TYPES = new Set([
-  "brightness",
-  "highlights",
-  "shadows",
-  "gamma",
-  "luminosity",
-  "exposure",
-  "contrast",
-  "saturation",
-  "vibrance",
-  "vignette",
-  "grain",
-  "sharpen",
-  "pop",
-  "hdr",
-  "hue-rotation",
-  "fade",
-  "rotate",
-]);
-const TONE_NODE_TYPES = new Set(["whites-blacks", "temperature-tint"]);
-const RGB_CHANNEL_NODE_TYPES = new Set([
-  "rgb-black-point",
-  "rgb-white-point",
-  "rgb-midtones",
-]);
-
 const drawSource = (
   ctx: OffscreenCanvasRenderingContext2D,
   _canvas: OffscreenCanvas,
   source: WorkerImage
 ) => ctx.drawImage(source.bitmap, 0, 0);
-
-// Node definition for a pixel-transform stage with no parameters (invert).
-function stageNode(
-  createStage: () => Stage,
-  gpuOperation?: GpuOperation
-): PipelineNodeDefinition {
-  return {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-
-      if (sources.length === 0) { return { image: [] } }
-
-      const image = await renderImages(
-        sources,
-        inputs.evaluationId as number,
-        drawSource,
-        createStage(),
-        gpuOperation
-      );
-
-      return { image };
-    },
-  };
-}
-
-// Node definition for a pixel-transform stage driven by a slider amount.
-function amountStageNode(
-  createStage: (amount: number) => Stage,
-  defaultAmount: number,
-  createGpuOperation?: (amount: number) => GpuOperation
-): PipelineNodeDefinition {
-  return {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-
-      if (sources.length === 0) { return { image: [] } }
-
-      const amount = (inputs.amount as number | undefined) ?? defaultAmount;
-
-      const image = await renderImages(
-        sources,
-        inputs.evaluationId as number,
-        drawSource,
-        createStage(amount),
-        createGpuOperation?.(amount)
-      );
-
-      return { image };
-    },
-  };
-}
-
-function twoAmountStageNode(
-  createStage: (first: number, second: number) => Stage,
-  firstKey: string,
-  secondKey: string,
-  createGpuOperation?: (first: number, second: number) => GpuOperation
-): PipelineNodeDefinition {
-  return {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      if (sources.length === 0) return { image: [] };
-
-      const first = (inputs[firstKey] as number | undefined) ?? 0;
-      const second = (inputs[secondKey] as number | undefined) ?? 0;
-      return {
-        image: await renderImages(
-          sources,
-          inputs.evaluationId as number,
-          drawSource,
-          createStage(first, second),
-          createGpuOperation?.(first, second)
-        ),
-      };
-    },
-  };
-}
-
-function threeAmountStageNode(
-  createStage: (first: number, second: number, third: number) => Stage,
-  defaultAmount: number,
-  createGpuOperation?: (first: number, second: number, third: number) => GpuOperation
-): PipelineNodeDefinition {
-  return {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      if (sources.length === 0) return { image: [] };
-
-      const red = (inputs.red as number | undefined) ?? defaultAmount;
-      const green = (inputs.green as number | undefined) ?? defaultAmount;
-      const blue = (inputs.blue as number | undefined) ?? defaultAmount;
-      return {
-        image: await renderImages(
-          sources,
-          inputs.evaluationId as number,
-          drawSource,
-          createStage(red, green, blue),
-          createGpuOperation?.(red, green, blue)
-        ),
-      };
-    },
-  };
-}
-
-function cropImages(
-  sources: WorkerImage[],
-  evaluationId: number,
-  topPercent: number,
-  bottomPercent: number,
-  leftPercent: number,
-  rightPercent: number
-): Promise<WorkerImage[]> {
-  const top = Math.max(0, Math.min(0.9, topPercent / 100));
-  const bottom = Math.max(0, Math.min(0.9, bottomPercent / 100));
-  const left = Math.max(0, Math.min(0.9, leftPercent / 100));
-  const right = Math.max(0, Math.min(0.9, rightPercent / 100));
-
-  return mapWithConcurrency(sources, evaluationId, async (source) => {
-    const cropWidth = Math.max(1, Math.round(source.width * (1 - left - right)));
-    const cropHeight = Math.max(1, Math.round(source.height * (1 - top - bottom)));
-    const offsetX = Math.min(Math.round(source.width * left), source.width - cropWidth);
-    const offsetY = Math.min(Math.round(source.height * top), source.height - cropHeight);
-    const [canvas, ctx] = createCanvas(cropWidth, cropHeight);
-
-    ctx.drawImage(
-      source.bitmap,
-      offsetX,
-      offsetY,
-      cropWidth,
-      cropHeight,
-      0,
-      0,
-      cropWidth,
-      cropHeight
-    );
-
-    return {
-      bitmap: canvas.transferToImageBitmap(),
-      width: cropWidth,
-      height: cropHeight,
-      name: source.name,
-      exif: source.exif,
-      exifSegment: source.exifSegment,
-    };
-  });
-}
 
 let sourceRunSeq = 0;
 let viewerRunSeq = 0;
@@ -1889,9 +1607,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
     },
   },
 
-  invert: stageNode(invertStage, { kind: "invert" }),
-  "black-white": stageNode(blackAndWhiteStage, { kind: "black-white" }),
-  sepia: stageNode(sepiaStage, { kind: "sepia" }),
 
   lut: {
     async execute(inputs) {
@@ -1912,118 +1627,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
     },
   },
 
-  flip: {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-
-      if (sources.length === 0) { return { image: [] } }
-
-      const image = await renderImages(
-        sources,
-        inputs.evaluationId as number,
-        (ctx, canvas, source) => {
-          // Rotate 180deg around the canvas center.
-          ctx.translate(canvas.width, canvas.height);
-          ctx.rotate(Math.PI);
-          ctx.drawImage(source.bitmap, 0, 0);
-        }
-      );
-
-      return { image };
-    },
-  },
-
-  mirror: {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-
-      if (sources.length === 0) { return { image: [] } }
-
-      const image = await renderImages(
-        sources,
-        inputs.evaluationId as number,
-        (ctx, canvas, source) => {
-          // Flip horizontally around the canvas's vertical center axis.
-          ctx.translate(canvas.width, 0);
-          ctx.scale(-1, 1);
-          ctx.drawImage(source.bitmap, 0, 0);
-        }
-      );
-
-      return { image };
-    },
-  },
-
-  rotate: {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-
-      if (sources.length === 0) { return { image: [] } }
-
-      const angle = (inputs.amount as number | undefined) ?? 0;
-      const radians = (angle * Math.PI) / 180;
-
-      const image = await renderImages(
-        sources,
-        inputs.evaluationId as number,
-        (ctx, canvas, source) => {
-          // Rotate around the canvas center; the canvas keeps the source's
-          // dimensions, so corners can clip at non-90deg angles.
-          ctx.translate(canvas.width / 2, canvas.height / 2);
-          ctx.rotate(radians);
-          ctx.translate(-canvas.width / 2, -canvas.height / 2);
-          ctx.drawImage(source.bitmap, 0, 0);
-        }
-      );
-
-      return { image };
-    },
-  },
-
-  perspective: {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      if (sources.length === 0) { return { image: [] }; }
-
-      const offsets = (inputs.perspectiveOffsets as number[] | undefined) ?? [0, 0, 0, 0, 0, 0, 0, 0];
-      const image = await renderImages(
-        sources,
-        inputs.evaluationId as number,
-        (ctx, canvas, source) => drawPerspective(ctx, canvas, source, offsets)
-      );
-
-      return { image };
-    },
-  },
-
-  crop: {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-
-      if (sources.length === 0) { return { image: [] } }
-
-      const image = await cropImages(
-        sources,
-        inputs.evaluationId as number,
-        (inputs.cropTop as number | undefined) ?? 0,
-        (inputs.cropBottom as number | undefined) ?? 0,
-        (inputs.cropLeft as number | undefined) ?? 0,
-        (inputs.cropRight as number | undefined) ?? 0
-      );
-
-      return { image };
-    },
-  },
-
-  brightness: amountStageNode(brightnessStage, 0, (amount) => ({ kind: "brightness", params: [amount] })),
-  highlights: amountStageNode(highlightsStage, 0, (amount) => ({ kind: "highlights", params: [amount / 100] })),
-  shadows: amountStageNode(shadowsStage, 0, (amount) => ({ kind: "shadows", params: [amount / 100] })),
-  gamma: amountStageNode(gammaStage, 1, (amount) => ({ kind: "gamma", params: [amount] })),
-  luminosity: amountStageNode(luminosityStage, 0, (amount) => ({ kind: "luminosity", params: [amount] })),
-  exposure: amountStageNode(exposureStage, 0, (amount) => ({ kind: "exposure", params: [amount] })),
-  contrast: amountStageNode(contrastStage, 0, (amount) => ({ kind: "contrast", params: [amount] })),
-  saturation: amountStageNode(saturationStage, 0, (amount) => ({ kind: "saturation", params: [amount] })),
-  vibrance: amountStageNode(vibranceStage, 0, (amount) => ({ kind: "vibrance", params: [amount] })),
   vignette: {
     async execute(inputs) {
       const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
@@ -2042,28 +1645,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       };
     },
   },
-  grain: amountStageNode(grainStage, 0, (amount) => ({ kind: "grain", params: [amount] })),
-  sharpen: amountStageNode(sharpenStage, 0, (amount) => ({ kind: "sharpen", params: [amount] })),
-  pop: amountStageNode(popStage, 0, (amount) => ({ kind: "pop", params: [amount] })),
-  hdr: {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      if (sources.length === 0) return { image: [] };
-
-      const amount = (inputs.amount as number | undefined) ?? 0;
-      const radius = (inputs.radius as number | undefined) ?? 12;
-      return {
-        image: await renderImages(
-          sources,
-          inputs.evaluationId as number,
-          drawSource,
-          hdrEffectStage(amount, radius),
-          { kind: "hdr", params: [amount, radius] }
-        ),
-      };
-    },
-  },
-  "hue-rotation": amountStageNode(hueRotationStage, 0, (amount) => ({ kind: "hue-rotation", params: [amount] })),
   "film-base-remover": {
     async execute(inputs) {
       const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
@@ -2101,12 +1682,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       };
     },
   },
-  fade: amountStageNode(fadeStage, 0, (amount) => ({ kind: "fade", params: [amount] })),
-  "whites-blacks": twoAmountStageNode(whitesBlacksStage, "whites", "blacks", (whites, blacks) => ({ kind: "whites-blacks", params: [whites, blacks] })),
-  "temperature-tint": twoAmountStageNode(temperatureTintStage, "temperature", "tint", (temperature, tint) => ({ kind: "temperature-tint", params: [temperature, tint] })),
-  "rgb-black-point": threeAmountStageNode(rgbBlackPointStage, 0, (red, green, blue) => ({ kind: "rgb-black-point", params: [red, green, blue] })),
-  "rgb-white-point": threeAmountStageNode(rgbWhitePointStage, 255, (red, green, blue) => ({ kind: "rgb-white-point", params: [red, green, blue] })),
-  "rgb-midtones": threeAmountStageNode(rgbMidtonesStage, 1, (red, green, blue) => ({ kind: "rgb-midtones", params: [red, green, blue] })),
   "split-toning": {
     async execute(inputs) {
       const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
@@ -2690,13 +2265,8 @@ async function runEvaluation(
         inputs.selectedImageKeys = node.data.selectedImageKeys;
       }
 
-      // Special case:
-      // Slider nodes get their amount from node.data.
-      if (SLIDER_NODE_TYPES.has(node.type ?? "")) {
-        inputs.amount = node.data.amount;
-      }
-
       if (node.type === "vignette") {
+        inputs.amount = node.data.amount;
         inputs.color = node.data.color;
       }
 
@@ -2708,21 +2278,6 @@ async function runEvaluation(
         inputs.autoDetectBase = node.data.autoDetectBase;
       }
 
-      if (node.type === "hdr") {
-        inputs.radius = node.data.radius;
-      }
-
-      if (TONE_NODE_TYPES.has(node.type ?? "")) {
-        inputs.whites = node.data.whites;
-        inputs.blacks = node.data.blacks;
-        inputs.temperature = node.data.temperature;
-        inputs.tint = node.data.tint;
-      }
-      if (RGB_CHANNEL_NODE_TYPES.has(node.type ?? "")) {
-        inputs.red = node.data.red;
-        inputs.green = node.data.green;
-        inputs.blue = node.data.blue;
-      }
       if (node.type === "split-toning") {
         inputs.shadowTint = node.data.shadowTint;
         inputs.highlightTint = node.data.highlightTint;
@@ -2760,22 +2315,6 @@ async function runEvaluation(
         inputs.rows = node.data.rows;
         inputs.tileWidth = node.data.tileWidth;
         inputs.tileHeight = node.data.tileHeight;
-      }
-
-      if (node.type === "crop") {
-        inputs.cropTop = node.data.top;
-        inputs.cropBottom = node.data.bottom;
-        inputs.cropLeft = node.data.left;
-        inputs.cropRight = node.data.right;
-      }
-
-      if (node.type === "perspective") {
-        inputs.perspectiveOffsets = [
-          node.data.topLeftx, node.data.topLefty,
-          node.data.topRightx, node.data.topRighty,
-          node.data.bottomLeftx, node.data.bottomLefty,
-          node.data.bottomRightx, node.data.bottomRighty,
-        ].map((value) => typeof value === "number" ? value : 0);
       }
 
       if (node.data.skip === true) {

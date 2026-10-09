@@ -290,10 +290,6 @@ function Pipeline() {
   useEffect(() => {
     const signature = JSON.stringify({
       nodeIds: nodes.map((node) => node.id).sort(),
-      cropValues: nodes
-        .filter((node) => node.type === "crop")
-        .map((node) => `${node.id}:${node.data.top ?? 0}:${node.data.bottom ?? 0}:${node.data.left ?? 0}:${node.data.right ?? 0}`)
-        .sort(),
       arraySwitchValues: nodes
         .filter((node) => node.type === "array-switch")
         .map((node) => `${node.id}:${node.data.selectedInput ?? 1}`)

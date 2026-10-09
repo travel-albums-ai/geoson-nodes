@@ -29,7 +29,7 @@ A pipeline is a set of connected steps:
 
 A typical pipeline looks like this:
 
-`Photos -> Crop -> Brightness -> Viewer`
+`Photos -> Vignette -> Viewer`
 
 The safest way to begin is to connect a photo input directly to a viewer. Once the photos appear, add one editing step at a time and check the result after each change.
 
@@ -62,11 +62,9 @@ The toolbox groups nodes by purpose. Exact labels can vary with the active langu
 
 - **Input**: local storage, hot-folder input, Google Drive, information, and selected-photo sources.
 - **Logic**: grouping, array switching and boolean operations, image picking, EXIF splitting, GPS splitting, and channel splitting or merging.
-- **Transform**: crop, rescale, collage, rotate, flip, mirror, and perspective correction.
-- **Light**: exposure, brightness, contrast, highlights, shadows, gamma, luminosity, whites and blacks, and RGB point controls.
-- **Color**: saturation, vibrance, hue rotation, black and white, sepia, inversion, LUTs, temperature and tint, split toning, and film-base removal.
-- **Detail**: sharpening, denoising, and grain.
-- **Effects**: vignette, pop, HDR, and fade.
+- **Transform**: rescale, resize limit, and collage.
+- **Color**: LUTs, split toning, and film-base removal.
+- **Effects**: vignette.
 - **AI**: denoising, colorizing, negative conversion, AI photo editing, and Ask AI when AI is enabled and configured.
 - **Output**: single-photo and multi-photo viewers, EXIF viewer, GPS map, histogram, and hot-folder output.
 

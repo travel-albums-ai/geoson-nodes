@@ -4,7 +4,6 @@ import { PreviewDescription } from '@/pipeline/components/PreviewDescription';
 import PreviewTitle from '@/pipeline/components/PreviewTitle';
 import { Box, Skeleton, useTheme } from '@mui/material';
 import { ChartColumn, Cloud, Download, Eye, Flame, Folder, Map, Plus, Slash } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 
 type AdjustmentPreviewProps = {
@@ -23,7 +22,6 @@ const FolderImages =  ({ images, border = true }: { images: string[], border?: b
 
 export function PreviewDemoStatic({ paletteItem, width, showText = false }: AdjustmentPreviewProps) {
   const theme = useTheme();
-  const { t } = useTranslation();
 
   const sourceStages = {
     [NodeType.Source]: {
@@ -166,15 +164,6 @@ export function PreviewDemoStatic({ paletteItem, width, showText = false }: Adju
     [NodeType.Rescale]: {
       before: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />,
       after: <img src="sample.jpg" style={{ width: `${30}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />
-    },
-    [NodeType.Crop]: {
-      before: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />,
-      after: <img src="sample.jpg" style={{ width: `${30}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}`, clipPath: 'polygon(20% 20%, 80% 20%, 80% 80%, 20% 80%)' }} />
-    },
-    [NodeType.Perspective]: {
-      before: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />,
-      after: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}`,        transform: 'perspective(120px) rotateY(-35deg)',
-        transformOrigin: 'center' }} />
     },
     [NodeType.Collage]: {
       before: <FolderImages images={['sample.jpg', 'sample2.jpg']} />,
