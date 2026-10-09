@@ -50,6 +50,11 @@ export function flightArcPath(from: Airport, to: Airport): LonLat[] {
     normalLat = -normalLat;
   }
 
+  // A route and its reverse bow to opposite sides, so both stay visible.
+  const side = from.iata < to.iata ? 1 : -1;
+  normalLon *= side;
+  normalLat *= side;
+
   const bow = BOW_RATIO * chord;
   const controlLon = from.lon + dLon / 2 + normalLon * bow;
   const controlLat = from.lat + dLat / 2 + normalLat * bow;

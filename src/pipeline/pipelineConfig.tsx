@@ -4,6 +4,7 @@ import { ConnectionLineType, type Edge, type Node } from '@xyflow/react';
 import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
 import GeoBoundsFilterNode from '@/pipeline/nodes/ComplexNodes/GeoBoundsFilterNode';
 import FlightPathNode from '@/pipeline/nodes/ComplexNodes/FlightPathNode';
+import ShortestRouteNode from '@/pipeline/nodes/ComplexNodes/ShortestRouteNode';
 import GeoJsonInputNode from '@/pipeline/nodes/ComplexNodes/GeoJsonInputNode';
 import GeoJsonJsonataNode from '@/pipeline/nodes/ComplexNodes/GeoJsonJsonataNode';
 import GeoJsonMergeNode from '@/pipeline/nodes/ComplexNodes/GeoJsonMergeNode';
@@ -32,6 +33,7 @@ export const pipelineNodeTypes = {
   'geojson-within-area': GeoJsonWithinAreaNode,
   'geojson-merge': GeoJsonMergeNode,
   'flight-path': FlightPathNode,
+  'shortest-route': ShortestRouteNode,
   'geojson-switch': GeoJsonSwitchNode,
   'geojson-style': GeoJsonStyleNode,
   'geojson-zip': GeoJsonZipNode,

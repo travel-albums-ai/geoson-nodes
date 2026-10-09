@@ -7,6 +7,7 @@
 //   inputs did not change are reused across runs.
 
 import type {
+  Airport,
   FlightEntry,
   NodeInputs,
   NodeOutputs,
@@ -30,6 +31,7 @@ import { loadGeoJsonFile } from "@/lib/geojsonFileStore";
 import { commonPropertyKeys, zipGeoJsonByKey } from "@/lib/geojsonZip";
 import { runGeoJsonQuery } from "@/lib/geojsonQuery";
 import { buildFlightPathCollections } from "@/lib/flights";
+import { filterFlightRoutes } from "@/lib/flightRoutes";
 import { cachePhaseOutput, getCachedPhaseOutput } from "@/pipeline/phaseOutputCache";
 
 // The app compiles against the DOM lib (where `self` is Window), so the
@@ -236,6 +238,18 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       return { geojson: buildFlightPathCollections(inputs.flights as FlightEntry[] | undefined) };
     },
   },
+  "shortest-route": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
+      const from = (inputs.from as Airport | null | undefined)?.iata;
+      const to = (inputs.to as Airport | null | undefined)?.iata;
+      const via = ((inputs.via as Airport[] | undefined) ?? []).map((airport) => airport.iata);
+
+      return { geojson: filterFlightRoutes(collections, from, to, via) };
+    },
+  },
 };
 
 async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
@@ -331,6 +345,12 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "flight-path") {
         inputs.flights = node.data.flights;
+      }
+
+      if (node.type === "shortest-route") {
+        inputs.from = node.data.from;
+        inputs.to = node.data.to;
+        inputs.via = node.data.via;
       }
 
       if (node.data.skip === true) {
