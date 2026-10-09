@@ -12,6 +12,7 @@
 
 import { getSettingsStore } from "@/context/settingsStore";
 import type {
+  GeoJsonFeatureCollectionArray,
   ImageArray,
   ImageValue,
   PipelineEvaluateMessage,
@@ -73,9 +74,11 @@ const NODE_DATA_KEYS = [
   "strength",
 ] as const;
 
+type ViewerResult = ImageArray | GeoJsonFeatureCollectionArray;
+
 type PendingViewer = {
   evaluationId: number;
-  resolve: (images: ImageArray) => void;
+  resolve: (result: ViewerResult) => void;
   reject: (error: unknown) => void;
 };
 
@@ -243,6 +246,16 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
       return;
     }
 
+    case "geojson-viewer": {
+      const pending = pendingViewers.get(message.nodeId);
+
+      if (!pending) return;
+
+      pendingViewers.delete(message.nodeId);
+      pending.resolve(message.geojson);
+      return;
+    }
+
     case "cacheMemory": {
       workerCacheBytes = message.bytes;
       dispatchCacheMemory();
@@ -344,7 +357,7 @@ function projectEdge(edge: Edge): PipelineWorkerEdge {
 export async function evaluatePipeline(
   nodes: Node[],
   edges: Edge[]
-): Promise<Map<string, Promise<ImageArray>>> {
+): Promise<Map<string, Promise<ViewerResult>>> {
   const evaluationId = ++activeEvaluationId;
   window.dispatchEvent(new CustomEvent('pipeline:evaluationStarted', {
     detail: { evaluationId },
@@ -359,7 +372,7 @@ export async function evaluatePipeline(
   pendingViewers.clear();
   liveViewerNodeIds.clear();
 
-  const results = new Map<string, Promise<ImageArray>>();
+  const results = new Map<string, Promise<ViewerResult>>();
 
   for (const node of nodes) {
     if (!VIEWER_NODE_TYPES.has(node.type ?? "")) {
@@ -370,7 +383,7 @@ export async function evaluatePipeline(
 
     results.set(
       node.id,
-      new Promise<ImageArray>((resolve, reject) => {
+      new Promise<ViewerResult>((resolve, reject) => {
         pendingViewers.set(node.id, { evaluationId, resolve, reject });
       })
     );

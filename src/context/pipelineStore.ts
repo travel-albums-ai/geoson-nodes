@@ -100,6 +100,7 @@ export function prepareGraph({ nodes, edges }: PipelineGraph): PipelineGraph {
         apiKey: _apiKey,
         files: _files,
         geojsonFile: _geojsonFile,
+        geojson: _geojson,
         lutFile: _lutFile,
         ...data
       } = node.data as Record<string, unknown>

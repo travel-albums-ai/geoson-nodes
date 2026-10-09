@@ -24,6 +24,7 @@ import { useSettingsStoreSelector } from '@/context/settingsStore';
 import { usePipelineCanvas } from '@/hooks/usePipelineCanvas';
 import { usePipelineTrash } from '@/hooks/usePipelineTrash';
 import { VIEWER_NODE_TYPES } from "@/types/types";
+import type { GeoJsonFeatureCollectionArray, ImageArray } from "@/types/types";
 import { useTranslation } from 'react-i18next';
 import { downloadPipelineFile, readPipelineFile } from './pipelineApi';
 import {
@@ -269,10 +270,15 @@ function Pipeline() {
           n.id === node.id
             ? {
               ...n,
-              data: {
-                ...n.data,
-                image: result,
-              },
+              data: node.type === "gps-map"
+                ? {
+                  ...n.data,
+                  geojson: result as GeoJsonFeatureCollectionArray,
+                }
+                : {
+                  ...n.data,
+                  image: result as ImageArray,
+                },
             }
             : n
         )

@@ -1,51 +1,22 @@
-import NoPhotos from '@/components/NoPhotos';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
-import type { ImageArray } from '@/types/types';
+import type { GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/types/types';
 import { Box, Typography } from '@mui/material';
 import { Position, type Node, type NodeProps } from '@xyflow/react';
 import L from 'leaflet';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-type GpsPoint = {
-  latitude: number;
-  longitude: number;
-  name: string;
-};
-
-function getCoordinate(exif: Record<string, unknown> | undefined, key: string): number | undefined {
-  const value = exif?.[key];
-  return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
-}
-
-function getGpsPoint(image: ImageArray[number]): GpsPoint | undefined {
-  const latitude = getCoordinate(image.exif, 'latitude') ?? getCoordinate(image.exif, 'GPSLatitude');
-  const longitude = getCoordinate(image.exif, 'longitude') ?? getCoordinate(image.exif, 'GPSLongitude');
-
-  if (
-    latitude === undefined ||
-    longitude === undefined ||
-    latitude < -90 ||
-    latitude > 90 ||
-    longitude < -180 ||
-    longitude > 180
-  ) {
-    return undefined;
-  }
-
-  return { latitude, longitude, name: image.name };
-}
-
-function GpsMapNode({ data }: NodeProps<Node<{ image?: ImageArray }>>) {
+function GpsMapNode({ data }: NodeProps<Node<{ geojson?: GeoJsonFeatureCollectionArray }>>) {
   const { t } = useTranslation();
   const mapElementRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
-  const images = data.image ?? [];
-  const points = images.flatMap((image) => {
-    const point = getGpsPoint(image);
-    return point ? [point] : [];
-  });
+  const layerRef = useRef<L.GeoJSON | null>(null);
+  const hasCollections = (data.geojson ?? []).length > 0;
+  const features = useMemo(
+    () => (data.geojson ?? []).flatMap((collection) => collection.features),
+    [data.geojson]
+  );
 
   useEffect(() => {
     if (!mapElementRef.current) return;
@@ -72,43 +43,60 @@ function GpsMapNode({ data }: NodeProps<Node<{ image?: ImageArray }>>) {
     const map = mapRef.current;
     if (!map) return;
 
-    map.eachLayer((layer) => {
-      if (layer instanceof L.CircleMarker) map.removeLayer(layer);
-    });
+    if (layerRef.current) {
+      map.removeLayer(layerRef.current);
+      layerRef.current = null;
+    }
 
-    if (points.length === 0) {
+    if (features.length === 0) {
       map.setView([0, 0], 2);
       return;
     }
 
-    const bounds = L.latLngBounds([]);
-    points.forEach(({ latitude, longitude, name }) => {
-      L.circleMarker([latitude, longitude], {
-        radius: 7,
-        color: '#ffffff',
-        weight: 2,
-        fillColor: '#d32f2f',
-        fillOpacity: 0.9,
-      })
-        .bindTooltip(name)
-        .addTo(map);
-      bounds.extend([latitude, longitude]);
-    });
+    const layer = L.geoJSON(
+      { type: 'FeatureCollection', features } as unknown as Parameters<typeof L.geoJSON>[0],
+      {
+        style: {
+          color: '#d32f2f',
+          weight: 3,
+          fillColor: '#d32f2f',
+          fillOpacity: 0.3,
+        },
+        pointToLayer: (_feature: GeoJsonFeature, latlng: { lat: number; lng: number }) =>
+          L.circleMarker(latlng, {
+            radius: 7,
+            color: '#ffffff',
+            weight: 2,
+            fillColor: '#d32f2f',
+            fillOpacity: 0.9,
+          }),
+        onEachFeature: (feature: GeoJsonFeature, featureLayer: { bindTooltip: (content: string) => unknown }) => {
+          const name = feature.properties?.name;
+          if (typeof name === 'string' && name.length > 0) {
+            featureLayer.bindTooltip(name);
+          }
+        },
+      }
+    ).addTo(map);
+    layerRef.current = layer;
 
-    map.fitBounds(bounds, { padding: [24, 24], maxZoom: 14 });
+    const bounds = layer.getBounds();
+    if (bounds.isValid()) {
+      map.fitBounds(bounds, { padding: [24, 24], maxZoom: 14 });
+    }
     map.invalidateSize();
-  }, [points]);
+  }, [features]);
 
   return (
     <>
-      <InputHandle id="image" position={Position.Top} />
+      <InputHandle id="geojson" position={Position.Top} />
       <NodeWrapper type="gps-map">
         <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
-          {t('pipelineGpsMarkers', { count: points.length })}
+          {t('pipelineGpsMarkers', { count: features.length })}
         </Typography>
         <Box className="nowheel" sx={{ width: '500px', height: '500px', position: 'relative' }}>
           <Box ref={mapElementRef} sx={{ width: '100%', height: '100%' }} />
-          {points.length === 0 && (
+          {features.length === 0 && (
             <Box
               sx={{
                 position: 'absolute',
@@ -120,13 +108,11 @@ function GpsMapNode({ data }: NodeProps<Node<{ image?: ImageArray }>>) {
                 bgcolor: 'background.paper',
               }}
             >
-              {images.length === 0 ? (
-                <NoPhotos />
-              ) : (
-                <Typography variant="body2" color="text.secondary">
-                  {t('pipelineNoGpsData')}
-                </Typography>
-              )}
+              <Typography variant="body2" color="text.secondary">
+                {hasCollections
+                  ? t('pipelineGeoJsonNoFeatures')
+                  : t('pipelineGpsMapConnectGeoJson')}
+              </Typography>
             </Box>
           )}
         </Box>

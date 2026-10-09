@@ -60,10 +60,10 @@ Connect steps in the order you want them applied. To change a connection, drag i
 
 The toolbox groups nodes by purpose. Exact labels can vary with the active language and enabled features.
 
-- **Input**: local storage and hot-folder input.
+- **Input**: local storage, hot-folder input, and GeoJSON file input.
 - **Logic**: grouping, array switching and boolean operations, and GPS splitting.
 - **AI**: AI photo editing and Ask AI when AI is enabled and configured.
-- **Output**: single-photo and multi-photo viewers, GPS map, and hot-folder output.
+- **Output**: single-photo and multi-photo viewers, GPS map (plots GeoJSON features), and hot-folder output.
 
 ## 🔄 Common usage flows
 
@@ -97,7 +97,7 @@ Connect a source to the output that matches the question you are asking:
 
 - Use a single-photo viewer to compare one result.
 - Use a multi-photo viewer to review a complete set and download results together.
-- Use the GPS map when the selected photos contain usable location data.
+- Use the GPS map to plot GeoJSON features from a GeoJSON Input node (for example, the sample file in `samples/sample-feature-collections.geojson`).
 
 ### 🤖 Optional AI editing
 

@@ -146,6 +146,13 @@ export type PipelineViewerMessage = {
   images: PipelineViewerImagePayload[];
 };
 
+export type PipelineGeoJsonViewerMessage = {
+  type: "geojson-viewer";
+  evaluationId: number;
+  nodeId: string;
+  geojson: GeoJsonFeatureCollectionArray;
+};
+
 export type PipelineDoneMessage = {
   type: "done";
   evaluationId: number;
@@ -170,6 +177,7 @@ export type PipelineWorkerOutbound =
   | PipelineStageStartedMessage
   | PipelineGpsStatsMessage
   | PipelineViewerMessage
+  | PipelineGeoJsonViewerMessage
   | PipelineDoneMessage
   | PipelineCacheMemoryMessage
   | PipelineErrorMessage;

@@ -18,6 +18,7 @@ import type {
   PipelineProgressPreview,
   PipelineViewerImagePayload,
   PipelineWorkerOutbound,
+  GeoJsonFeatureCollectionArray,
 } from "@/types/types";
 import { VIEWER_NODE_TYPES } from "@/types/types";
 import { parseGeoJsonFeatureCollections } from "@/lib/geojson";
@@ -976,7 +977,7 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       await Promise.resolve();
 
       return {
-        image: (inputs.image as WorkerImage[] | undefined) ?? [],
+        geojson: (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [],
       };
     },
   },
@@ -1528,6 +1529,16 @@ async function runEvaluation(
     try {
       const nodeOutputs = await evaluateNode(node.id);
       throwIfStale(evaluationId);
+
+      if (node.type === "gps-map") {
+        workerScope.postMessage({
+          type: "geojson-viewer",
+          evaluationId,
+          nodeId: node.id,
+          geojson: (nodeOutputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [],
+        });
+        return;
+      }
 
       const images = (nodeOutputs.image as WorkerImage[] | undefined) ?? [];
       const payload = await taskQueue.run(

@@ -142,6 +142,8 @@
   "pipelineGpsMap": "GPS Map",
   "pipelineGpsMarkers": "Markers: {{count}}",
   "pipelineNoGpsData": "No GPS data found.",
+  "pipelineGeoJsonNoFeatures": "No features to plot.",
+  "pipelineGpsMapConnectGeoJson": "Connect a GeoJSON Input node to plot its features.",
   "pipelinePhotoArray": "Photo array {{number}}",
   "pipelineGrouperDescription": "Merges up to four connected photo arrays",
   "pipelineArraySwitchDescription": "Outputs the selected connected photo array",
@@ -315,6 +317,6 @@
   "pipelineAskAIDescription": "Allows users to ask AI for assistance or information related to photo editing.",
   "pipelinePhotosViewerDescription": "Displays multiple photos in a viewer.",
   "pipelinePhotoViewerDescription": "Displays a single photo in a viewer.",
-  "pipelineGpsMapDescription": "Displays the GPS location of an image on a map.",
+  "pipelineGpsMapDescription": "Plots GeoJSON features on a map.",
   "pipelineHotFolderWriteDescription": "Writes images to a designated hot folder."
 }

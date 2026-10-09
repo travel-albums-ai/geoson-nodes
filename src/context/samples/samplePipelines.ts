@@ -1161,21 +1161,6 @@ export const samplePipeline = [
         "dragging": false
       },
       {
-        "id": "gps-map-25",
-        "type": "gps-map",
-        "position": {
-          "x": -840,
-          "y": 440
-        },
-        "data": {},
-        "measured": {
-          "width": 530,
-          "height": 617
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
         "id": "hot-folder-write-27",
         "type": "hot-folder-write",
         "position": {
@@ -1215,18 +1200,6 @@ export const samplePipeline = [
           "stroke": "rgba(113, 82, 248, 0.6)"
         },
         "id": "xy-edge__source-21image-viewer-single-23image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "source-21-reset",
-        "sourceHandle": "image",
-        "target": "gps-map-25",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-21image-gps-map-25image"
       },
       {
         "type": "smoothstep",
