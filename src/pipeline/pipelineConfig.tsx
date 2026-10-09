@@ -6,6 +6,7 @@ import GeoBoundsFilterNode from '@/pipeline/nodes/ComplexNodes/GeoBoundsFilterNo
 import GeoJsonInputNode from '@/pipeline/nodes/ComplexNodes/GeoJsonInputNode';
 import GeoJsonJsonataNode from '@/pipeline/nodes/ComplexNodes/GeoJsonJsonataNode';
 import GeoJsonMergeNode from '@/pipeline/nodes/ComplexNodes/GeoJsonMergeNode';
+import GeoJsonSetNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSetNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
 
 export const CONNECTION_LINE_TYPE = ConnectionLineType.SmoothStep;
@@ -23,5 +24,9 @@ export const pipelineNodeTypes = {
   'gps-map': GpsMapNode,
   'geo-bounds-filter': GeoBoundsFilterNode,
   'geojson-merge': GeoJsonMergeNode,
+  'geojson-union': GeoJsonSetNode,
+  'geojson-intersection': GeoJsonSetNode,
+  'geojson-difference': GeoJsonSetNode,
+  'geojson-symmetric-difference': GeoJsonSetNode,
   'geojson-jsonata': GeoJsonJsonataNode,
 };

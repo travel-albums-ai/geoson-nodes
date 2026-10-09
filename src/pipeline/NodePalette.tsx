@@ -1,9 +1,13 @@
-import { Braces, Crop, FileJson, Layers, Merge, MapPinned } from 'lucide-react';
+import { Blend, Braces, Combine, Crop, Diff, FileJson, Layers, Merge, MapPinned, SquaresIntersect } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
   GeoBoundsFilter = 'geo-bounds-filter',
   GeoJsonMerge = 'geojson-merge',
+  GeoJsonUnion = 'geojson-union',
+  GeoJsonIntersection = 'geojson-intersection',
+  GeoJsonDifference = 'geojson-difference',
+  GeoJsonSymmetricDifference = 'geojson-symmetric-difference',
   GeoJsonJsonata = 'geojson-jsonata',
   GpsMap = 'gps-map',
   GeoJsonViewer = 'geojson-viewer',
@@ -63,6 +67,22 @@ const utilityStages: Array<NodeStageItem> = [
   {
     type: NodeType.GeoJsonMerge, labelKey: "pipelineGeoJsonMerge", icon: <Merge size={16} />,
     processing: 'static', labelDescription: 'pipelineGeoJsonMergeDescription'
+  },
+  {
+    type: NodeType.GeoJsonUnion, labelKey: "pipelineGeoJsonUnion", icon: <Combine size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonUnionDescription'
+  },
+  {
+    type: NodeType.GeoJsonIntersection, labelKey: "pipelineGeoJsonIntersection", icon: <SquaresIntersect size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonIntersectionDescription'
+  },
+  {
+    type: NodeType.GeoJsonDifference, labelKey: "pipelineGeoJsonDifference", icon: <Diff size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonDifferenceDescription'
+  },
+  {
+    type: NodeType.GeoJsonSymmetricDifference, labelKey: "pipelineGeoJsonSymmetricDifference", icon: <Blend size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonSymmetricDifferenceDescription'
   },
   {
     type: NodeType.GeoJsonJsonata, labelKey: "pipelineGeoJsonJsonata", icon: <Braces size={16} />,

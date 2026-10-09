@@ -16,12 +16,13 @@ import type {
   PipelineWorkerOutbound,
   GeoJsonFeatureCollectionArray,
 } from "@/types/types";
-import { GEOJSON_MERGE_INPUT_HANDLES, VIEWER_NODE_TYPES } from "@/types/types";
+import { GEOJSON_MERGE_INPUT_HANDLES, GEOJSON_SET_INPUT_HANDLES, VIEWER_NODE_TYPES } from "@/types/types";
 import {
   filterGeoJsonByBounds,
   normalizeGeoBounds,
   parseGeoJsonFeatureCollections,
 } from "@/lib/geojson";
+import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
 import { runGeoJsonQuery } from "@/lib/geojsonQuery";
 
 // The app compiles against the DOM lib (where `self` is Window), so the
@@ -126,6 +127,22 @@ const geoJsonPassthroughNode: PipelineNodeDefinition = {
   },
 };
 
+const geoJsonSetNodeDefinition = (operation: GeoJsonSetOperation): PipelineNodeDefinition => ({
+  async execute(inputs) {
+    await Promise.resolve();
+
+    const [firstHandle, secondHandle] = GEOJSON_SET_INPUT_HANDLES;
+
+    return {
+      geojson: applyGeoJsonSetOperation(
+        operation,
+        (inputs[firstHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
+        (inputs[secondHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
+      ),
+    };
+  },
+});
+
 const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   "geojson-input": {
     async execute(inputs) {
@@ -160,6 +177,10 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       };
     },
   },
+  "geojson-union": geoJsonSetNodeDefinition("union"),
+  "geojson-intersection": geoJsonSetNodeDefinition("intersection"),
+  "geojson-difference": geoJsonSetNodeDefinition("difference"),
+  "geojson-symmetric-difference": geoJsonSetNodeDefinition("symmetricDifference"),
   "geojson-jsonata": {
     async execute(inputs) {
       const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];

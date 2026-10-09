@@ -118,6 +118,11 @@
   "pipelineGpsBoundsValues": "W {{west}}° · E {{east}}° · S {{south}}° · N {{north}}°",
   "pipelineGeoJsonMerge": "GeoJSON Merge",
   "pipelineGeoJsonMergeConnected": "{{connected}} of {{total}} inputs connected",
+  "pipelineGeoJsonUnion": "GeoJSON Union",
+  "pipelineGeoJsonIntersection": "GeoJSON Intersection",
+  "pipelineGeoJsonDifference": "GeoJSON Difference",
+  "pipelineGeoJsonSymmetricDifference": "GeoJSON Symmetric Difference",
+  "pipelineGeoJsonSetConnected": "{{connected}} of {{total}} inputs connected",
   "pipelineGeoJsonJsonata": "JSONata Query",
   "pipelineGeoJsonJsonataQueryLabel": "JSONata query",
   "pipelineGeoJsonJsonataPlaceholder": "features[properties.city = \"Rome\"]",
@@ -244,6 +249,10 @@
   "pipelineGpsMapDescription": "Plots GeoJSON features on a map.",
   "pipelineGpsBoundsFilterDescription": "Keeps only the GeoJSON features with a GPS position inside the rectangle you draw on the map.",
   "pipelineGeoJsonMergeDescription": "Concatenates the GeoJSON collections from up to four inputs into one list.",
+  "pipelineGeoJsonUnionDescription": "Keeps each distinct feature found in either of the two inputs. Features match when their full content is the same.",
+  "pipelineGeoJsonIntersectionDescription": "Keeps the features that appear in both inputs. Features match when their full content is the same.",
+  "pipelineGeoJsonDifferenceDescription": "Keeps the features from the first input that do not appear in the second input.",
+  "pipelineGeoJsonSymmetricDifferenceDescription": "Keeps the features that appear in exactly one of the two inputs.",
   "pipelineGeoJsonJsonataDescription": "Runs a JSONata query over the list of GeoJSON collections and passes the result on. The query re-runs as you type.",
   "pipelineGeoJsonViewerDescription": "Plots GeoJSON features on a map and lists each collection with its city, source and feature count, with a small preview of each feature."
 }
