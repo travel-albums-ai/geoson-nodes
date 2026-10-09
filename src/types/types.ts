@@ -27,8 +27,25 @@ export type GeoBounds = {
   north: number;
 };
 
+// An airport picked from the bundled IATA list. Its coordinates are stored on the
+// flight path node, so the pipeline engine does not need the airport list.
+export type Airport = {
+  iata: string;
+  name: string;
+  city: string;
+  country: string;
+  lat: number;
+  lon: number;
+};
+
+// One flight on the flight path node. A side stays null until an airport is picked.
+export type FlightEntry = {
+  from: Airport | null;
+  to: Airport | null;
+};
+
 // Node types the pipeline engine can evaluate.
-export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-zip', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer']);
+export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-zip', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer', 'flight-path']);
 
 // Canvas-only nodes (e.g. notes). They are saved with the pipeline but never sent to the engine.
 export const ANNOTATION_NODE_TYPES = new Set(['post-it']);

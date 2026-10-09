@@ -1,7 +1,8 @@
-import { Blend, Braces, Combine, Crop, Diff, FileJson, GitFork, Layers, Link2, Merge, MapPinned, ScanSearch, SquaresIntersect, StickyNote } from 'lucide-react';
+import { Blend, Braces, Combine, Crop, Diff, FileJson, GitFork, Layers, Link2, Merge, MapPinned, Plane, ScanSearch, SquaresIntersect, StickyNote } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
+  FlightPath = 'flight-path',
   GeoBoundsFilter = 'geo-bounds-filter',
   GeoJsonWithinArea = 'geojson-within-area',
   GeoJsonMerge = 'geojson-merge',
@@ -57,6 +58,12 @@ const sourceStages: Array<NodeStageItem> = [
     labelKey: "pipelineGeoJsonInput", icon: <FileJson size={16} />,
     processing: 'static',
     labelDescription: 'pipelineGeoJsonInputDescription',
+  },
+  {
+    type: NodeType.FlightPath,
+    labelKey: "pipelineFlightPath", icon: <Plane size={16} />,
+    processing: 'static',
+    labelDescription: 'pipelineFlightPathDescription',
   },
 ];
 

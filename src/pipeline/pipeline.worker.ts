@@ -7,6 +7,7 @@
 //   inputs did not change are reused across runs.
 
 import type {
+  FlightEntry,
   NodeInputs,
   NodeOutputs,
   PipelineEvaluateMessage,
@@ -27,6 +28,7 @@ import { filterGeoJsonWithinArea } from "@/lib/geojsonWithinArea";
 import { loadGeoJsonFile } from "@/lib/geojsonFileStore";
 import { commonPropertyKeys, zipGeoJsonByKey } from "@/lib/geojsonZip";
 import { runGeoJsonQuery } from "@/lib/geojsonQuery";
+import { buildFlightPathCollections } from "@/lib/flights";
 import { cachePhaseOutput, getCachedPhaseOutput } from "@/pipeline/phaseOutputCache";
 
 // The app compiles against the DOM lib (where `self` is Window), so the
@@ -217,6 +219,13 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       return { geojson: await runGeoJsonQuery(collections, query) };
     },
   },
+  "flight-path": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      return { geojson: buildFlightPathCollections(inputs.flights as FlightEntry[] | undefined) };
+    },
+  },
 };
 
 async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
@@ -304,6 +313,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "geojson-switch") {
         inputs.serveB = node.data.serveB === true;
+      }
+
+      if (node.type === "flight-path") {
+        inputs.flights = node.data.flights;
       }
 
       if (node.data.skip === true) {
