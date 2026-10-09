@@ -8,6 +8,7 @@ import GeoJsonJsonataNode from '@/pipeline/nodes/ComplexNodes/GeoJsonJsonataNode
 import GeoJsonMergeNode from '@/pipeline/nodes/ComplexNodes/GeoJsonMergeNode';
 import GeoJsonSetNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSetNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
+import PostItNode from '@/pipeline/nodes/ComplexNodes/PostItNode';
 
 export const CONNECTION_LINE_TYPE = ConnectionLineType.SmoothStep;
 export const INITIAL_NODES: Node[] = [];
@@ -29,4 +30,5 @@ export const pipelineNodeTypes = {
   'geojson-difference': GeoJsonSetNode,
   'geojson-symmetric-difference': GeoJsonSetNode,
   'geojson-jsonata': GeoJsonJsonataNode,
+  'post-it': PostItNode,
 };

@@ -1,5 +1,5 @@
 import { createLocalStorageStoreNg } from '@/lib/createLocalStorageStoreNg';
-import { WORKER_NODE_TYPES } from '@/types/types';
+import { ANNOTATION_NODE_TYPES, WORKER_NODE_TYPES } from '@/types/types';
 import type { Edge, Node } from '@xyflow/react';
 
 export type PipelineGraph = {
@@ -65,7 +65,7 @@ function createPipelineId() {
 // Drops nodes the pipeline engine no longer supports (e.g. from pipelines
 // saved before the photo nodes were removed), along with their edges.
 function keepSupportedGraph<T extends PipelineGraph>(graph: T): T {
-  const nodes = graph.nodes.filter((node) => WORKER_NODE_TYPES.has(node.type ?? ''))
+  const nodes = graph.nodes.filter((node) => WORKER_NODE_TYPES.has(node.type ?? '') || ANNOTATION_NODE_TYPES.has(node.type ?? ''))
   const nodeIds = new Set(nodes.map((node) => node.id))
 
   return {

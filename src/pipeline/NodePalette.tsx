@@ -1,4 +1,4 @@
-import { Blend, Braces, Combine, Crop, Diff, FileJson, Layers, Merge, MapPinned, SquaresIntersect } from 'lucide-react';
+import { Blend, Braces, Combine, Crop, Diff, FileJson, Layers, Merge, MapPinned, SquaresIntersect, StickyNote } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
@@ -11,6 +11,7 @@ export enum NodeType {
   GeoJsonJsonata = 'geojson-jsonata',
   GpsMap = 'gps-map',
   GeoJsonViewer = 'geojson-viewer',
+  PostIt = 'post-it',
 }
 
 export enum NodeProcessing {
@@ -87,6 +88,10 @@ const utilityStages: Array<NodeStageItem> = [
   {
     type: NodeType.GeoJsonJsonata, labelKey: "pipelineGeoJsonJsonata", icon: <Braces size={16} />,
     processing: 'static', labelDescription: 'pipelineGeoJsonJsonataDescription'
+  },
+  {
+    type: NodeType.PostIt, labelKey: "pipelinePostIt", icon: <StickyNote size={16} />,
+    processing: 'static', labelDescription: 'pipelinePostItDescription'
   },
 ];
 

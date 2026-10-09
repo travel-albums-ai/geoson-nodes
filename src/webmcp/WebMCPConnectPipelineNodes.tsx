@@ -45,6 +45,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: ['geojson'],
     targets: ['geojson'],
   },
+  'post-it': {
+    sources: [],
+    targets: [],
+  },
 };
 
 function getNodeHandles(node: { type?: string }, direction: 'sources' | 'targets') {
