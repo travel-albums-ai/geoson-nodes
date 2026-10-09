@@ -16,6 +16,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: [],
     targets: ['geojson'],
   },
+  'geo-bounds-filter': {
+    sources: ['geojson'],
+    targets: ['geojson'],
+  },
 };
 
 function getNodeHandles(node: { type?: string }, direction: 'sources' | 'targets') {

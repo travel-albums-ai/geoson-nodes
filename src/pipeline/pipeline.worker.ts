@@ -17,7 +17,11 @@ import type {
   GeoJsonFeatureCollectionArray,
 } from "@/types/types";
 import { VIEWER_NODE_TYPES } from "@/types/types";
-import { parseGeoJsonFeatureCollections } from "@/lib/geojson";
+import {
+  filterGeoJsonByBounds,
+  normalizeGeoBounds,
+  parseGeoJsonFeatureCollections,
+} from "@/lib/geojson";
 
 // The app compiles against the DOM lib (where `self` is Window), so the
 // worker's global scope is described structurally here instead.
@@ -136,6 +140,14 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
 
   "gps-map": geoJsonPassthroughNode,
   "geojson-viewer": geoJsonPassthroughNode,
+  "geo-bounds-filter": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
+      return { geojson: filterGeoJsonByBounds(collections, normalizeGeoBounds(inputs.bounds)) };
+    },
+  },
 };
 
 async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
@@ -198,6 +210,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "geojson-input") {
         inputs.geojsonFile = node.data.geojsonFile;
+      }
+
+      if (node.type === "geo-bounds-filter") {
+        inputs.bounds = node.data.bounds;
       }
 
       if (node.data.skip === true) {

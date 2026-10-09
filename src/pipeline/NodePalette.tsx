@@ -1,7 +1,8 @@
-import { FileJson, Layers, MapPinned } from 'lucide-react';
+import { Crop, FileJson, Layers, MapPinned } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
+  GeoBoundsFilter = 'geo-bounds-filter',
   GpsMap = 'gps-map',
   GeoJsonViewer = 'geojson-viewer',
 }
@@ -49,6 +50,13 @@ const sourceStages: Array<NodeStageItem> = [
   },
 ];
 
+const filterStages: Array<NodeStageItem> = [
+  {
+    type: NodeType.GeoBoundsFilter, labelKey: "pipelineGpsBoundsFilter", icon: <Crop size={16} />,
+    processing: 'static', labelDescription: 'pipelineGpsBoundsFilterDescription'
+  },
+];
+
 const outputStages: Array<NodeStageItem> = [
   {
     type: NodeType.GpsMap, labelKey: "pipelineGpsMap", icon: <MapPinned size={16} />,
@@ -62,6 +70,7 @@ const outputStages: Array<NodeStageItem> = [
 
 export const paletteItems: Array<NodePaletteItem> = [
   ...(sourceStages.map(stage => ({ ...stage, groupKey: "pipelineGroupInput" }))),
+  ...(filterStages.map(stage => ({ ...stage, groupKey: "pipelineGroupFilter" }))),
   ...(outputStages.map(stage => ({ ...stage, groupKey: "pipelineGroupOutput" }))),
 ];
 

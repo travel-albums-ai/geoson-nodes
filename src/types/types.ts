@@ -19,8 +19,16 @@ export type GeoJsonFeatureCollection = {
 // Contract exported by the GeoJSON input node.
 export type GeoJsonFeatureCollectionArray = GeoJsonFeatureCollection[];
 
+// Rectangle in degrees. west/east are longitudes, south/north latitudes.
+export type GeoBounds = {
+  west: number;
+  east: number;
+  south: number;
+  north: number;
+};
+
 // Node types the pipeline engine can evaluate.
-export const WORKER_NODE_TYPES = new Set(["geojson-input", "gps-map", "geojson-viewer"]);
+export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'gps-map', 'geojson-viewer']);
 
 // Node types whose results are posted back to the main thread.
 export const VIEWER_NODE_TYPES = new Set(["gps-map", "geojson-viewer"]);

@@ -2,6 +2,7 @@
 import { ConnectionLineType, type Edge, type Node } from '@xyflow/react';
 
 import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
+import GeoBoundsFilterNode from '@/pipeline/nodes/ComplexNodes/GeoBoundsFilterNode';
 import GeoJsonInputNode from '@/pipeline/nodes/ComplexNodes/GeoJsonInputNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
 
@@ -18,4 +19,5 @@ export const pipelineNodeTypes = {
   'geojson-input': GeoJsonInputNode,
   'geojson-viewer': GeoJsonViewerNode,
   'gps-map': GpsMapNode,
+  'geo-bounds-filter': GeoBoundsFilterNode,
 };

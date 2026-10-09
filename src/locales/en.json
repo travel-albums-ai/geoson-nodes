@@ -88,6 +88,7 @@
   "onboardingThemePreference": "Theme Preference",
   "onboardingThemePreferenceDescription": "Choose between light and dark themes for the application interface.",
   "pipelineGroupInput": "input",
+  "pipelineGroupFilter": "filter",
   "pipelineGroupUtility": "utility",
   "pipelineGroupAi": "ai",
   "pipelineLogicInput": "logic",
@@ -113,6 +114,8 @@
   "pipelineGeoJsonUnnamedFeature": "Unnamed feature",
   "pipelineGeoJsonEmpty": "No GeoJSON file loaded",
   "pipelineGpsMap": "GPS Map",
+  "pipelineGpsBoundsFilter": "GPS Bounds Filter",
+  "pipelineGpsBoundsValues": "W {{west}}° · E {{east}}° · S {{south}}° · N {{north}}°",
   "pipelineGpsMarkers": "Markers: {{count}}",
   "pipelineNoGpsData": "No GPS data found.",
   "pipelineGeoJsonNoFeatures": "No features to plot.",
@@ -233,5 +236,6 @@
   "onboardingThemesStep": "Themes & Locales",
   "onboardingAiToolsStep": "AI Tools",
   "pipelineGpsMapDescription": "Plots GeoJSON features on a map.",
+  "pipelineGpsBoundsFilterDescription": "Keeps only the GeoJSON features with a GPS position inside the rectangle you draw on the map.",
   "pipelineGeoJsonViewerDescription": "Plots GeoJSON features on a map and lists each collection with its city, source and feature count, with a small preview of each feature."
 }

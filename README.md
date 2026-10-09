@@ -62,6 +62,7 @@ The toolbox groups nodes by purpose. Exact labels can vary with the active langu
 
 - **Input**: local storage, hot-folder input, and GeoJSON file input.
 - **Logic**: grouping, array switching and boolean operations, and GPS splitting.
+- **Filter**: GPS bounds filter (keeps GeoJSON features with a position inside a rectangle you set by dragging two vertical and two horizontal lines on a world map).
 - **AI**: AI photo editing and Ask AI when AI is enabled and configured.
 - **Output**: single-photo and multi-photo viewers, GPS map (plots GeoJSON features), GeoJSON viewer (plots GeoJSON features and lists each collection), and hot-folder output.
 
@@ -98,6 +99,7 @@ Connect a source to the output that matches the question you are asking:
 - Use a single-photo viewer to compare one result.
 - Use a multi-photo viewer to review a complete set and download results together.
 - Use the GPS map to plot GeoJSON features from a GeoJSON Input node (for example, the sample file in `samples/sample-feature-collections.geojson`).
+- Place a GPS bounds filter between a GeoJSON Input node and a GPS map or GeoJSON viewer to keep only the features inside the area you drag out on its map.
 
 ### 🤖 Optional AI editing
 
