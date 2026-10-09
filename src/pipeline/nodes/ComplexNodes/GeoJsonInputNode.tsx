@@ -1,6 +1,5 @@
 import NewChip from '@/components/NewChip';
 import { parseGeoJsonFeatureCollections } from '@/lib/geojson';
-import GeoJsonCollectionList from '@/pipeline/components/GeoJsonCollectionList';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
@@ -63,7 +62,7 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File }>>)
       <PipelineStageTiming nodeId={id} nodeType={'geojson-input'} />
     }>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', borderBottom: '1px dotted', borderColor: 'divider', pb: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap'}}>
         <Button
           sx={{
             bgcolor: theme => `color-mix(in srgb, ${theme.palette.background.paper} 80%, ${theme.palette.primary.main} 20%)`,
@@ -103,7 +102,7 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File }>>)
         )}
       </Box>
 
-      <GeoJsonCollectionList collections={collections} emptyMessage={t('pipelineGeoJsonEmpty')} />
+      {/* <GeoJsonCollectionList collections={collections} emptyMessage={t('pipelineGeoJsonEmpty')} /> */}
 
       <OutputHandle id="geojson" position={Position.Top} />
     </NodeWrapper>

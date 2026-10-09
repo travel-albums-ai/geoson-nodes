@@ -37,7 +37,7 @@ export default function GeoJsonCollectionList({ collections, emptyMessage }: Geo
             </Typography>
             <Box component="ul" sx={{ listStyle: 'none', m: 0, p: 0, pt: 1, display: 'flex', flexDirection: 'column', gap: 0.5 }}>
               {collection.features.map((feature, featureIndex) => {
-                const name = feature.properties?.name;
+                const name = feature.properties?.name || feature.properties?.name_en;
                 const geometryType = feature.geometry?.type;
                 return (
                   <Box
