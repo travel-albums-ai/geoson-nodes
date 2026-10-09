@@ -203,16 +203,18 @@ function Pipeline() {
 
       if (!promise) continue;
 
-      let result;
+      let result: GeoJsonFeatureCollectionArray;
+      let error: string | undefined;
 
       try {
         result = await promise;
-      } catch (error) {
+      } catch (reason) {
         console.error(
           `Pipeline evaluation failed for node "${node.id}":`,
-          error
+          reason
         );
-        continue;
+        result = [];
+        error = reason instanceof Error ? reason.message : String(reason);
       }
 
       if (
@@ -228,7 +230,8 @@ function Pipeline() {
               ...n,
               data: {
                 ...n.data,
-                geojson: result as GeoJsonFeatureCollectionArray,
+                geojson: result,
+                error,
               },
             }
             : n

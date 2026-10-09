@@ -85,6 +85,7 @@ export function prepareGraph({ nodes, edges }: PipelineGraph): PipelineGraph {
       const {
         geojsonFile: _geojsonFile,
         geojson: _geojson,
+        error: _error,
         ...data
       } = node.data as Record<string, unknown>
 

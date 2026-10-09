@@ -66,7 +66,7 @@ export default function GeoJsonMap({ features, emptyMessage }: GeoJsonMapProps) 
             fillOpacity: 0.9,
           }),
         onEachFeature: (feature: GeoJsonFeature, featureLayer: { bindTooltip: (content: string) => unknown }) => {
-          const name = feature.properties?.name;
+          const name = feature.properties?.name || feature.properties?.name_en;
           if (typeof name === 'string' && name.length > 0) {
             featureLayer.bindTooltip(name);
           }

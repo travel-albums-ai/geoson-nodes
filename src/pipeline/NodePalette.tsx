@@ -1,9 +1,10 @@
-import { Crop, FileJson, Layers, Merge, MapPinned } from 'lucide-react';
+import { Braces, Crop, FileJson, Layers, Merge, MapPinned } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
   GeoBoundsFilter = 'geo-bounds-filter',
   GeoJsonMerge = 'geojson-merge',
+  GeoJsonJsonata = 'geojson-jsonata',
   GpsMap = 'gps-map',
   GeoJsonViewer = 'geojson-viewer',
 }
@@ -62,6 +63,10 @@ const utilityStages: Array<NodeStageItem> = [
   {
     type: NodeType.GeoJsonMerge, labelKey: "pipelineGeoJsonMerge", icon: <Merge size={16} />,
     processing: 'static', labelDescription: 'pipelineGeoJsonMergeDescription'
+  },
+  {
+    type: NodeType.GeoJsonJsonata, labelKey: "pipelineGeoJsonJsonata", icon: <Braces size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonJsonataDescription'
   },
 ];
 

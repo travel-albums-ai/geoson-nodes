@@ -21,7 +21,7 @@ import type { Edge, Node } from "@xyflow/react";
 
 // node.data keys the engine reads. Everything else (React Flow internals)
 // stays on the main thread.
-const NODE_DATA_KEYS = ["geojsonFile", "skip", "bounds"] as const;
+const NODE_DATA_KEYS = ["geojsonFile", "skip", "bounds", "query"] as const;
 
 type PendingViewer = {
   evaluationId: number;
@@ -73,6 +73,12 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
       if (!pending) return;
 
       pendingViewers.delete(message.nodeId);
+
+      if (message.error !== undefined) {
+        pending.reject(new Error(message.error));
+        return;
+      }
+
       pending.resolve(message.geojson);
       return;
     }

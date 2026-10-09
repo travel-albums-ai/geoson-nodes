@@ -22,6 +22,7 @@ import {
   normalizeGeoBounds,
   parseGeoJsonFeatureCollections,
 } from "@/lib/geojson";
+import { runGeoJsonQuery } from "@/lib/geojsonQuery";
 
 // The app compiles against the DOM lib (where `self` is Window), so the
 // worker's global scope is described structurally here instead.
@@ -159,6 +160,14 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       };
     },
   },
+  "geojson-jsonata": {
+    async execute(inputs) {
+      const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
+      const query = typeof inputs.query === "string" ? inputs.query : "";
+
+      return { geojson: await runGeoJsonQuery(collections, query) };
+    },
+  },
 };
 
 async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
@@ -225,6 +234,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "geo-bounds-filter") {
         inputs.bounds = node.data.bounds;
+      }
+
+      if (node.type === "geojson-jsonata") {
+        inputs.query = node.data.query;
       }
 
       if (node.data.skip === true) {
@@ -313,9 +326,19 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       });
     } catch (error: unknown) {
       // Staleness is cancellation, not failure.
-      if (!(error instanceof StaleEvaluationError)) {
-        console.error(`Viewer node "${node.id}" failed:`, error);
+      if (error instanceof StaleEvaluationError) {
+        return;
       }
+
+      console.error(`Viewer node "${node.id}" failed:`, error);
+
+      workerScope.postMessage({
+        type: "geojson-viewer",
+        evaluationId,
+        nodeId: node.id,
+        geojson: [],
+        error: errorMessage(error),
+      });
     }
   };
 

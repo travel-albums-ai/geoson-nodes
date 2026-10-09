@@ -25,6 +25,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: ['geojson'],
     targets: [...GEOJSON_MERGE_INPUT_HANDLES],
   },
+  'geojson-jsonata': {
+    sources: ['geojson'],
+    targets: ['geojson'],
+  },
 };
 
 function getNodeHandles(node: { type?: string }, direction: 'sources' | 'targets') {
