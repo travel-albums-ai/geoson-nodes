@@ -51,7 +51,7 @@ function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; 
       }}
     >
       <GeoJsonFeaturePreview feature={feature} />
-      <Tooltip title={`${Object.keys(feature.properties ?? {}).length ?? 0}`} arrow>
+      <Tooltip title={`${Object.keys(feature.properties ?? {}).length ?? 0} - ${JSON.stringify(feature.properties ?? {})}`} arrow>
         <Box sx={{ minWidth: 0 }}>
           <Typography variant="caption" component="div" noWrap>
             {typeof name === 'string' && name.length > 0 ? name : t('pipelineGeoJsonUnnamedFeature')}

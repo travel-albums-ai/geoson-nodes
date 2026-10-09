@@ -1,0 +1,2549 @@
+{
+  "data": [
+      {
+        "country": "Afghanistan",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Argentina",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Armenia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Australia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Austria",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Azerbaijan",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Bangladesh",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Belarus",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Belgium",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Algeria",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Albania",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Andorra",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Angola",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Vietnam",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Ukraine",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Turkmenistan",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Turkey",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Thailand",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Uzbekistan",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Uganda",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Mpox",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Tanzania",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Mpox",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Tajikistan",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Taiwan",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Switzerland",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Suriname",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Sweden",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Senegal",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Serbia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Singapore",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Slovakia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Slovenia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Somalia",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Spain",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Sudan",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Syria",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Norway",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Oman",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Pakistan",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Paraguay",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Philippines",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Poland",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Portugal",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Qatar",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Romania",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Russia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Rwanda",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Mpox",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Moldova",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Mexico",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Mauritania",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Monaco",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies"
+        ]
+      },
+      {
+        "country": "Martinique",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Malta",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Mongolia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Montenegro",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Morocco",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Mozambique",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Mpox",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Namibia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Netherlands",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Nicaragua",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Niger",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Nigeria",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Peru",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Bahrain",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Bhutan",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Bolivia",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Botswana",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Brazil",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Bulgaria",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Cambodia",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Cameroon",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Canada",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Burundi",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Mpox",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Brunei",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Benin",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Belize",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Barbados",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Aruba",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Chad",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Chile",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "China",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Colombia",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Congo",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Mpox",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Croatia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Cuba",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Cyprus",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Denmark",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Djibouti",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Dominica",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Ecuador",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Egypt",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Eritrea",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Estonia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Ethiopia",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Mpox",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Uruguay",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid"
+        ]
+      },
+      {
+        "country": "Tunisia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Libya",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Lebanon",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Lithuania",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Liberia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Mpox",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Lesotho",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Liechtenstein",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Madagascar",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Malawi",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Mpox",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Malaysia",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Mali",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Luxembourg",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Latvia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Iran",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "India",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Iceland",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Hungary",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Indonesia",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Ireland",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Israel",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Italy",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Jamaica",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Japan",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Jordan",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid"
+        ]
+      },
+      {
+        "country": "Kazakhstan",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Kenya",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Mpox",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Togo",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Venezuela",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Yemen",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Zambia",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Mpox",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Zimbabwe",
+        "vaccines": [
+          "COVID-19",
+          "Cholera",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Kuwait",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Laos",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Kosovo",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Guinea",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Grenada",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Greenland",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Greece",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Gabon",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Finland",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "France",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Georgia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Germany",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Gibraltar",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Guadeloupe",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Ghana",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Guatemala",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Guyana",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Haiti",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Honduras",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Fiji",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Iraq",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Nepal",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Panama",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Kyrgyzstan",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Bosnia and Herzegovina",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Costa Rica",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Burkina Faso",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Antigua and Barbuda",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "El Salvador",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Equatorial Guinea",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Guinea-Bissau",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "French Guiana",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "North Korea",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Saint Lucia",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "San Marino",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Sao Tome and Principe",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Saudi Arabia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Solomon Islands",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "South Africa",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "South Korea",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "South Sudan",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Mpox",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Sri Lanka",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Trinidad and Tobago",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "United Arab Emirates",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Mpox",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Vanuatu",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Papua New Guinea",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "New Zealand",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Ivory Coast",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Falkland Islands",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Dominican Republic",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Gambia",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Faroe Islands",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Sierra Leone",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Mpox",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "New Caledonia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Myanmar",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Malaria",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Isle of Man",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Hong Kong",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Czech Republic",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Central African Republic",
+        "vaccines": [
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Mpox",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Democratic Republic Of The Congo",
+        "vaccines": [
+          "Chikungunya",
+          "Cholera",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Malaria",
+          "Measles",
+          "Meningococcal disease",
+          "Mpox",
+          "Polio",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Republic of North Macedonia",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Saint Vincent and the Grenadines",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Timor-Leste",
+        "vaccines": [
+          "Chikungunya",
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Japanese Encephalitis",
+          "Measles",
+          "Rabies",
+          "Typhoid",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "United Kingdom",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Polio",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "Vatican City",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Tick-borne Encephalitis",
+          "Yellow Fever"
+        ]
+      },
+      {
+        "country": "United States",
+        "vaccines": [
+          "COVID-19",
+          "Hepatitis A",
+          "Hepatitis B",
+          "Measles",
+          "Rabies",
+          "Yellow Fever"
+        ]
+      }
+    ]
+}
