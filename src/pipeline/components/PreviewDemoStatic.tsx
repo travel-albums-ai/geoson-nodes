@@ -3,7 +3,7 @@ import { PreviewBeforeAfter } from '@/pipeline/components/PreviewBeforeAfter';
 import { PreviewDescription } from '@/pipeline/components/PreviewDescription';
 import PreviewTitle from '@/pipeline/components/PreviewTitle';
 import { Box, useTheme } from '@mui/material';
-import { Download, Eye, Flame, Folder, Map, Plus, Slash } from 'lucide-react';
+import { Download, Eye, Flame, Folder, Layers, Map, Plus, Slash } from 'lucide-react';
 
 
 type AdjustmentPreviewProps = {
@@ -116,6 +116,12 @@ export function PreviewDemoStatic({ paletteItem, width, showText = false }: Adju
       before: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />,
       after: <Box sx={{ p: 2, py: 1, gap: 2, border: 1, borderColor: theme.palette.divider, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Map color={theme.palette.primary.main} />
+      </Box>,
+    },
+    [NodeType.GeoJsonViewer]: {
+      before: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />,
+      after: <Box sx={{ p: 2, py: 1, gap: 2, border: 1, borderColor: theme.palette.divider, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Layers color={theme.palette.primary.main} />
       </Box>,
     },
     [NodeType.Viewer]: {

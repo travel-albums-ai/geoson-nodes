@@ -63,7 +63,7 @@ The toolbox groups nodes by purpose. Exact labels can vary with the active langu
 - **Input**: local storage, hot-folder input, and GeoJSON file input.
 - **Logic**: grouping, array switching and boolean operations, and GPS splitting.
 - **AI**: AI photo editing and Ask AI when AI is enabled and configured.
-- **Output**: single-photo and multi-photo viewers, GPS map (plots GeoJSON features), and hot-folder output.
+- **Output**: single-photo and multi-photo viewers, GPS map (plots GeoJSON features), GeoJSON viewer (plots GeoJSON features and lists each collection), and hot-folder output.
 
 ## 🔄 Common usage flows
 

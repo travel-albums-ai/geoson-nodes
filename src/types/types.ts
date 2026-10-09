@@ -39,7 +39,8 @@ export type Stage = (image: ImageData) => void;
 
 // Node types whose results are encoded and posted back to the main
 // thread instead of staying as in-worker ImageBitmaps.
-export const VIEWER_NODE_TYPES = new Set(["viewer", "viewer-single", "gps-map", "hot-folder-write"]);
+export const GEOJSON_VIEWER_NODE_TYPES = new Set(["gps-map", "geojson-viewer"]);
+export const VIEWER_NODE_TYPES = new Set(["viewer", "viewer-single", "hot-folder-write", ...GEOJSON_VIEWER_NODE_TYPES]);
 
 export type NodeInputs = Record<string, unknown>;
 export type NodeOutputs = Record<string, unknown>;

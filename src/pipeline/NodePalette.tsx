@@ -1,4 +1,4 @@
-import { Astroid, FileJson, FolderInput, FolderOutput, GitFork, Group, HardDrive, Image, Images, MapPinned, Minus, Plus } from 'lucide-react';
+import { Astroid, FileJson, FolderInput, FolderOutput, GitFork, Group, HardDrive, Image, Images, Layers, MapPinned, Minus, Plus } from 'lucide-react';
 
 export enum NodeType {
   Source = 'source',
@@ -15,6 +15,7 @@ export enum NodeType {
   Viewer = 'viewer',
   ViewerSingle = 'viewer-single',
   GpsMap = 'gps-map',
+  GeoJsonViewer = 'geojson-viewer',
   HotFolderWrite = 'hot-folder-write',
 }
 
@@ -136,6 +137,10 @@ const outputStages: Array<NodeStageItem> = [
   {
     type: "gps-map", labelKey: "pipelineGpsMap", icon: <MapPinned size={16} />,
     processing: 'static', labelDescription: 'pipelineGpsMapDescription'
+  },
+  {
+    type: NodeType.GeoJsonViewer, labelKey: "pipelineGeoJsonViewer", icon: <Layers size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonViewerDescription'
   },
   {
     type: "hot-folder-write", labelKey: "pipelineHotFolder", icon: <FolderOutput size={16} />,

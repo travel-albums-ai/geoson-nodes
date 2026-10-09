@@ -144,6 +144,8 @@
   "pipelineNoGpsData": "No GPS data found.",
   "pipelineGeoJsonNoFeatures": "No features to plot.",
   "pipelineGpsMapConnectGeoJson": "Connect a GeoJSON Input node to plot its features.",
+  "pipelineGeoJsonViewer": "GeoJSON Viewer",
+  "pipelineGeoJsonViewerEmpty": "No GeoJSON collections connected.",
   "pipelinePhotoArray": "Photo array {{number}}",
   "pipelineGrouperDescription": "Merges up to four connected photo arrays",
   "pipelineArraySwitchDescription": "Outputs the selected connected photo array",
@@ -318,5 +320,6 @@
   "pipelinePhotosViewerDescription": "Displays multiple photos in a viewer.",
   "pipelinePhotoViewerDescription": "Displays a single photo in a viewer.",
   "pipelineGpsMapDescription": "Plots GeoJSON features on a map.",
+  "pipelineGeoJsonViewerDescription": "Plots GeoJSON features on a map and lists each collection with its city, source and feature count.",
   "pipelineHotFolderWriteDescription": "Writes images to a designated hot folder."
 }

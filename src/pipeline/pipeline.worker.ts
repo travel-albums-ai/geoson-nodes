@@ -20,7 +20,7 @@ import type {
   PipelineWorkerOutbound,
   GeoJsonFeatureCollectionArray,
 } from "@/types/types";
-import { VIEWER_NODE_TYPES } from "@/types/types";
+import { GEOJSON_VIEWER_NODE_TYPES, VIEWER_NODE_TYPES } from "@/types/types";
 import { parseGeoJsonFeatureCollections } from "@/lib/geojson";
 import { parse } from "exifr";
 
@@ -781,6 +781,16 @@ function createAIImageEditNodeDefinition(
 let sourceRunSeq = 0;
 let viewerRunSeq = 0;
 
+const geoJsonPassthroughNode: PipelineNodeDefinition = {
+  async execute(inputs) {
+    await Promise.resolve();
+
+    return {
+      geojson: (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [],
+    };
+  },
+};
+
 const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
 
   source: {
@@ -972,15 +982,8 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
     },
   },
 
-  "gps-map": {
-    async execute(inputs) {
-      await Promise.resolve();
-
-      return {
-        geojson: (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [],
-      };
-    },
-  },
+  "gps-map": geoJsonPassthroughNode,
+  "geojson-viewer": geoJsonPassthroughNode,
 
   "hot-folder-write": {
     async execute(inputs) {
@@ -1530,7 +1533,7 @@ async function runEvaluation(
       const nodeOutputs = await evaluateNode(node.id);
       throwIfStale(evaluationId);
 
-      if (node.type === "gps-map") {
+      if (GEOJSON_VIEWER_NODE_TYPES.has(node.type ?? "")) {
         workerScope.postMessage({
           type: "geojson-viewer",
           evaluationId,

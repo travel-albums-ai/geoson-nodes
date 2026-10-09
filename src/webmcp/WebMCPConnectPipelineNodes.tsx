@@ -36,6 +36,14 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: ['geojson'],
     targets: [],
   },
+  'gps-map': {
+    sources: [],
+    targets: ['geojson'],
+  },
+  'geojson-viewer': {
+    sources: [],
+    targets: ['geojson'],
+  },
 };
 
 function getNodeHandles(node: { type?: string }, direction: 'sources' | 'targets') {

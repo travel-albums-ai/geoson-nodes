@@ -1,5 +1,6 @@
 import NewChip from '@/components/NewChip';
 import { parseGeoJsonFeatureCollections } from '@/lib/geojson';
+import GeoJsonCollectionList from '@/pipeline/components/GeoJsonCollectionList';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
@@ -102,37 +103,7 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File }>>)
         )}
       </Box>
 
-      <Box
-        className="nowheel"
-        sx={{
-          maxHeight: '400px',
-          width: '480px',
-          overflow: 'auto',
-        }}
-      >
-        {collections && collections.length > 0 ? (
-          collections.map((collection, index) => (
-            <Box key={index} sx={{ py: 1, borderBottom: '1px dotted', borderColor: 'divider' }}>
-              <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                {collection.city || t('pipelineGeoJsonUnknownCity')}
-              </Typography>
-              <Typography variant="caption" color="textSecondary" component="div">
-                {collection.source}
-              </Typography>
-              <Typography variant="caption" color="textSecondary" component="div" sx={{ wordBreak: 'break-all' }}>
-                {collection.url}
-              </Typography>
-              <Typography variant="caption" component="div">
-                {t('pipelineGeoJsonFeatureCount', { count: collection.features.length })}
-              </Typography>
-            </Box>
-          ))
-        ) : (
-          <Typography variant="body2" color="textSecondary" sx={{ py: 2 }}>
-            {t('pipelineGeoJsonEmpty')}
-          </Typography>
-        )}
-      </Box>
+      <GeoJsonCollectionList collections={collections} emptyMessage={t('pipelineGeoJsonEmpty')} />
 
       <OutputHandle id="geojson" position={Position.Top} />
     </NodeWrapper>
