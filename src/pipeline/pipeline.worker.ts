@@ -98,11 +98,20 @@ const geoJsonPassthroughNode: PipelineNodeDefinition = {
   },
 };
 
+const SET_NODE_TYPES = new Set([
+  "geojson-union",
+  "geojson-intersection",
+  "geojson-difference",
+  "geojson-symmetric-difference",
+]);
+
 const geoJsonSetNodeDefinition = (operation: GeoJsonSetOperation): PipelineNodeDefinition => ({
   async execute(inputs) {
     await Promise.resolve();
 
-    const [firstHandle, secondHandle] = GEOJSON_SET_INPUT_HANDLES;
+    const [firstHandle, secondHandle] = inputs.reversed === true
+      ? [...GEOJSON_SET_INPUT_HANDLES].reverse()
+      : GEOJSON_SET_INPUT_HANDLES;
 
     return {
       geojson: applyGeoJsonSetOperation(
@@ -230,6 +239,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "geojson-jsonata") {
         inputs.query = node.data.query;
+      }
+
+      if (SET_NODE_TYPES.has(node.type ?? "")) {
+        inputs.reversed = node.data.reversed === true;
       }
 
       if (node.data.skip === true) {

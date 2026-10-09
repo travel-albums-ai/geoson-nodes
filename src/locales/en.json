@@ -123,6 +123,7 @@
   "pipelineGeoJsonDifference": "GeoJSON Difference",
   "pipelineGeoJsonSymmetricDifference": "GeoJSON Symmetric Difference",
   "pipelineGeoJsonSetConnected": "{{connected}} of {{total}} inputs connected",
+  "pipelineGeoJsonSetSwapInputs": "Swap A and B",
   "pipelineGeoJsonJsonata": "JSONata Query",
   "pipelineGeoJsonJsonataQueryLabel": "JSONata query",
   "pipelineGeoJsonJsonataPlaceholder": "features[properties.city = \"Rome\"]",
