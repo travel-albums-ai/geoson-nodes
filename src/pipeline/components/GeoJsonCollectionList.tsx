@@ -1,7 +1,11 @@
 import GeoJsonFeaturePreview from '@/pipeline/components/GeoJsonFeaturePreview';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
 import { Box, Typography } from '@mui/material';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { GroupedVirtuoso } from 'react-virtuoso';
+
+const MAX_LIST_HEIGHT = 400;
 
 type GeoJsonCollectionListProps = {
   collections: GeoJsonFeatureCollectionArray | null;
@@ -10,60 +14,83 @@ type GeoJsonCollectionListProps = {
 
 export default function GeoJsonCollectionList({ collections, emptyMessage }: GeoJsonCollectionListProps) {
   const { t } = useTranslation();
+  const [totalHeight, setTotalHeight] = useState(MAX_LIST_HEIGHT);
+
+  const sortedCollections = useMemo(
+    () => [...(collections ?? [])].sort((a, b) => (a.city || '').localeCompare(b.city || '')),
+    [collections],
+  );
+  const groupCounts = useMemo(() => sortedCollections.map((collection) => collection.features.length), [sortedCollections]);
+  const features = useMemo(() => sortedCollections.flatMap((collection) => collection.features), [sortedCollections]);
+  const groupEnds = useMemo(() => {
+    const ends: number[] = [];
+    let total = 0;
+    for (const count of groupCounts) {
+      total += count;
+      ends.push(total);
+    }
+    return ends;
+  }, [groupCounts]);
 
   return (
-    <Box
-      className="nowheel"
-      sx={{
-        maxHeight: '400px',
-        width: '480px',
-        overflow: 'auto',
-      }}
-    >
-      {collections && collections.length > 0 ? (
-        collections
-          .sort((a, b) => (a.city || '').localeCompare(b.city || ''))
-          .map((collection, index) => (
-            <Box key={index} sx={{ py: 1, borderBottom: '1px dotted', borderColor: 'divider' }}>
-              <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                {collection.city || t('pipelineGeoJsonUnknownCity')}
-              </Typography>
-              <Typography variant="caption" color="textSecondary" component="div">
-                {collection.source}
-              </Typography>
-              <Typography variant="caption" color="textSecondary" component="div" sx={{ wordBreak: 'break-all' }}>
-                {collection.url}
-              </Typography>
-              <Typography variant="caption" component="div">
-                {t('pipelineGeoJsonFeatureCount', { count: collection.features.length })}
-              </Typography>
-              <Box component="ul" sx={{ listStyle: 'none', m: 0, p: 0, pt: 1, display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-                {collection.features.map((feature, featureIndex) => {
-                  const name = feature.properties?.name || feature.properties?.name_en;
-                  const geometryType = feature.geometry?.type;
-                  return (
-                    <Box
-                      component="li"
-                      key={featureIndex}
-                      sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0 }}
-                    >
-                      <GeoJsonFeaturePreview feature={feature} />
-                      <Box sx={{ minWidth: 0 }}>
-                        <Typography variant="caption" component="div" noWrap>
-                          {typeof name === 'string' && name.length > 0 ? name : t('pipelineGeoJsonUnnamedFeature')}
-                        </Typography>
-                        {typeof geometryType === 'string' && (
-                          <Typography variant="caption" color="textSecondary" component="div" noWrap>
-                            {geometryType}
-                          </Typography>
-                        )}
-                      </Box>
-                    </Box>
-                  );
-                })}
+    <Box className="nowheel" sx={{ width: '480px' }}>
+      {sortedCollections.length > 0 ? (
+        <GroupedVirtuoso
+          style={{ height: Math.min(totalHeight, MAX_LIST_HEIGHT) }}
+          totalListHeightChanged={setTotalHeight}
+          groupCounts={groupCounts}
+          groupContent={(groupIndex) => {
+            const collection = sortedCollections[groupIndex];
+            return (
+              <Box sx={{ pt: 1, pb: 1.5 }}>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                  {collection.city || t('pipelineGeoJsonUnknownCity')}
+                </Typography>
+                <Typography variant="caption" color="textSecondary" component="div">
+                  {collection.source}
+                </Typography>
+                <Typography variant="caption" color="textSecondary" component="div" sx={{ wordBreak: 'break-all' }}>
+                  {collection.url}
+                </Typography>
+                <Typography variant="caption" component="div">
+                  {t('pipelineGeoJsonFeatureCount', { count: collection.features.length })}
+                </Typography>
               </Box>
-            </Box>
-          ))
+            );
+          }}
+          itemContent={(index, groupIndex) => {
+            const feature = features[index];
+            const name = feature.properties?.name || feature.properties?.name_en;
+            const geometryType = feature.geometry?.type;
+            const isLastInGroup = index + 1 === groupEnds[groupIndex];
+            return (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  minWidth: 0,
+                  pt: 0.5,
+                  pb: isLastInGroup ? 1 : 0,
+                  borderBottom: isLastInGroup ? '1px dotted' : 'none',
+                  borderColor: 'divider',
+                }}
+              >
+                <GeoJsonFeaturePreview feature={feature} />
+                <Box sx={{ minWidth: 0 }}>
+                  <Typography variant="caption" component="div" noWrap>
+                    {typeof name === 'string' && name.length > 0 ? name : t('pipelineGeoJsonUnnamedFeature')}
+                  </Typography>
+                  {typeof geometryType === 'string' && (
+                    <Typography variant="caption" color="textSecondary" component="div" noWrap>
+                      {geometryType}
+                    </Typography>
+                  )}
+                </Box>
+              </Box>
+            );
+          }}
+        />
       ) : (
         <Typography variant="body2" color="textSecondary" sx={{ py: 2 }}>
           {emptyMessage}
