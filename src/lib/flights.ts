@@ -2,6 +2,8 @@ import type { Airport, FlightEntry, GeoJsonFeature, GeoJsonFeatureCollectionArra
 
 type LonLat = [lon: number, lat: number];
 type Vector = [x: number, y: number, z: number];
+// A flight whose both airports are picked, extended at runtime with its distance.
+type RoutedFlight = FlightEntry & { from: Airport; to: Airport; distanceKm: number };
 
 const KM_PER_SEGMENT = 50;
 const MIN_SEGMENTS = 16;
@@ -18,6 +20,14 @@ const toVector = ({ lat, lon }: Airport): Vector => {
 };
 
 const wrapLon = (lon: number) => ((((lon + 180) % 360) + 360) % 360) - 180;
+
+// Great-circle distance between two airports, in km.
+const greatCircleDistanceKm = (from: Airport, to: Airport): number => {
+  const start = toVector(from);
+  const end = toVector(to);
+  const dot = Math.min(1, Math.max(-1, start[0] * end[0] + start[1] * end[1] + start[2] * end[2]));
+  return Math.acos(dot) * EARTH_RADIUS_KM;
+};
 
 // Samples a curved route between two airports as a quadratic curve in lon/lat space.
 // The curve bows sideways from the straight chord, so long routes near the poles do
@@ -44,10 +54,7 @@ export function flightArcPath(from: Airport, to: Airport): LonLat[] {
   const controlLon = from.lon + dLon / 2 + normalLon * bow;
   const controlLat = from.lat + dLat / 2 + normalLat * bow;
 
-  const start = toVector(from);
-  const end = toVector(to);
-  const dot = Math.min(1, Math.max(-1, start[0] * end[0] + start[1] * end[1] + start[2] * end[2]));
-  const distanceKm = Math.acos(dot) * EARTH_RADIUS_KM;
+  const distanceKm = greatCircleDistanceKm(from, to);
   const segments = Math.min(MAX_SEGMENTS, Math.max(MIN_SEGMENTS, Math.ceil(distanceKm / KM_PER_SEGMENT)));
   const path: LonLat[] = [];
 
@@ -63,6 +70,7 @@ export function flightArcPath(from: Airport, to: Airport): LonLat[] {
 }
 
 // Builds one FeatureCollection: a curved line per flight, and a point per airport used.
+// Each flight is extended with its distance in km at runtime; the distance is not stored in the node data.
 export function buildFlightPathCollections(flights: FlightEntry[] | undefined): GeoJsonFeatureCollectionArray {
   const features: GeoJsonFeature[] = [];
   // The same airport can sit at two longitudes when a route crosses the 180° meridian.
@@ -72,13 +80,18 @@ export function buildFlightPathCollections(flights: FlightEntry[] | undefined): 
     airports.set(`${airport.iata}@${lon}`, { airport, lon });
   };
 
-  for (const { from, to, price, currency, date, extraText } of flights ?? []) {
+  for (const flight of flights ?? []) {
+    const { from, to } = flight;
     if (!from || !to || from.iata === to.iata) continue;
 
+    const routed: RoutedFlight = { ...flight, from, to, distanceKm: greatCircleDistanceKm(from, to) };
     const path = flightArcPath(from, to);
     const name = `${from.iata} → ${to.iata}`;
-    const priceText = [price, currency].filter((part) => part !== null && part !== '').join(' ');
-    const tooltip = [name, priceText, date, extraText].filter((part) => part !== null && part !== '').join(' · ');
+    const distanceText = `${Math.round(routed.distanceKm)} km`;
+    const priceText = [routed.price, routed.currency].filter((part) => part !== null && part !== '').join(' ');
+    const tooltip = [name, distanceText, priceText, routed.date, routed.extraText]
+      .filter((part) => part !== null && part !== '')
+      .join(' · ');
 
     features.push({
       type: 'Feature',
@@ -88,10 +101,11 @@ export function buildFlightPathCollections(flights: FlightEntry[] | undefined): 
         kind: 'flight',
         from: from.iata,
         to: to.iata,
-        price,
-        currency,
-        date,
-        extraText,
+        distanceKm: routed.distanceKm,
+        price: routed.price,
+        currency: routed.currency,
+        date: routed.date,
+        extraText: routed.extraText,
         tooltip,
       },
     });
