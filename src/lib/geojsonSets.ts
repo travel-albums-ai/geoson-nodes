@@ -5,8 +5,13 @@ import type {
 
 export type GeoJsonSetOperation = 'union' | 'intersection' | 'difference' | 'symmetricDifference';
 
+type KeyedFeature = { feature: GeoJsonFeature; key: string };
+type KeyedCollection = {
+  collection: GeoJsonFeatureCollectionArray[number];
+  features: KeyedFeature[];
+};
 type SetSource = {
-  collections: GeoJsonFeatureCollectionArray;
+  collections: KeyedCollection[];
   keep: (key: string) => boolean;
 };
 
@@ -20,8 +25,15 @@ const featureKey = (feature: GeoJsonFeature): string =>
       ? Object.fromEntries(Object.entries(value).sort(compareKeys))
       : value);
 
-const featureKeys = (collections: GeoJsonFeatureCollectionArray): Set<string> =>
-  new Set(collections.flatMap((collection) => collection.features.map(featureKey)));
+// Each feature is serialized once; key sets and the output are both derived from these keys.
+const keyCollections = (collections: GeoJsonFeatureCollectionArray): KeyedCollection[] =>
+  collections.map((collection) => ({
+    collection,
+    features: collection.features.map((feature) => ({ feature, key: featureKey(feature) })),
+  }));
+
+const keySet = (keyed: KeyedCollection[]): Set<string> =>
+  new Set(keyed.flatMap((collection) => collection.features.map(({ key }) => key)));
 
 // Walks the sources in order and keeps each distinct feature that passes its source's predicate.
 // Collections keep their metadata and are dropped when no feature from them survives.
@@ -30,12 +42,10 @@ function collectDistinct(sources: SetSource[]): GeoJsonFeatureCollectionArray {
   const result: GeoJsonFeatureCollectionArray = [];
 
   for (const { collections, keep } of sources) {
-    for (const collection of collections) {
+    for (const { collection, features: keyed } of collections) {
       const features: GeoJsonFeature[] = [];
 
-      for (const feature of collection.features) {
-        const key = featureKey(feature);
-
+      for (const { feature, key } of keyed) {
         if (!seen.has(key) && keep(key)) {
           seen.add(key);
           features.push(feature);
@@ -58,27 +68,36 @@ export function applyGeoJsonSetOperation(
   first: GeoJsonFeatureCollectionArray,
   second: GeoJsonFeatureCollectionArray,
 ): GeoJsonFeatureCollectionArray {
-  const firstKeys = featureKeys(first);
-  const secondKeys = featureKeys(second);
-
   switch (operation) {
     case 'union':
       return collectDistinct([
-        { collections: first, keep: () => true },
-        { collections: second, keep: () => true },
+        { collections: keyCollections(first), keep: () => true },
+        { collections: keyCollections(second), keep: () => true },
       ]);
-    case 'intersection':
+    case 'intersection': {
+      const secondKeys = keySet(keyCollections(second));
+
       return collectDistinct([
-        { collections: first, keep: (key) => secondKeys.has(key) },
+        { collections: keyCollections(first), keep: (key) => secondKeys.has(key) },
       ]);
-    case 'difference':
+    }
+    case 'difference': {
+      const secondKeys = keySet(keyCollections(second));
+
       return collectDistinct([
-        { collections: first, keep: (key) => !secondKeys.has(key) },
+        { collections: keyCollections(first), keep: (key) => !secondKeys.has(key) },
       ]);
-    case 'symmetricDifference':
+    }
+    case 'symmetricDifference': {
+      const firstKeyed = keyCollections(first);
+      const secondKeyed = keyCollections(second);
+      const firstKeys = keySet(firstKeyed);
+      const secondKeys = keySet(secondKeyed);
+
       return collectDistinct([
-        { collections: first, keep: (key) => !secondKeys.has(key) },
-        { collections: second, keep: (key) => !firstKeys.has(key) },
+        { collections: firstKeyed, keep: (key) => !secondKeys.has(key) },
+        { collections: secondKeyed, keep: (key) => !firstKeys.has(key) },
       ]);
+    }
   }
 }

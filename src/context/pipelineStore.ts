@@ -95,6 +95,21 @@ export function prepareGraph({ nodes, edges }: PipelineGraph): PipelineGraph {
   }
 }
 
+// Viewer results are derived from the graph and can be large. The store is
+// serialized to localStorage on every update, so results are kept out of it.
+// geojsonFile is left in place: the store's nodes are written back into the canvas.
+function withoutEvaluationResults<T extends PipelineGraph>(graph: T): T {
+  return {
+    ...graph,
+    nodes: graph.nodes.map((node) => {
+      if (!('geojson' in node.data)) return node
+
+      const { geojson: _geojson, ...data } = node.data
+      return { ...node, data }
+    }),
+  }
+}
+
 export const usePipelineStore = () => {
   const store = useStore()
   const setState = useSetStore()
@@ -114,7 +129,7 @@ export const usePipelineStore = () => {
     updateCurrentPipeline: (graph: PipelineGraph, isDirty = true) =>
       setState((prev) => ({
         ...prev,
-        currentPipeline: { ...prev.currentPipeline, ...graph, isDirty },
+        currentPipeline: { ...prev.currentPipeline, ...withoutEvaluationResults(graph), isDirty },
       })),
     toggleLockReactflow: () => setState((prev) => ({ ...prev, lockReactflow: !prev.lockReactflow })),
     enableReactflow: () => setState((prev) => ({ ...prev, lockReactflow: false })),

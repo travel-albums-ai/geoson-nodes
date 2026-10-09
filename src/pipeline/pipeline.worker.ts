@@ -24,6 +24,7 @@ import {
 } from "@/lib/geojson";
 import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
 import { runGeoJsonQuery } from "@/lib/geojsonQuery";
+import { cachePhaseOutput, getCachedPhaseOutput } from "@/pipeline/phaseOutputCache";
 
 // The app compiles against the DOM lib (where `self` is Window), so the
 // worker's global scope is described structurally here instead.
@@ -33,8 +34,6 @@ type WorkerScope = {
 };
 
 const workerScope = self as unknown as WorkerScope;
-
-const MAX_CACHED_PHASES = 64;
 
 let latestEvaluationId = 0;
 
@@ -53,34 +52,6 @@ function throwIfStale(evaluationId: number) {
 
 function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
-}
-
-// Keep the most recently used phase outputs, keyed by their content
-// signature rather than node id, so equivalent phases are shared across runs.
-const phaseOutputCache = new Map<string, NodeOutputs>();
-
-function getCachedPhaseOutput(signature: string): NodeOutputs | undefined {
-  const outputs = phaseOutputCache.get(signature);
-
-  if (outputs) {
-    phaseOutputCache.delete(signature);
-    phaseOutputCache.set(signature, outputs);
-  }
-
-  return outputs;
-}
-
-function cachePhaseOutput(signature: string, outputs: NodeOutputs) {
-  phaseOutputCache.delete(signature);
-  phaseOutputCache.set(signature, outputs);
-
-  while (phaseOutputCache.size > MAX_CACHED_PHASES) {
-    const oldestSignature = phaseOutputCache.keys().next().value;
-
-    if (oldestSignature === undefined) break;
-
-    phaseOutputCache.delete(oldestSignature);
-  }
 }
 
 function serializeForCache(value: unknown): string {
