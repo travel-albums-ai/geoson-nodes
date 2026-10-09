@@ -7,7 +7,7 @@ import { Position, type Node, type NodeProps } from '@xyflow/react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function GpsMapNode({ data }: NodeProps<Node<{ geojson?: GeoJsonFeatureCollectionArray }>>) {
+function GpsMapNode({ data }: NodeProps<Node<{ geojson?: GeoJsonFeatureCollectionArray; skip?: boolean }>>) {
   const { t } = useTranslation();
   const hasCollections = (data.geojson ?? []).length > 0;
   const features = useMemo(
@@ -22,10 +22,12 @@ function GpsMapNode({ data }: NodeProps<Node<{ geojson?: GeoJsonFeatureCollectio
         <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
           {t('pipelineGpsMarkers', { count: features.length })}
         </Typography>
-        <GeoJsonMap
-          features={features}
-          emptyMessage={hasCollections ? t('pipelineGeoJsonNoFeatures') : t('pipelineGpsMapConnectGeoJson')}
-        />
+        {data.skip !== true && (
+          <GeoJsonMap
+            features={features}
+            emptyMessage={hasCollections ? t('pipelineGeoJsonNoFeatures') : t('pipelineGpsMapConnectGeoJson')}
+          />
+        )}
       </NodeWrapper>
     </>
   );

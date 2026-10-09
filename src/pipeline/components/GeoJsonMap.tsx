@@ -20,6 +20,7 @@ export default function GeoJsonMap({ features, emptyMessage }: GeoJsonMapProps) 
       attributionControl: true,
       zoomControl: true,
       scrollWheelZoom: false,
+      preferCanvas: true,
     });
     mapRef.current = map;
 
