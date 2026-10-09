@@ -1,6 +1,5 @@
 import NewChip from '@/components/NewChip';
 import GeoJsonCollectionList from '@/pipeline/components/GeoJsonCollectionList';
-import GeoJsonMap from '@/pipeline/components/GeoJsonMap';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
@@ -26,10 +25,6 @@ function GeoJsonViewerNode({ data }: NodeProps<Node<{ geojson?: GeoJsonFeatureCo
           <NewChip count={collections?.length ?? 0} label={t('pipelineGeoJsonCollections')} fontSize={16} icon={<Layers size={16} />} sx={{ height: 38 }} />
           <NewChip count={features.length} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<MapPin size={16} />} sx={{ height: 38 }} />
         </Box>
-        <GeoJsonMap
-          features={features}
-          emptyMessage={(collections?.length ?? 0) > 0 ? t('pipelineGeoJsonNoFeatures') : t('pipelineGpsMapConnectGeoJson')}
-        />
         <Box sx={{ pt: 1 }}>
           <GeoJsonCollectionList collections={collections} emptyMessage={t('pipelineGeoJsonViewerEmpty')} />
         </Box>
