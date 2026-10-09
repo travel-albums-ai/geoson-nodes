@@ -10,7 +10,6 @@
 // - Every new evaluation cooperatively cancels the previous one: stale
 //   checks run between images and in-flight fetches are aborted.
 
-import { detectFilmBaseColor } from "@/lib/utils";
 import type {
   NodeInputs,
   NodeOutputs,
@@ -189,14 +188,9 @@ const BATCH_INPUT_KEYS = ["image", "image-1", "image-2", "image-3", "image-4"];
 const FILE_SOURCE_NODE_TYPES = new Set([
   "source",
   "hot-folder-read",
-  "google-drive",
 ]);
 
 function getBatchInputKeys(nodeType: string | undefined, inputs: NodeInputs): string[] {
-  if (nodeType === "pdf-source") {
-    return ["pdfPages"];
-  }
-
   if (FILE_SOURCE_NODE_TYPES.has(nodeType ?? "")) {
     return ["files"];
   }
@@ -397,7 +391,7 @@ function createCanvas(
 }
 
 // ============================================================
-// AI Async image-edit nodes (colorizer, denoiser, ...)
+// AI image-edit nodes (photo editor, ...)
 // ============================================================
 
 const OPENAI_IMAGES_EDIT_URL = "https://api.openai.com/v1/images/edits";
@@ -406,73 +400,7 @@ const OPENAI_CHAT_COMPLETIONS_URL = "https://api.openai.com/v1/chat/completions"
 const AI_ASK_MODEL = "gpt-4o-mini";
 
 // Node types that share the passthru/apiKey data shape.
-const AI_IMAGE_EDIT_NODE_TYPES = new Set(["ai-colorizer", "ai-denoiser", "ai-negative-converter", "ai-photo-editor"]);
-
-const AI_COLORIZER_PROMPT = [
-  "Colorize this photograph realistically.",
-  "If the source image is black and white, restore natural and historically plausible colors.",
-  "If the source image already contains some color, preserve it and improve only where appropriate.",
-  "Preserve the original photograph as faithfully as possible.",
-  "Do not change the composition, camera angle, perspective, geometry, identity, facial features, expressions, poses, clothing, objects, architecture, or background.",
-  "Do not add or remove people or objects.",
-  "Do not invent details that are not present in the source.",
-  "Preserve the original lighting and photographic character.",
-  "Use realistic skin tones, materials, vegetation, sky and environmental colors.",
-  "Avoid cinematic color grading, excessive saturation, HDR effects, artificial sharpening, or a modern stylized look.",
-  "The result should look like the original photograph was naturally captured in color.",
-].join(" ");
-
-const AI_DENOISER_PROMPT = [
-  "Reduce excessive film grain, scan noise, and digital noise while preserving the natural texture and fine detail of the original photograph.",
-  "Remove noise selectively rather than applying aggressive smoothing, with particular care around faces, hair, skin, fabric, foliage, architecture, and other areas containing genuine texture.",
-  "Preserve authentic film grain where it contributes to the original photographic character.",
-  "Do not introduce artificial sharpening, plastic-looking skin, invented texture, excessive smoothing, HDR effects, or a modern digital appearance.",
-  "Preserve the original composition, geometry, identity, facial features, expressions, poses, objects, lighting, tonal relationships, and photographic character.",
-  "The result should look like the same photograph captured or scanned with less distracting degradation, not like a newly generated image.",
-].join(" ");
-
-function negativeConversionPrompt(source: WorkerImage): string {
-  const [, context] = createCanvas(96, 96);
-  context.drawImage(source.bitmap, 0, 0, 96, 96);
-  const base = detectFilmBaseColor(context.getImageData(0, 0, 96, 96));
-  const metadata = Object.entries(source.exif ?? {})
-    .filter(([, value]) => value !== undefined && value !== null && typeof value !== "object")
-    .map(([key, value]) => `${key}=${String(value)}`)
-    .join(", ")
-    .slice(0, 1600);
-
-  return [
-    "Perform a faithful photographic inversion of this scanned film negative.",
-
-    "Treat the input as an existing photograph that must be transformed, not recreated.",
-
-    "Determine the negative process visible in the scan. If it is a color negative, account for its film-base mask and dye-layer characteristics. If it is a black-and-white negative, account for its base veil and density response. Do not assume that the mask is orange.",
-
-    `The measured film-base color is approximately RGB(${Math.round(base[0])}, ${Math.round(base[1])}, ${Math.round(base[2])}). Use this measurement as an estimate of the unexposed film base and remove its contribution before reconstructing the positive image.`,
-
-    metadata
-      ? `Scan metadata that may describe the film or capture process: ${metadata}. Treat this metadata as evidence, not as certainty.`
-      : "No reliable film metadata is available. Infer only what can reasonably be determined from the scan.",
-
-    "Perform the transformation in this conceptual order: remove the film-base density and color cast, invert the negative density into positive density, then reconstruct neutral color and tonal response.",
-
-    "For color negatives, correct the three color channels independently because the film mask and dye layers are not neutral and are not necessarily separable by a simple RGB inversion.",
-
-    "Preserve the photographic density relationships. Recover shadow, midtone, and highlight detail from the negative without clipping or artificially expanding dynamic range.",
-
-    "Produce natural neutral whites, believable skin tones, and physically plausible colors consistent with the captured negative.",
-
-    "Do not apply a cinematic look, creative color grade, HDR effect, excessive contrast, artificial saturation, or modern digital sharpening.",
-
-    "Preserve the original frame exactly: composition, geometry, perspective, people, faces, identities, expressions, poses, clothing, objects, architecture, vegetation, sky, and background.",
-
-    "Do not add, remove, replace, redraw, beautify, repair, or hallucinate photographic content.",
-
-    "Preserve authentic film grain and photographic texture. Only remove artifacts that are clearly caused by the scanning or capture process.",
-
-    "The output must be the same photograph represented as a correctly exposed positive print or professional film scan.",
-  ].join(" ");
-}
+const AI_IMAGE_EDIT_NODE_TYPES = new Set(["ai-photo-editor"]);
 
 function postProgress(
   nodeType: string,
@@ -852,12 +780,6 @@ let sourceRunSeq = 0;
 let viewerRunSeq = 0;
 
 const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
-  information: {
-    async execute() {
-      await Promise.resolve();
-      return {};
-    },
-  },
 
   source: {
     async execute(inputs) {
@@ -891,22 +813,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
     },
   },
 
-  "pdf-source": {
-    async execute(inputs) {
-      const files = inputs.pdfPages as File[] | undefined;
-
-      if (!files || files.length === 0) return { image: [] };
-
-      const image = await mapWithConcurrency(
-        files,
-        inputs.evaluationId as number,
-        loadFileImage
-      );
-
-      return { image };
-    },
-  },
-
   "hot-folder-read": {
     async execute(inputs) {
       const files = inputs.files as File[] | undefined;
@@ -915,22 +821,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
 
       const image = await mapWithConcurrency(
         files,
-        inputs.evaluationId as number,
-        loadFileImage
-      );
-
-      return { image };
-    },
-  },
-
-  "google-drive": {
-    async execute(inputs) {
-      const files = inputs.files as File[] | undefined;
-
-      if (!files || files.length === 0) { return { image: [] } }
-
-      const image = await mapWithConcurrency(
-        files.slice(0, 10),
         inputs.evaluationId as number,
         loadFileImage
       );
@@ -1018,16 +908,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
     },
   },
 
-  "exif-split": {
-    async execute(inputs) {
-      const images = (inputs.image as WorkerImage[] | undefined) ?? [];
-      const withExif = images.filter((image) => image.exif !== undefined);
-      const withoutExif = images.filter((image) => image.exif === undefined);
-
-      return { withExif, withoutExif };
-    },
-  },
-
   "gps-split": {
     async execute(inputs) {
       const images = (inputs.image as WorkerImage[] | undefined) ?? [];
@@ -1048,24 +928,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   },
 
 
-  "ai-colorizer": createAIImageEditNodeDefinition(
-    "ai-colorizer",
-    "AI Colorizer",
-    AI_COLORIZER_PROMPT
-  ),
-
-  "ai-negative-converter": createAIImageEditNodeDefinition(
-    "ai-negative-converter",
-    "AI Negative Converter",
-    (_inputs, source) => negativeConversionPrompt(source)
-  ),
-
-  "ai-denoiser": createAIImageEditNodeDefinition(
-    "ai-denoiser",
-    "AI Denoiser",
-    AI_DENOISER_PROMPT
-  ),
-
   "ai-photo-editor": createAIImageEditNodeDefinition(
     "ai-photo-editor",
     "AI Photo Editor",
@@ -1073,21 +935,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   ),
 
   "ask-ai": createAskAINodeDefinition(),
-
-  "selected-photo": {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      const selectedPhotoName = inputs.selectedPhotoName as string | undefined;
-
-      if (!selectedPhotoName) {
-        return { image: [] };
-      }
-
-      const selected = sources.find((source) => source.name === selectedPhotoName);
-
-      return { image: selected ? [selected] : [] };
-    },
-  },
 
   // The viewer passes images through; encoding for transport to the
   // main thread happens in the result-posting layer below.
@@ -1102,16 +949,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   },
 
   "viewer-single": {
-    async execute(inputs) {
-      await Promise.resolve();
-
-      return {
-        image: (inputs.image as WorkerImage[] | undefined) ?? [],
-      };
-    },
-  },
-
-  "exif-viewer": {
     async execute(inputs) {
       await Promise.resolve();
 
@@ -1528,10 +1365,7 @@ async function runEvaluation(
 
       // Special case:
       // File-backed source nodes get their Files from node.data.
-      if (node.type === "pdf-source") {
-        inputs.pdfPages = node.data.pdfPages;
-        inputs.nodeId = node.id;
-      } else if (FILE_SOURCE_NODE_TYPES.has(node.type ?? "")) {
+      if (FILE_SOURCE_NODE_TYPES.has(node.type ?? "")) {
         inputs.files = node.data.files;
         inputs.nodeId = node.id;
       }
@@ -1540,10 +1374,6 @@ async function runEvaluation(
       // Selection node gets its GalleryPhotos from node.data.
       if (node.type === "selection") {
         inputs.photos = node.data.photos;
-      }
-
-      if (node.type === "selected-photo") {
-        inputs.selectedPhotoName = node.data.selectedPhotoName;
       }
 
       if (node.type === "array-switch") {
@@ -1649,20 +1479,6 @@ async function runEvaluation(
 
       if (!outputOnlyReferencesInputs(result, inputs)) {
         cachePhaseOutput(signature, result);
-      }
-
-      if (node.type === "exif-split") {
-        const withExif = result.withExif as WorkerImage[] | undefined ?? [];
-        const withoutExif = result.withoutExif as WorkerImage[] | undefined ?? [];
-
-        workerScope.postMessage({
-          type: "exifStats",
-          evaluationId,
-          nodeId: node.id,
-          total: withExif.length + withoutExif.length,
-          withExif: withExif.length,
-          withoutExif: withoutExif.length,
-        });
       }
 
       if (node.type === "gps-split") {

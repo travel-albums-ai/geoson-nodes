@@ -533,23 +533,6 @@ export const samplePipeline = [
         },
         "selected": false,
         "dragging": false
-      },
-      {
-        "id": "information-13",
-        "type": "information",
-        "position": {
-          "x": -1580,
-          "y": 1580
-        },
-        "data": {
-          "content": "Start here !"
-        },
-        "measured": {
-          "width": 380,
-          "height": 277
-        },
-        "selected": false,
-        "dragging": false
       }
     ],
     "edges": [],
@@ -589,40 +572,6 @@ export const samplePipeline = [
         "dragging": false
       },
       {
-        "id": "ai-colorizer-11",
-        "type": "ai-colorizer",
-        "position": {
-          "x": 1260,
-          "y": 640
-        },
-        "data": {
-          "passthru": true
-        },
-        "measured": {
-          "width": 280,
-          "height": 104
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "ai-denoiser-12",
-        "type": "ai-denoiser",
-        "position": {
-          "x": 0,
-          "y": 740
-        },
-        "data": {
-          "passthru": true
-        },
-        "measured": {
-          "width": 280,
-          "height": 104
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
         "id": "hot-folder-read-5",
         "type": "hot-folder-read",
         "position": {
@@ -633,38 +582,6 @@ export const samplePipeline = [
         "measured": {
           "width": 300,
           "height": 163
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "information-6",
-        "type": "information",
-        "position": {
-          "x": -240,
-          "y": 300
-        },
-        "data": {
-          "content": "Hello to Couch Editor"
-        },
-        "measured": {
-          "width": 380,
-          "height": 277
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "selected-photo-7",
-        "type": "selected-photo",
-        "position": {
-          "x": 1260,
-          "y": 360
-        },
-        "data": {},
-        "measured": {
-          "width": 280,
-          "height": 92
         },
         "selected": false,
         "dragging": false
@@ -720,37 +637,9 @@ export const samplePipeline = [
         },
         "selected": false,
         "dragging": false
-      },
-      {
-        "id": "selected-photo-1",
-        "type": "selected-photo",
-        "position": {
-          "x": -100,
-          "y": 160
-        },
-        "data": {},
-        "measured": {
-          "width": 280,
-          "height": 92
-        },
-        "selected": false,
-        "dragging": false
       }
     ],
-    "edges": [
-      {
-        "type": "smoothstep",
-        "source": "source-1",
-        "sourceHandle": "image",
-        "target": "selected-photo-1",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-1image-selected-photo-1image"
-      }
-    ],
+    "edges": [],
     "id": "pipeline-1789043070838-5dq8f2",
     "name": "StressTest"
   },
@@ -1114,51 +1003,9 @@ export const samplePipeline = [
         },
         "selected": false,
         "dragging": false
-      },
-      {
-        "id": "selected-photo-15",
-        "type": "selected-photo",
-        "position": {
-          "x": -1240,
-          "y": -240
-        },
-        "data": {
-          "selectedPhotoName": "20260124_131017.jpg"
-        },
-        "measured": {
-          "width": 280,
-          "height": 92
-        },
-        "selected": false,
-        "dragging": false
       }
     ],
-    "edges": [
-      {
-        "type": "smoothstep",
-        "source": "selected-photo-15",
-        "sourceHandle": "image",
-        "target": "grouper-14",
-        "targetHandle": "image-1",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__selected-photo-15image-grouper-14image-1"
-      },
-      {
-        "type": "smoothstep",
-        "source": "source-6-reset",
-        "sourceHandle": "image",
-        "target": "selected-photo-15",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-6image-selected-photo-15image"
-      }
-    ],
+    "edges": [],
     "id": "pipeline-1789337933916-dyplp5",
     "name": "Light"
   },
@@ -1190,21 +1037,6 @@ export const samplePipeline = [
         "measured": {
           "width": 300,
           "height": 163
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "google-drive-18",
-        "type": "google-drive",
-        "position": {
-          "x": -1320,
-          "y": 420
-        },
-        "data": {},
-        "measured": {
-          "width": 930,
-          "height": 1080
         },
         "selected": false,
         "dragging": false
@@ -1276,18 +1108,6 @@ export const samplePipeline = [
           "stroke": "rgba(113, 82, 248, 0.6)"
         },
         "id": "xy-edge__source-16-resetimage-grouper-20image-2"
-      },
-      {
-        "type": "smoothstep",
-        "source": "google-drive-18",
-        "sourceHandle": "image",
-        "target": "grouper-20",
-        "targetHandle": "image-3",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__google-drive-18image-grouper-20image-3"
       }
     ],
     "id": "pipeline-1789338428659-f8fd3w",
@@ -1331,21 +1151,6 @@ export const samplePipeline = [
         "position": {
           "x": -280,
           "y": 440
-        },
-        "data": {},
-        "measured": {
-          "width": 630,
-          "height": 673
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "exif-viewer-24",
-        "type": "exif-viewer",
-        "position": {
-          "x": -280,
-          "y": 1140
         },
         "data": {},
         "measured": {
@@ -1410,18 +1215,6 @@ export const samplePipeline = [
           "stroke": "rgba(113, 82, 248, 0.6)"
         },
         "id": "xy-edge__source-21image-viewer-single-23image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "source-21-reset",
-        "sourceHandle": "image",
-        "target": "exif-viewer-24",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-21image-exif-viewer-24image"
       },
       {
         "type": "smoothstep",

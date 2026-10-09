@@ -24,10 +24,6 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: ['image'],
     targets: ['image-1', 'image-2'],
   },
-  'exif-split': {
-    sources: ['withExif', 'withoutExif'],
-    targets: ['image'],
-  },
   'gps-split': {
     sources: ['withGps', 'withoutGps'],
     targets: ['image'],

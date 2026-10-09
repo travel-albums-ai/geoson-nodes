@@ -26,7 +26,6 @@ import type { Edge, Node } from "@xyflow/react";
 // React Flow internals) stays on the main thread.
 const NODE_DATA_KEYS = [
   "files",
-  "pdfPages",
   "lutFile",
   "photos",
   "amount",
@@ -36,7 +35,6 @@ const NODE_DATA_KEYS = [
   "densityCompensation",
   "filmAge",
   "autoDetectBase",
-  "selectedPhotoName",
   "selectedInput",
   "selectedImageKeys",
   "columns",
@@ -192,20 +190,6 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
         new CustomEvent(`${message.nodeType}:stageStarted`, {
           detail: {
             nodeId: message.nodeId,
-          },
-        })
-      );
-      return;
-    }
-
-    case "exifStats": {
-      window.dispatchEvent(
-        new CustomEvent('exif-split:stats', {
-          detail: {
-            nodeId: message.nodeId,
-            total: message.total,
-            withExif: message.withExif,
-            withoutExif: message.withoutExif,
           },
         })
       );

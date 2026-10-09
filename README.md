@@ -15,7 +15,7 @@ CouchEditor lets you select photos, connect editing steps, preview the result, a
 - Choose JPEG, PNG, or WebP photos from your computer.
 - Arrange logic steps and optional AI steps.
 - Preview one photo or a complete set of photos.
-- Inspect metadata and GPS information where those outputs are useful.
+- Inspect GPS information where those outputs are useful.
 - Download processed photos from a viewer or write them to a configured folder.
 - Save a recipe in the browser, then export or import it as a `.cep` file.
 
@@ -50,7 +50,7 @@ The toolbox includes a search field and supports dragging nodes onto the canvas.
 
 ### Choosing photos
 
-Use the local photo input to select images from your computer. The selected photo count and thumbnails are shown on the node. Other input nodes can provide a hot folder, Google Drive, selected-photo, information, or metadata-based workflow when those integrations fit your setup.
+Use the local photo input to select images from your computer. The selected photo count and thumbnails are shown on the node. Other input nodes can provide a hot folder when that integration fits your setup.
 
 ### Connecting and changing steps
 
@@ -60,10 +60,10 @@ Connect steps in the order you want them applied. To change a connection, drag i
 
 The toolbox groups nodes by purpose. Exact labels can vary with the active language and enabled features.
 
-- **Input**: local storage, hot-folder input, Google Drive, information, and selected-photo sources.
-- **Logic**: grouping, array switching and boolean operations, EXIF splitting, and GPS splitting.
-- **AI**: denoising, colorizing, negative conversion, AI photo editing, and Ask AI when AI is enabled and configured.
-- **Output**: single-photo and multi-photo viewers, EXIF viewer, GPS map, and hot-folder output.
+- **Input**: local storage and hot-folder input.
+- **Logic**: grouping, array switching and boolean operations, and GPS splitting.
+- **AI**: AI photo editing and Ask AI when AI is enabled and configured.
+- **Output**: single-photo and multi-photo viewers, GPS map, and hot-folder output.
 
 ## 🔄 Common usage flows
 
@@ -97,7 +97,6 @@ Connect a source to the output that matches the question you are asking:
 
 - Use a single-photo viewer to compare one result.
 - Use a multi-photo viewer to review a complete set and download results together.
-- Use the EXIF viewer to inspect image metadata.
 - Use the GPS map when the selected photos contain usable location data.
 
 ### 🤖 Optional AI editing

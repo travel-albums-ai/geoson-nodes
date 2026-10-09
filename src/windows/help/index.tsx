@@ -4,14 +4,13 @@ import { useSettings, useSettingsStoreSelector } from '@/context/settingsStore';
 import { groupedPaletteItems, paletteItems } from '@/pipeline/NodePalette';
 import HelpItem from '@/windows/help/HelpItem';
 import { Box, IconButton, Switch } from '@mui/material';
-import { Astroid, BookOpen, ChevronsRight, Folder, FolderInput, FolderOutput, FolderTree, GitFork, Slice } from 'lucide-react';
+import { Astroid, BookOpen, ChevronsRight, Folder, FolderInput, FolderOutput, FolderTree, GitFork } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const helpIcons = {
   "pipelineGroupInput": <FolderInput />,
   "pipelineLogicInput": <GitFork />,
-  "pipelineGroupDetail": <Slice />,
   "pipelineGroupAi": <Astroid />,
   "pipelineGroupOutput": <FolderOutput />,
 }
