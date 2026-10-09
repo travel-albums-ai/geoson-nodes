@@ -14,6 +14,27 @@ export type ImageValue = {
 // pipeline can process a batch in parallel.
 export type ImageArray = ImageValue[];
 
+// GeoJSON (RFC 7946) feature, as found inside a FeatureCollection.
+export type GeoJsonFeature = {
+  type: 'Feature';
+  geometry: Record<string, unknown> | null;
+  properties: Record<string, unknown> | null;
+  id?: string | number;
+};
+
+// A FeatureCollection carrying the provenance metadata a user-supplied
+// GeoJSON file provides alongside its features.
+export type GeoJsonFeatureCollection = {
+  type: 'FeatureCollection';
+  city?: string;
+  source?: string;
+  url?: string;
+  features: GeoJsonFeature[];
+};
+
+// Contract exported by the GeoJSON input node.
+export type GeoJsonFeatureCollectionArray = GeoJsonFeatureCollection[];
+
 export type Stage = (image: ImageData) => void;
 
 // Node types whose results are encoded and posted back to the main

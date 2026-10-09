@@ -32,6 +32,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: ['positive', 'negative'],
     targets: ['image'],
   },
+  'geojson-input': {
+    sources: ['geojson'],
+    targets: [],
+  },
 };
 
 function getNodeHandles(node: { type?: string }, direction: 'sources' | 'targets') {

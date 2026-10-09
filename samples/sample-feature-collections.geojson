@@ -1,0 +1,43 @@
+[
+  {
+    "type": "FeatureCollection",
+    "city": "Paris",
+    "source": "Sample data",
+    "url": "https://example.com/paris",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": { "name": "Eiffel Tower" },
+        "geometry": { "type": "Point", "coordinates": [2.2945, 48.8584] }
+      },
+      {
+        "type": "Feature",
+        "properties": { "name": "Louvre Museum" },
+        "geometry": { "type": "Point", "coordinates": [2.3376, 48.8606] }
+      },
+      {
+        "type": "Feature",
+        "properties": { "name": "Seine walk" },
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [2.2945, 48.8584],
+            [2.3, 48.857],
+            [2.3376, 48.8606]
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "FeatureCollection",
+    "city": "Berlin",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": { "name": "Brandenburg Gate" },
+        "geometry": { "type": "Point", "coordinates": [13.3777, 52.5163] }
+      }
+    ]
+  }
+]

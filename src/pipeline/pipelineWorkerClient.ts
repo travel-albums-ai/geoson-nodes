@@ -26,6 +26,7 @@ import type { Edge, Node } from "@xyflow/react";
 // React Flow internals) stays on the main thread.
 const NODE_DATA_KEYS = [
   "files",
+  "geojsonFile",
   "lutFile",
   "photos",
   "amount",

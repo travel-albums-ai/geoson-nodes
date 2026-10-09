@@ -6,6 +6,7 @@ import ArraySetOperationNode from '@/pipeline/nodes/ComplexNodes/ArraySetOperati
 import ArraySwitchNode from '@/pipeline/nodes/ComplexNodes/ArraySwitchNode';
 import AskAINode from '@/pipeline/nodes/ComplexNodes/AskAINode';
 import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
+import GeoJsonInputNode from '@/pipeline/nodes/ComplexNodes/GeoJsonInputNode';
 import GpsSplitNode from '@/pipeline/nodes/ComplexNodes/GpsSplitNode';
 import GrouperNode from '@/pipeline/nodes/ComplexNodes/GrouperNode';
 import HotFolderReadNode from '@/pipeline/nodes/ComplexNodes/HotFolderReadNode';
@@ -30,6 +31,7 @@ export const pipelineNodeTypes = {
   'array-or': ArraySetOperationNode,
   'array-switch': ArraySwitchNode,
   'ask-ai': AskAINode,
+  'geojson-input': GeoJsonInputNode,
   'gps-map': GpsMapNode,
   'gps-split': GpsSplitNode,
   'hot-folder-read': HotFolderReadNode,

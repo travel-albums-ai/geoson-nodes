@@ -20,6 +20,7 @@ import type {
   PipelineWorkerOutbound,
 } from "@/types/types";
 import { VIEWER_NODE_TYPES } from "@/types/types";
+import { parseGeoJsonFeatureCollections } from "@/lib/geojson";
 import { parse } from "exifr";
 
 // ============================================================
@@ -958,6 +959,18 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
     },
   },
 
+  "geojson-input": {
+    async execute(inputs) {
+      const file = inputs.geojsonFile;
+
+      if (!(file instanceof File)) {
+        return { geojson: [] };
+      }
+
+      return { geojson: parseGeoJsonFeatureCollections(await file.text()) };
+    },
+  },
+
   "gps-map": {
     async execute(inputs) {
       await Promise.resolve();
@@ -1378,6 +1391,12 @@ async function runEvaluation(
 
       if (node.type === "array-switch") {
         inputs.selectedInput = node.data.selectedInput;
+      }
+
+      // Special case:
+      // GeoJSON input node gets its uploaded file from node.data.
+      if (node.type === "geojson-input") {
+        inputs.geojsonFile = node.data.geojsonFile;
       }
 
       // Special case:

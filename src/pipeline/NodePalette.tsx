@@ -1,8 +1,9 @@
-import { Astroid, FolderInput, FolderOutput, GitFork, Group, HardDrive, Image, Images, MapPinned, Minus, Plus } from 'lucide-react';
+import { Astroid, FileJson, FolderInput, FolderOutput, GitFork, Group, HardDrive, Image, Images, MapPinned, Minus, Plus } from 'lucide-react';
 
 export enum NodeType {
   Source = 'source',
   HotFolderRead = 'hot-folder-read',
+  GeoJsonInput = 'geojson-input',
   Grouper = 'grouper',
   ArraySwitch = 'array-switch',
   ArrayAnd = 'array-and',
@@ -63,6 +64,12 @@ const sourceStages: Array<NodeStageItem> = [
     labelKey: "pipelineHotFolder", icon: <FolderInput size={16} />,
     processing: 'static',
     labelDescription: 'pipelineHotFolderDescription',
+  },
+  {
+    type: NodeType.GeoJsonInput,
+    labelKey: "pipelineGeoJsonInput", icon: <FileJson size={16} />,
+    processing: 'static',
+    labelDescription: 'pipelineGeoJsonInputDescription',
   },
 ];
 
