@@ -1,8 +1,9 @@
-import { Blend, Braces, Combine, Crop, Diff, FileJson, Layers, Merge, MapPinned, SquaresIntersect, StickyNote } from 'lucide-react';
+import { Blend, Braces, Combine, Crop, Diff, FileJson, Layers, Merge, MapPinned, ScanSearch, SquaresIntersect, StickyNote } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
   GeoBoundsFilter = 'geo-bounds-filter',
+  GeoJsonWithinArea = 'geojson-within-area',
   GeoJsonMerge = 'geojson-merge',
   GeoJsonUnion = 'geojson-union',
   GeoJsonIntersection = 'geojson-intersection',
@@ -61,6 +62,10 @@ const filterStages: Array<NodeStageItem> = [
   {
     type: NodeType.GeoBoundsFilter, labelKey: "pipelineGpsBoundsFilter", icon: <Crop size={16} />,
     processing: 'static', labelDescription: 'pipelineGpsBoundsFilterDescription'
+  },
+  {
+    type: NodeType.GeoJsonWithinArea, labelKey: "pipelineGeoJsonWithinArea", icon: <ScanSearch size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonWithinAreaDescription'
   },
 ];
 

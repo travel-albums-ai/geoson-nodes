@@ -16,13 +16,14 @@ import type {
   PipelineWorkerOutbound,
   GeoJsonFeatureCollectionArray,
 } from "@/types/types";
-import { GEOJSON_MERGE_INPUT_HANDLES, GEOJSON_SET_INPUT_HANDLES, VIEWER_NODE_TYPES } from "@/types/types";
+import { GEOJSON_MERGE_INPUT_HANDLES, GEOJSON_SET_INPUT_HANDLES, GEOJSON_WITHIN_AREA_INPUT_HANDLES, VIEWER_NODE_TYPES } from "@/types/types";
 import {
   filterGeoJsonByBounds,
   normalizeGeoBounds,
   parseGeoJsonFeatureCollections,
 } from "@/lib/geojson";
 import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
+import { filterGeoJsonWithinArea } from "@/lib/geojsonWithinArea";
 import { runGeoJsonQuery } from "@/lib/geojsonQuery";
 import { cachePhaseOutput, getCachedPhaseOutput } from "@/pipeline/phaseOutputCache";
 
@@ -157,6 +158,21 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       };
     },
   },
+  "geojson-within-area": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      const [areaHandle, featuresHandle] = GEOJSON_WITHIN_AREA_INPUT_HANDLES;
+
+      return {
+        geojson: filterGeoJsonWithinArea(
+          (inputs[areaHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
+          (inputs[featuresHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
+          inputs.outside === true,
+        ),
+      };
+    },
+  },
   "geojson-union": geoJsonSetNodeDefinition("union"),
   "geojson-intersection": geoJsonSetNodeDefinition("intersection"),
   "geojson-difference": geoJsonSetNodeDefinition("difference"),
@@ -243,6 +259,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (SET_NODE_TYPES.has(node.type ?? "")) {
         inputs.reversed = node.data.reversed === true;
+      }
+
+      if (node.type === "geojson-within-area") {
+        inputs.outside = node.data.outside === true;
       }
 
       if (node.data.skip === true) {

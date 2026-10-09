@@ -8,6 +8,7 @@ import GeoJsonJsonataNode from '@/pipeline/nodes/ComplexNodes/GeoJsonJsonataNode
 import GeoJsonMergeNode from '@/pipeline/nodes/ComplexNodes/GeoJsonMergeNode';
 import GeoJsonSetNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSetNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
+import GeoJsonWithinAreaNode from '@/pipeline/nodes/ComplexNodes/GeoJsonWithinAreaNode';
 import PostItNode from '@/pipeline/nodes/ComplexNodes/PostItNode';
 
 export const CONNECTION_LINE_TYPE = ConnectionLineType.SmoothStep;
@@ -24,6 +25,7 @@ export const pipelineNodeTypes = {
   'geojson-viewer': GeoJsonViewerNode,
   'gps-map': GpsMapNode,
   'geo-bounds-filter': GeoBoundsFilterNode,
+  'geojson-within-area': GeoJsonWithinAreaNode,
   'geojson-merge': GeoJsonMergeNode,
   'geojson-union': GeoJsonSetNode,
   'geojson-intersection': GeoJsonSetNode,
