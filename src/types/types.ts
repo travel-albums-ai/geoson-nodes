@@ -28,7 +28,10 @@ export type GeoBounds = {
 };
 
 // Node types the pipeline engine can evaluate.
-export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'gps-map', 'geojson-viewer']);
+export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-merge', 'gps-map', 'geojson-viewer']);
+
+// Input handles of the GeoJSON merge node, concatenated in this order.
+export const GEOJSON_MERGE_INPUT_HANDLES = ['geojson-1', 'geojson-2', 'geojson-3', 'geojson-4'] as const;
 
 // Node types whose results are posted back to the main thread.
 export const VIEWER_NODE_TYPES = new Set(["gps-map", "geojson-viewer"]);

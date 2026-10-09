@@ -4,6 +4,7 @@ import { ConnectionLineType, type Edge, type Node } from '@xyflow/react';
 import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
 import GeoBoundsFilterNode from '@/pipeline/nodes/ComplexNodes/GeoBoundsFilterNode';
 import GeoJsonInputNode from '@/pipeline/nodes/ComplexNodes/GeoJsonInputNode';
+import GeoJsonMergeNode from '@/pipeline/nodes/ComplexNodes/GeoJsonMergeNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
 
 export const CONNECTION_LINE_TYPE = ConnectionLineType.SmoothStep;
@@ -20,4 +21,5 @@ export const pipelineNodeTypes = {
   'geojson-viewer': GeoJsonViewerNode,
   'gps-map': GpsMapNode,
   'geo-bounds-filter': GeoBoundsFilterNode,
+  'geojson-merge': GeoJsonMergeNode,
 };

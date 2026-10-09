@@ -1,4 +1,5 @@
 import { usePipelineStore } from '@/context/pipelineStore';
+import { GEOJSON_MERGE_INPUT_HANDLES } from '@/types/types';
 import { addEdge } from '@xyflow/react';
 import { useEffect } from 'react';
 import './webMcpTypes';
@@ -19,6 +20,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
   'geo-bounds-filter': {
     sources: ['geojson'],
     targets: ['geojson'],
+  },
+  'geojson-merge': {
+    sources: ['geojson'],
+    targets: [...GEOJSON_MERGE_INPUT_HANDLES],
   },
 };
 

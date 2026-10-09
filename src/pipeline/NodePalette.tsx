@@ -1,8 +1,9 @@
-import { Crop, FileJson, Layers, MapPinned } from 'lucide-react';
+import { Crop, FileJson, Layers, Merge, MapPinned } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
   GeoBoundsFilter = 'geo-bounds-filter',
+  GeoJsonMerge = 'geojson-merge',
   GpsMap = 'gps-map',
   GeoJsonViewer = 'geojson-viewer',
 }
@@ -57,6 +58,13 @@ const filterStages: Array<NodeStageItem> = [
   },
 ];
 
+const utilityStages: Array<NodeStageItem> = [
+  {
+    type: NodeType.GeoJsonMerge, labelKey: "pipelineGeoJsonMerge", icon: <Merge size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonMergeDescription'
+  },
+];
+
 const outputStages: Array<NodeStageItem> = [
   {
     type: NodeType.GpsMap, labelKey: "pipelineGpsMap", icon: <MapPinned size={16} />,
@@ -71,6 +79,7 @@ const outputStages: Array<NodeStageItem> = [
 export const paletteItems: Array<NodePaletteItem> = [
   ...(sourceStages.map(stage => ({ ...stage, groupKey: "pipelineGroupInput" }))),
   ...(filterStages.map(stage => ({ ...stage, groupKey: "pipelineGroupFilter" }))),
+  ...(utilityStages.map(stage => ({ ...stage, groupKey: "pipelineGroupUtility" }))),
   ...(outputStages.map(stage => ({ ...stage, groupKey: "pipelineGroupOutput" }))),
 ];
 

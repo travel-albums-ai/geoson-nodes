@@ -116,6 +116,8 @@
   "pipelineGpsMap": "GPS Map",
   "pipelineGpsBoundsFilter": "GPS Bounds Filter",
   "pipelineGpsBoundsValues": "W {{west}}° · E {{east}}° · S {{south}}° · N {{north}}°",
+  "pipelineGeoJsonMerge": "GeoJSON Merge",
+  "pipelineGeoJsonMergeConnected": "{{connected}} of {{total}} inputs connected",
   "pipelineGpsMarkers": "Markers: {{count}}",
   "pipelineNoGpsData": "No GPS data found.",
   "pipelineGeoJsonNoFeatures": "No features to plot.",
@@ -237,5 +239,6 @@
   "onboardingAiToolsStep": "AI Tools",
   "pipelineGpsMapDescription": "Plots GeoJSON features on a map.",
   "pipelineGpsBoundsFilterDescription": "Keeps only the GeoJSON features with a GPS position inside the rectangle you draw on the map.",
+  "pipelineGeoJsonMergeDescription": "Concatenates the GeoJSON collections from up to four inputs into one list.",
   "pipelineGeoJsonViewerDescription": "Plots GeoJSON features on a map and lists each collection with its city, source and feature count, with a small preview of each feature."
 }

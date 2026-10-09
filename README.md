@@ -63,6 +63,7 @@ The toolbox groups nodes by purpose. Exact labels can vary with the active langu
 - **Input**: local storage, hot-folder input, and GeoJSON file input.
 - **Logic**: grouping, array switching and boolean operations, and GPS splitting.
 - **Filter**: GPS bounds filter (keeps GeoJSON features with a position inside a rectangle you set by dragging two vertical and two horizontal lines on a world map).
+- **Utility**: GeoJSON merge (concatenates the GeoJSON collections from up to four inputs into one list).
 - **AI**: AI photo editing and Ask AI when AI is enabled and configured.
 - **Output**: single-photo and multi-photo viewers, GPS map (plots GeoJSON features), GeoJSON viewer (plots GeoJSON features and lists each collection), and hot-folder output.
 

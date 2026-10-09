@@ -16,7 +16,7 @@ import type {
   PipelineWorkerOutbound,
   GeoJsonFeatureCollectionArray,
 } from "@/types/types";
-import { VIEWER_NODE_TYPES } from "@/types/types";
+import { GEOJSON_MERGE_INPUT_HANDLES, VIEWER_NODE_TYPES } from "@/types/types";
 import {
   filterGeoJsonByBounds,
   normalizeGeoBounds,
@@ -146,6 +146,17 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
 
       const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
       return { geojson: filterGeoJsonByBounds(collections, normalizeGeoBounds(inputs.bounds)) };
+    },
+  },
+  "geojson-merge": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      return {
+        geojson: GEOJSON_MERGE_INPUT_HANDLES.flatMap(
+          (handle) => (inputs[handle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
+        ),
+      };
     },
   },
 };
