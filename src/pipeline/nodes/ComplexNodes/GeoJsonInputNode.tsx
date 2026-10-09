@@ -1,22 +1,47 @@
 import NewChip from '@/components/NewChip';
+import { usePipelineStoreSelector } from '@/context/pipelineStore';
 import { parseGeoJsonFeatureCollections } from '@/lib/geojson';
+import { createGeoJsonFileKey, deleteGeoJsonFile, loadGeoJsonFile, saveGeoJsonFile } from '@/lib/geojsonFileStore';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
 import { Box, Button, Typography } from '@mui/material';
-import { Position, type Node, type NodeProps } from '@xyflow/react';
+import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { FileJson, Layers, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File }>>) {
+function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fileKey?: string }>>) {
   const { t } = useTranslation();
+  const { getNodes } = useReactFlow();
+  const savedPipelines = usePipelineStoreSelector((state) => state.pipelines);
   const [file, setFile] = useState(data.geojsonFile);
   const [collections, setCollections] = useState<GeoJsonFeatureCollectionArray | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const featureCount = collections?.reduce((total, collection) => total + collection.features.length, 0) ?? 0;
+
+  // Restores the file after a reload. The worker reads the same stored
+  // record when it evaluates, so this only needs to refresh the preview.
+  useEffect(() => {
+    if (!data.fileKey || file) return;
+
+    let cancelled = false;
+
+    loadGeoJsonFile(data.fileKey)
+      .then((restored) => {
+        if (cancelled || !restored) return;
+        setFile(restored);
+      })
+      .catch((reason: unknown) => {
+        console.warn('Could not restore GeoJSON file', reason);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [data.fileKey, file]);
 
   // Parsing here only drives the node preview; the worker parses the
   // file again when the pipeline evaluates.
@@ -46,15 +71,35 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File }>>)
     };
   }, [file]);
 
+  // A stored record may still back a saved pipeline or a cloned node on the
+  // canvas, so it is only removed when nothing else references it.
+  const isFileKeyReferenced = (key: string) =>
+    savedPipelines.some((pipeline) => pipeline.nodes.some((node) => node.data.fileKey === key)) ||
+    getNodes().some((node) => node.id !== id && node.data.fileKey === key);
+
   const updateFile = (selected: File | undefined) => {
     if (!selected) return;
 
+    const previousKey = data.fileKey;
+    const fileKey = createGeoJsonFileKey();
+
     Reflect.set(data, 'geojsonFile', selected);
+    Reflect.set(data, 'fileKey', fileKey);
     setFile(selected);
 
     window.dispatchEvent(
       new CustomEvent('pipeline:changed')
     );
+
+    saveGeoJsonFile(fileKey, selected)
+      .then(() => {
+        if (previousKey && !isFileKeyReferenced(previousKey)) {
+          return deleteGeoJsonFile(previousKey);
+        }
+      })
+      .catch((reason: unknown) => {
+        console.warn('Could not store GeoJSON file', reason);
+      });
   };
 
   return (

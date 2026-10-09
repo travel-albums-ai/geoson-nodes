@@ -24,6 +24,7 @@ import {
 } from "@/lib/geojson";
 import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
 import { filterGeoJsonWithinArea } from "@/lib/geojsonWithinArea";
+import { loadGeoJsonFile } from "@/lib/geojsonFileStore";
 import { commonPropertyKeys, zipGeoJsonByKey } from "@/lib/geojsonZip";
 import { runGeoJsonQuery } from "@/lib/geojsonQuery";
 import { cachePhaseOutput, getCachedPhaseOutput } from "@/pipeline/phaseOutputCache";
@@ -128,7 +129,10 @@ const geoJsonSetNodeDefinition = (operation: GeoJsonSetOperation): PipelineNodeD
 const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   "geojson-input": {
     async execute(inputs) {
-      const file = inputs.geojsonFile;
+      const fileKey = inputs.fileKey;
+      const file = inputs.geojsonFile instanceof File
+        ? inputs.geojsonFile
+        : typeof fileKey === "string" ? await loadGeoJsonFile(fileKey) : null;
 
       if (!(file instanceof File)) {
         return { geojson: [] };
@@ -263,6 +267,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "geojson-input") {
         inputs.geojsonFile = node.data.geojsonFile;
+        inputs.fileKey = node.data.fileKey;
       }
 
       if (node.type === "geo-bounds-filter") {
