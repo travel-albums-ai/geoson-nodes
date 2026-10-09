@@ -135,7 +135,7 @@
   "pipelineGeoJsonUnion": "GeoJSON Union",
   "pipelineGeoJsonIntersection": "GeoJSON Intersection",
   "pipelineGeoJsonDifference": "GeoJSON Difference",
-  "pipelineGeoJsonSymmetricDifference": "GeoJSON Symmetric Difference",
+  "pipelineGeoJsonSymmetricDifference": "GeoJSON Difference",
   "pipelineGeoJsonSetConnected": "{{connected}} of {{total}} inputs connected",
   "pipelineGeoJsonSetSwapInputs": "Swap A and B",
   "pipelineGeoJsonWithinArea": "GeoJSON Within Area",
