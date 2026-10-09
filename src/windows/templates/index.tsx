@@ -4,7 +4,7 @@ import { useSettings } from '@/context/settingsStore';
 import PipelineSelectorItems from '@/pipeline/components/PipelineSelectorItems';
 import PipelineSelectorItem from '@/windows/templates/PipelineSelectorItem';
 import { Box, Chip, TextField } from '@mui/material';
-import { Astroid, Camera, GalleryHorizontalEnd, User } from 'lucide-react';
+import { GalleryHorizontalEnd, User } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -25,22 +25,6 @@ export default function Templates() {
 
   const pipelineGroupings = [
     {
-      name: 'templatesSampleName',
-      description: 'templatesSampleDescription',
-      icon: <Astroid />,
-      type: 'sample',
-      data: pipelines
-        .filter(p => p.type === 'sample')
-    },
-    {
-      type: 'instagram',
-      name: 'templatesInstagramName',
-      description: 'templatesInstagramDescription',
-      icon: <Camera />,
-      data: pipelines
-        .filter(p => p.type === 'instagram')
-    },
-    {
       type: 'user',
       name: 'templatesUserName',
       description: 'templatesUserDescription',
@@ -53,12 +37,6 @@ export default function Templates() {
   const chips = [
     {
       label: 'templatesFilterAll', value: 'all'
-    },
-    {
-      label: 'templatesFilterSample', value: 'sample'
-    },
-    {
-      label: 'templatesFilterInstagram', value: 'instagram'
     },
     {
       label: 'templatesFilterUser', value: 'user'

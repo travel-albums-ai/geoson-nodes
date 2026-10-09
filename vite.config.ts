@@ -169,10 +169,6 @@ export default defineConfig(({ command }) => {
                         return 'vendor-ux-uplot';
                       }
 
-                      if (id.includes('react-virtuoso')) {
-                        return 'vendor-render-virtuoso';
-                      }
-
                       if (id.includes('react-zoom-pan-pinch')) {
                         return 'vendor-ux-zoom-pan-pinch';
                       }
@@ -191,10 +187,6 @@ export default defineConfig(({ command }) => {
 
                       if (id.includes('@tanstack')) {
                         return 'vendor-render-tanstack';
-                      }
-
-                      if (id.includes('exifr')) {
-                        return 'vendor-parse-exifr';
                       }
 
                       if (

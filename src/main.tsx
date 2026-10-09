@@ -22,7 +22,7 @@ import './freakflags.css';
 import './index.css';
 
 const queryClient = new QueryClient()
-export const debug = true || process.env.NODE_ENV === 'development' || process.env.DEBUG === 'true'
+export const debug = true || import.meta.env.DEV
 export const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
 

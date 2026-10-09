@@ -1,6 +1,5 @@
-import { instagramPipeline } from '@/context/samples/instagramPipelines';
-import { samplePipeline } from '@/context/samples/samplePipelines';
 import { createLocalStorageStoreNg } from '@/lib/createLocalStorageStoreNg';
+import { WORKER_NODE_TYPES } from '@/types/types';
 import type { Edge, Node } from '@xyflow/react';
 
 export type PipelineGraph = {
@@ -8,7 +7,7 @@ export type PipelineGraph = {
   edges: Edge[]
 }
 
-export type PipelineType = 'sample' | 'instagram' | 'user' | 'community'
+export type PipelineType = 'user' | 'community'
 
 
 export type SavedPipeline = PipelineGraph & {
@@ -26,17 +25,9 @@ export type CurrentPipeline = PipelineGraph & {
   isDirty: boolean
 }
 
-export type HotFolderReadState = {
-  id: string
-  directory: string | null
-  permission: PermissionState
-  claim: boolean
-}
-
 type PipelineStore = {
   pipelines: SavedPipeline[],
   currentPipeline: CurrentPipeline,
-  hotFolderReads: HotFolderReadState[],
   lockReactflow: boolean,
   showToolbox: boolean,
   toolboxAsGrid: boolean,
@@ -45,22 +36,7 @@ type PipelineStore = {
 }
 
 const defaults: PipelineStore = {
-  pipelines: [
-    ...samplePipeline.map((pipeline) => ({
-      ...pipeline,
-      isDeletable: false,
-      dateUpdated: '2026-01-01T00:00:00.000Z',
-      dateCreated: '2026-01-01T00:00:00.000Z',
-      type: 'sample' as const,
-    })),
-    ...instagramPipeline.map((pipeline) => ({
-      ...pipeline,
-      isDeletable: false,
-      dateUpdated: '2026-01-01T00:00:00.000Z',
-      dateCreated: '2026-01-01T00:00:00.000Z',
-      type: 'instagram' as const,
-    }))
-  ],
+  pipelines: [],
   currentPipeline: {
     id: '',
     name: '',
@@ -68,7 +44,6 @@ const defaults: PipelineStore = {
     edges: [],
     isDirty: false,
   },
-  hotFolderReads: [],
   lockReactflow: false,
   showToolbox: true,
   toolboxAsGrid: false,
@@ -87,6 +62,19 @@ function createPipelineId() {
   return `pipeline-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 }
 
+// Drops nodes the pipeline engine no longer supports (e.g. from pipelines
+// saved before the photo nodes were removed), along with their edges.
+function keepSupportedGraph<T extends PipelineGraph>(graph: T): T {
+  const nodes = graph.nodes.filter((node) => WORKER_NODE_TYPES.has(node.type ?? ''))
+  const nodeIds = new Set(nodes.map((node) => node.id))
+
+  return {
+    ...graph,
+    nodes,
+    edges: graph.edges.filter((edge) => nodeIds.has(edge.source) && nodeIds.has(edge.target)),
+  }
+}
+
 function createPipelineDate() {
   return new Date().toISOString()
 }
@@ -95,13 +83,8 @@ export function prepareGraph({ nodes, edges }: PipelineGraph): PipelineGraph {
   return {
     nodes: nodes.map((node) => {
       const {
-        image: _image,
-        photos: _photos,
-        apiKey: _apiKey,
-        files: _files,
         geojsonFile: _geojsonFile,
         geojson: _geojson,
-        lutFile: _lutFile,
         ...data
       } = node.data as Record<string, unknown>
 
@@ -120,7 +103,6 @@ export const usePipelineStore = () => {
     toolboxAsGrid: store.toolboxAsGrid,
     pipelines: store.pipelines,
     currentPipeline: store.currentPipeline,
-    hotFolderReads: store.hotFolderReads,
     setCurrentPipeline: (currentPipeline: CurrentPipeline | ((prev: CurrentPipeline) => CurrentPipeline)) =>
       setState((prev) => ({
         ...prev,
@@ -145,21 +127,6 @@ export const usePipelineStore = () => {
       setState((prev) => ({
         ...prev,
         currentPipeline: { ...prev.currentPipeline, isDirty },
-      })),
-    addHotFolderRead: (hotFolderRead: HotFolderReadState) =>
-      setState((prev) => ({
-        ...prev,
-        hotFolderReads: [...prev.hotFolderReads, hotFolderRead],
-      })),
-    updateHotFolderRead: (id: string, update: Partial<HotFolderReadState>) =>
-      setState((prev) => ({
-        ...prev,
-        hotFolderReads: prev.hotFolderReads.map((item) => item.id === id ? { ...item, ...update } : item),
-      })),
-    removeHotFolderRead: (id: string) =>
-      setState((prev) => ({
-        ...prev,
-        hotFolderReads: prev.hotFolderReads.filter((item) => item.id !== id),
       })),
     toggleToolbox: () => setState((prev) => ({ ...prev, showToolbox: !prev.showToolbox })),
     saveNew: (name: string, graph: PipelineGraph) => {
@@ -231,7 +198,10 @@ export const usePipelineStore = () => {
         return pipelines.length === prev.pipelines.length ? prev : { ...prev, pipelines }
       })
     },
-    loadById: (id: string) => store.pipelines.find((pipeline) => pipeline.id === id)
+    loadById: (id: string) => {
+      const pipeline = store.pipelines.find((item) => item.id === id)
+      return pipeline && { ...pipeline, ...keepSupportedGraph(pipeline) }
+    }
   }
 }
 

@@ -4,34 +4,6 @@ import { useEffect } from 'react';
 import './webMcpTypes';
 
 const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
-  grouper: {
-    sources: ['image'],
-    targets: ['image-1', 'image-2', 'image-3', 'image-4'],
-  },
-  'array-switch': {
-    sources: ['image'],
-    targets: ['image-1', 'image-2'],
-  },
-  'array-and': {
-    sources: ['image'],
-    targets: ['image-1', 'image-2'],
-  },
-  'array-and-not': {
-    sources: ['image'],
-    targets: ['image-1', 'image-2'],
-  },
-  'array-or': {
-    sources: ['image'],
-    targets: ['image-1', 'image-2'],
-  },
-  'gps-split': {
-    sources: ['withGps', 'withoutGps'],
-    targets: ['image'],
-  },
-  'ask-ai': {
-    sources: ['positive', 'negative'],
-    targets: ['image'],
-  },
   'geojson-input': {
     sources: ['geojson'],
     targets: [],
@@ -47,7 +19,7 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
 };
 
 function getNodeHandles(node: { type?: string }, direction: 'sources' | 'targets') {
-  return NODE_HANDLES[node.type ?? '']?.[direction] ?? ['image'];
+  return NODE_HANDLES[node.type ?? '']?.[direction] ?? ['geojson'];
 }
 
 export default function WebMCPConnectPipelineNodes() {
@@ -81,12 +53,12 @@ export default function WebMCPConnectPipelineNodes() {
               sourceHandle: {
                 type: 'string',
                 description:
-                  'Optional id of the source handle. Defaults to image when the source node has one output.',
+                  'Optional id of the source handle. Defaults to geojson when the source node has one output.',
               },
               targetHandle: {
                 type: 'string',
                 description:
-                  'Optional id of the target handle. Defaults to image when the target node has one input.',
+                  'Optional id of the target handle. Defaults to geojson when the target node has one input.',
               },
             },
             required: ['sourceNodeId', 'targetNodeId'],

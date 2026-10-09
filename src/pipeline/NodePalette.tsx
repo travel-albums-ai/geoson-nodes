@@ -1,22 +1,9 @@
-import { Astroid, FileJson, FolderInput, FolderOutput, GitFork, Group, HardDrive, Image, Images, Layers, MapPinned, Minus, Plus } from 'lucide-react';
+import { FileJson, Layers, MapPinned } from 'lucide-react';
 
 export enum NodeType {
-  Source = 'source',
-  HotFolderRead = 'hot-folder-read',
   GeoJsonInput = 'geojson-input',
-  Grouper = 'grouper',
-  ArraySwitch = 'array-switch',
-  ArrayAnd = 'array-and',
-  ArrayAndNot = 'array-and-not',
-  ArrayOr = 'array-or',
-  GpsSplit = 'gps-split',
-  AiPhotoEditor = 'ai-photo-editor',
-  AskAi = 'ask-ai',
-  Viewer = 'viewer',
-  ViewerSingle = 'viewer-single',
   GpsMap = 'gps-map',
   GeoJsonViewer = 'geojson-viewer',
-  HotFolderWrite = 'hot-folder-write',
 }
 
 export enum NodeProcessing {
@@ -55,18 +42,6 @@ export type NodePaletteItem = NodeStageItem & {
 
 const sourceStages: Array<NodeStageItem> = [
   {
-    type: NodeType.Source,
-    labelKey: "pipelineLocalStorage", icon: <HardDrive size={16} />,
-    processing: 'static',
-    labelDescription: 'pipelineLocalStorageDescription',
-  },
-  {
-    type: NodeType.HotFolderRead,
-    labelKey: "pipelineHotFolder", icon: <FolderInput size={16} />,
-    processing: 'static',
-    labelDescription: 'pipelineHotFolderDescription',
-  },
-  {
     type: NodeType.GeoJsonInput,
     labelKey: "pipelineGeoJsonInput", icon: <FileJson size={16} />,
     processing: 'static',
@@ -74,83 +49,19 @@ const sourceStages: Array<NodeStageItem> = [
   },
 ];
 
-const logicStages: Array<NodeStageItem> = [
-  {
-    type: NodeType.Grouper,
-    labelKey: "pipelineGrouper", icon: <Group size={16} />,
-    processing: 'static',
-    labelDescription: 'pipelineGrouperNodeDescription',
-  },
-  {
-    type: NodeType.ArraySwitch,
-    labelKey: "pipelineArraySwitch", icon: <GitFork size={16} />,
-    processing: 'static',
-    labelDescription: 'pipelineArraySwitchNodeDescription',
-  },
-  {
-    type: NodeType.ArrayAnd,
-    labelKey: "pipelineArrayAnd", icon: <GitFork size={16} />,
-    processing: 'static',
-    labelDescription: 'pipelineArrayAndNodeDescription',
-  },
-  {
-    type: NodeType.ArrayAndNot,
-    labelKey: "pipelineArrayAndNot", icon: <Minus size={16} />,
-    processing: 'static',
-    labelDescription: 'pipelineArrayAndNotNodeDescription',
-  },
-  {
-    type: NodeType.ArrayOr,
-    labelKey: "pipelineArrayOr", icon: <Plus size={16} />,
-    processing: 'static',
-    labelDescription: 'pipelineArrayOrNodeDescription',
-  },
-  {
-    type: NodeType.GpsSplit,
-    labelKey: "pipelineGpsSplit", icon: <MapPinned size={16} />,
-    processing: 'static',
-    labelDescription: 'pipelineGpsSplitNodeDescription',
-  },
-
-]
-
-const aiStages: Array<NodeStageItem> = [
-  { type: "ai-photo-editor", labelKey: "pipelineAiPhotoEditor", icon: <Astroid size={16} />,
-    processing: 'static',
-    labelDescription: 'pipelineAiPhotoEditorDescription',
-  },
-  { type: "ask-ai", labelKey: "pipelineAskAI", icon: <Astroid size={16} />,
-    processing: 'static',
-    labelDescription: 'pipelineAskAIDescription',
-  },
-]
-
 const outputStages: Array<NodeStageItem> = [
   {
-    type: "viewer", labelKey: "pipelinePhotosViewer", icon:<Images size={16} />,
-    processing: 'static', labelDescription: 'pipelinePhotosViewerDescription'
-  },
-  {
-    type: "viewer-single", labelKey: "pipelinePhotoViewer", icon: <Image size={16} />,
-    processing: 'static', labelDescription: 'pipelinePhotoViewerDescription'
-  },
-  {
-    type: "gps-map", labelKey: "pipelineGpsMap", icon: <MapPinned size={16} />,
+    type: NodeType.GpsMap, labelKey: "pipelineGpsMap", icon: <MapPinned size={16} />,
     processing: 'static', labelDescription: 'pipelineGpsMapDescription'
   },
   {
     type: NodeType.GeoJsonViewer, labelKey: "pipelineGeoJsonViewer", icon: <Layers size={16} />,
     processing: 'static', labelDescription: 'pipelineGeoJsonViewerDescription'
   },
-  {
-    type: "hot-folder-write", labelKey: "pipelineHotFolder", icon: <FolderOutput size={16} />,
-    processing: 'static', labelDescription: 'pipelineHotFolderWriteDescription' },
 ]
 
 export const paletteItems: Array<NodePaletteItem> = [
   ...(sourceStages.map(stage => ({ ...stage, groupKey: "pipelineGroupInput" }))),
-  ...(logicStages.map(stage => ({ ...stage, groupKey: "pipelineLogicInput" }))),
-  ...(aiStages.map(stage => ({ ...stage, groupKey: "pipelineGroupAi", ai: true }))),
   ...(outputStages.map(stage => ({ ...stage, groupKey: "pipelineGroupOutput" }))),
 ];
 

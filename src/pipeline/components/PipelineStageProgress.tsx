@@ -1,15 +1,9 @@
 import { Box, LinearProgress, Tooltip } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type StageTimingDetail = {
   nodeId: string;
   durationMs: number;
-};
-
-type StageProgressDetail = {
-  nodeId: string;
-  completed: number;
-  total: number;
 };
 
 type PipelineStageTimingProps = {
@@ -25,18 +19,15 @@ export default function PipelineStageProgress({
 }: PipelineStageTimingProps) {
   const [durationMs, setDurationMs] = useState<number | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const progressRef = useRef(0);
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
     const startedEventName = `${nodeType}:stageStarted`;
     const timingEventName = `${nodeType}:stageTiming`;
-    const progressEventName = `${nodeType}:progress`;
     const evaluationStartedEventName = 'pipeline:evaluationStarted';
     const handleEvaluationStarted = () => {
       setIsProcessing(false);
-      progressRef.current = 0;
-      setProgress(0);
+      setIsComplete(false);
       isBusy?.(false);
     };
     const handleStarted = (event: Event) => {
@@ -45,23 +36,9 @@ export default function PipelineStageProgress({
 
       if (startedNodeId === nodeId) {
         setIsProcessing(true);
-        progressRef.current = 0;
-        setProgress(0);
+        setIsComplete(false);
         isBusy?.(true);
       }
-    };
-    const handleProgress = (event: Event) => {
-      const detail = (event as CustomEvent<StageProgressDetail>).detail;
-
-      if (detail.nodeId !== nodeId) return;
-
-      const nextProgress = detail.total > 0
-        ? Math.min(1, Math.max(0, detail.completed / detail.total))
-        : 0;
-      if (nextProgress <= progressRef.current) return;
-
-      progressRef.current = nextProgress;
-      setProgress(nextProgress);
     };
     const handleTiming = (event: Event) => {
       const { nodeId: timingNodeId, durationMs: nextDurationMs } =
@@ -71,19 +48,16 @@ export default function PipelineStageProgress({
         setIsProcessing(false);
         isBusy?.(false);
         setDurationMs(nextDurationMs);
-        progressRef.current = 1;
-        setProgress(1);
+        setIsComplete(true);
       }
     };
 
     window.addEventListener(startedEventName, handleStarted);
     window.addEventListener(timingEventName, handleTiming);
-    window.addEventListener(progressEventName, handleProgress);
     window.addEventListener(evaluationStartedEventName, handleEvaluationStarted);
     return () => {
       window.removeEventListener(startedEventName, handleStarted);
       window.removeEventListener(timingEventName, handleTiming);
-      window.removeEventListener(progressEventName, handleProgress);
       window.removeEventListener(evaluationStartedEventName, handleEvaluationStarted);
     };
   }, [nodeId, nodeType]);
@@ -94,7 +68,7 @@ export default function PipelineStageProgress({
     <Tooltip title={isProcessing ? nodeType + ' - Processing...' : `${nodeType} - Last duration: ${displayDuration} s`} arrow placement="top">
       <LinearProgress
         variant="determinate"
-        value={progress * 100}
+        value={isComplete ? 100 : 0}
         sx={{
           height: 6,
           opacity: 0.8,

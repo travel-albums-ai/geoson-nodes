@@ -1,19 +1,3 @@
-// Display-ready image handed back to the main thread by the pipeline
-// worker. The heavy pixels live in a Blob produced off-thread; the UI
-// only ever holds an object URL for <img> tags and downloads.
-export type ImageValue = {
-  src: string;
-  width: number;
-  height: number;
-  byteSize: number;
-  name: string;
-  exif?: Record<string, unknown>;
-};
-
-// Every node passes around an array of photos so the whole
-// pipeline can process a batch in parallel.
-export type ImageArray = ImageValue[];
-
 // GeoJSON (RFC 7946) feature, as found inside a FeatureCollection.
 export type GeoJsonFeature = {
   type: 'Feature';
@@ -35,12 +19,11 @@ export type GeoJsonFeatureCollection = {
 // Contract exported by the GeoJSON input node.
 export type GeoJsonFeatureCollectionArray = GeoJsonFeatureCollection[];
 
-export type Stage = (image: ImageData) => void;
+// Node types the pipeline engine can evaluate.
+export const WORKER_NODE_TYPES = new Set(["geojson-input", "gps-map", "geojson-viewer"]);
 
-// Node types whose results are encoded and posted back to the main
-// thread instead of staying as in-worker ImageBitmaps.
-export const GEOJSON_VIEWER_NODE_TYPES = new Set(["gps-map", "geojson-viewer"]);
-export const VIEWER_NODE_TYPES = new Set(["viewer", "viewer-single", "hot-folder-write", ...GEOJSON_VIEWER_NODE_TYPES]);
+// Node types whose results are posted back to the main thread.
+export const VIEWER_NODE_TYPES = new Set(["gps-map", "geojson-viewer"]);
 
 export type NodeInputs = Record<string, unknown>;
 export type NodeOutputs = Record<string, unknown>;
@@ -73,41 +56,12 @@ export type PipelineWorkerEdge = {
 export type PipelineEvaluateMessage = {
   type: "evaluate";
   evaluationId: number;
-  maxConcurrentTasks: number;
-  photoBatchSize: number;
-  maxAIRequests: number;
-  aiCallDelayMs: number;
-  jpegQuality: number;
-  imageConcurrency: number;
-  phaseCacheBytes: number;
-  aiCacheBytes: number;
-  viewerMaxDimension: number;
-  progressPreviewMaxDimension: number;
-  progressPreviewQuality: number;
   sequentialMode: boolean;
   nodes: PipelineWorkerNode[];
   edges: PipelineWorkerEdge[];
 };
 
 // worker -> main thread
-export type PipelineProgressMessage = {
-  type: "progress";
-  evaluationId: number;
-  nodeType: string;
-  nodeId: string;
-  runId: number;
-  completed: number;
-  total: number;
-  preview?: PipelineProgressPreview;
-};
-
-export type PipelineProgressPreview = {
-  blob: Blob;
-  width: number;
-  height: number;
-  name?: string;
-};
-
 export type PipelineStageTimingMessage = {
   type: "stageTiming";
   evaluationId: number;
@@ -123,30 +77,6 @@ export type PipelineStageStartedMessage = {
   nodeId: string;
 };
 
-export type PipelineGpsStatsMessage = {
-  type: "gpsStats";
-  evaluationId: number;
-  nodeId: string;
-  total: number;
-  withGps: number;
-  withoutGps: number;
-};
-
-export type PipelineViewerImagePayload = {
-  blob: Blob;
-  width: number;
-  height: number;
-  name?: string;
-  exif?: Record<string, unknown>;
-};
-
-export type PipelineViewerMessage = {
-  type: "viewer";
-  evaluationId: number;
-  nodeId: string;
-  images: PipelineViewerImagePayload[];
-};
-
 export type PipelineGeoJsonViewerMessage = {
   type: "geojson-viewer";
   evaluationId: number;
@@ -160,12 +90,6 @@ export type PipelineDoneMessage = {
   durationMs: number;
 };
 
-export type PipelineCacheMemoryMessage = {
-  type: "cacheMemory";
-  evaluationId: number;
-  bytes: number;
-};
-
 export type PipelineErrorMessage = {
   type: "error";
   evaluationId: number;
@@ -173,12 +97,8 @@ export type PipelineErrorMessage = {
 };
 
 export type PipelineWorkerOutbound =
-  | PipelineProgressMessage
   | PipelineStageTimingMessage
   | PipelineStageStartedMessage
-  | PipelineGpsStatsMessage
-  | PipelineViewerMessage
   | PipelineGeoJsonViewerMessage
   | PipelineDoneMessage
-  | PipelineCacheMemoryMessage
   | PipelineErrorMessage;

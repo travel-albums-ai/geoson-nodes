@@ -1,6 +1,5 @@
 import DomCounter from '@/base/DomCounter';
 import KeyboardMenu from '@/base/KeyboardMenu';
-import PipelineCacheMemory from '@/base/PipelineCacheMemory';
 import PipelineNodeCounter from '@/base/PipelineNodeCounter';
 import PipelineTotalTime from '@/base/PipelineTotalTime';
 import RenderingProgressBars from '@/base/RenderingProgressBars';
@@ -72,7 +71,6 @@ export default function Toolbars() {
           <>
             <PipelineNodeCounter />
             <PipelineTotalTime />
-            <PipelineCacheMemory />
           </>,
         ]),
         <>

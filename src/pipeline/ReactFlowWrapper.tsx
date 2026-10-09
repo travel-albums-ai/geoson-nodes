@@ -23,8 +23,8 @@ import { usePipelineStore, usePipelineStoreSelector } from '@/context/pipelineSt
 import { useSettingsStoreSelector } from '@/context/settingsStore';
 import { usePipelineCanvas } from '@/hooks/usePipelineCanvas';
 import { usePipelineTrash } from '@/hooks/usePipelineTrash';
-import { GEOJSON_VIEWER_NODE_TYPES, VIEWER_NODE_TYPES } from "@/types/types";
-import type { GeoJsonFeatureCollectionArray, ImageArray } from "@/types/types";
+import { VIEWER_NODE_TYPES } from "@/types/types";
+import type { GeoJsonFeatureCollectionArray } from "@/types/types";
 import { useTranslation } from 'react-i18next';
 import { downloadPipelineFile, readPipelineFile } from './pipelineApi';
 import {
@@ -39,43 +39,11 @@ import {
 } from './pipelineConfig';
 import { evaluatePipeline, terminatePipelineWorker } from "./pipelineWorkerClient";
 
-function getBlobBytes(value: unknown, seen = new Set<object>()): number {
-  if (value instanceof Blob) {
-    return value.size;
-  }
-
-  if (!value || typeof value !== 'object' || seen.has(value)) {
-    return 0;
-  }
-
-  seen.add(value);
-
-  if (Array.isArray(value)) {
-    return value.reduce((total, item) => total + getBlobBytes(item, seen), 0);
-  }
-
-  return Object.values(value).reduce(
-    (total, item) => total + getBlobBytes(item, seen),
-    0
-  );
-}
-
 function Pipeline() {
   const { t } = useTranslation();
   const [nodes, setNodes, onNodesChange] = useNodesState(INITIAL_NODES);
   const [edges, setEdges, onEdgesChange] = useEdgesState(INITIAL_EDGES);
   const lockReactflow = usePipelineStoreSelector(state => state.lockReactflow);
-  const pipelineMaxConcurrentTasks = useSettingsStoreSelector(s => s.pipelineMaxConcurrentTasks)
-  const pipelinePhotoBatchSize = useSettingsStoreSelector(s => s.pipelinePhotoBatchSize)
-  const pipelineMaxAIRequests = useSettingsStoreSelector(s => s.pipelineMaxAIRequests)
-  const pipelineAICallDelayMs = useSettingsStoreSelector(s => s.pipelineAICallDelayMs)
-  const pipelineJpegQuality = useSettingsStoreSelector(s => s.pipelineJpegQuality)
-  const pipelineImageConcurrency = useSettingsStoreSelector(s => s.pipelineImageConcurrency)
-  const pipelinePhaseCacheMB = useSettingsStoreSelector(s => s.pipelinePhaseCacheMB)
-  const pipelineAICacheMB = useSettingsStoreSelector(s => s.pipelineAICacheMB)
-  const pipelineViewerMaxDimension = useSettingsStoreSelector(s => s.pipelineViewerMaxDimension)
-  const pipelineProgressPreviewMaxDimension = useSettingsStoreSelector(s => s.pipelineProgressPreviewMaxDimension)
-  const pipelineProgressPreviewQuality = useSettingsStoreSelector(s => s.pipelineProgressPreviewQuality)
   const pipelineSequentialMode = useSettingsStoreSelector(s => s.pipelineSequentialMode)
   const theme = useTheme();
   const isMobile = useMediaQuery('(max-width: 999px)');
@@ -195,9 +163,6 @@ function Pipeline() {
   // Free the worker thread (and its in-memory phase result cache)
   // when the pipeline page unmounts.
   useEffect(() => () => {
-    window.dispatchEvent(
-      new CustomEvent('pipeline:input-memory', { detail: { inputBytes: 0 } })
-    );
     terminatePipelineWorker();
   }, []);
 
@@ -206,15 +171,6 @@ function Pipeline() {
     edgesRef.current = edges;
     updateCurrentPipeline({ nodes, edges }, currentPipeline.isDirty);
 
-    const seen = new Set<object>();
-    const inputBytes = nodes.reduce(
-      (total, node) => total + getBlobBytes(node.data, seen),
-      0
-    );
-
-    window.dispatchEvent(
-      new CustomEvent('pipeline:input-memory', { detail: { inputBytes } })
-    );
   }, [edges, nodes]);
 
   const evaluate = useCallback(async () => {
@@ -270,15 +226,10 @@ function Pipeline() {
           n.id === node.id
             ? {
               ...n,
-              data: GEOJSON_VIEWER_NODE_TYPES.has(node.type ?? "")
-                ? {
-                  ...n.data,
-                  geojson: result as GeoJsonFeatureCollectionArray,
-                }
-                : {
-                  ...n.data,
-                  image: result as ImageArray,
-                },
+              data: {
+                ...n.data,
+                geojson: result as GeoJsonFeatureCollectionArray,
+              },
             }
             : n
         )
@@ -296,10 +247,6 @@ function Pipeline() {
   useEffect(() => {
     const signature = JSON.stringify({
       nodeIds: nodes.map((node) => node.id).sort(),
-      arraySwitchValues: nodes
-        .filter((node) => node.type === "array-switch")
-        .map((node) => `${node.id}:${node.data.selectedInput ?? 1}`)
-        .sort(),
       edges: edges
         .map(
           (edge) =>
@@ -321,7 +268,7 @@ function Pipeline() {
     if (!graphSignatureRef.current) return;
 
     evaluate();
-  }, [evaluate, pipelineMaxConcurrentTasks, pipelinePhotoBatchSize, pipelineMaxAIRequests, pipelineAICallDelayMs, pipelineJpegQuality, pipelineImageConcurrency, pipelinePhaseCacheMB, pipelineAICacheMB, pipelineViewerMaxDimension, pipelineProgressPreviewMaxDimension, pipelineProgressPreviewQuality, pipelineSequentialMode]);
+  }, [evaluate, pipelineSequentialMode]);
 
   const handleNodesChange = useCallback((changes: Parameters<typeof onNodesChange>[0]) => {
     setCurrentPipelineDirty(true);
@@ -436,14 +383,6 @@ function Pipeline() {
   useEffect(() => {
     const handler = () => {
       setCurrentPipelineDirty(true);
-      const seen = new Set<object>();
-      const inputBytes = nodesRef.current.reduce(
-        (total, node) => total + getBlobBytes(node.data, seen),
-        0
-      );
-      window.dispatchEvent(
-        new CustomEvent('pipeline:input-memory', { detail: { inputBytes } })
-      );
       requestAnimationFrame(() => {
         void evaluate();
       });

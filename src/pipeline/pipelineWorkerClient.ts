@@ -1,84 +1,31 @@
 // Main-thread client for the pipeline worker (pipeline.worker.ts).
 //
-// Keeps the old evaluatePipeline() signature — a map of per-viewer
-// promises — while the heavy processing runs off-thread. Also:
-// - projects nodes/edges down to the serializable data the engine reads
-//   (File objects and plain GalleryPhoto data survive structured clone),
-// - relays AI progress messages back as window CustomEvents so node
-//   components don't need to know a worker exists,
-// - turns result Blobs into object URLs and revokes them when replaced,
+// Keeps the evaluatePipeline() contract — a map of per-viewer promises —
+// while the graph runs off-thread. Also:
+// - projects nodes/edges down to the serializable data the engine reads,
+// - relays stage events back as window CustomEvents so node components
+//   don't need to know a worker exists,
 // - supersedes the in-flight run when a new evaluation starts and
 //   respawns the worker if it ever crashes.
 
 import { getSettingsStore } from "@/context/settingsStore";
 import type {
   GeoJsonFeatureCollectionArray,
-  ImageArray,
-  ImageValue,
   PipelineEvaluateMessage,
   PipelineWorkerEdge,
   PipelineWorkerNode,
   PipelineWorkerOutbound,
 } from "@/types/types";
-import { VIEWER_NODE_TYPES } from "@/types/types";
+import { VIEWER_NODE_TYPES, WORKER_NODE_TYPES } from "@/types/types";
 import type { Edge, Node } from "@xyflow/react";
 
-// node.data keys the engine reads. Everything else (viewer results,
-// React Flow internals) stays on the main thread.
-const NODE_DATA_KEYS = [
-  "files",
-  "geojsonFile",
-  "lutFile",
-  "photos",
-  "amount",
-  "radius",
-  "color",
-  "maskColor",
-  "densityCompensation",
-  "filmAge",
-  "autoDetectBase",
-  "selectedInput",
-  "selectedImageKeys",
-  "columns",
-  "rows",
-  "tileWidth",
-  "tileHeight",
-  "passthru",
-  "skip",
-  "apiKey",
-  "prompt",
-  "question",
-  "scale",
-  "maxDimension",
-  "top",
-  "bottom",
-  "left",
-  "right",
-  "topLeftx",
-  "topLefty",
-  "topRightx",
-  "topRighty",
-  "bottomLeftx",
-  "bottomLefty",
-  "bottomRightx",
-  "bottomRighty",
-  "whites",
-  "blacks",
-  "temperature",
-  "tint",
-  "red",
-  "green",
-  "blue",
-  "shadowTint",
-  "highlightTint",
-  "strength",
-] as const;
-
-type ViewerResult = ImageArray | GeoJsonFeatureCollectionArray;
+// node.data keys the engine reads. Everything else (React Flow internals)
+// stays on the main thread.
+const NODE_DATA_KEYS = ["geojsonFile", "skip"] as const;
 
 type PendingViewer = {
   evaluationId: number;
-  resolve: (result: ViewerResult) => void;
+  resolve: (result: GeoJsonFeatureCollectionArray) => void;
   reject: (error: unknown) => void;
 };
 
@@ -86,53 +33,6 @@ let worker: Worker | null = null;
 let activeEvaluationId = 0;
 
 const pendingViewers = new Map<string, PendingViewer>();
-const objectUrlsByNode = new Map<string, string[]>();
-const objectUrlBytesByNode = new Map<string, number>();
-const progressPreviewUrls = new Map<string, string>();
-const liveViewerNodeIds = new Set<string>();
-let workerCacheBytes = 0;
-
-function dispatchCacheMemory() {
-  const viewerBytes = [...objectUrlBytesByNode.values()].reduce(
-    (total, bytes) => total + bytes,
-    0
-  );
-
-  window.dispatchEvent(
-    new CustomEvent('pipeline:cache-memory', {
-      detail: { bytes: workerCacheBytes + viewerBytes },
-    })
-  );
-}
-
-function revokeObjectUrls(nodeId: string) {
-  const urls = objectUrlsByNode.get(nodeId);
-
-  if (!urls) return;
-
-  for (const url of urls) {
-    URL.revokeObjectURL(url);
-  }
-
-  objectUrlsByNode.delete(nodeId);
-  objectUrlBytesByNode.delete(nodeId);
-  dispatchCacheMemory();
-}
-
-function revokeProgressPreview(nodeId: string) {
-  const url = progressPreviewUrls.get(nodeId);
-
-  if (!url) return;
-
-  URL.revokeObjectURL(url);
-  progressPreviewUrls.delete(nodeId);
-}
-
-function revokeAllProgressPreviews() {
-  for (const nodeId of progressPreviewUrls.keys()) {
-    revokeProgressPreview(nodeId);
-  }
-}
 
 function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
   const message = event.data;
@@ -144,38 +44,6 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
   }
 
   switch (message.type) {
-    case "progress": {
-      const previewUrl = message.preview
-        ? (() => {
-          revokeProgressPreview(message.nodeId);
-          const url = URL.createObjectURL(message.preview.blob);
-          progressPreviewUrls.set(message.nodeId, url);
-          return url;
-        })()
-        : undefined;
-
-      // Relay to the node component's existing listener contract.
-      window.dispatchEvent(
-        new CustomEvent(`${message.nodeType}:progress`, {
-          detail: {
-            nodeId: message.nodeId,
-            runId: message.runId,
-            completed: message.completed,
-            total: message.total,
-            preview: message.preview && previewUrl
-              ? {
-                src: previewUrl,
-                width: message.preview.width,
-                height: message.preview.height,
-                name: message.preview.name,
-              }
-              : undefined,
-          },
-        })
-      );
-      return;
-    }
-
     case "stageTiming": {
       window.dispatchEvent(
         new CustomEvent(`${message.nodeType}:stageTiming`, {
@@ -189,7 +57,6 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
     }
 
     case "stageStarted": {
-      revokeProgressPreview(message.nodeId);
       window.dispatchEvent(
         new CustomEvent(`${message.nodeType}:stageStarted`, {
           detail: {
@@ -200,52 +67,6 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
       return;
     }
 
-    case "gpsStats": {
-      window.dispatchEvent(
-        new CustomEvent('gps-split:stats', {
-          detail: {
-            nodeId: message.nodeId,
-            total: message.total,
-            withGps: message.withGps,
-            withoutGps: message.withoutGps,
-          },
-        })
-      );
-      return;
-    }
-
-    case "viewer": {
-      const pending = pendingViewers.get(message.nodeId);
-
-      if (!pending) return;
-
-      pendingViewers.delete(message.nodeId);
-
-      revokeObjectUrls(message.nodeId);
-
-      const images: ImageValue[] = message.images.map((payload) => ({
-        src: URL.createObjectURL(payload.blob),
-        width: payload.width,
-        height: payload.height,
-        byteSize: payload.blob.size,
-        name: payload.name ?? 'image',
-        exif: payload.exif,
-      }));
-
-      objectUrlsByNode.set(
-        message.nodeId,
-        images.map((image) => image.src)
-      );
-      objectUrlBytesByNode.set(
-        message.nodeId,
-        images.reduce((total, image) => total + image.byteSize, 0)
-      );
-      dispatchCacheMemory();
-
-      pending.resolve(images);
-      return;
-    }
-
     case "geojson-viewer": {
       const pending = pendingViewers.get(message.nodeId);
 
@@ -253,12 +74,6 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
 
       pendingViewers.delete(message.nodeId);
       pending.resolve(message.geojson);
-      return;
-    }
-
-    case "cacheMemory": {
-      workerCacheBytes = message.bytes;
-      dispatchCacheMemory();
       return;
     }
 
@@ -276,13 +91,6 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
 
         pendingViewers.delete(nodeId);
         pending.resolve([]);
-      }
-
-      // Release results of viewer nodes removed from the graph.
-      for (const nodeId of [...objectUrlsByNode.keys()]) {
-        if (!liveViewerNodeIds.has(nodeId)) {
-          revokeObjectUrls(nodeId);
-        }
       }
       return;
     }
@@ -357,7 +165,7 @@ function projectEdge(edge: Edge): PipelineWorkerEdge {
 export async function evaluatePipeline(
   nodes: Node[],
   edges: Edge[]
-): Promise<Map<string, Promise<ViewerResult>>> {
+): Promise<Map<string, Promise<GeoJsonFeatureCollectionArray>>> {
   const evaluationId = ++activeEvaluationId;
   window.dispatchEvent(new CustomEvent('pipeline:evaluationStarted', {
     detail: { evaluationId },
@@ -370,20 +178,25 @@ export async function evaluatePipeline(
   }
 
   pendingViewers.clear();
-  liveViewerNodeIds.clear();
 
-  const results = new Map<string, Promise<ViewerResult>>();
+  // Nodes saved by earlier versions (e.g. photo nodes) have no engine
+  // definition; drop them along with their edges instead of failing the run.
+  const supportedNodes = nodes.filter((node) => WORKER_NODE_TYPES.has(node.type ?? ""));
+  const supportedNodeIds = new Set(supportedNodes.map((node) => node.id));
+  const supportedEdges = edges.filter(
+    (edge) => supportedNodeIds.has(edge.source) && supportedNodeIds.has(edge.target)
+  );
 
-  for (const node of nodes) {
+  const results = new Map<string, Promise<GeoJsonFeatureCollectionArray>>();
+
+  for (const node of supportedNodes) {
     if (!VIEWER_NODE_TYPES.has(node.type ?? "")) {
       continue;
     }
 
-    liveViewerNodeIds.add(node.id);
-
     results.set(
       node.id,
-      new Promise<ViewerResult>((resolve, reject) => {
+      new Promise<GeoJsonFeatureCollectionArray>((resolve, reject) => {
         pendingViewers.set(node.id, { evaluationId, resolve, reject });
       })
     );
@@ -392,53 +205,9 @@ export async function evaluatePipeline(
   const message: PipelineEvaluateMessage = {
     type: "evaluate",
     evaluationId,
-    maxConcurrentTasks: Math.max(
-      1,
-      Math.min(32, Math.round(getSettingsStore().pipelineMaxConcurrentTasks) || 5)
-    ),
-    photoBatchSize: Math.max(
-      1,
-      Math.min(100, Math.round(getSettingsStore().pipelinePhotoBatchSize) || 10)
-    ),
-    maxAIRequests: Math.max(
-      1,
-      Math.min(32, Math.round(getSettingsStore().pipelineMaxAIRequests) || 2)
-    ),
-    aiCallDelayMs: Math.max(
-      0,
-      Math.min(10000, Math.round(getSettingsStore().pipelineAICallDelayMs) || 0)
-    ),
-    jpegQuality: Math.max(
-      0.1,
-      Math.min(1, (Math.round(getSettingsStore().pipelineJpegQuality) || 92) / 100)
-    ),
-    imageConcurrency: Math.max(
-      1,
-      Math.min(8, Math.round(getSettingsStore().pipelineImageConcurrency) || 4)
-    ),
-    phaseCacheBytes: Math.max(
-      0,
-      Math.min(1024, Math.round(getSettingsStore().pipelinePhaseCacheMB) || 0) * 1024 * 1024
-    ),
-    aiCacheBytes: Math.max(
-      0,
-      Math.min(512, Math.round(getSettingsStore().pipelineAICacheMB) || 0) * 1024 * 1024
-    ),
-    viewerMaxDimension: Math.max(
-      256,
-      Math.min(4096, Math.round(getSettingsStore().pipelineViewerMaxDimension) || 1600)
-    ),
-    progressPreviewMaxDimension: Math.max(
-      128,
-      Math.min(1600, Math.round(getSettingsStore().pipelineProgressPreviewMaxDimension) || 480)
-    ),
-    progressPreviewQuality: Math.max(
-      0.1,
-      Math.min(1, (Math.round(getSettingsStore().pipelineProgressPreviewQuality) || 84) / 100)
-    ),
     sequentialMode: getSettingsStore().pipelineSequentialMode,
-    nodes: nodes.map(projectNode),
-    edges: edges.map(projectEdge),
+    nodes: supportedNodes.map(projectNode),
+    edges: supportedEdges.map(projectEdge),
   };
 
   try {
@@ -455,10 +224,10 @@ export async function evaluatePipeline(
   return results;
 }
 
-// Frees the worker thread, its in-memory phase result cache, and every
-// outstanding object URL. Called when the pipeline page unmounts; the
-// worker respawns lazily on the next evaluation.
-function stopPipelineWorker() {
+// Frees the worker thread and its in-memory phase result cache. Called
+// when the pipeline page unmounts; the worker respawns lazily on the
+// next evaluation.
+export function terminatePipelineWorker() {
   worker?.terminate();
   worker = null;
 
@@ -468,31 +237,4 @@ function stopPipelineWorker() {
   }
 
   pendingViewers.clear();
-
-  workerCacheBytes = 0;
-  dispatchCacheMemory();
-}
-
-export function clearPipelineViewerCaches() {
-  window.dispatchEvent(new CustomEvent('pipeline:clear-caches'));
-
-  for (const nodeId of [...objectUrlsByNode.keys()]) {
-    revokeObjectUrls(nodeId);
-  }
-
-  revokeAllProgressPreviews();
-}
-
-export function clearPipelineWorkerCaches() {
-  stopPipelineWorker();
-}
-
-export function terminatePipelineWorker() {
-  clearPipelineViewerCaches();
-  stopPipelineWorker();
-}
-
-export function clearPipelineCaches() {
-  clearPipelineWorkerCaches();
-  clearPipelineViewerCaches();
 }
