@@ -83,7 +83,62 @@ function findRoutes(legs: Leg[], start: string, goal: string): Leg[][] {
 }
 
 
-// Keeps every flight that lies on a route from one airport to another, as one combined collection.
+function readString(value: unknown): string | null {
+  return typeof value === 'string' ? value : null;
+}
+
+function readNumber(value: unknown): number | null {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+// Chains the legs of one route into a single feature. The total price is only set when every leg has
+// a price in the same currency; mixed or missing prices leave it null rather than adding them up wrongly.
+function buildRouteFeature(route: Leg[]): GeoJsonFeature {
+  const legs = route.map(({ feature }) => {
+    const properties = feature.properties ?? {};
+    return {
+      from: readString(properties.from),
+      to: readString(properties.to),
+      price: readNumber(properties.price),
+      currency: readString(properties.currency),
+      date: readString(properties.date),
+      extraText: readString(properties.extraText),
+    };
+  });
+
+  const airports = [legs[0].from, ...legs.map((leg) => leg.to)];
+  const currencies = new Set(legs.map((leg) => leg.currency));
+  const currency = currencies.size === 1 ? [...currencies][0] : null;
+  const prices = legs.map((leg) => leg.price);
+  const totalPrice =
+    currencies.size === 1 && prices.every((price): price is number => price !== null)
+      ? Math.round(prices.reduce((sum, price) => sum + price, 0) * 100) / 100
+      : null;
+
+
+  const priceText = totalPrice === null ? null : [totalPrice, currency].filter(Boolean).join(' ');
+  const name = airports.join(' > ') + (priceText ? ` · ${priceText}` : '');
+  const tooltip = [name, `${legs.length} ${legs.length === 1 ? 'flight' : 'flights'}`, priceText]
+    .filter((part) => part !== null && part !== '')
+    .join(' · ');
+
+  return {
+    type: 'Feature',
+    geometry: { type: 'MultiLineString', coordinates: route.map(({ feature }) => feature.geometry?.coordinates ?? []) },
+    properties: {
+      name,
+      kind: 'route',
+      airports,
+      legCount: legs.length,
+      legs,
+      totalPrice,
+      currency,
+      tooltip,
+    },
+  };
+}
+
+// Returns one feature per viable route from one airport to another, as a single collection.
 // Intermediate stops are optional: a route may only pass through the listed airports, in any order,
 // and may skip them. The start and end may be the same airport for a round trip through a stop.
 // Returns an empty list when the airports are missing or no route connects them.
@@ -100,10 +155,5 @@ export function filterFlightRoutes(
   const routes = findRoutes(legs, fromIata, toIata);
   if (routes.length === 0) return [];
 
-  const features = new Set<GeoJsonFeature>();
-  for (const route of routes) {
-    for (const leg of route) features.add(leg.feature);
-  }
-
-  return [{ type: 'FeatureCollection', source: 'Flight routes', features: [...features] }];
+  return [{ type: 'FeatureCollection', source: 'Flight routes', features: routes.map(buildRouteFeature) }];
 }
