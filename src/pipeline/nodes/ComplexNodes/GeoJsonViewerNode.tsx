@@ -9,7 +9,7 @@ import { Layers, MapPin } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function GeoJsonViewerNode({ data }: NodeProps<Node<{ geojson?: GeoJsonFeatureCollectionArray }>>) {
+function GeoJsonViewerNode({ data }: NodeProps<Node<{ geojson?: GeoJsonFeatureCollectionArray, skip?: boolean }>>) {
   const { t } = useTranslation();
   const collections = data.geojson ?? null;
   const features = useMemo(
@@ -26,7 +26,7 @@ function GeoJsonViewerNode({ data }: NodeProps<Node<{ geojson?: GeoJsonFeatureCo
           <NewChip count={features.length} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<MapPin size={16} />} sx={{ height: 38 }} />
         </Box>
         <Box sx={{ pt: 1 }}>
-          <GeoJsonCollectionList collections={collections} emptyMessage={t('pipelineGeoJsonViewerEmpty')} />
+          {data.skip !== true && (<GeoJsonCollectionList collections={collections} emptyMessage={t('pipelineGeoJsonViewerEmpty')} />)}
         </Box>
       </NodeWrapper>
     </>
