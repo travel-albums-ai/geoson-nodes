@@ -1,0 +1,1219 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Costa Rica",
+                "nationality": "Afghanistan",
+                "visas": [
+                  {
+                    "color": "vr",
+                    "name": "Albania",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Algeria",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Andorra",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Angola",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Antigua and Barbuda",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Argentina",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Armenia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Australia",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Austria",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Azerbaijan",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Bahamas",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Bahrain",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Bangladesh",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Barbados",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Belarus",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Belgium",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Belize",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Benin",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Bhutan",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Bolivia",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Bosnia and Herzegovina",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Botswana",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Brazil",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Brunei",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Bulgaria",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Burkina Faso",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Burundi",
+                    "visaType": "visa on arrival",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Cambodia",
+                    "visaType": "eVisa · visa on arrival",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Cameroon",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Canada",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Cape Verde",
+                    "visaType": "visa on arrival (EASE)",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Central African Republic",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Chad",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Chile",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "China",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Colombia",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Comoros",
+                    "visaType": "visa on arrival",
+                    "visaDetails": "45"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Congo",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Democratic Republic Of The Congo",
+                    "visaType": "eVisa",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Costa Rica",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "eta",
+                    "name": "Cote d'Ivoire (Ivory Coast)",
+                    "visaType": "pre-enrollment",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Croatia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Cuba",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Cyprus",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Czech Republic",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Denmark",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Djibouti",
+                    "visaType": "eVisa · visa on arrival",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vf",
+                    "name": "Dominica",
+                    "visaType": "visa-free",
+                    "visaDetails": "21"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Dominican Republic",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Ecuador",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Egypt",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "El Salvador",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Equatorial Guinea",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Eritrea",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Estonia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Eswatini",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Ethiopia",
+                    "visaType": "eVisa",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Fiji",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Finland",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "France",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Gabon",
+                    "visaType": "eVisa",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Gambia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Georgia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Germany",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Ghana",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Greece",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Grenada",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Guatemala",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Guinea",
+                    "visaType": "eVisa",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Guinea-Bissau",
+                    "visaType": "visa on arrival",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Guyana",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vf",
+                    "name": "Haiti",
+                    "visaType": "visa-free",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Honduras",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Hong Kong",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Hungary",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Iceland",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "India",
+                    "visaType": "eVisa",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Indonesia",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Iran",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Iraq",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Ireland",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Israel",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Italy",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Jamaica",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Japan",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Jordan",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Kazakhstan",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "eta",
+                    "name": "Kenya",
+                    "visaType": "eTA",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Kiribati",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Kosovo",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Kuwait",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Kyrgyzstan",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Laos",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Latvia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Lebanon",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Lesotho",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Liberia",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Libya",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Liechtenstein",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Lithuania",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Luxembourg",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Macao",
+                    "visaType": "visa on arrival",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Madagascar",
+                    "visaType": "eVisa · visa on arrival",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Malawi",
+                    "visaType": "eVisa",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Malaysia",
+                    "visaType": "eVisa",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Maldives",
+                    "visaType": "visa on arrival",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Mali",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Malta",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Marshall Islands",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Mauritania",
+                    "visaType": "eVisa",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Mauritius",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Mexico",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vf",
+                    "name": "Micronesia",
+                    "visaType": "visa-free",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Moldova",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Monaco",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Mongolia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Montenegro",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Morocco",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Mozambique",
+                    "visaType": "eVisa · visa on arrival",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Myanmar",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Namibia",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Nauru",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Nepal",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Netherlands",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "New Zealand",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Nicaragua",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Niger",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Nigeria",
+                    "visaType": "eVisa",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "North Korea",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "North Macedonia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Norway",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Oman",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Pakistan",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Palau",
+                    "visaType": "visa on arrival",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Palestinian Territories",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Panama",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Papua New Guinea",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Paraguay",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Peru",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Philippines",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Poland",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Portugal",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Qatar",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Romania",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Russia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Rwanda",
+                    "visaType": "eVisa · visa on arrival",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Saint Kitts and Nevis",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Saint Lucia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Samoa",
+                    "visaType": "visa on arrival",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "San Marino",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Sao Tome and Principe",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Saudi Arabia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Senegal",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Serbia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "eta",
+                    "name": "Seychelles",
+                    "visaType": "tourist registration",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Sierra Leone",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Singapore",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Slovakia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Slovenia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Solomon Islands",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Somalia",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "South Africa",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "South Korea",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "South Sudan",
+                    "visaType": "eVisa",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Spain",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Sri Lanka",
+                    "visaType": "eVisa · visa on arrival",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "St. Vincent and the Grenadines",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Sudan",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Suriname",
+                    "visaType": "eVisa",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Sweden",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Switzerland",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Syria",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Taiwan",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Tajikistan",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Tanzania",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Thailand",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Timor-Leste",
+                    "visaType": "visa on arrival",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Togo",
+                    "visaType": "eVisa",
+                    "visaDetails": "15"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Tonga",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Trinidad and Tobago",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Tunisia",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Turkmenistan",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Tuvalu",
+                    "visaType": "visa on arrival",
+                    "visaDetails": "30"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Turkey",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Uganda",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Ukraine",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "United Arab Emirates",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "United Kingdom",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "United States",
+                    "visaType": "Trump ban",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Uruguay",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Uzbekistan",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Vanuatu",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Vatican City",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Venezuela",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "voa",
+                    "name": "Vietnam",
+                    "visaType": "eVisa",
+                    "visaDetails": "90"
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Yemen",
+                    "visaType": "visa required",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Zambia",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  },
+                  {
+                    "color": "vr",
+                    "name": "Zimbabwe",
+                    "visaType": "eVisa",
+                    "visaDetails": ""
+                  }
+                ]
+            },
+            "geometry": {
+                "type": "MultiPolygon",
+                "coordinates": [
+                    [
+                        [
+                            [
+                                -83.69649978585412,
+                                10.936594144736317
+                            ],
+                            [
+                                -83.89661759299992,
+                                8.706491863000053
+                            ]
+                        ]
+                    ]
+                ]
+            }
+        }
+    ]
+}
