@@ -1,15 +1,16 @@
 import { loadAirports } from '@/lib/airports';
+import { parseFlightsFile } from '@/lib/flights';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import type { Airport, FlightEntry } from '@/types/types';
 import { Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { X } from 'lucide-react';
+import { FileJson, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-type FlightPathNodeData = { flights?: FlightEntry[] };
+type FlightPathNodeData = { flights?: FlightEntry[]; flightsFileName?: string };
 type FlightSide = keyof FlightEntry;
 
 const filterAirports = createFilterOptions<Airport>({
@@ -17,47 +18,11 @@ const filterAirports = createFilterOptions<Airport>({
   stringify: (airport) => `${airport.iata} ${airport.city} ${airport.name} ${airport.country}`,
 });
 
-function AirportField({ label, value, options, loading, className, onChange }: {
-  label: string;
-  value: Airport | null;
-  options: Airport[];
-  loading: boolean;
-  className: string;
-  onChange: (airport: Airport | null) => void;
-}) {
-  const { t } = useTranslation();
-
-  return (
-    <Autocomplete
-      className={className}
-      size="small"
-      fullWidth
-      options={options}
-      value={value}
-      loading={loading}
-      filterOptions={filterAirports}
-      getOptionLabel={(airport) => airport.iata}
-      isOptionEqualToValue={(option, selected) => option.iata === selected.iata}
-      renderOption={(props, airport) => (
-        <li {...props} key={airport.iata}>
-          <Box>
-            <Typography variant="body2">{airport.iata} · {airport.city}</Typography>
-            <Typography variant="caption" color="text.secondary">{airport.name}, {airport.country}</Typography>
-          </Box>
-        </li>
-      )}
-      noOptionsText={t('pipelineFlightPathNoAirport')}
-      loadingText={t('pipelineFlightPathLoading')}
-      renderInput={(params) => <TextField {...params} label={label} />}
-      onChange={(_, airport) => onChange(airport)}
-    />
-  );
-}
-
 function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
   const { t } = useTranslation();
   const { setNodes } = useReactFlow();
   const [airports, setAirports] = useState<Airport[]>([]);
+  const [loadIssue, setLoadIssue] = useState<string | null>(null);
   const flights = data.flights ?? [];
   const completeCount = flights.filter(({ from, to }) => from && to && from.iata !== to.iata).length;
 
@@ -73,14 +38,36 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
     };
   }, []);
 
-  const commit = useCallback((next: FlightEntry[]) => {
+  // A manual edit drops the file name, since the list no longer matches the file.
+  const commit = useCallback((next: FlightEntry[], fileName?: string) => {
     setNodes((current) => current.map((node) =>
       node.id === id
-        ? { ...node, data: { ...node.data, flights: next } }
+        ? { ...node, data: { ...node.data, flights: next, flightsFileName: fileName } }
         : node
     ));
     window.dispatchEvent(new CustomEvent('pipeline:changed'));
   }, [id, setNodes]);
+
+  const loadFile = (file: File | undefined) => {
+    if (!file) return;
+
+    setLoadIssue(null);
+
+    Promise.all([file.text(), loadAirports()])
+      .then(([text, list]) => {
+        const { flights: next, unknownCodes } = parseFlightsFile(text, list);
+
+        commit(next, file.name);
+
+        if (unknownCodes.length > 0) {
+          setLoadIssue(t('pipelineFlightPathUnknownAirports', { codes: unknownCodes.join(', ') }));
+        }
+      })
+      .catch((error: unknown) => {
+        console.warn('Could not load flights file', error);
+        setLoadIssue(t('pipelineFlightPathInvalidFile'));
+      });
+  };
 
   const changeAirport = (index: number, side: FlightSide, airport: Airport | null) => {
     commit(flights.map((flight, flightIndex) =>
@@ -94,59 +81,43 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
 
   return (
     <NodeWrapper type="flight-path">
-      <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
+      <Typography variant="body2" color="text.secondary">
         {t('pipelineFlightPathSummary', { count: completeCount })}
       </Typography>
+      {data.flightsFileName && (
+        <Typography variant="caption" color="text.secondary" component="div">
+          {data.flightsFileName}
+        </Typography>
+      )}
       {flights.length === 0 && (
-        <Typography variant="caption" color="text.secondary" component="div" sx={{ pb: 1 }}>
+        <Typography variant="caption" color="text.secondary" component="div">
           {t('pipelineFlightPathHint')}
         </Typography>
       )}
-      <Stack spacing={1.5}>
-        {flights.map((flight, index) => (
-          <Stack key={index} direction="row" spacing={0.5} sx={{ alignItems: 'flex-start' }}>
-            <Stack spacing={1} sx={{ flex: 1, minWidth: 0 }}>
-              <AirportField
-                className="nodrag nopan"
-                label={t('pipelineFlightPathFrom')}
-                value={flight.from}
-                options={airports}
-                loading={airports.length === 0}
-                onChange={(airport) => changeAirport(index, 'from', airport)}
-              />
-              <AirportField
-                className="nodrag nopan"
-                label={t('pipelineFlightPathTo')}
-                value={flight.to}
-                options={airports}
-                loading={airports.length === 0}
-                onChange={(airport) => changeAirport(index, 'to', airport)}
-              />
-              {flight.from && flight.to && flight.from.iata === flight.to.iata && (
-                <Typography variant="caption" color="error" component="div">
-                  {t('pipelineFlightPathSameAirport')}
-                </Typography>
-              )}
-            </Stack>
-            <IconButton
-              className="nodrag nopan"
-              size="small"
-              aria-label={t('pipelineFlightPathRemove')}
-              onClick={() => removeFlight(index)}
-            >
-              <X size={16} />
-            </IconButton>
-          </Stack>
-        ))}
+      <Stack direction="row" spacing={1} sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
+        <Button
+          className="nodrag nopan"
+          component="label"
+          size="small"
+          startIcon={<FileJson size={16} />}
+        >
+          {t('pipelineFlightPathLoadFile')}
+          <input
+            type="file"
+            accept=".json,application/json"
+            hidden
+            onChange={(event) => {
+              loadFile(event.target.files?.[0]);
+              event.target.value = '';
+            }}
+          />
+        </Button>
       </Stack>
-      <Button
-        className="nodrag nopan"
-        size="small"
-        sx={{ mt: 1 }}
-        onClick={() => commit([...flights, { from: null, to: null }])}
-      >
-        {t('pipelineFlightPathAddFlight')}
-      </Button>
+      {loadIssue && (
+        <Typography variant="caption" color="error" component="div">
+          {loadIssue}
+        </Typography>
+      )}
       <OutputHandle id="geojson" position={Position.Bottom} />
     </NodeWrapper>
   );

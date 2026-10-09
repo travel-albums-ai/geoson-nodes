@@ -1,0 +1,9 @@
+{
+  "flights": [
+    { "from": "KRK", "to": "CDG" },
+    { "from": "NRT", "to": "LAX" },
+    { "from": "GRU", "to": "CPT" },
+    { "from": "DXB", "to": "YVR" },
+    { "from": "SIN", "to": "KEF" }
+  ]
+}

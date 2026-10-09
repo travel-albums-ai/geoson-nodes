@@ -128,3 +128,52 @@ export function buildFlightPathCollections(flights: FlightEntry[] | undefined): 
 
   return [{ type: 'FeatureCollection', source: 'Flight path', features }];
 }
+
+export type ParsedFlights = {
+  flights: FlightEntry[];
+  unknownCodes: string[];
+};
+
+// Expects {"flights": [{"from": "WAW", "to": "JFK"}, ...]}. Airports are matched by IATA code;
+// flights with an unknown code are left out and their codes are returned so the user can see them.
+export function parseFlightsFile(text: string, airports: Airport[]): ParsedFlights {
+  const parsed: unknown = JSON.parse(text);
+  const entries = (parsed as { flights?: unknown } | null)?.flights;
+
+  if (!Array.isArray(entries)) {
+    throw new Error('Expected a "flights" list');
+  }
+
+  const byCode = new Map(airports.map((airport) => [airport.iata, airport]));
+  const flights: FlightEntry[] = [];
+  const unknownCodes = new Set<string>();
+
+  const lookup = (value: unknown): Airport | null => {
+    if (typeof value !== 'string') {
+      throw new Error('Airport codes must be strings');
+    }
+
+    const code = value.trim().toUpperCase();
+    const airport = byCode.get(code) ?? null;
+
+    if (!airport) unknownCodes.add(code);
+
+    return airport;
+  };
+
+  for (const entry of entries) {
+    if (!entry || typeof entry !== 'object') {
+      throw new Error('Each flight must be an object');
+    }
+
+    const { from, to } = entry as { from?: unknown; to?: unknown };
+    const fromAirport = lookup(from);
+    const toAirport = lookup(to);
+
+    if (fromAirport && toAirport) {
+      flights.push({ from: fromAirport, to: toAirport });
+    }
+  }
+
+  return { flights, unknownCodes: [...unknownCodes] };
+}
