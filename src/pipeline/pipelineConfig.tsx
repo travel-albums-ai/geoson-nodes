@@ -7,6 +7,7 @@ import GeoJsonInputNode from '@/pipeline/nodes/ComplexNodes/GeoJsonInputNode';
 import GeoJsonJsonataNode from '@/pipeline/nodes/ComplexNodes/GeoJsonJsonataNode';
 import GeoJsonMergeNode from '@/pipeline/nodes/ComplexNodes/GeoJsonMergeNode';
 import GeoJsonSetNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSetNode';
+import GeoJsonSwitchNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSwitchNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
 import GeoJsonWithinAreaNode from '@/pipeline/nodes/ComplexNodes/GeoJsonWithinAreaNode';
 import GeoJsonZipNode from '@/pipeline/nodes/ComplexNodes/GeoJsonZipNode';
@@ -28,6 +29,7 @@ export const pipelineNodeTypes = {
   'geo-bounds-filter': GeoBoundsFilterNode,
   'geojson-within-area': GeoJsonWithinAreaNode,
   'geojson-merge': GeoJsonMergeNode,
+  'geojson-switch': GeoJsonSwitchNode,
   'geojson-zip': GeoJsonZipNode,
   'geojson-union': GeoJsonSetNode,
   'geojson-intersection': GeoJsonSetNode,

@@ -16,7 +16,7 @@ import type {
   PipelineWorkerOutbound,
   GeoJsonFeatureCollectionArray,
 } from "@/types/types";
-import { GEOJSON_MERGE_INPUT_HANDLES, GEOJSON_SET_INPUT_HANDLES, GEOJSON_WITHIN_AREA_INPUT_HANDLES, GEOJSON_ZIP_DEFAULT_KEY, GEOJSON_ZIP_INPUT_HANDLES, VIEWER_NODE_TYPES } from "@/types/types";
+import { GEOJSON_MERGE_INPUT_HANDLES, GEOJSON_SET_INPUT_HANDLES, GEOJSON_SWITCH_INPUT_HANDLES, GEOJSON_WITHIN_AREA_INPUT_HANDLES, GEOJSON_ZIP_DEFAULT_KEY, GEOJSON_ZIP_INPUT_HANDLES, VIEWER_NODE_TYPES } from "@/types/types";
 import {
   filterGeoJsonByBounds,
   normalizeGeoBounds,
@@ -178,6 +178,18 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       };
     },
   },
+  "geojson-switch": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      const [offHandle, onHandle] = GEOJSON_SWITCH_INPUT_HANDLES;
+      const selectedHandle = inputs.serveB === true ? onHandle : offHandle;
+
+      return {
+        geojson: (inputs[selectedHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
+      };
+    },
+  },
   "geojson-zip": {
     async execute(inputs) {
       await Promise.resolve();
@@ -288,6 +300,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "geojson-zip") {
         inputs.key = node.data.key;
+      }
+
+      if (node.type === "geojson-switch") {
+        inputs.serveB = node.data.serveB === true;
       }
 
       if (node.data.skip === true) {

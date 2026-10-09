@@ -28,7 +28,7 @@ export type GeoBounds = {
 };
 
 // Node types the pipeline engine can evaluate.
-export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-zip', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer']);
+export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-zip', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer']);
 
 // Canvas-only nodes (e.g. notes). They are saved with the pipeline but never sent to the engine.
 export const ANNOTATION_NODE_TYPES = new Set(['post-it']);
@@ -41,6 +41,9 @@ export const GEOJSON_SET_INPUT_HANDLES = ['geojson-a', 'geojson-b'] as const;
 
 // Input handles of the GeoJSON within-area node: the area to test against, then the features to keep.
 export const GEOJSON_WITHIN_AREA_INPUT_HANDLES = ['geojson-area', 'geojson-features'] as const;
+
+// Input handles of the GeoJSON switch node: the output when off (A), then the output when on (B).
+export const GEOJSON_SWITCH_INPUT_HANDLES = ['geojson-a', 'geojson-b'] as const;
 
 // Input handles of the GeoJSON zip node: the full data (A), then the partial data whose properties are added to it (B).
 export const GEOJSON_ZIP_INPUT_HANDLES = ['geojson-a', 'geojson-b'] as const;

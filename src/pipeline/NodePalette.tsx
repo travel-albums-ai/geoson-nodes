@@ -1,10 +1,11 @@
-import { Blend, Braces, Combine, Crop, Diff, FileJson, Layers, Link2, Merge, MapPinned, ScanSearch, SquaresIntersect, StickyNote } from 'lucide-react';
+import { Blend, Braces, Combine, Crop, Diff, FileJson, GitFork, Layers, Link2, Merge, MapPinned, ScanSearch, SquaresIntersect, StickyNote } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
   GeoBoundsFilter = 'geo-bounds-filter',
   GeoJsonWithinArea = 'geojson-within-area',
   GeoJsonMerge = 'geojson-merge',
+  GeoJsonSwitch = 'geojson-switch',
   GeoJsonZip = 'geojson-zip',
   GeoJsonUnion = 'geojson-union',
   GeoJsonIntersection = 'geojson-intersection',
@@ -74,6 +75,10 @@ const utilityStages: Array<NodeStageItem> = [
   {
     type: NodeType.GeoJsonMerge, labelKey: "pipelineGeoJsonMerge", icon: <Merge size={16} />,
     processing: 'static', labelDescription: 'pipelineGeoJsonMergeDescription'
+  },
+  {
+    type: NodeType.GeoJsonSwitch, labelKey: "pipelineGeoJsonSwitch", icon: <GitFork size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonSwitchDescription'
   },
   {
     type: NodeType.GeoJsonZip, labelKey: "pipelineGeoJsonZip", icon: <Link2 size={16} />,
