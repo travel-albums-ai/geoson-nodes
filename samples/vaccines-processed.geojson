@@ -1,0 +1,3742 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "properties": {
+                "iso_a2": "CR",
+                "name": "Costa Rica",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "NI",
+                "name": "Nicaragua",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MF",
+                "name": "Saint Martin",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SX",
+                "name": "Sint Maarten",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "HT",
+                "name": "Haiti",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "DO",
+                "name": "Dominican Republic",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SV",
+                "name": "El Salvador",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GT",
+                "name": "Guatemala",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Guantanamo Bay Naval Base",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CU",
+                "name": "Cuba",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "HN",
+                "name": "Honduras",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "US",
+                "name": "United States of America",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CA",
+                "name": "Canada",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MX",
+                "name": "Mexico",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BZ",
+                "name": "Belize",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PA",
+                "name": "Panama",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GL",
+                "name": "Greenland",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CW",
+                "name": "Curaçao",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AW",
+                "name": "Aruba",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BS",
+                "name": "The Bahamas",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TC",
+                "name": "Turks and Caicos Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PM",
+                "name": "Saint Pierre and Miquelon",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TT",
+                "name": "Trinidad and Tobago",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GD",
+                "name": "Grenada",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "VC",
+                "name": "Saint Vincent and the Grenadines",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BB",
+                "name": "Barbados",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "LC",
+                "name": "Saint Lucia",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "DM",
+                "name": "Dominica",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "UM",
+                "name": "United States Minor Outlying Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MS",
+                "name": "Montserrat",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AG",
+                "name": "Antigua and Barbuda",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "KN",
+                "name": "Saint Kitts and Nevis",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "VI",
+                "name": "United States Virgin Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BL",
+                "name": "Saint Barthélemy",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PR",
+                "name": "Puerto Rico",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AI",
+                "name": "Anguilla",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "VG",
+                "name": "British Virgin Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "JM",
+                "name": "Jamaica",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "KY",
+                "name": "Cayman Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BM",
+                "name": "Bermuda",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Bajo Nuevo Bank",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Serranilla Bank",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "ID",
+                "name": "Indonesia",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MY",
+                "name": "Malaysia",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Dhekelia Cantonment",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CY",
+                "name": "Cyprus",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "IN",
+                "name": "India",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CN",
+                "name": "People's Republic of China",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "IL",
+                "name": "Israel",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PS",
+                "name": "Palestine",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "LB",
+                "name": "Lebanon",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SY",
+                "name": "Syria",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "KR",
+                "name": "South Korea",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "KP",
+                "name": "North Korea",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BT",
+                "name": "Bhutan",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "OM",
+                "name": "Oman",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "UZ",
+                "name": "Uzbekistan",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "KZ",
+                "name": "Kazakhstan",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TJ",
+                "name": "Tajikistan",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MN",
+                "name": "Mongolia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "VN",
+                "name": "Vietnam",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "KH",
+                "name": "Cambodia",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AE",
+                "name": "United Arab Emirates",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Mpox",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GE",
+                "name": "Georgia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AZ",
+                "name": "Azerbaijan",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TR",
+                "name": "Turkey",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "LA",
+                "name": "Laos",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "KG",
+                "name": "Kyrgyzstan",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AM",
+                "name": "Armenia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "IQ",
+                "name": "Iraq",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "IR",
+                "name": "Iran",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "QA",
+                "name": "Qatar",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SA",
+                "name": "Saudi Arabia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PK",
+                "name": "Pakistan",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TH",
+                "name": "Thailand",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "KW",
+                "name": "Kuwait",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TL",
+                "name": "East Timor",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BN",
+                "name": "Brunei",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MM",
+                "name": "Myanmar",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BD",
+                "name": "Bangladesh",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AF",
+                "name": "Afghanistan",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TM",
+                "name": "Turkmenistan",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "JO",
+                "name": "Jordan",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "NP",
+                "name": "Nepal",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "YE",
+                "name": "Yemen",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "HK",
+                "name": "Hong Kong",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Turkish Republic of Northern Cyprus",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "United Nations Buffer Zone in Cyprus",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Siachen Glacier",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Baikonur",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Akrotiri Sovereign Base Area",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PH",
+                "name": "Philippines",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "LK",
+                "name": "Sri Lanka",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CN-TW",
+                "name": "Taiwan",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "JP",
+                "name": "Japan",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Australian Indian Ocean Territories",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SG",
+                "name": "Singapore",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BH",
+                "name": "Bahrain",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Wake Island",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MO",
+                "name": "Macau",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Scarborough Shoal",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CL",
+                "name": "Chile",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BO",
+                "name": "Bolivia",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PE",
+                "name": "Peru",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AR",
+                "name": "Argentina",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SR",
+                "name": "Suriname",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GY",
+                "name": "Guyana",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BR",
+                "name": "Brazil",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "UY",
+                "name": "Uruguay",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "EC",
+                "name": "Ecuador",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CO",
+                "name": "Colombia",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PY",
+                "name": "Paraguay",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Brazilian Island",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "VE",
+                "name": "Venezuela",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Southern Patagonian Ice Field",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "FK",
+                "name": "Falkland Islands",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "ET",
+                "name": "Ethiopia",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Mpox",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SS",
+                "name": "South Sudan",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Mpox",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SO",
+                "name": "Somalia",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "KE",
+                "name": "Kenya",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Mpox",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MW",
+                "name": "Malawi",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Mpox",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TZ",
+                "name": "Tanzania",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Mpox",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Somaliland",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MA",
+                "name": "Morocco",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "EH",
+                "name": "Western Sahara",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CG",
+                "name": "Republic of the Congo",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CD",
+                "name": "Democratic Republic of the Congo",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "NA",
+                "name": "Namibia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "ZA",
+                "name": "South Africa",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "LY",
+                "name": "Libya",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TN",
+                "name": "Tunisia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "ZM",
+                "name": "Zambia",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Mpox",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SL",
+                "name": "Sierra Leone",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Mpox",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GN",
+                "name": "Guinea",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "LR",
+                "name": "Liberia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Mpox",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CF",
+                "name": "Central African Republic",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Mpox",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SD",
+                "name": "Sudan",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "DJ",
+                "name": "Djibouti",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "ER",
+                "name": "Eritrea",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CI",
+                "name": "Ivory Coast",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "ML",
+                "name": "Mali",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SN",
+                "name": "Senegal",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "NG",
+                "name": "Nigeria",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BJ",
+                "name": "Benin",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AO",
+                "name": "Angola",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BW",
+                "name": "Botswana",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "ZW",
+                "name": "Zimbabwe",
+                "vaccines": [
+                    "COVID-19",
+                    "Cholera",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TD",
+                "name": "Chad",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "DZ",
+                "name": "Algeria",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MZ",
+                "name": "Mozambique",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Mpox",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SZ",
+                "name": "Eswatini",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BI",
+                "name": "Burundi",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Mpox",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "RW",
+                "name": "Rwanda",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Mpox",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "UG",
+                "name": "Uganda",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Mpox",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "LS",
+                "name": "Lesotho",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CM",
+                "name": "Cameroon",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GA",
+                "name": "Gabon",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "NE",
+                "name": "Niger",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BF",
+                "name": "Burkina Faso",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TG",
+                "name": "Togo",
+                "vaccines": [
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GH",
+                "name": "Ghana",
+                "vaccines": [
+                    "Chikungunya",
+                    "Cholera",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GW",
+                "name": "Guinea-Bissau",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "EG",
+                "name": "Egypt",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MR",
+                "name": "Mauritania",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Meningococcal disease",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GQ",
+                "name": "Equatorial Guinea",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GM",
+                "name": "The Gambia",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Bir Tawil",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MG",
+                "name": "Madagascar",
+                "vaccines": [
+                    "Chikungunya",
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "KM",
+                "name": "Comoros",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "ST",
+                "name": "São Tomé and Príncipe",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CV",
+                "name": "Cape Verde",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "France",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "UA",
+                "name": "Ukraine",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BY",
+                "name": "Belarus",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "LT",
+                "name": "Lithuania",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "RU",
+                "name": "Russia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CZ",
+                "name": "Czech Republic",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "DE",
+                "name": "Germany",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "EE",
+                "name": "Estonia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "LV",
+                "name": "Latvia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Norway",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SE",
+                "name": "Sweden",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "FI",
+                "name": "Finland",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "LU",
+                "name": "Luxembourg",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BE",
+                "name": "Belgium",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MK",
+                "name": "North Macedonia",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AL",
+                "name": "Albania",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Kosovo",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "ES",
+                "name": "Spain",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "DK",
+                "name": "Denmark",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "RO",
+                "name": "Romania",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "HU",
+                "name": "Hungary",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SK",
+                "name": "Slovakia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PL",
+                "name": "Poland",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "IE",
+                "name": "Ireland",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GB",
+                "name": "United Kingdom",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GR",
+                "name": "Greece",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AT",
+                "name": "Austria",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "IT",
+                "name": "Italy",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CH",
+                "name": "Switzerland",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "NL",
+                "name": "Netherlands",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "LI",
+                "name": "Liechtenstein",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "RS",
+                "name": "Serbia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "HR",
+                "name": "Croatia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SI",
+                "name": "Slovenia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BG",
+                "name": "Bulgaria",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SM",
+                "name": "San Marino",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MC",
+                "name": "Monaco",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AD",
+                "name": "Andorra",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "ME",
+                "name": "Montenegro",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "BA",
+                "name": "Bosnia and Herzegovina",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PT",
+                "name": "Portugal",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MD",
+                "name": "Moldova",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GI",
+                "name": "Gibraltar",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "VA",
+                "name": "Vatican City",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "IS",
+                "name": "Iceland",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MT",
+                "name": "Malta",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "JE",
+                "name": "Jersey",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GG",
+                "name": "Guernsey",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "IM",
+                "name": "Isle of Man",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Tick-borne Encephalitis",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AX",
+                "name": "Åland",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "FO",
+                "name": "Faroe Islands",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PG",
+                "name": "Papua New Guinea",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Malaria",
+                    "Measles",
+                    "Polio",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AU",
+                "name": "Australia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis B",
+                    "Japanese Encephalitis",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "FJ",
+                "name": "Fiji",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "NZ",
+                "name": "New Zealand",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "NC",
+                "name": "New Caledonia",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PN",
+                "name": "Pitcairn Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PF",
+                "name": "French Polynesia",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "KI",
+                "name": "Kiribati",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MH",
+                "name": "Marshall Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "NF",
+                "name": "Norfolk Island",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "CK",
+                "name": "Cook Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TO",
+                "name": "Tonga",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "WF",
+                "name": "Wallis and Futuna",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "WS",
+                "name": "Samoa",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SB",
+                "name": "Solomon Islands",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TV",
+                "name": "Tuvalu",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "NR",
+                "name": "Nauru",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "FM",
+                "name": "Federated States of Micronesia",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "VU",
+                "name": "Vanuatu",
+                "vaccines": [
+                    "COVID-19",
+                    "Hepatitis A",
+                    "Hepatitis B",
+                    "Malaria",
+                    "Measles",
+                    "Rabies",
+                    "Typhoid",
+                    "Yellow Fever"
+                ]
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "NU",
+                "name": "Niue",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AS",
+                "name": "American Samoa",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "PW",
+                "name": "Palau",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GU",
+                "name": "Guam",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MP",
+                "name": "Northern Mariana Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Coral Sea Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Ashmore and Cartier Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "AQ",
+                "name": "Antarctica",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "TF",
+                "name": "French Southern and Antarctic Lands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SC",
+                "name": "Seychelles",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "HM",
+                "name": "Heard Island and McDonald Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "SH",
+                "name": "Saint Helena",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MU",
+                "name": "Mauritius",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "IO",
+                "name": "British Indian Ocean Territory",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "MV",
+                "name": "Maldives",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "GS",
+                "name": "South Georgia and the South Sandwich Islands",
+                "vaccines": []
+            },
+            "type": "Feature"
+        },
+        {
+            "properties": {
+                "iso_a2": "-99",
+                "name": "Clipperton Island",
+                "vaccines": []
+            },
+            "type": "Feature"
+        }
+    ]
+}
