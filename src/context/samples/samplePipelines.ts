@@ -124,21 +124,6 @@ export const samplePipeline = [
         "dragging": false
       },
       {
-        "id": "rescale-7",
-        "type": "rescale",
-        "position": {
-          "x": -220,
-          "y": -80
-        },
-        "data": {},
-        "measured": {
-          "width": 479,
-          "height": 143
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
         "id": "viewer-10",
         "type": "viewer",
         "position": {
@@ -154,20 +139,7 @@ export const samplePipeline = [
         "dragging": false
       }
     ],
-    "edges": [
-      {
-        "type": "smoothstep",
-        "source": "source-5",
-        "sourceHandle": "image",
-        "target": "rescale-7",
-        "targetHandle": "image",
-        "id": "xy-edge__source-5image-rescale-7image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        }
-      }
-    ],
+    "edges": [],
     "id": "pipeline-1788795881205-3bm4q9",
     "name": "Sepia & Black&White"
   },
@@ -184,23 +156,6 @@ export const samplePipeline = [
         "measured": {
           "width": 930,
           "height": 1045
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "rescale-13",
-        "type": "rescale",
-        "position": {
-          "x": -760,
-          "y": -160
-        },
-        "data": {
-          "scale": 0.25
-        },
-        "measured": {
-          "width": 475,
-          "height": 143
         },
         "selected": false,
         "dragging": false
@@ -251,20 +206,7 @@ export const samplePipeline = [
         "dragging": false
       }
     ],
-    "edges": [
-      {
-        "type": "smoothstep",
-        "source": "source-11",
-        "sourceHandle": "image",
-        "target": "rescale-13",
-        "targetHandle": "image",
-        "id": "xy-edge__source-11image-rescale-13image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        }
-      }
-    ],
+    "edges": [],
     "id": "pipeline-1788796010113-2x2rio",
     "name": "Utilities"
   },
@@ -329,19 +271,6 @@ export const samplePipeline = [
         },
         "selected": false,
         "dragging": false
-      },
-      {
-        "id": "split-toning-5",
-        "type": "split-toning",
-        "position": {
-          "x": -2360,
-          "y": 1000
-        },
-        "data": {},
-        "measured": {
-          "width": 280,
-          "height": 188
-        }
       },
       {
         "id": "viewer-single-26-copy",
@@ -471,23 +400,6 @@ export const samplePipeline = [
         "dragging": false
       },
       {
-        "id": "vignette-32",
-        "type": "vignette",
-        "position": {
-          "x": 440,
-          "y": 1100
-        },
-        "data": {
-          "amount": 81
-        },
-        "measured": {
-          "width": 280,
-          "height": 145
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
         "id": "viewer-single-1",
         "type": "viewer-single",
         "position": {
@@ -498,53 +410,6 @@ export const samplePipeline = [
         "measured": {
           "width": 630,
           "height": 673
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "photo-histogram-3",
-        "type": "photo-histogram",
-        "position": {
-          "x": -600,
-          "y": 620
-        },
-        "data": {},
-        "measured": {
-          "width": 430,
-          "height": 293
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "photo-histogram-4",
-        "type": "photo-histogram",
-        "position": {
-          "x": 1520,
-          "y": 1180
-        },
-        "data": {},
-        "measured": {
-          "width": 430,
-          "height": 293
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "split-toning-2",
-        "type": "split-toning",
-        "position": {
-          "x": -720,
-          "y": -60
-        },
-        "data": {
-          "strength": 100
-        },
-        "measured": {
-          "width": 280,
-          "height": 188
         },
         "selected": false,
         "dragging": false
@@ -595,21 +460,6 @@ export const samplePipeline = [
         "dragging": false
       },
       {
-        "id": "rescale-8",
-        "type": "rescale",
-        "position": {
-          "x": -1140,
-          "y": 900
-        },
-        "data": {},
-        "measured": {
-          "width": 479,
-          "height": 143
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
         "id": "viewer-single-1-copy-2",
         "type": "viewer-single",
         "position": {
@@ -635,23 +485,6 @@ export const samplePipeline = [
         "measured": {
           "width": 630,
           "height": 673
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "vignette-9",
-        "type": "vignette",
-        "position": {
-          "x": -2520,
-          "y": -500
-        },
-        "data": {
-          "amount": 100
-        },
-        "measured": {
-          "width": 280,
-          "height": 145
         },
         "selected": false,
         "dragging": false
@@ -719,116 +552,7 @@ export const samplePipeline = [
         "dragging": false
       }
     ],
-    "edges": [
-      {
-        "type": "smoothstep",
-        "source": "vignette-32",
-        "sourceHandle": "image",
-        "target": "viewer-single-30",
-        "targetHandle": "image",
-        "id": "xy-edge__vignette-32image-viewer-single-30image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        }
-      },
-      {
-        "type": "smoothstep",
-        "source": "split-toning-2",
-        "sourceHandle": "image",
-        "target": "viewer-single-1-copy-copy",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__split-toning-2image-viewer-single-1-copy-copyimage"
-      },
-      {
-        "type": "smoothstep",
-        "source": "source-27",
-        "sourceHandle": "image",
-        "target": "rescale-8",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-27image-rescale-8image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "rescale-8",
-        "sourceHandle": "image",
-        "target": "viewer-single-1",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__rescale-8image-viewer-single-1image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "rescale-8",
-        "sourceHandle": "image",
-        "target": "photo-histogram-3",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__rescale-8image-photo-histogram-3image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "rescale-8",
-        "sourceHandle": "image",
-        "target": "vignette-32",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__rescale-8image-vignette-32image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "rescale-8",
-        "sourceHandle": "image",
-        "target": "split-toning-2",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__rescale-8image-split-toning-2image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "rescale-8",
-        "sourceHandle": "image",
-        "target": "vignette-9",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__rescale-8image-vignette-9image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "vignette-9",
-        "sourceHandle": "image",
-        "target": "viewer-single-12-copy-copy",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__vignette-9image-viewer-single-12-copy-copyimage"
-      }
-    ],
+    "edges": [],
     "id": "pipeline-1788796202862-7id76m",
     "name": "Decorative"
   },
@@ -865,21 +589,6 @@ export const samplePipeline = [
         "dragging": false
       },
       {
-        "id": "rescale-10",
-        "type": "rescale",
-        "position": {
-          "x": 1260,
-          "y": 480
-        },
-        "data": {},
-        "measured": {
-          "width": 479,
-          "height": 143
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
         "id": "ai-colorizer-11",
         "type": "ai-colorizer",
         "position": {
@@ -909,51 +618,6 @@ export const samplePipeline = [
         "measured": {
           "width": 280,
           "height": 104
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "lut-16",
-        "type": "lut",
-        "position": {
-          "x": 1260,
-          "y": 760
-        },
-        "data": {},
-        "measured": {
-          "width": 280,
-          "height": 148
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "vignette-27",
-        "type": "vignette",
-        "position": {
-          "x": 1260,
-          "y": 920
-        },
-        "data": {},
-        "measured": {
-          "width": 280,
-          "height": 145
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "photo-histogram-32",
-        "type": "photo-histogram",
-        "position": {
-          "x": 480,
-          "y": 280
-        },
-        "data": {},
-        "measured": {
-          "width": 430,
-          "height": 293
         },
         "selected": false,
         "dragging": false
@@ -1019,21 +683,6 @@ export const samplePipeline = [
         },
         "selected": false,
         "dragging": false
-      },
-      {
-        "id": "split-toning-5",
-        "type": "split-toning",
-        "position": {
-          "x": -300,
-          "y": 1500
-        },
-        "data": {},
-        "measured": {
-          "width": 280,
-          "height": 188
-        },
-        "selected": false,
-        "dragging": false
       }
     ],
     "edges": [],
@@ -1053,38 +702,6 @@ export const samplePipeline = [
         "measured": {
           "width": 930,
           "height": 1044
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "rescale-13",
-        "type": "rescale",
-        "position": {
-          "x": -60,
-          "y": 280
-        },
-        "data": {
-          "scale": 0.5
-        },
-        "measured": {
-          "width": 475,
-          "height": 143
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "split-toning-22",
-        "type": "split-toning",
-        "position": {
-          "x": 1060,
-          "y": 1500
-        },
-        "data": {},
-        "measured": {
-          "width": 280,
-          "height": 188
         },
         "selected": false,
         "dragging": false
@@ -1123,18 +740,6 @@ export const samplePipeline = [
     "edges": [
       {
         "type": "smoothstep",
-        "source": "split-toning-22",
-        "sourceHandle": "image",
-        "target": "viewer-single-23-copy",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__split-toning-22image-viewer-single-23-copyimage"
-      },
-      {
-        "type": "smoothstep",
         "source": "source-1",
         "sourceHandle": "image",
         "target": "selected-photo-1",
@@ -1144,18 +749,6 @@ export const samplePipeline = [
           "stroke": "rgba(113, 82, 248, 0.6)"
         },
         "id": "xy-edge__source-1image-selected-photo-1image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "selected-photo-1",
-        "sourceHandle": "image",
-        "target": "rescale-13",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__selected-photo-1image-rescale-13image"
       }
     ],
     "id": "pipeline-1789043070838-5dq8f2",
@@ -1192,39 +785,9 @@ export const samplePipeline = [
         },
         "selected": false,
         "dragging": false
-      },
-      {
-        "id": "rescale-6",
-        "type": "rescale",
-        "position": {
-          "x": -320,
-          "y": -400
-        },
-        "data": {
-          "scale": 0.5
-        },
-        "measured": {
-          "width": 476,
-          "height": 143
-        },
-        "selected": true,
-        "dragging": false
       }
     ],
-    "edges": [
-      {
-        "type": "smoothstep",
-        "source": "source-1",
-        "sourceHandle": "image",
-        "target": "rescale-6",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-1image-rescale-6image"
-      }
-    ],
+    "edges": [],
     "id": "pipeline-1789333682672-m5bubo",
     "name": "Brightness"
   },
@@ -1243,40 +806,6 @@ export const samplePipeline = [
           "height": 1045
         },
         "selected": true,
-        "dragging": false
-      },
-      {
-        "id": "rescale-8",
-        "type": "rescale",
-        "position": {
-          "x": 760,
-          "y": -280
-        },
-        "data": {
-          "scale": 0.1
-        },
-        "measured": {
-          "width": 475,
-          "height": 143
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "collage-9",
-        "type": "collage",
-        "position": {
-          "x": 760,
-          "y": 580
-        },
-        "data": {
-          "columns": 5
-        },
-        "measured": {
-          "width": 490,
-          "height": 196
-        },
-        "selected": false,
         "dragging": false
       },
       {
@@ -1385,56 +914,7 @@ export const samplePipeline = [
         "dragging": false
       }
     ],
-    "edges": [
-      {
-        "type": "smoothstep",
-        "source": "rescale-8",
-        "sourceHandle": "image",
-        "target": "viewer-single-14-copy",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__rescale-8image-viewer-single-14-copyimage"
-      },
-      {
-        "type": "smoothstep",
-        "source": "source-6",
-        "sourceHandle": "image",
-        "target": "rescale-8",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-6image-rescale-8image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "source-6",
-        "sourceHandle": "image",
-        "target": "collage-9",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-6image-collage-9image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "collage-9",
-        "sourceHandle": "image",
-        "target": "viewer-15",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__collage-9image-viewer-15image"
-      }
-    ],
+    "edges": [],
     "id": "pipeline-1789337461709-gf4bcm",
     "name": "Transform"
   },
@@ -1891,21 +1371,6 @@ export const samplePipeline = [
         "dragging": false
       },
       {
-        "id": "photo-histogram-26",
-        "type": "photo-histogram",
-        "position": {
-          "x": -760,
-          "y": 1120
-        },
-        "data": {},
-        "measured": {
-          "width": 430,
-          "height": 293
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
         "id": "hot-folder-write-27",
         "type": "hot-folder-write",
         "position": {
@@ -1957,18 +1422,6 @@ export const samplePipeline = [
           "stroke": "rgba(113, 82, 248, 0.6)"
         },
         "id": "xy-edge__source-21image-exif-viewer-24image"
-      },
-      {
-        "type": "smoothstep",
-        "source": "source-21-reset",
-        "sourceHandle": "image",
-        "target": "photo-histogram-26",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-21image-photo-histogram-26image"
       },
       {
         "type": "smoothstep",

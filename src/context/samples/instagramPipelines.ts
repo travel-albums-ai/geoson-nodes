@@ -30,39 +30,9 @@ export const instagramPipeline = [
         },
         "selected": false,
         "dragging": false
-      },
-      {
-        "id": "rescale-7",
-        "type": "rescale",
-        "position": {
-          "x": 1340,
-          "y": 100
-        },
-        "data": {
-          "scale": 1
-        },
-        "measured": {
-          "width": 480,
-          "height": 143
-        },
-        "selected": false,
-        "dragging": false
       }
     ],
-    "edges": [
-      {
-        "type": "smoothstep",
-        "source": "source-1",
-        "sourceHandle": "image",
-        "target": "rescale-7",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-1image-rescale-7image"
-      }
-    ],
+    "edges": [],
     "id": "pipeline-1789463257383-rwuf4f",
     "name": "Claredon",
     "isDeletable": true,
@@ -101,39 +71,9 @@ export const instagramPipeline = [
         },
         "selected": false,
         "dragging": false
-      },
-      {
-        "id": "rescale-7",
-        "type": "rescale",
-        "position": {
-          "x": 1340,
-          "y": 100
-        },
-        "data": {
-          "scale": 1
-        },
-        "measured": {
-          "width": 480,
-          "height": 143
-        },
-        "selected": false,
-        "dragging": false
       }
     ],
-    "edges": [
-      {
-        "type": "smoothstep",
-        "source": "source-1",
-        "sourceHandle": "image",
-        "target": "rescale-7",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-1image-rescale-7image"
-      }
-    ],
+    "edges": [],
     "id": "pipeline-1789463775591-cf8n2o",
     "name": "Gingham",
     "isDeletable": true,
@@ -172,39 +112,9 @@ export const instagramPipeline = [
         },
         "selected": false,
         "dragging": false
-      },
-      {
-        "id": "rescale-7",
-        "type": "rescale",
-        "position": {
-          "x": 1340,
-          "y": 100
-        },
-        "data": {
-          "scale": 1
-        },
-        "measured": {
-          "width": 480,
-          "height": 143
-        },
-        "selected": false,
-        "dragging": false
       }
     ],
-    "edges": [
-      {
-        "type": "smoothstep",
-        "source": "source-1",
-        "sourceHandle": "image",
-        "target": "rescale-7",
-        "targetHandle": "image",
-        "style": {
-          "strokeWidth": 2,
-          "stroke": "rgba(113, 82, 248, 0.6)"
-        },
-        "id": "xy-edge__source-1image-rescale-7image"
-      }
-    ],
+    "edges": [],
     "id": "pipeline-1789463927005-2sadlq",
     "name": "Mayfair",
     "isDeletable": true,

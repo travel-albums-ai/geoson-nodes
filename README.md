@@ -13,9 +13,9 @@ CouchEditor lets you select photos, connect editing steps, preview the result, a
 ## 📸 What can I do with CouchEditor?
 
 - Choose JPEG, PNG, or WebP photos from your computer.
-- Arrange transforms, light and color adjustments, details, effects, and optional AI steps.
+- Arrange logic steps and optional AI steps.
 - Preview one photo or a complete set of photos.
-- Inspect metadata, GPS information, and histograms where those outputs are useful.
+- Inspect metadata and GPS information where those outputs are useful.
 - Download processed photos from a viewer or write them to a configured folder.
 - Save a recipe in the browser, then export or import it as a `.cep` file.
 
@@ -29,7 +29,7 @@ A pipeline is a set of connected steps:
 
 A typical pipeline looks like this:
 
-`Photos -> Vignette -> Viewer`
+`Photos -> Viewer`
 
 The safest way to begin is to connect a photo input directly to a viewer. Once the photos appear, add one editing step at a time and check the result after each change.
 
@@ -39,7 +39,7 @@ The safest way to begin is to connect a photo input directly to a viewer. Once t
 2. Open the toolbox on the left if it is hidden.
 3. Drag a photo input onto the canvas.
 4. Select the photos you want to edit.
-5. Drag an editing or transform step onto the canvas.
+5. Drag a logic or AI step onto the canvas, if you need one.
 6. Drag a viewer onto the canvas.
 7. Connect steps by dragging from an output connector to the next input connector.
 8. Adjust the step controls and review the result in the viewer.
@@ -61,12 +61,9 @@ Connect steps in the order you want them applied. To change a connection, drag i
 The toolbox groups nodes by purpose. Exact labels can vary with the active language and enabled features.
 
 - **Input**: local storage, hot-folder input, Google Drive, information, and selected-photo sources.
-- **Logic**: grouping, array switching and boolean operations, image picking, EXIF splitting, GPS splitting, and channel splitting or merging.
-- **Transform**: rescale, resize limit, and collage.
-- **Color**: LUTs, split toning, and film-base removal.
-- **Effects**: vignette.
+- **Logic**: grouping, array switching and boolean operations, EXIF splitting, and GPS splitting.
 - **AI**: denoising, colorizing, negative conversion, AI photo editing, and Ask AI when AI is enabled and configured.
-- **Output**: single-photo and multi-photo viewers, EXIF viewer, GPS map, histogram, and hot-folder output.
+- **Output**: single-photo and multi-photo viewers, EXIF viewer, GPS map, and hot-folder output.
 
 ## 🔄 Common usage flows
 
@@ -100,7 +97,6 @@ Connect a source to the output that matches the question you are asking:
 
 - Use a single-photo viewer to compare one result.
 - Use a multi-photo viewer to review a complete set and download results together.
-- Use the histogram to inspect tonal distribution.
 - Use the EXIF viewer to inspect image metadata.
 - Use the GPS map when the selected photos contain usable location data.
 

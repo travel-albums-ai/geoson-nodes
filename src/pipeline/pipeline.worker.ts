@@ -10,13 +10,7 @@
 // - Every new evaluation cooperatively cancels the previous one: stale
 //   checks run between images and in-flight fetches are aborted.
 
-import { lutStage, parseCubeLut } from "@/lib/lut";
-import {
-  detectFilmBaseColor,
-  filmBaseRemoverStage,
-  splitToningStage,
-  vignetteStage,
-} from "@/lib/utils";
+import { detectFilmBaseColor } from "@/lib/utils";
 import type {
   NodeInputs,
   NodeOutputs,
@@ -25,16 +19,9 @@ import type {
   PipelineProgressPreview,
   PipelineViewerImagePayload,
   PipelineWorkerOutbound,
-  Stage,
 } from "@/types/types";
 import { VIEWER_NODE_TYPES } from "@/types/types";
 import { parse } from "exifr";
-import {
-  gpuFragmentShader,
-  gpuOperationIds,
-  gpuVertexShader,
-  type GpuOperation,
-} from "./gpuShader";
 
 // ============================================================
 // Worker scope
@@ -202,8 +189,6 @@ const BATCH_INPUT_KEYS = ["image", "image-1", "image-2", "image-3", "image-4"];
 const FILE_SOURCE_NODE_TYPES = new Set([
   "source",
   "hot-folder-read",
-  "webcam",
-  "screen-share",
   "google-drive",
 ]);
 
@@ -218,14 +203,6 @@ function getBatchInputKeys(nodeType: string | undefined, inputs: NodeInputs): st
 
   if (nodeType === "selection") {
     return ["photos"];
-  }
-
-  if (nodeType === "collage") {
-    return [];
-  }
-
-  if (nodeType === "image-picker") {
-    return [];
   }
 
   return BATCH_INPUT_KEYS.filter((key) => Array.isArray(inputs[key]));
@@ -417,432 +394,6 @@ function createCanvas(
   }
 
   return [canvas, ctx];
-}
-
-const IMAGE_TILE_SIZE = 1024;
-const NON_TILE_SAFE_GPU_OPERATIONS = new Set<GpuOperation["kind"]>([
-  "vignette",
-]);
-
-type GpuRenderer = {
-  canvas: OffscreenCanvas;
-  gl: WebGL2RenderingContext;
-  program: WebGLProgram;
-  positionBuffer: WebGLBuffer;
-  texture: WebGLTexture;
-  positionLocation: number;
-  texCoordLocation: number;
-  operationLocation: WebGLUniformLocation;
-  paramsLocation: WebGLUniformLocation;
-  resolutionLocation: WebGLUniformLocation;
-  textureWidth: number;
-  textureHeight: number;
-};
-
-let gpuRenderer: GpuRenderer | null | undefined;
-
-function compileShader(
-  gl: WebGL2RenderingContext,
-  type: number,
-  source: string
-): WebGLShader {
-  const shader = gl.createShader(type);
-  if (!shader) throw new Error("Could not create GPU shader");
-
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    const log = gl.getShaderInfoLog(shader) ?? "Unknown shader error";
-    gl.deleteShader(shader);
-    throw new Error(log);
-  }
-
-  return shader;
-}
-
-function getGpuRenderer(): GpuRenderer | null {
-  if (gpuRenderer !== undefined) return gpuRenderer;
-
-  try {
-    const canvas = new OffscreenCanvas(1, 1);
-    const gl = canvas.getContext("webgl2", { premultipliedAlpha: false });
-    if (!gl) {
-      gpuRenderer = null;
-      return gpuRenderer;
-    }
-
-    const vertexShader = compileShader(gl, gl.VERTEX_SHADER, gpuVertexShader);
-    const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, gpuFragmentShader);
-    const program = gl.createProgram();
-    if (!program) throw new Error("Could not create GPU program");
-
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
-    gl.linkProgram(program);
-    gl.deleteShader(vertexShader);
-    gl.deleteShader(fragmentShader);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      throw new Error(gl.getProgramInfoLog(program) ?? "Could not link GPU program");
-    }
-
-    const positionBuffer = gl.createBuffer();
-    const texture = gl.createTexture();
-    const operationLocation = gl.getUniformLocation(program, "uOperation");
-    const paramsLocation = gl.getUniformLocation(program, "uParams");
-    const resolutionLocation = gl.getUniformLocation(program, "uResolution");
-    if (!positionBuffer || !texture || !operationLocation || !paramsLocation || !resolutionLocation) {
-      throw new Error("Could not initialize GPU resources");
-    }
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array([
-        -1, -1, 0, 0,
-        1, -1, 1, 0,
-        -1, 1, 0, 1,
-        1, 1, 1, 1,
-      ]),
-      gl.STATIC_DRAW
-    );
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-
-    gpuRenderer = {
-      canvas,
-      gl,
-      program,
-      positionBuffer,
-      texture,
-      positionLocation: gl.getAttribLocation(program, "aPosition"),
-      texCoordLocation: gl.getAttribLocation(program, "aTexCoord"),
-      operationLocation,
-      paramsLocation,
-      resolutionLocation,
-      textureWidth: 0,
-      textureHeight: 0,
-    };
-  } catch {
-    gpuRenderer = null;
-  }
-
-  return gpuRenderer;
-}
-
-function renderGpuImage(source: WorkerImage, operation: GpuOperation): WorkerImage | null {
-  const renderer = getGpuRenderer();
-  if (!renderer) return null;
-
-  const { canvas, gl } = renderer;
-  canvas.width = source.width;
-  canvas.height = source.height;
-  gl.viewport(0, 0, source.width, source.height);
-  gl.useProgram(renderer.program);
-  gl.bindBuffer(gl.ARRAY_BUFFER, renderer.positionBuffer);
-  gl.enableVertexAttribArray(renderer.positionLocation);
-  gl.vertexAttribPointer(renderer.positionLocation, 2, gl.FLOAT, false, 16, 0);
-  gl.enableVertexAttribArray(renderer.texCoordLocation);
-  gl.vertexAttribPointer(renderer.texCoordLocation, 2, gl.FLOAT, false, 16, 8);
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, renderer.texture);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source.bitmap);
-  renderer.textureWidth = source.width;
-  renderer.textureHeight = source.height;
-  gl.uniform1i(renderer.operationLocation, gpuOperationIds[operation.kind]);
-  gl.uniform1fv(renderer.paramsLocation, new Float32Array(operation.params ?? []));
-  gl.uniform2f(renderer.resolutionLocation, source.width, source.height);
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-  if (gl.getError() !== gl.NO_ERROR) return null;
-
-  return {
-    bitmap: canvas.transferToImageBitmap(),
-    width: source.width,
-    height: source.height,
-    name: source.name,
-    exif: source.exif,
-    exifSegment: source.exifSegment,
-  };
-}
-
-// Renders a source image, optionally applying a per-pixel transform,
-// and hands back the canvas backing store as an ImageBitmap (no copy).
-async function renderImage(
-  source: WorkerImage,
-  evaluationId: number,
-  draw: (
-    ctx: OffscreenCanvasRenderingContext2D,
-    canvas: OffscreenCanvas,
-    source: WorkerImage
-  ) => void,
-  transformPixels?: Stage,
-  gpuOperation?: GpuOperation,
-  tileSafe = false
-): Promise<WorkerImage> {
-  if (
-    tileSafe &&
-    (source.width > IMAGE_TILE_SIZE || source.height > IMAGE_TILE_SIZE)
-  ) {
-    const [canvas, ctx] = createCanvas(source.width, source.height);
-    const tiles: Array<[number, number, number, number]> = [];
-
-    for (let y = 0; y < source.height; y += IMAGE_TILE_SIZE) {
-      for (let x = 0; x < source.width; x += IMAGE_TILE_SIZE) {
-        tiles.push([
-          x,
-          y,
-          Math.min(IMAGE_TILE_SIZE, source.width - x),
-          Math.min(IMAGE_TILE_SIZE, source.height - y),
-        ]);
-      }
-    }
-
-    await mapWithConcurrency(tiles, evaluationId, async ([tileX, tileY, tileWidth, tileHeight]) => {
-      const [tileCanvas, tileContext] = createCanvas(tileWidth, tileHeight);
-      tileContext.drawImage(
-        source.bitmap,
-        tileX,
-        tileY,
-        tileWidth,
-        tileHeight,
-        0,
-        0,
-        tileWidth,
-        tileHeight
-      );
-      const tileSource: WorkerImage = {
-        bitmap: tileCanvas.transferToImageBitmap(),
-        width: tileWidth,
-        height: tileHeight,
-        name: source.name,
-        exif: source.exif,
-        exifSegment: source.exifSegment,
-      };
-
-      try {
-        const tile = await renderImage(
-          tileSource,
-          evaluationId,
-          draw,
-          transformPixels,
-          undefined,
-          false
-        );
-
-        ctx.drawImage(tile.bitmap, tileX, tileY);
-        tile.bitmap.close();
-      } finally {
-        tileSource.bitmap.close();
-      }
-    });
-
-    return {
-      bitmap: canvas.transferToImageBitmap(),
-      width: source.width,
-      height: source.height,
-      name: source.name,
-      exif: source.exif,
-      exifSegment: source.exifSegment,
-    };
-  }
-
-  if (gpuOperation) {
-    const gpuImage = renderGpuImage(source, gpuOperation);
-    if (gpuImage) return gpuImage;
-  }
-
-  const [canvas, ctx] = createCanvas(source.width, source.height);
-
-  draw(ctx, canvas, source);
-
-  if (transformPixels) {
-    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    transformPixels(pixels);
-    ctx.putImageData(pixels, 0, 0);
-  }
-
-  return {
-    bitmap: canvas.transferToImageBitmap(),
-    width: canvas.width,
-    height: canvas.height,
-    name: source.name,
-    exif: source.exif,
-    exifSegment: source.exifSegment,
-  };
-}
-
-function renderImages(
-  sources: WorkerImage[],
-  evaluationId: number,
-  draw: (
-    ctx: OffscreenCanvasRenderingContext2D,
-    canvas: OffscreenCanvas,
-    source: WorkerImage
-  ) => void,
-  transformPixels?: Stage,
-  gpuOperation?: GpuOperation
-): Promise<WorkerImage[]> {
-  return mapWithConcurrency(sources, evaluationId, (source) =>
-    renderImage(
-      source,
-      evaluationId,
-      draw,
-      transformPixels,
-      gpuOperation,
-      Boolean(transformPixels || gpuOperation) &&
-        !NON_TILE_SAFE_GPU_OPERATIONS.has(gpuOperation?.kind as GpuOperation["kind"])
-    )
-  );
-}
-
-function splitChannels(
-  sources: WorkerImage[],
-  evaluationId: number
-): Promise<Record<"red" | "green" | "blue" | "alpha", WorkerImage[]>> {
-  return mapWithConcurrency(sources, evaluationId, async (source) => {
-    const [, ctx] = createCanvas(source.width, source.height);
-    ctx.drawImage(source.bitmap, 0, 0);
-    const pixels = ctx.getImageData(0, 0, source.width, source.height).data;
-    const channels = {
-      red: new Uint8ClampedArray(pixels.length),
-      green: new Uint8ClampedArray(pixels.length),
-      blue: new Uint8ClampedArray(pixels.length),
-      alpha: new Uint8ClampedArray(pixels.length),
-    };
-
-    for (let index = 0; index < pixels.length; index += 4) {
-      channels.red[index] = pixels[index];
-      channels.green[index + 1] = pixels[index + 1];
-      channels.blue[index + 2] = pixels[index + 2];
-      channels.alpha[index] = channels.alpha[index + 1] = channels.alpha[index + 2] = pixels[index + 3];
-      channels.red[index + 3] = channels.green[index + 3] = channels.blue[index + 3] = channels.alpha[index + 3] = 255;
-    }
-
-    const createChannelImage = (channel: Uint8ClampedArray, name: string): WorkerImage => {
-      const channelCanvas = new OffscreenCanvas(source.width, source.height);
-      const channelContext = channelCanvas.getContext("2d");
-      if (!channelContext) throw new Error("Could not create canvas context");
-      const imageData = channelContext.createImageData(source.width, source.height);
-      imageData.data.set(channel);
-      channelContext.putImageData(imageData, 0, 0);
-      return {
-        bitmap: channelCanvas.transferToImageBitmap(),
-        width: source.width,
-        height: source.height,
-        name: `${source.name ?? "image"}-${name}`,
-        exif: source.exif,
-        exifSegment: source.exifSegment,
-      };
-    };
-
-    return Promise.resolve({
-      red: [createChannelImage(channels.red, "red")],
-      green: [createChannelImage(channels.green, "green")],
-      blue: [createChannelImage(channels.blue, "blue")],
-      alpha: [createChannelImage(channels.alpha, "alpha")],
-    });
-  }).then((channelSets) => ({
-    red: channelSets.flatMap((channels) => channels.red),
-    green: channelSets.flatMap((channels) => channels.green),
-    blue: channelSets.flatMap((channels) => channels.blue),
-    alpha: channelSets.flatMap((channels) => channels.alpha),
-  }));
-}
-
-function mergeChannels(
-  channelInputs: Record<"red" | "green" | "blue" | "alpha", WorkerImage[]>,
-  evaluationId: number
-): Promise<WorkerImage[]> {
-  const channelNames = ["red", "green", "blue", "alpha"] as const;
-  const imageCount = Math.max(...channelNames.map((channel) => channelInputs[channel].length));
-
-  return mapWithConcurrency(
-    Array.from({ length: imageCount }, (_, index) => index),
-    evaluationId,
-    async (index) => {
-      const channelImages = channelNames.map((channel) => channelInputs[channel][index]);
-      const base = channelImages.find((image): image is WorkerImage => image !== undefined);
-
-      if (!base) {
-        throw new Error("Cannot merge an empty channel set");
-      }
-
-      const channelPixels = channelImages.map((image) => {
-        if (!image) return undefined;
-
-        const [, channelContext] = createCanvas(base.width, base.height);
-        channelContext.drawImage(image.bitmap, 0, 0, base.width, base.height);
-        return channelContext.getImageData(0, 0, base.width, base.height).data;
-      });
-      const imageData = new Uint8ClampedArray(base.width * base.height * 4);
-
-      for (let pixel = 0; pixel < imageData.length; pixel += 4) {
-        imageData[pixel] = channelPixels[0]?.[pixel] ?? 0;
-        imageData[pixel + 1] = channelPixels[1]?.[pixel + 1] ?? 0;
-        imageData[pixel + 2] = channelPixels[2]?.[pixel + 2] ?? 0;
-        imageData[pixel + 3] = channelPixels[3]?.[pixel] ?? 255;
-      }
-
-      const [canvas, context] = createCanvas(base.width, base.height);
-      const output = context.createImageData(base.width, base.height);
-      output.data.set(imageData);
-      context.putImageData(output, 0, 0);
-
-      return {
-        bitmap: canvas.transferToImageBitmap(),
-        width: base.width,
-        height: base.height,
-        name: base.name?.replace(/-(red|green|blue|alpha)$/, "") ?? "image",
-        exif: base.exif,
-        exifSegment: base.exifSegment,
-      };
-    }
-  );
-}
-
-async function scaleImage(source: WorkerImage, scale: number): Promise<WorkerImage> {
-  const width = Math.max(1, Math.round(source.width * scale));
-  const height = Math.max(1, Math.round(source.height * scale));
-
-  if (width === source.width && height === source.height) {
-    return source;
-  }
-
-  try {
-    const bitmap = await createImageBitmap(source.bitmap, {
-      resizeWidth: width,
-      resizeHeight: height,
-      resizeQuality: "high",
-    });
-
-    return {
-      bitmap,
-      width,
-      height,
-      name: source.name,
-      exif: source.exif,
-      exifSegment: source.exifSegment,
-    };
-  } catch {
-    // Keep a canvas fallback for browsers without bitmap resizing support.
-  }
-
-  const [canvas, ctx] = createCanvas(width, height);
-
-  ctx.drawImage(source.bitmap, 0, 0, width, height);
-
-  return {
-    bitmap: canvas.transferToImageBitmap(),
-    width,
-    height,
-    name: source.name,
-    exif: source.exif,
-    exifSegment: source.exifSegment,
-  };
 }
 
 // ============================================================
@@ -1297,12 +848,6 @@ function createAIImageEditNodeDefinition(
 // Node implementations
 // ============================================================
 
-const drawSource = (
-  ctx: OffscreenCanvasRenderingContext2D,
-  _canvas: OffscreenCanvas,
-  source: WorkerImage
-) => ctx.drawImage(source.bitmap, 0, 0);
-
 let sourceRunSeq = 0;
 let viewerRunSeq = 0;
 
@@ -1378,26 +923,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
     },
   },
 
-  webcam: {
-    async execute(inputs) {
-      const files = inputs.files as File[] | undefined;
-
-      if (!files || files.length === 0) return { image: [] };
-
-      return { image: [await loadFileImage(files[0])] };
-    },
-  },
-
-  "screen-share": {
-    async execute(inputs) {
-      const files = inputs.files as File[] | undefined;
-
-      if (!files || files.length === 0) return { image: [] };
-
-      return { image: [await loadFileImage(files[0])] };
-    },
-  },
-
   "google-drive": {
     async execute(inputs) {
       const files = inputs.files as File[] | undefined;
@@ -1442,77 +967,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
           ? photoArray as WorkerImage[]
           : [];
       });
-
-      return { image };
-    },
-  },
-
-  "split-channels": {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      if (sources.length === 0) {
-        return { red: [], green: [], blue: [], alpha: [] };
-      }
-
-      return splitChannels(sources, inputs.evaluationId as number);
-    },
-  },
-
-  "merge-channels": {
-    async execute(inputs) {
-      const channelInputs = {
-        red: Array.isArray(inputs.red) ? inputs.red as WorkerImage[] : [],
-        green: Array.isArray(inputs.green) ? inputs.green as WorkerImage[] : [],
-        blue: Array.isArray(inputs.blue) ? inputs.blue as WorkerImage[] : [],
-        alpha: Array.isArray(inputs.alpha) ? inputs.alpha as WorkerImage[] : [],
-      };
-
-      if (Object.values(channelInputs).every((images) => images.length === 0)) {
-        return { image: [] };
-      }
-
-      return {
-        image: await mergeChannels(channelInputs, inputs.evaluationId as number),
-      };
-    },
-  },
-
-  collage: {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      if (sources.length === 0) return { image: [] };
-
-      const columns = Math.max(1, Math.round(Number(inputs.columns) || 5));
-      const rows = Math.max(1, Math.round(Number(inputs.rows) || 5));
-      const tileWidth = Math.max(1, Math.round(Number(inputs.tileWidth) || 200));
-      const tileHeight = Math.max(1, Math.round(Number(inputs.tileHeight) || 200));
-      const groupSize = columns * rows;
-      const image: WorkerImage[] = [];
-
-      for (let start = 0; start < sources.length; start += groupSize) {
-        throwIfStale(inputs.evaluationId as number);
-        const [canvas, ctx] = createCanvas(columns * tileWidth, rows * tileHeight);
-        const group = sources.slice(start, start + groupSize);
-
-        group.forEach((source, index) => {
-          const column = index % columns;
-          const row = Math.floor(index / columns);
-          ctx.drawImage(
-            source.bitmap,
-            column * tileWidth,
-            row * tileHeight,
-            tileWidth,
-            tileHeight
-          );
-        });
-
-        image.push({
-          bitmap: canvas.transferToImageBitmap(),
-          width: canvas.width,
-          height: canvas.height,
-          name: `collage-${Math.floor(start / groupSize) + 1}`,
-        });
-      }
 
       return { image };
     },
@@ -1564,20 +1018,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
     },
   },
 
-  "image-picker": {
-    async execute(inputs) {
-      const images = Array.isArray(inputs.image) ? inputs.image as WorkerImage[] : [];
-      const selectedKeys = new Set(
-        Array.isArray(inputs.selectedImageKeys)
-          ? inputs.selectedImageKeys.filter((key): key is string => typeof key === "string")
-          : []
-      );
-      const image = images.filter((item, index) => selectedKeys.has(`${item.name ?? ""}\u0000${index}`));
-
-      return { image, pickerPreview: images };
-    },
-  },
-
   "exif-split": {
     async execute(inputs) {
       const images = (inputs.image as WorkerImage[] | undefined) ?? [];
@@ -1608,91 +1048,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   },
 
 
-  lut: {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      const file = inputs.lutFile as File | undefined;
-
-      if (sources.length === 0 || !file) return { image: sources };
-
-      const lut = parseCubeLut(await file.text());
-      const image = await renderImages(
-        sources,
-        inputs.evaluationId as number,
-        drawSource,
-        lutStage(lut)
-      );
-
-      return { image };
-    },
-  },
-
-  vignette: {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      if (sources.length === 0) return { image: [] };
-
-      const amount = (inputs.amount as number | undefined) ?? 0;
-      const color = (inputs.color as [number, number, number] | undefined) ?? [0, 0, 0];
-      return {
-        image: await renderImages(
-          sources,
-          inputs.evaluationId as number,
-          drawSource,
-          vignetteStage(amount, color),
-          { kind: "vignette", params: [amount, color[0] / 255, color[1] / 255, color[2] / 255] }
-        ),
-      };
-    },
-  },
-  "film-base-remover": {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      if (sources.length === 0) return { image: [] };
-
-      const mask = (inputs.maskColor as [number, number, number] | undefined) ?? [255, 128, 48];
-      const strength = (inputs.strength as number | undefined) ?? 100;
-      const densityCompensation = (inputs.densityCompensation as number | undefined) ?? 0;
-      const filmAge = (inputs.filmAge as number | undefined) ?? 0;
-      const autoDetectBase = inputs.autoDetectBase === true;
-
-      const image = await mapWithConcurrency(sources, inputs.evaluationId as number, async (source) => {
-        let activeMask = mask;
-        if (autoDetectBase) {
-          const [, context] = createCanvas(source.width, source.height);
-          context.drawImage(source.bitmap, 0, 0);
-          activeMask = detectFilmBaseColor(context.getImageData(0, 0, source.width, source.height));
-        }
-
-        const operation = {
-          kind: "film-base-remover" as const,
-          params: [activeMask[0], activeMask[1], activeMask[2], strength / 100, densityCompensation, filmAge] as [number, number, number, number, number, number],
-        };
-        return renderImage(
-          source,
-          inputs.evaluationId as number,
-          drawSource,
-          filmBaseRemoverStage(activeMask[0], activeMask[1], activeMask[2], strength, densityCompensation, filmAge),
-          operation
-        );
-      });
-
-      return {
-        image,
-      };
-    },
-  },
-  "split-toning": {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      if (sources.length === 0) return { image: [] };
-      const shadow = (inputs.shadowTint as [number, number, number] | undefined) ?? [48, 64, 96];
-      const highlight = (inputs.highlightTint as [number, number, number] | undefined) ?? [255, 224, 176];
-      const strength = ((inputs.strength as number | undefined) ?? 50) / 100;
-      return { image: await renderImages(sources, inputs.evaluationId as number, drawSource, splitToningStage(...shadow, ...highlight, strength), { kind: "split-toning", params: [...shadow, ...highlight, strength] }) };
-    },
-  },
-
   "ai-colorizer": createAIImageEditNodeDefinition(
     "ai-colorizer",
     "AI Colorizer",
@@ -1718,53 +1073,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   ),
 
   "ask-ai": createAskAINodeDefinition(),
-
-  rescale: {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-
-      if (sources.length === 0) { return { image: [] } }
-
-      const scale = (inputs.scale as number | undefined) ?? 1;
-
-      if (scale === 1) {
-        return { image: sources };
-      }
-
-      const image = await mapWithConcurrency(
-        sources,
-        inputs.evaluationId as number,
-        (source) => scaleImage(source, scale)
-      );
-
-      return { image };
-    },
-  },
-
-  "resize-limit": {
-    async execute(inputs) {
-      const sources = (inputs.image as WorkerImage[] | undefined) ?? [];
-      const maxDimension = (inputs.maxDimension as number | undefined) ?? 4096;
-
-      if (sources.length === 0) { return { image: [] }; }
-
-      const image = await mapWithConcurrency(
-        sources,
-        inputs.evaluationId as number,
-        (source) => {
-          const longestSide = Math.max(source.width, source.height);
-
-          if (longestSide <= maxDimension) {
-            return Promise.resolve(source);
-          }
-
-          return scaleImage(source, maxDimension / longestSide);
-        }
-      );
-
-      return { image };
-    },
-  },
 
   "selected-photo": {
     async execute(inputs) {
@@ -1814,16 +1122,6 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   },
 
   "gps-map": {
-    async execute(inputs) {
-      await Promise.resolve();
-
-      return {
-        image: (inputs.image as WorkerImage[] | undefined) ?? [],
-      };
-    },
-  },
-
-  "photo-histogram": {
     async execute(inputs) {
       await Promise.resolve();
 
@@ -2081,11 +1379,6 @@ function closeRetiredBitmaps(activeOutputs: Iterable<NodeOutputs>) {
 function getEstimatedCacheBytes(): number {
   let bytes = getBitmapBytes(getCachedBitmaps());
 
-  if (gpuRenderer) {
-    bytes += gpuRenderer.canvas.width * gpuRenderer.canvas.height * 4;
-    bytes += gpuRenderer.textureWidth * gpuRenderer.textureHeight * 4;
-  }
-
   return bytes;
 }
 
@@ -2253,35 +1546,8 @@ async function runEvaluation(
         inputs.selectedPhotoName = node.data.selectedPhotoName;
       }
 
-      if (node.type === "lut") {
-        inputs.lutFile = node.data.lutFile;
-      }
-
       if (node.type === "array-switch") {
         inputs.selectedInput = node.data.selectedInput;
-      }
-
-      if (node.type === "image-picker") {
-        inputs.selectedImageKeys = node.data.selectedImageKeys;
-      }
-
-      if (node.type === "vignette") {
-        inputs.amount = node.data.amount;
-        inputs.color = node.data.color;
-      }
-
-      if (node.type === "film-base-remover") {
-        inputs.maskColor = node.data.maskColor;
-        inputs.strength = node.data.strength;
-        inputs.densityCompensation = node.data.densityCompensation;
-        inputs.filmAge = node.data.filmAge;
-        inputs.autoDetectBase = node.data.autoDetectBase;
-      }
-
-      if (node.type === "split-toning") {
-        inputs.shadowTint = node.data.shadowTint;
-        inputs.highlightTint = node.data.highlightTint;
-        inputs.strength = node.data.strength;
       }
 
       // Special case:
@@ -2298,23 +1564,6 @@ async function runEvaluation(
         inputs.apiKey = node.data.apiKey;
         inputs.question = node.data.question;
         inputs.nodeId = node.id;
-      }
-
-      // Special case:
-      // Rescale node gets its scale factor from node.data.
-      if (node.type === "rescale") {
-        inputs.scale = node.data.scale;
-      }
-
-      if (node.type === "resize-limit") {
-        inputs.maxDimension = node.data.maxDimension;
-      }
-
-      if (node.type === "collage") {
-        inputs.columns = node.data.columns;
-        inputs.rows = node.data.rows;
-        inputs.tileWidth = node.data.tileWidth;
-        inputs.tileHeight = node.data.tileHeight;
       }
 
       if (node.data.skip === true) {
@@ -2445,9 +1694,7 @@ async function runEvaluation(
       const nodeOutputs = await evaluateNode(node.id);
       throwIfStale(evaluationId);
 
-      const images = (node.type === "image-picker"
-        ? nodeOutputs.pickerPreview
-        : nodeOutputs.image) as WorkerImage[] | undefined ?? [];
+      const images = (nodeOutputs.image as WorkerImage[] | undefined) ?? [];
       const payload = await taskQueue.run(
         evaluationId,
         () => encodeImagesForTransport(

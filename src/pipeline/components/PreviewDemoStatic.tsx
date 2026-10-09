@@ -3,7 +3,7 @@ import { PreviewBeforeAfter } from '@/pipeline/components/PreviewBeforeAfter';
 import { PreviewDescription } from '@/pipeline/components/PreviewDescription';
 import PreviewTitle from '@/pipeline/components/PreviewTitle';
 import { Box, Skeleton, useTheme } from '@mui/material';
-import { ChartColumn, Cloud, Download, Eye, Flame, Folder, Map, Plus, Slash } from 'lucide-react';
+import { Cloud, Download, Eye, Flame, Folder, Map, Plus, Slash } from 'lucide-react';
 
 
 type AdjustmentPreviewProps = {
@@ -126,48 +126,13 @@ export function PreviewDemoStatic({ paletteItem, width, showText = false }: Adju
   }
 
   const otherStages = {
-    [NodeType.ImagePicker]: {
-      before: <Box sx={{ display: 'flex', gap: 1 }}>
-        <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />
-        <img src="sample2.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />
-      </Box>,
-      after: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />
-    },
-    [NodeType.MergeChannels]: {
-      before: <Box sx={{ display: 'flex', gap: 1 }}>
-        <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}`, filter: 'hue-rotate(90deg) ' }} />
-        <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}`, filter: 'hue-rotate(180deg)' }} />
-        <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}`, filter: 'hue-rotate(270deg)' }} />
-      </Box>,
-      after: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />
-    },
-    [NodeType.SplitChannels]: {
-      before: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />,
-      after: <Box sx={{ display: 'flex', gap: 1 }}>
-        <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}`, filter: 'hue-rotate(90deg) ' }} />
-        <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}`, filter: 'hue-rotate(180deg)' }} />
-        <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}`, filter: 'hue-rotate(270deg)' }} />
-      </Box>,
-    },
     [NodeType.AiColorizer]: {
       before: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}`, filter: 'grayscale(100%)' }} />,
       after: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />
     },
-    [NodeType.Lut]: {
-      before: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />,
-      after: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}`, filter: 'saturate(140%) contrast(150%)' }} />
-    },
     [NodeType.AiDenoiser]: {
       before: <img src="aiDenoise.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />,
       after: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />
-    },
-    [NodeType.Rescale]: {
-      before: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />,
-      after: <img src="sample.jpg" style={{ width: `${30}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />
-    },
-    [NodeType.Collage]: {
-      before: <FolderImages images={['sample.jpg', 'sample2.jpg']} />,
-      after: <FolderImages images={['sample.jpg', 'sample2.jpg']} border={false} />
     },
   }
 
@@ -205,12 +170,6 @@ export function PreviewDemoStatic({ paletteItem, width, showText = false }: Adju
       before: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />,
       after: <Box sx={{ p: 2, py: 1, gap: 2, border: 1, borderColor: theme.palette.divider, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Map color={theme.palette.primary.main} />
-      </Box>,
-    },
-    [NodeType.PhotoHistogram]: {
-      before: <img src="sample.jpg" style={{ width: `${width ?? 90}px`, borderRadius: '8px', border: `1px solid ${theme.palette.divider}` }} />,
-      after: <Box sx={{ p: 2, py: 1, gap: 2, border: 1, borderColor: theme.palette.divider, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <ChartColumn color={theme.palette.primary.main} />
       </Box>,
     },
     [NodeType.Viewer]: {

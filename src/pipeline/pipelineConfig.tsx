@@ -8,33 +8,20 @@ import AIPhotoEditorNode from '@/pipeline/nodes/ComplexNodes/AIPhotoEditorNode';
 import ArraySetOperationNode from '@/pipeline/nodes/ComplexNodes/ArraySetOperationNode';
 import ArraySwitchNode from '@/pipeline/nodes/ComplexNodes/ArraySwitchNode';
 import AskAINode from '@/pipeline/nodes/ComplexNodes/AskAINode';
-import CollageNode from '@/pipeline/nodes/ComplexNodes/CollageNode';
 import ExifSplitNode from '@/pipeline/nodes/ComplexNodes/ExifSplitNode';
 import ExifViewerNode from '@/pipeline/nodes/ComplexNodes/ExifViewerNode';
-import FilmBaseRemoverNode from '@/pipeline/nodes/ComplexNodes/FilmBaseRemoverNode';
 import GoogleDriveNode from '@/pipeline/nodes/ComplexNodes/GoogleDriveNode';
 import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
 import GpsSplitNode from '@/pipeline/nodes/ComplexNodes/GpsSplitNode';
 import GrouperNode from '@/pipeline/nodes/ComplexNodes/GrouperNode';
 import HotFolderReadNode from '@/pipeline/nodes/ComplexNodes/HotFolderReadNode';
 import HotFolderWriteNode from '@/pipeline/nodes/ComplexNodes/HotFolderWriteNode';
-import ImagePickerNode from '@/pipeline/nodes/ComplexNodes/ImagePickerNode';
 import InformationNode from '@/pipeline/nodes/ComplexNodes/InformationNode';
-import LutNode from '@/pipeline/nodes/ComplexNodes/LutNode';
-import MergeChannelsNode from '@/pipeline/nodes/ComplexNodes/MergeChannelsNode';
 import PdfSourceNode from '@/pipeline/nodes/ComplexNodes/PdfSourceNode';
-import PhotoHistogramNode from '@/pipeline/nodes/ComplexNodes/PhotoHistogramNode';
-import RescaleNode from '@/pipeline/nodes/ComplexNodes/RescaleNode';
-import ResizeLimitNode from '@/pipeline/nodes/ComplexNodes/ResizeLimitNode';
-import ScreenShareNode from '@/pipeline/nodes/ComplexNodes/ScreenShareNode';
 import SelectedPhotoNode from '@/pipeline/nodes/ComplexNodes/SelectedPhotoNode';
 import SinglePhotoViewerNode from '@/pipeline/nodes/ComplexNodes/SinglePhotoViewerNode';
 import SourceNode from '@/pipeline/nodes/ComplexNodes/SourceNode';
-import SplitChannelsNode from '@/pipeline/nodes/ComplexNodes/SplitChannelsNode';
-import SplitToningNode from '@/pipeline/nodes/ComplexNodes/SplitToningNode';
 import ViewerNode from '@/pipeline/nodes/ComplexNodes/ViewerNode';
-import VignetteNode from '@/pipeline/nodes/ComplexNodes/VignetteNode';
-import WebcamNode from '@/pipeline/nodes/ComplexNodes/WebcamNode';
 
 export const CONNECTION_LINE_TYPE = ConnectionLineType.SmoothStep;
 export const INITIAL_NODES: Node[] = [];
@@ -57,29 +44,16 @@ export const pipelineNodeTypes = {
   'ask-ai': AskAINode,
   'exif-split': ExifSplitNode,
   'exif-viewer': ExifViewerNode,
-  'film-base-remover': FilmBaseRemoverNode,
   'google-drive': GoogleDriveNode,
   'gps-map': GpsMapNode,
   'gps-split': GpsSplitNode,
   'hot-folder-read': HotFolderReadNode,
-  webcam: WebcamNode,
-  'screen-share': ScreenShareNode,
   'hot-folder-write': HotFolderWriteNode,
-  'image-picker': ImagePickerNode,
-  'merge-channels': MergeChannelsNode,
-  'photo-histogram': PhotoHistogramNode,
   'selected-photo': SelectedPhotoNode,
-  'split-channels': SplitChannelsNode,
-  'split-toning': SplitToningNode,
   'viewer-single': SinglePhotoViewerNode,
-  collage: CollageNode,
   grouper: GrouperNode,
   information: InformationNode,
-  lut: LutNode,
-  rescale: RescaleNode,
-  'resize-limit': ResizeLimitNode,
   source: SourceNode,
   'pdf-source': PdfSourceNode,
   viewer: ViewerNode,
-  vignette: VignetteNode,
 };
