@@ -28,7 +28,7 @@ export type GeoBounds = {
 };
 
 // Node types the pipeline engine can evaluate.
-export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer']);
+export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-zip', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer']);
 
 // Canvas-only nodes (e.g. notes). They are saved with the pipeline but never sent to the engine.
 export const ANNOTATION_NODE_TYPES = new Set(['post-it']);
@@ -41,6 +41,15 @@ export const GEOJSON_SET_INPUT_HANDLES = ['geojson-a', 'geojson-b'] as const;
 
 // Input handles of the GeoJSON within-area node: the area to test against, then the features to keep.
 export const GEOJSON_WITHIN_AREA_INPUT_HANDLES = ['geojson-area', 'geojson-features'] as const;
+
+// Input handles of the GeoJSON zip node: the full data (A), then the partial data whose properties are added to it (B).
+export const GEOJSON_ZIP_INPUT_HANDLES = ['geojson-a', 'geojson-b'] as const;
+
+// Property name used to match features when the zip node has no key selected.
+export const GEOJSON_ZIP_DEFAULT_KEY = 'name';
+
+// Window event carrying the keys that A and B share, so the zip node can fill its key dropdown.
+export const GEOJSON_ZIP_KEYS_EVENT = 'geojson-zip:keys';
 
 // Node types whose results are posted back to the main thread.
 // The JSONata node is included so its live output and errors can be shown on the node.
@@ -107,6 +116,13 @@ export type PipelineGeoJsonViewerMessage = {
   error?: string;
 };
 
+export type PipelineGeoJsonZipKeysMessage = {
+  type: "geojson-zip-keys";
+  evaluationId: number;
+  nodeId: string;
+  keys: string[];
+};
+
 export type PipelineDoneMessage = {
   type: "done";
   evaluationId: number;
@@ -123,5 +139,6 @@ export type PipelineWorkerOutbound =
   | PipelineStageTimingMessage
   | PipelineStageStartedMessage
   | PipelineGeoJsonViewerMessage
+  | PipelineGeoJsonZipKeysMessage
   | PipelineDoneMessage
   | PipelineErrorMessage;

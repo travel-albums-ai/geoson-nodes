@@ -16,12 +16,12 @@ import type {
   PipelineWorkerNode,
   PipelineWorkerOutbound,
 } from "@/types/types";
-import { VIEWER_NODE_TYPES, WORKER_NODE_TYPES } from "@/types/types";
+import { GEOJSON_ZIP_KEYS_EVENT, VIEWER_NODE_TYPES, WORKER_NODE_TYPES } from "@/types/types";
 import type { Edge, Node } from "@xyflow/react";
 
 // node.data keys the engine reads. Everything else (React Flow internals)
 // stays on the main thread.
-const NODE_DATA_KEYS = ["geojsonFile", "skip", "bounds", "query", "reversed", "outside"] as const;
+const NODE_DATA_KEYS = ["geojsonFile", "skip", "bounds", "query", "reversed", "outside", "key"] as const;
 
 type PendingViewer = {
   evaluationId: number;
@@ -80,6 +80,18 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
       }
 
       pending.resolve(message.geojson);
+      return;
+    }
+
+    case "geojson-zip-keys": {
+      window.dispatchEvent(
+        new CustomEvent(GEOJSON_ZIP_KEYS_EVENT, {
+          detail: {
+            nodeId: message.nodeId,
+            keys: message.keys,
+          },
+        })
+      );
       return;
     }
 

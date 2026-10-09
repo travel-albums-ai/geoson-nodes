@@ -1,5 +1,5 @@
 import { usePipelineStore } from '@/context/pipelineStore';
-import { GEOJSON_MERGE_INPUT_HANDLES, GEOJSON_SET_INPUT_HANDLES, GEOJSON_WITHIN_AREA_INPUT_HANDLES } from '@/types/types';
+import { GEOJSON_MERGE_INPUT_HANDLES, GEOJSON_SET_INPUT_HANDLES, GEOJSON_WITHIN_AREA_INPUT_HANDLES, GEOJSON_ZIP_INPUT_HANDLES } from '@/types/types';
 import { addEdge } from '@xyflow/react';
 import { useEffect } from 'react';
 import './webMcpTypes';
@@ -28,6 +28,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
   'geojson-merge': {
     sources: ['geojson'],
     targets: [...GEOJSON_MERGE_INPUT_HANDLES],
+  },
+  'geojson-zip': {
+    sources: ['geojson'],
+    targets: [...GEOJSON_ZIP_INPUT_HANDLES],
   },
   'geojson-union': {
     sources: ['geojson'],

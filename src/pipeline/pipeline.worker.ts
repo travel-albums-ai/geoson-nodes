@@ -16,7 +16,7 @@ import type {
   PipelineWorkerOutbound,
   GeoJsonFeatureCollectionArray,
 } from "@/types/types";
-import { GEOJSON_MERGE_INPUT_HANDLES, GEOJSON_SET_INPUT_HANDLES, GEOJSON_WITHIN_AREA_INPUT_HANDLES, VIEWER_NODE_TYPES } from "@/types/types";
+import { GEOJSON_MERGE_INPUT_HANDLES, GEOJSON_SET_INPUT_HANDLES, GEOJSON_WITHIN_AREA_INPUT_HANDLES, GEOJSON_ZIP_DEFAULT_KEY, GEOJSON_ZIP_INPUT_HANDLES, VIEWER_NODE_TYPES } from "@/types/types";
 import {
   filterGeoJsonByBounds,
   normalizeGeoBounds,
@@ -24,6 +24,7 @@ import {
 } from "@/lib/geojson";
 import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
 import { filterGeoJsonWithinArea } from "@/lib/geojsonWithinArea";
+import { commonPropertyKeys, zipGeoJsonByKey } from "@/lib/geojsonZip";
 import { runGeoJsonQuery } from "@/lib/geojsonQuery";
 import { cachePhaseOutput, getCachedPhaseOutput } from "@/pipeline/phaseOutputCache";
 
@@ -173,6 +174,21 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       };
     },
   },
+  "geojson-zip": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      const [primaryHandle, secondaryHandle] = GEOJSON_ZIP_INPUT_HANDLES;
+      const primary = (inputs[primaryHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [];
+      const secondary = (inputs[secondaryHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [];
+      const key = typeof inputs.key === "string" && inputs.key !== "" ? inputs.key : GEOJSON_ZIP_DEFAULT_KEY;
+
+      return {
+        geojson: zipGeoJsonByKey(primary, secondary, key),
+        keys: commonPropertyKeys(primary, secondary),
+      };
+    },
+  },
   "geojson-union": geoJsonSetNodeDefinition("union"),
   "geojson-intersection": geoJsonSetNodeDefinition("intersection"),
   "geojson-difference": geoJsonSetNodeDefinition("difference"),
@@ -263,6 +279,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "geojson-within-area") {
         inputs.outside = node.data.outside === true;
+      }
+
+      if (node.type === "geojson-zip") {
+        inputs.key = node.data.key;
       }
 
       if (node.data.skip === true) {
@@ -375,6 +395,18 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
     }
   } else {
     await Promise.all(nodes.map((node) => evaluateNode(node.id)));
+  }
+
+  // Every node has settled at this point, so these lookups return cached outputs.
+  for (const node of nodes.filter((candidate) => candidate.type === "geojson-zip")) {
+    const nodeOutputs = await evaluateNode(node.id);
+
+    workerScope.postMessage({
+      type: "geojson-zip-keys",
+      evaluationId,
+      nodeId: node.id,
+      keys: (nodeOutputs.keys as string[] | undefined) ?? [],
+    });
   }
 
   // Awaited so viewer messages are posted before "done"; the client
