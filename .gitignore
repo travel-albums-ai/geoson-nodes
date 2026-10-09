@@ -150,3 +150,6 @@ vite.config.ts.timestamp-*
 
 ./samples/flights-sample.json
 samples/flights-sample.json
+/samples/flights-sample.json
+samples/flights-sample.json
+flights-sample.json
