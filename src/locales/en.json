@@ -110,6 +110,7 @@
   "pipelineGeoJsonFeatures": "Features",
   "pipelineGeoJsonFeatureCount": "{{count}} features",
   "pipelineGeoJsonUnknownCity": "Unknown city",
+  "pipelineGeoJsonUnnamedFeature": "Unnamed feature",
   "pipelineGeoJsonEmpty": "No GeoJSON file loaded",
   "pipelineGpsMap": "GPS Map",
   "pipelineGpsMarkers": "Markers: {{count}}",
@@ -232,5 +233,5 @@
   "onboardingThemesStep": "Themes & Locales",
   "onboardingAiToolsStep": "AI Tools",
   "pipelineGpsMapDescription": "Plots GeoJSON features on a map.",
-  "pipelineGeoJsonViewerDescription": "Plots GeoJSON features on a map and lists each collection with its city, source and feature count."
+  "pipelineGeoJsonViewerDescription": "Plots GeoJSON features on a map and lists each collection with its city, source and feature count, with a small preview of each feature."
 }
