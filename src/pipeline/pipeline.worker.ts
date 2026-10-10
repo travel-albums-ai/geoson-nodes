@@ -409,6 +409,9 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       });
       signatures.set(nodeId, signature);
 
+      // The map component reports its own render time for gps-map, since a passthrough timing would read 0.
+      const reportsOwnTiming = node.type === "gps-map";
+
       const cached = getCachedPhaseOutput(signature);
       if (cached) {
         traceLog(`↺ reused ${node.id}`);
@@ -418,14 +421,16 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
           nodeType: node.type ?? "",
           nodeId: node.id,
         });
-        workerScope.postMessage({
-          type: "stageTiming",
-          evaluationId,
-          nodeType: node.type ?? "",
-          nodeId: node.id,
-          durationMs: 0,
-          cached: true,
-        });
+        if (!reportsOwnTiming) {
+          workerScope.postMessage({
+            type: "stageTiming",
+            evaluationId,
+            nodeType: node.type ?? "",
+            nodeId: node.id,
+            durationMs: 0,
+            cached: true,
+          });
+        }
         return cached;
       }
 
@@ -442,13 +447,15 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       const result = await definition.execute(inputs);
       const durationMs = performance.now() - nodeStartedAt;
 
-      workerScope.postMessage({
-        type: "stageTiming",
-        evaluationId,
-        nodeType: node.type ?? "",
-        nodeId: node.id,
-        durationMs,
-      });
+      if (!reportsOwnTiming) {
+        workerScope.postMessage({
+          type: "stageTiming",
+          evaluationId,
+          nodeType: node.type ?? "",
+          nodeId: node.id,
+          durationMs,
+        });
+      }
 
       traceLog(`✓ completed ${node.id}`);
 
