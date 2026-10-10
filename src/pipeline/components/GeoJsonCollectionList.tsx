@@ -94,7 +94,7 @@ export default function GeoJsonCollectionList({ collections, emptyMessage }: Geo
   );
 
   return (
-    <Box className="nowheel" sx={{ width: '480px' }}>
+    <Box className="nowheel" sx={{ width: '100%' }}>
       {sortedCollections.length > 0 ? (
         <Virtuoso
           style={{ height: Math.min(totalHeight, MAX_LIST_HEIGHT), minHeight: 100 }}

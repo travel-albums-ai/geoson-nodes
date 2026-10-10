@@ -29,7 +29,7 @@ function GeoBoundsFilterNode({ id, data }: NodeProps<Node<{ bounds?: GeoBounds }
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geo-bounds-filter" tools={<PipelineStageTiming nodeId={id} nodeType={'geo-bounds-filter'} />}>
+      <NodeWrapper type="geo-bounds-filter" defaultSize={{ width: 448 }} tools={<PipelineStageTiming nodeId={id} nodeType={'geo-bounds-filter'} />}>
         <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
           {t('pipelineGpsBoundsValues', {
             west: formatDegrees(bounds.west),

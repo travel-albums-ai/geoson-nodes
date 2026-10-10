@@ -32,7 +32,12 @@ export default function GeoJsonMap({ features, emptyMessage }: GeoJsonMapProps) 
       maxZoom: 19,
     }).addTo(map);
 
+    // Leaflet caches its container size, so it must be told when the node is resized.
+    const resizeObserver = new ResizeObserver(() => map.invalidateSize());
+    resizeObserver.observe(mapElementRef.current);
+
     return () => {
+      resizeObserver.disconnect();
       map.remove();
       mapRef.current = null;
     };
@@ -98,8 +103,8 @@ export default function GeoJsonMap({ features, emptyMessage }: GeoJsonMapProps) 
   }, [features]);
 
   return (
-    <Box className="nowheel" sx={{ width: '500px', height: '500px', position: 'relative' }}>
-      <Box ref={mapElementRef} sx={{ width: '100%', height: '100%' }} />
+    <Box className="nowheel" sx={{ position: 'relative', width: '100%', flex: '1 1 500px', minWidth: 0, minHeight: 0 }}>
+      <Box ref={mapElementRef} sx={{ position: 'absolute', inset: 0 }} />
       {features.length === 0 && (
         <Box
           sx={{

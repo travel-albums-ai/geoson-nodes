@@ -1,11 +1,15 @@
+import { useNodeResize } from '@/hooks/useNodeResize';
+import { getNodeMinSize, readNodeSize, type NodeSize } from '@/pipeline/nodeSizes';
+import { NodeType } from '@/pipeline/NodePalette';
 import { Box, IconButton, Tooltip } from '@mui/material';
-import { NodeToolbar, Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
+import { NodeResizer, NodeToolbar, Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { Copy, Trash2 } from 'lucide-react';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type PostItNodeData = {
   text?: string;
+  size?: NodeSize;
 };
 
 const NOTE_SIZE_PX = 220;
@@ -37,7 +41,7 @@ function fitFontSize(textarea: HTMLTextAreaElement) {
   textarea.style.fontSize = `${low}px`;
 }
 
-function PostItNode({ id, data }: NodeProps<Node<PostItNodeData>>) {
+function PostItNode({ id, data, selected }: NodeProps<Node<PostItNodeData>>) {
   const { t } = useTranslation();
   const { addNodes, deleteElements, getNode, getNodes, setNodes } = useReactFlow();
   const storedText = data.text ?? '';
@@ -46,6 +50,10 @@ function PostItNode({ id, data }: NodeProps<Node<PostItNodeData>>) {
   // distinguished from the node's own debounced commits.
   const syncedTextRef = useRef(storedText);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { size, onResize, onResizeEnd } = useNodeResize(id, readNodeSize(data.size));
+  const width = size?.width ?? NOTE_SIZE_PX;
+  const height = size?.height ?? NOTE_SIZE_PX;
+  const minSize = getNodeMinSize(NodeType.PostIt);
 
   useEffect(() => {
     if (storedText === syncedTextRef.current) return;
@@ -59,7 +67,7 @@ function PostItNode({ id, data }: NodeProps<Node<PostItNodeData>>) {
     if (textareaRef.current) {
       fitFontSize(textareaRef.current);
     }
-  }, [draft]);
+  }, [draft, width, height]);
 
   useEffect(() => {
     if (draft === syncedTextRef.current) return;
@@ -108,6 +116,13 @@ function PostItNode({ id, data }: NodeProps<Node<PostItNodeData>>) {
 
   return (
     <>
+      <NodeResizer
+        isVisible={selected}
+        minWidth={minSize.width}
+        minHeight={minSize.height}
+        onResize={onResize}
+        onResizeEnd={onResizeEnd}
+      />
       <NodeToolbar position={Position.Top} offset={8}>
         <Box
           className="nodrag nopan"
@@ -139,8 +154,10 @@ function PostItNode({ id, data }: NodeProps<Node<PostItNodeData>>) {
         sx={{
           cursor: 'grab',
           boxSizing: 'border-box',
-          width: NOTE_SIZE_PX,
-          height: NOTE_SIZE_PX,
+          width,
+          height,
+          minWidth: minSize.width,
+          minHeight: minSize.height,
           p: `${NOTE_PADDING_PX}px`,
           bgcolor: NOTE_COLOR,
           color: NOTE_TEXT_COLOR,

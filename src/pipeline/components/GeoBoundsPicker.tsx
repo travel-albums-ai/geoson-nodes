@@ -152,7 +152,11 @@ export default function GeoBoundsPicker({ bounds, onCommit }: GeoBoundsPickerPro
 
     layersRef.current = { rectangle, lines, grips };
 
+    const resizeObserver = new ResizeObserver(() => map.invalidateSize());
+    resizeObserver.observe(mapElementRef.current);
+
     return () => {
+      resizeObserver.disconnect();
       layersRef.current = null;
       map.remove();
     };
@@ -165,8 +169,8 @@ export default function GeoBoundsPicker({ bounds, onCommit }: GeoBoundsPickerPro
   }, [bounds, render]);
 
   return (
-    <Box className="nowheel" sx={{ width: '420px', height: '320px', position: 'relative' }}>
-      <Box ref={mapElementRef} sx={{ width: '100%', height: '100%' }} />
+    <Box className="nowheel" sx={{ position: 'relative', width: '100%', flex: '1 1 320px', minWidth: 0, minHeight: 0 }}>
+      <Box ref={mapElementRef} sx={{ position: 'absolute', inset: 0 }} />
     </Box>
   );
 }

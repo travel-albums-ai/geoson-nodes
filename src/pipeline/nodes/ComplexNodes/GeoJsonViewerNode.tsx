@@ -21,7 +21,7 @@ function GeoJsonViewerNode({ id, data }: NodeProps<Node<{ geojson?: GeoJsonFeatu
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geojson-viewer" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-viewer'} />}>
+      <NodeWrapper type="geojson-viewer" defaultSize={{ width: 508 }} tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-viewer'} />}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
           <NewChip count={collections?.length ?? 0} label={t('pipelineGeoJsonCollections')} fontSize={16} icon={<Layers size={16} />} sx={{ height: 38 }} />
           <NewChip count={features.length} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<MapPin size={16} />} sx={{ height: 38 }} />

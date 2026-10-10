@@ -2,9 +2,11 @@
 import NodeHeader from '@/pipeline/components/NodeHeader';
 import { PreviewDemoStatic } from '@/pipeline/components/PreviewDemoStatic';
 import { paletteItemsByType } from '@/pipeline/NodePalette';
+import { getNodeMinSize, readNodeSize, type NodeSize } from '@/pipeline/nodeSizes';
+import { useNodeResize } from '@/hooks/useNodeResize';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { NodeToolbar, Position, useNodeConnections, useNodeId, useNodesData, useReactFlow } from '@xyflow/react';
+import { NodeResizer, NodeToolbar, Position, useNodeConnections, useNodeId, useNodesData, useReactFlow, useStore } from '@xyflow/react';
 import { Copy, FastForward, HelpCircle, RotateCcw, Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +17,8 @@ type NodeWrapperProps = {
   type: string;
   helper?: React.ReactNode;
   tools?: React.ReactNode;
+  // Used until the user resizes the node, for content that needs an explicit starting size.
+  defaultSize?: Partial<NodeSize>;
 };
 
 export default function NodeWrapper({
@@ -22,9 +26,11 @@ export default function NodeWrapper({
   type,
   helper,
   tools,
+  defaultSize,
 }: NodeWrapperProps) {
   const nodeId = useNodeId();
   const nodeData = useNodesData(nodeId ?? '');
+  const isSelected = useStore((state) => state.nodes.find((node) => node.id === nodeId)?.selected ?? false);
   const inputConnections = useNodeConnections({ handleType: 'target' });
   const outputConnections = useNodeConnections({ handleType: 'source' });
   const { addNodes, deleteElements, getNode, getNodes, setEdges, setNodes } = useReactFlow();
@@ -33,6 +39,10 @@ export default function NodeWrapper({
   const [hasUnconnectedHandle, setHasUnconnectedHandle] = useState(false);
   const nodeContentRef = useRef<HTMLDivElement>(null);
   const isSkipping = nodeData?.data?.skip === true;
+  const minSize = getNodeMinSize(type);
+  const { size, onResize, onResizeEnd } = useNodeResize(nodeId ?? '', readNodeSize(nodeData?.data?.size));
+  const width = size?.width ?? defaultSize?.width;
+  const height = size?.height ?? defaultSize?.height;
 
   useEffect(() => {
     const nodeElement = nodeContentRef.current?.parentElement;
@@ -79,7 +89,7 @@ export default function NodeWrapper({
 
     setNodes((current) => current.map((currentNode) => {
       return currentNode.id === nodeId
-        ? { ...currentNode, id: resetId, data: resetData, selected: true }
+        ? { ...currentNode, id: resetId, data: resetData, width: undefined, height: undefined, selected: true }
         : currentNode;
     }));
     setEdges((current) => current.map((edge) => ({
@@ -130,6 +140,13 @@ export default function NodeWrapper({
 
   return (
     <>
+      <NodeResizer
+        isVisible={isSelected}
+        minWidth={minSize.width}
+        minHeight={minSize.height}
+        onResize={onResize}
+        onResizeEnd={onResizeEnd}
+      />
       <NodeToolbar position={Position.Top} offset={8}>
         <Box
           className="nodrag nopan"
@@ -201,7 +218,11 @@ export default function NodeWrapper({
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'stretch',
-            minWidth: 280,
+            boxSizing: 'border-box',
+            width,
+            height,
+            minWidth: minSize.width,
+            minHeight: minSize.height,
             borderRadius: 4,
             overflow: 'hidden',
             border: 2,
@@ -233,6 +254,8 @@ export default function NodeWrapper({
             display: 'flex',
             cursor: 'default',
             flexDirection: 'column',
+            flex: '1 1 auto',
+            minHeight: 0,
             borderRadius: 2,
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,

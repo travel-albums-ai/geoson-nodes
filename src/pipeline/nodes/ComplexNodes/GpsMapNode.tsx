@@ -21,7 +21,7 @@ function GpsMapNode({ id, data }: NodeProps<Node<{ geojson?: GeoJsonFeatureColle
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="gps-map" tools={<>
+      <NodeWrapper type="gps-map" defaultSize={{ width: 528 }} tools={<>
         <PipelineStageTiming nodeId={id} nodeType={'gps-map'} />
       </>}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
