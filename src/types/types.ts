@@ -50,7 +50,7 @@ export type FlightEntry = {
 };
 
 // Node types the pipeline engine can evaluate.
-export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-style', 'geojson-zip', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer', 'flight-path', 'shortest-route']);
+export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-style', 'geojson-zip', 'geojson-feature-picker', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer', 'flight-path', 'shortest-route']);
 
 // Canvas-only nodes (e.g. notes). They are saved with the pipeline but never sent to the engine.
 export const ANNOTATION_NODE_TYPES = new Set(['post-it']);
@@ -75,6 +75,9 @@ export const GEOJSON_ZIP_DEFAULT_KEY = 'name';
 
 // Window event carrying the keys that A and B share, so the zip node can fill its key dropdown.
 export const GEOJSON_ZIP_KEYS_EVENT = 'geojson-zip:keys';
+
+// Window event carrying how many features the picker node's input holds, so its slider can cap its range.
+export const GEOJSON_FEATURE_COUNT_EVENT = 'geojson-feature-picker:count';
 
 // Node types whose results are posted back to the main thread.
 // The JSONata node is included so its live output and errors can be shown on the node.
@@ -151,6 +154,13 @@ export type PipelineGeoJsonZipKeysMessage = {
   keys: string[];
 };
 
+export type PipelineGeoJsonFeatureCountMessage = {
+  type: "geojson-feature-count";
+  evaluationId: number;
+  nodeId: string;
+  count: number;
+};
+
 export type PipelineDoneMessage = {
   type: "done";
   evaluationId: number;
@@ -168,5 +178,6 @@ export type PipelineWorkerOutbound =
   | PipelineStageStartedMessage
   | PipelineGeoJsonViewerMessage
   | PipelineGeoJsonZipKeysMessage
+  | PipelineGeoJsonFeatureCountMessage
   | PipelineDoneMessage
   | PipelineErrorMessage;

@@ -42,6 +42,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: ['geojson'],
     targets: [...GEOJSON_ZIP_INPUT_HANDLES],
   },
+  'geojson-feature-picker': {
+    sources: ['geojson'],
+    targets: ['geojson'],
+  },
   'geojson-union': {
     sources: ['geojson'],
     targets: [...GEOJSON_SET_INPUT_HANDLES],

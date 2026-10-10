@@ -75,6 +75,32 @@ export function filterGeoJsonByBounds(
   }));
 }
 
+export function countGeoJsonFeatures(collections: GeoJsonFeatureCollectionArray): number {
+  return collections.reduce((total, collection) => total + collection.features.length, 0);
+}
+
+// Features are counted across all collections in order. The result holds one collection with just that feature.
+export function pickGeoJsonFeature(
+  collections: GeoJsonFeatureCollectionArray,
+  index: number,
+): GeoJsonFeatureCollectionArray {
+  if (!Number.isInteger(index) || index < 0) {
+    return [];
+  }
+
+  let remaining = index;
+
+  for (const collection of collections) {
+    if (remaining < collection.features.length) {
+      return [{ ...collection, features: [collection.features[remaining]] }];
+    }
+
+    remaining -= collection.features.length;
+  }
+
+  return [];
+}
+
 // Accepts either a single FeatureCollection or an array of them.
 export function parseGeoJsonFeatureCollections(text: string): GeoJsonFeatureCollectionArray {
   let parsed: unknown;

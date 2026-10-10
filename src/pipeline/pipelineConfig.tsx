@@ -12,6 +12,7 @@ import GeoJsonSwitchNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSwitchNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
 import GeoJsonWithinAreaNode from '@/pipeline/nodes/ComplexNodes/GeoJsonWithinAreaNode';
 import GeoJsonZipNode from '@/pipeline/nodes/ComplexNodes/GeoJsonZipNode';
+import GeoJsonFeaturePickerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonFeaturePickerNode';
 import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
 import PostItNode from '@/pipeline/nodes/ComplexNodes/PostItNode';
 import ShortestRouteNode from '@/pipeline/nodes/ComplexNodes/ShortestRouteNode';
@@ -37,6 +38,7 @@ export const pipelineNodeTypes = {
   'geojson-switch': GeoJsonSwitchNode,
   'geojson-style': GeoJsonStyleNode,
   'geojson-zip': GeoJsonZipNode,
+  'geojson-feature-picker': GeoJsonFeaturePickerNode,
   'geojson-union': GeoJsonSetNode,
   'geojson-intersection': GeoJsonSetNode,
   'geojson-difference': GeoJsonSetNode,

@@ -1,4 +1,4 @@
-import { Blend, Braces, Combine, Crop, Diff, FileJson, GitFork, Layers, Link2, Merge, MapPinned, Palette, Plane, Route, ScanSearch, SquaresIntersect, StickyNote } from 'lucide-react';
+import { Blend, Braces, Combine, Crop, Diff, FileJson, GitFork, Layers, Link2, Merge, MapPinned, Palette, Plane, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
@@ -10,6 +10,7 @@ export enum NodeType {
   GeoJsonSwitch = 'geojson-switch',
   GeoJsonStyle = 'geojson-style',
   GeoJsonZip = 'geojson-zip',
+  GeoJsonFeaturePicker = 'geojson-feature-picker',
   GeoJsonUnion = 'geojson-union',
   GeoJsonIntersection = 'geojson-intersection',
   GeoJsonDifference = 'geojson-difference',
@@ -81,6 +82,10 @@ const filterStages: Array<NodeStageItem> = [
   {
     type: NodeType.ShortestRoute, labelKey: "pipelineShortestRoute", icon: <Route size={16} />,
     processing: 'static', labelDescription: 'pipelineShortestRouteDescription'
+  },
+  {
+    type: NodeType.GeoJsonFeaturePicker, labelKey: "pipelineGeoJsonFeaturePicker", icon: <SlidersHorizontal size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonFeaturePickerDescription'
   },
 ];
 

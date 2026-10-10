@@ -20,9 +20,11 @@ import type {
 } from "@/types/types";
 import { GEOJSON_MERGE_INPUT_HANDLES, GEOJSON_SET_INPUT_HANDLES, GEOJSON_SWITCH_INPUT_HANDLES, GEOJSON_WITHIN_AREA_INPUT_HANDLES, GEOJSON_ZIP_DEFAULT_KEY, GEOJSON_ZIP_INPUT_HANDLES, VIEWER_NODE_TYPES } from "@/types/types";
 import {
+  countGeoJsonFeatures,
   filterGeoJsonByBounds,
   normalizeGeoBounds,
   parseGeoJsonFeatureCollections,
+  pickGeoJsonFeature,
 } from "@/lib/geojson";
 import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
 import { applyGeoJsonStyle, readGeoJsonStyleSettings } from "@/lib/geojsonStyle";
@@ -256,6 +258,20 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       };
     },
   },
+  "geojson-feature-picker": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
+      const featureCount = countGeoJsonFeatures(collections);
+      const requestedIndex = typeof inputs.featureIndex === "number" ? inputs.featureIndex : 0;
+
+      return {
+        geojson: pickGeoJsonFeature(collections, Math.min(requestedIndex, featureCount - 1)),
+        featureCount,
+      };
+    },
+  },
   "geojson-union": geoJsonSetNodeDefinition("union"),
   "geojson-intersection": geoJsonSetNodeDefinition("intersection"),
   "geojson-difference": geoJsonSetNodeDefinition("difference"),
@@ -376,6 +392,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "geojson-style") {
         inputs.style = node.data.style;
+      }
+
+      if (node.type === "geojson-feature-picker") {
+        inputs.featureIndex = node.data.featureIndex;
       }
 
       if (node.type === "geojson-switch") {
@@ -532,6 +552,17 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
     }
   } else {
     await Promise.all(viewerNodes.map(postViewer));
+  }
+
+  for (const node of nodes.filter((candidate) => candidate.type === "geojson-feature-picker")) {
+    const nodeOutputs = await evaluateNode(node.id);
+
+    workerScope.postMessage({
+      type: "geojson-feature-count",
+      evaluationId,
+      nodeId: node.id,
+      count: (nodeOutputs.featureCount as number | undefined) ?? 0,
+    });
   }
 
   throwIfStale(evaluationId);

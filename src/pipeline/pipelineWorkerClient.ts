@@ -19,12 +19,12 @@ import type {
   PipelineWorkerNode,
   PipelineWorkerOutbound,
 } from "@/types/types";
-import { GEOJSON_ZIP_KEYS_EVENT, VIEWER_NODE_TYPES, WORKER_NODE_TYPES } from "@/types/types";
+import { GEOJSON_FEATURE_COUNT_EVENT, GEOJSON_ZIP_KEYS_EVENT, VIEWER_NODE_TYPES, WORKER_NODE_TYPES } from "@/types/types";
 import type { Edge, Node } from "@xyflow/react";
 
 // node.data keys the engine reads. Everything else (React Flow internals)
 // stays on the main thread. Flight lists are handled separately, see projectNode.
-const NODE_DATA_KEYS = ["geojsonFile", "fileKey", "skip", "bounds", "query", "negate", "reversed", "outside", "key", "serveB", "style", "from", "to", "via"] as const;
+const NODE_DATA_KEYS = ["geojsonFile", "fileKey", "skip", "bounds", "query", "negate", "reversed", "outside", "key", "serveB", "style", "featureIndex", "from", "to", "via"] as const;
 
 type PendingViewer = {
   evaluationId: number;
@@ -110,6 +110,18 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
           detail: {
             nodeId: message.nodeId,
             keys: message.keys,
+          },
+        })
+      );
+      return;
+    }
+
+    case "geojson-feature-count": {
+      window.dispatchEvent(
+        new CustomEvent(GEOJSON_FEATURE_COUNT_EVENT, {
+          detail: {
+            nodeId: message.nodeId,
+            count: message.count,
           },
         })
       );
