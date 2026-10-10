@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 type StageTimingDetail = {
   nodeId: string;
   durationMs: number;
+  cached?: boolean;
 };
 
 type StageProgressDetail = {
@@ -26,6 +27,7 @@ export default function PipelineStageTiming({
   isBusy,
 }: PipelineStageTimingProps) {
   const [durationMs, setDurationMs] = useState<number | null>(null);
+  const [isCached, setIsCached] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [startedAt, setStartedAt] = useState<number | null>(null);
@@ -36,12 +38,23 @@ export default function PipelineStageTiming({
     const timingEventName = `${nodeType}:stageTiming`;
     const progressEventName = `${nodeType}:progress`;
 
+    // A newer evaluation supersedes any in-flight run. Its worker messages
+    // are dropped, so stop this node's clock here instead of letting it spin.
+    const handleEvaluationStarted = () => {
+      setIsProcessing(false);
+      setStartedAt(null);
+      setElapsedMs(0);
+      setProgress(null);
+      isBusy?.(false);
+    };
+
     const handleStarted = (event: Event) => {
       const { nodeId: startedNodeId } =
       (event as CustomEvent<{ nodeId: string }>).detail;
 
       if (startedNodeId === nodeId) {
         setIsProcessing(true);
+        setIsCached(false);
         setStartedAt(performance.now());
         setElapsedMs(0);
         setProgress(null);
@@ -56,7 +69,7 @@ export default function PipelineStageTiming({
     };
 
     const handleTiming = (event: Event) => {
-      const { nodeId: timingNodeId, durationMs: nextDurationMs } =
+      const { nodeId: timingNodeId, durationMs: nextDurationMs, cached } =
       (event as CustomEvent<StageTimingDetail>).detail;
 
       if (timingNodeId === nodeId) {
@@ -64,20 +77,23 @@ export default function PipelineStageTiming({
         setStartedAt(null);
         isBusy?.(false);
         setDurationMs(nextDurationMs);
+        setIsCached(Boolean(cached));
         setProgress(null);
       }
     };
 
+    window.addEventListener('pipeline:evaluationStarted', handleEvaluationStarted);
     window.addEventListener(startedEventName, handleStarted);
     window.addEventListener(timingEventName, handleTiming);
     window.addEventListener(progressEventName, handleProgress);
 
     return () => {
+      window.removeEventListener('pipeline:evaluationStarted', handleEvaluationStarted);
       window.removeEventListener(startedEventName, handleStarted);
       window.removeEventListener(timingEventName, handleTiming);
       window.removeEventListener(progressEventName, handleProgress);
     };
-  }, [nodeId, nodeType]);
+  }, [nodeId, nodeType, isBusy]);
 
   useEffect(() => {
     if (!isProcessing || startedAt === null) return;
@@ -90,6 +106,9 @@ export default function PipelineStageTiming({
   }, [isProcessing, startedAt]);
 
   const displayInSeconds = durationMs === null ? '--' : (durationMs / 1000).toFixed(2);
+  const timingTooltip = isCached
+    ? 'Result reused from cache'
+    : `Time taken to process: ${displayInSeconds} s`;
   const progressPercent = progress && progress.total > 0
     ? Math.min(100, Math.max(0, ((Math.min(progress.completed + 1, progress.total)) / progress.total) * 100))
     : 0;
@@ -138,13 +157,13 @@ export default function PipelineStageTiming({
         </>}
       </Box>
     )}
-    {!isProcessing && <Tooltip title={`Time taken to process: ${displayInSeconds} s`}>
+    {!isProcessing && <Tooltip title={timingTooltip}>
       <span>
         <NewChip
           fontSize={18}
           sx={{ width: '100px'}}
-          label="s"
-          count={displayInSeconds}
+          label={isCached ? '' : 's'}
+          count={isCached ? 'cached' : displayInSeconds}
           icon={<Timer size={16} />}
           borderless/>
       </span>

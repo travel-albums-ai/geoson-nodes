@@ -1,8 +1,9 @@
 import type { GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/types/types';
 
-// Stops the search after this many routes or steps, so a long list of optional stops cannot freeze the pipeline.
+// Caps the routes returned and the flight checks made, so a long list of optional stops cannot freeze the pipeline.
+// The search keeps only the cheapest routes, so memory stays flat and a larger step budget only costs time.
 const MAX_ROUTES = 1000;
-const MAX_STEPS = 200_000;
+const MAX_STEPS = 5_000_000;
 
 // A flight line from the flight path node, read as one leg of the route network.
 type Leg = { feature: GeoJsonFeature; from: string; to: string; price: number | null; currency: string | null };
@@ -36,27 +37,6 @@ function readLegs(collections: GeoJsonFeatureCollectionArray): Leg[] {
 // Only a non-negative price can be summed. Non-negative costs are what let the search pop routes in price order.
 function isRankable(price: number | null): price is number {
   return price !== null && price >= 0;
-}
-
-// One partial route in the search. Labels point back to their parent, so routes share their prefixes.
-// `visited` is a bit set of the airports the partial route has already passed through, and `remaining`
-// is the cheapest price from the current airport to the goal, ignoring the stop rules.
-type Label = {
-  node: string;
-  leg: Leg | null;
-  parent: Label | null;
-  visited: bigint;
-  unranked: number;
-  price: number;
-  remaining: number;
-  currency: string | null | undefined;
-  seq: number;
-};
-
-// Orders partial routes by how cheaply they can finish: fewest unpriced legs first, then the lowest price
-// so far plus the cheapest possible rest of the route. The sequence number keeps ties in discovery order.
-function compareLabels(a: Label, b: Label): number {
-  return a.unranked - b.unranked || a.price + a.remaining - (b.price + b.remaining) || a.seq - b.seq;
 }
 
 // Binary min-heap that orders the partial routes waiting to be extended.
@@ -106,20 +86,14 @@ class MinHeap<T> {
   }
 }
 
-function legsOf(label: Label): Leg[] {
-  const legs: Leg[] = [];
-  for (let current: Label | null = label; current?.leg; current = current.parent) {
-    legs.push(current.leg);
-  }
-  return legs.reverse();
-}
+type Found = { unranked: number; price: number; legs: Leg[] };
 
-// Finds routes from start to goal that visit each airport at most once, cheapest first. It is a Dijkstra-style
-// best-first search: partial routes wait in a priority queue keyed by their cost so far plus the cheapest possible
-// rest of the trip (an A* estimate), so the first complete routes to leave the queue are the cheapest. Flights are
-// one-way, so each leg is only followed from its departure to its arrival airport. A route ends as soon as it
-// reaches the goal, so a round trip (start equal to goal) returns to the start only once. Each parallel flight is a
-// separate leg, so it yields its own routes.
+// Finds routes from start to goal that visit each airport at most once, cheapest first. It is a depth-first search
+// with branch and bound: it follows each flight in turn, and drops a partial route as soon as no completion of it can
+// beat the MAX_ROUTES cheapest routes found so far. Memory is the current path plus the kept routes, so it does not
+// grow with the number of partial routes; a long search only takes longer. Flights are one-way, so each leg is only
+// followed from its departure to its arrival airport. A route ends as soon as it reaches the goal, so a round trip
+// (start equal to goal) returns to the start only once. Each parallel flight is a separate leg, so it yields its own routes.
 function findRoutes(legs: Leg[], start: string, goal: string): Leg[][] {
   const outgoing = new Map<string, Leg[]>();
   const reverse = new Map<string, Leg[]>();
@@ -148,77 +122,71 @@ function findRoutes(legs: Leg[], start: string, goal: string): Leg[][] {
     }
   }
 
-  const bits = new Map<string, bigint>();
-  const bitOf = (node: string): bigint => {
-    let bit = bits.get(node);
-    if (bit === undefined) {
-      bit = BigInt(1) << BigInt(bits.size);
-      bits.set(node, bit);
-    }
-    return bit;
-  };
-
-  // Partial routes that reach the same airport, having passed the same airports and holding the same
-  // currency, can be extended in exactly the same ways. Only the cheapest MAX_ROUTES of each such state
-  // can be part of the cheapest MAX_ROUTES complete routes, so the rest are not extended.
-  const expansions = new Map<string, number>();
-  const queue = new MinHeap<Label>(compareLabels);
-  let seq = 0;
-  queue.push({
-    node: start,
-    leg: null,
-    parent: null,
-    visited: bitOf(start),
-    unranked: 0,
-    price: 0,
-    remaining: toGoal.get(start) ?? 0,
-    currency: undefined,
-    seq: seq++,
-  });
-
-  const routes: Leg[][] = [];
-  let steps = 0;
-
-  while (queue.size > 0 && routes.length < MAX_ROUTES && steps < MAX_STEPS) {
-    const label = queue.pop();
-    if (!label) break;
-
-    if (label.leg && label.node === goal) {
-      routes.push(legsOf(label));
-      continue;
-    }
-
-    const currencyKey = label.currency === undefined ? 'unset' : JSON.stringify(label.currency);
-    const state = `${label.node}|${label.visited}|${currencyKey}`;
-    const count = expansions.get(state) ?? 0;
-    if (count >= MAX_ROUTES) continue;
-    expansions.set(state, count + 1);
-
-    for (const leg of outgoing.get(label.node) ?? []) {
-      if (steps >= MAX_STEPS) break;
-      steps++;
-
-      if (leg.to !== goal && (!toGoal.has(leg.to) || (label.visited & bitOf(leg.to)) !== BigInt(0))) continue;
-
-      const ranked =
-        isRankable(leg.price) && (label.currency === undefined || label.currency === leg.currency);
-      queue.push({
-        node: leg.to,
-        leg,
-        parent: label,
-        visited: label.visited | bitOf(leg.to),
-        unranked: label.unranked + (ranked ? 0 : 1),
-        price: label.price + (ranked ? (leg.price ?? 0) : 0),
-        remaining: toGoal.get(leg.to) ?? 0,
-        currency: ranked ? leg.currency : label.currency,
-        seq: seq++,
-      });
-    }
+  // Cheapest flights first, so the first complete routes found are usually among the cheapest.
+  const rank = (leg: Leg): number => (isRankable(leg.price) ? leg.price : Number.MAX_VALUE);
+  for (const next of outgoing.values()) {
+    next.sort((a, b) => rank(a) - rank(b));
   }
 
-  return routes;
-}
+  const kept: Found[] = [];
+  const isBetter = (unrankedA: number, priceA: number, unrankedB: number, priceB: number): boolean =>
+    unrankedA < unrankedB || (unrankedA === unrankedB && priceA < priceB);
 
+  // Whether a complete route with this key would enter the kept list.
+  const admits = (unranked: number, price: number): boolean => {
+    if (kept.length < MAX_ROUTES) return true;
+    const last = kept[kept.length - 1];
+    return isBetter(unranked, price, last.unranked, last.price);
+  };
+
+  const insert = (found: Found): void => {
+    let i = kept.length;
+    while (i > 0 && isBetter(found.unranked, found.price, kept[i - 1].unranked, kept[i - 1].price)) i--;
+    kept.splice(i, 0, found);
+    if (kept.length > MAX_ROUTES) kept.pop();
+  };
+
+  // A partial route can be dropped once none of its completions can enter the kept list. Its unranked count can
+  // only grow, and while it stays the same, its price can only grow to at least the bound (the price so far plus
+  // the cheapest remaining price, which ignores currency and the stop rules, so it is a true lower bound).
+  const hopeless = (unranked: number, bound: number): boolean => {
+    if (kept.length < MAX_ROUTES) return false;
+    const last = kept[kept.length - 1];
+    return unranked > last.unranked || (unranked === last.unranked && bound >= last.price);
+  };
+
+  const visited = new Set<string>([start]);
+  const path: Leg[] = [];
+  let steps = 0;
+
+  // `currency` is undefined until the first ranked leg, then the currency every ranked leg must share.
+  const extend = (node: string, unranked: number, price: number, currency: string | null | undefined): void => {
+    for (const leg of outgoing.get(node) ?? []) {
+      if (steps >= MAX_STEPS) return;
+      steps++;
+
+      if (leg.to !== goal && (!toGoal.has(leg.to) || visited.has(leg.to))) continue;
+
+      const ranked = isRankable(leg.price) && (currency === undefined || currency === leg.currency);
+      const nextUnranked = unranked + (ranked ? 0 : 1);
+      const nextPrice = ranked ? price + (leg.price ?? 0) : price;
+      const nextCurrency = ranked ? leg.currency : currency;
+
+      path.push(leg);
+      if (leg.to === goal) {
+        if (admits(nextUnranked, nextPrice)) insert({ unranked: nextUnranked, price: nextPrice, legs: [...path] });
+      } else if (!hopeless(nextUnranked, nextPrice + (toGoal.get(leg.to) ?? 0))) {
+        visited.add(leg.to);
+        extend(leg.to, nextUnranked, nextPrice, nextCurrency);
+        visited.delete(leg.to);
+      }
+      path.pop();
+    }
+  };
+
+  extend(start, 0, 0, undefined);
+  return kept.map((found) => found.legs);
+}
 
 function readString(value: unknown): string | null {
   return typeof value === 'string' ? value : null;

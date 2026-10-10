@@ -123,6 +123,7 @@ export type PipelineStageTimingMessage = {
   nodeType: string;
   nodeId: string;
   durationMs: number;
+  cached?: boolean;
 };
 
 export type PipelineStageStartedMessage = {

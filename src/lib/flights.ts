@@ -5,9 +5,9 @@ type Vector = [x: number, y: number, z: number];
 // A flight whose both airports are picked, extended at runtime with its distance.
 type RoutedFlight = FlightEntry & { from: Airport; to: Airport; distanceKm: number };
 
-const KM_PER_SEGMENT = 50;
-const MIN_SEGMENTS = 16;
-const MAX_SEGMENTS = 256;
+const KM_PER_SEGMENT = 200;
+const MIN_SEGMENTS = 4;
+const MAX_SEGMENTS = 30;
 const EARTH_RADIUS_KM = 6371;
 const EPSILON = 1e-9;
 // How far the arc's control point sits from the chord, as a fraction of the chord length.

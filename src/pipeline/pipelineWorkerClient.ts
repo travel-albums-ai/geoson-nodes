@@ -50,6 +50,7 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
           detail: {
             nodeId: message.nodeId,
             durationMs: message.durationMs,
+            cached: message.cached ?? false,
           },
         })
       );

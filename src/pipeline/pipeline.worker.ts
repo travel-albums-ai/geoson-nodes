@@ -385,6 +385,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
           nodeType: node.type ?? "",
           nodeId: node.id,
           durationMs: 0,
+          cached: true,
         });
         return cached;
       }
