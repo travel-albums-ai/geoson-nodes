@@ -66,7 +66,10 @@ export function createLocalStorageStoreNg<T extends object>(
       }
 
       localStorage.setItem(storageKey, JSON.stringify(serialize(next)))
-    } catch {}
+    } catch (error) {
+      // Quota errors land here; the in-memory state still updates.
+      console.error(`Could not save ${storageKey} to localStorage`, error)
+    }
   }
 
   const store: Store<T> = {

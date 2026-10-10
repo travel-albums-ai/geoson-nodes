@@ -1,6 +1,8 @@
 import NewChip from '@/components/NewChip';
+import { usePipelineStoreSelector } from '@/context/pipelineStore';
 import { loadAirports } from '@/lib/airports';
 import { parseFlightsFile } from '@/lib/flights';
+import { createFlightsKey, deleteFlights, saveFlights } from '@/lib/flightsFileStore';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
@@ -11,15 +13,27 @@ import { File, FileJson, Hash } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-type FlightPathNodeData = { flights?: FlightEntry[]; flightsFileName?: string };
+type FlightPathNodeData = {
+  // The flight list itself lives in IndexedDB under flightsKey (see flightsFileStore).
+  flightsKey?: string;
+  flightsFileName?: string;
+  completeCount?: number;
+  // Legacy: lists saved before they moved to IndexedDB. Moved out on mount.
+  flights?: FlightEntry[];
+};
+
+type FlightListRef = Pick<FlightPathNodeData, 'flightsKey' | 'flightsFileName' | 'completeCount'>;
 type FlightSide = 'from' | 'to';
+
+const countCompleteFlights = (flights: FlightEntry[]) =>
+  flights.filter(({ from, to }) => from && to && from.iata !== to.iata).length;
 
 function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
   const { t } = useTranslation();
-  const { setNodes } = useReactFlow();
+  const { setNodes, getNodes } = useReactFlow();
+  const savedPipelines = usePipelineStoreSelector((state) => state.pipelines);
   const [loadIssue, setLoadIssue] = useState<string | null>(null);
-  const flights = data.flights ?? [];
-  const completeCount = flights.filter(({ from, to }) => from && to && from.iata !== to.iata).length;
+  const completeCount = data.completeCount ?? countCompleteFlights(data.flights ?? []);
 
   useEffect(() => {
     let active = true;
@@ -32,15 +46,49 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
     };
   }, []);
 
-  // A manual edit drops the file name, since the list no longer matches the file.
-  const commit = useCallback((next: FlightEntry[], fileName?: string) => {
-    setNodes((current) => current.map((node) =>
-      node.id === id
-        ? { ...node, data: { ...node.data, flights: next, flightsFileName: fileName } }
-        : node
-    ));
+  // Replaces the list reference and drops any legacy inline list.
+  const commit = useCallback((ref: FlightListRef) => {
+    setNodes((current) => current.map((node) => {
+      if (node.id !== id) return node;
+
+      const { flights: _legacyFlights, ...rest } = node.data;
+
+      return { ...node, data: { ...rest, ...ref } };
+    }));
     window.dispatchEvent(new CustomEvent('pipeline:changed'));
   }, [id, setNodes]);
+
+  // A stored list may still back a saved pipeline or a cloned node on the
+  // canvas, so it is only removed when nothing else references it.
+  const isFlightsKeyReferenced = (key: string) =>
+    savedPipelines.some((pipeline) => pipeline.nodes.some((node) => node.data.flightsKey === key)) ||
+    getNodes().some((node) => node.id !== id && node.data.flightsKey === key);
+
+  // Moves a legacy inline list into IndexedDB. Skipped if the list was replaced meanwhile.
+  useEffect(() => {
+    const legacy = data.flights;
+    if (!legacy) return;
+
+    const flightsKey = createFlightsKey();
+
+    saveFlights(flightsKey, legacy)
+      .then(() => {
+        const current = getNodes().find((node) => node.id === id);
+
+        if (current?.data.flights !== legacy) {
+          return deleteFlights(flightsKey);
+        }
+
+        commit({
+          flightsKey,
+          completeCount: countCompleteFlights(legacy),
+          flightsFileName: data.flightsFileName,
+        });
+      })
+      .catch((reason: unknown) => {
+        console.warn('Could not move flights out of node data', reason);
+      });
+  }, [commit, data.flights, data.flightsFileName, getNodes, id]);
 
   const loadFile = (file: File | undefined) => {
     if (!file) return;
@@ -48,10 +96,25 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
     setLoadIssue(null);
 
     Promise.all([file.text(), loadAirports()])
-      .then(([text, list]) => {
+      .then(async ([text, list]) => {
         const { flights: next, unknownCodes } = parseFlightsFile(text, list);
+        const flightsKey = createFlightsKey();
 
-        commit(next, file.name);
+        await saveFlights(flightsKey, next);
+
+        const previousKey = getNodes().find((node) => node.id === id)?.data.flightsKey as string | undefined;
+
+        commit({
+          flightsKey,
+          completeCount: countCompleteFlights(next),
+          flightsFileName: file.name,
+        });
+
+        if (previousKey && !isFlightsKeyReferenced(previousKey)) {
+          deleteFlights(previousKey).catch((reason: unknown) => {
+            console.warn('Could not remove previous flights', reason);
+          });
+        }
 
         if (unknownCodes.length > 0) {
           setLoadIssue(t('pipelineFlightPathUnknownAirports', { codes: unknownCodes.join(', ') }));
@@ -71,7 +134,7 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
           <NewChip count={''} label={data.flightsFileName} fontSize={16} icon={<File size={16} />} sx={{ height: 38 }} />
         )}
       </Box>
-      {flights.length === 0 && (
+      {!data.flightsKey && (data.flights?.length ?? 0) === 0 && (
         <Typography variant="caption" color="text.secondary" component="div">
           {t('pipelineFlightPathHint')}
         </Typography>

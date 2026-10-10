@@ -40,6 +40,27 @@ function toFeatureCollections(result: unknown): GeoJsonFeatureCollectionArray {
   throw new Error('The query must return FeatureCollections or Features');
 }
 
+// Compiled expressions are reused across runs. Bounded so many distinct
+// queries cannot grow the cache without limit.
+const COMPILED_QUERY_LIMIT = 64;
+const compiledQueries = new Map<string, ReturnType<typeof jsonata>>();
+
+// Compile errors throw before anything is cached, so a bad query is retried each time.
+function compileQuery(expression: string): ReturnType<typeof jsonata> {
+  const cached = compiledQueries.get(expression);
+  if (cached) return cached;
+
+  const compiled = jsonata(expression);
+
+  if (compiledQueries.size >= COMPILED_QUERY_LIMIT) {
+    const oldest = compiledQueries.keys().next();
+    if (!oldest.done) compiledQueries.delete(oldest.value);
+  }
+
+  compiledQueries.set(expression, compiled);
+  return compiled;
+}
+
 // An empty query passes the collections through unchanged. Otherwise the
 // query runs against the whole list, so paths like features[...] span every collection.
 export async function runGeoJsonQuery(
@@ -53,7 +74,7 @@ export async function runGeoJsonQuery(
   let result: unknown;
 
   try {
-    result = await jsonata(expression).evaluate(collections);
+    result = await compileQuery(expression).evaluate(collections);
   } catch (error) {
     // JSONata throws plain objects with a message rather than Error instances.
     throw toError(error);

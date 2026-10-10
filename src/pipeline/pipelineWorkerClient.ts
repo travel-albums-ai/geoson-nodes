@@ -10,6 +10,7 @@
 
 import { getSettingsStore } from "@/context/settingsStore";
 import { hashString } from "@/lib/contentHash";
+import { getCachedFlights, loadFlights } from "@/lib/flightsFileStore";
 import type {
   FlightEntry,
   GeoJsonFeatureCollectionArray,
@@ -180,8 +181,32 @@ function getWorker(): Worker {
   return worker;
 }
 
+// Flight lists are read from IndexedDB ahead of the run (see resolveFlightLists).
+async function resolveFlightLists(nodes: Node[]): Promise<Map<string, FlightEntry[]>> {
+  const lists = new Map<string, FlightEntry[]>();
+
+  await Promise.all(
+    nodes
+      .filter((node) => node.type === "flight-path")
+      .map(async (node) => {
+        const key = node.data.flightsKey as string | undefined;
+
+        if (key === undefined) {
+          // Nodes saved before flight lists moved out of node data still hold them inline.
+          lists.set(node.id, (node.data.flights as FlightEntry[] | undefined) ?? []);
+          return;
+        }
+
+        lists.set(node.id, getCachedFlights(key) ?? (await loadFlights(key)));
+      })
+  );
+
+  return lists;
+}
+
 function projectNode(
   node: Node,
+  flightLists: Map<string, FlightEntry[]>,
   referencedFlightHashes: Set<string>,
   flightPayloads: Record<string, FlightEntry[]>
 ): PipelineWorkerNode {
@@ -194,7 +219,7 @@ function projectNode(
   }
 
   if (node.type === "flight-path") {
-    const flights = (node.data.flights as FlightEntry[] | undefined) ?? [];
+    const flights = flightLists.get(node.id) ?? [];
     const hash = flightsHashOf(flights);
 
     referencedFlightHashes.add(hash);
@@ -261,6 +286,14 @@ export async function evaluatePipeline(
   }
 
   try {
+    const flightLists = await resolveFlightLists(supportedNodes);
+
+    // A newer evaluation started while flights were loading. It has already
+    // settled this run's viewers, so this run must not post a stale graph.
+    if (evaluationId !== activeEvaluationId) {
+      return results;
+    }
+
     const activeWorker = getWorker();
     const flightPayloads: Record<string, FlightEntry[]> = {};
     const referencedFlightHashes = new Set<string>();
@@ -269,7 +302,7 @@ export async function evaluatePipeline(
       type: "evaluate",
       evaluationId,
       sequentialMode: getSettingsStore().pipelineSequentialMode,
-      nodes: supportedNodes.map((node) => projectNode(node, referencedFlightHashes, flightPayloads)),
+      nodes: supportedNodes.map((node) => projectNode(node, flightLists, referencedFlightHashes, flightPayloads)),
       edges: supportedEdges.map(projectEdge),
       flightPayloads: Object.keys(flightPayloads).length > 0 ? flightPayloads : undefined,
     };

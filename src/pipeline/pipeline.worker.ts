@@ -46,6 +46,9 @@ const workerScope = self as unknown as WorkerScope;
 
 let latestEvaluationId = 0;
 
+// Per-node trace lines fire on every run, so they are dev-only.
+const traceLog: (message: string) => void = import.meta.env.DEV ? (message) => console.log(message) : () => {};
+
 class StaleEvaluationError extends Error {
   constructor() {
     super("Pipeline evaluation was superseded");
@@ -389,7 +392,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       }
 
       if (node.data.skip === true) {
-        console.log(`⏭ skipping ${node.id}`);
+        traceLog(`⏭ skipping ${node.id}`);
         signatures.set(nodeId, signatureOf({
           type: node.type,
           data: node.data,
@@ -407,7 +410,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       const cached = getCachedPhaseOutput(signature);
       if (cached) {
-        console.log(`↺ reused ${node.id}`);
+        traceLog(`↺ reused ${node.id}`);
         workerScope.postMessage({
           type: "stageStarted",
           evaluationId,
@@ -425,7 +428,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
         return cached;
       }
 
-      console.log(`▶ executing ${node.id}`);
+      traceLog(`▶ executing ${node.id}`);
 
       workerScope.postMessage({
         type: "stageStarted",
@@ -446,7 +449,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
         durationMs,
       });
 
-      console.log(`✓ completed ${node.id}`);
+      traceLog(`✓ completed ${node.id}`);
 
       throwIfStale(evaluationId);
 
