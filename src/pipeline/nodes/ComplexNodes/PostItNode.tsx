@@ -1,6 +1,5 @@
 import { useNodeResize } from '@/hooks/useNodeResize';
-import { getNodeMinSize, readNodeSize, type NodeSize } from '@/pipeline/nodeSizes';
-import { NodeType } from '@/pipeline/NodePalette';
+import { NODE_MIN_HEIGHT, NODE_MIN_WIDTH, readNodeSize, type NodeSize } from '@/pipeline/nodeSizes';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { NodeResizer, NodeToolbar, Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { Copy, Trash2 } from 'lucide-react';
@@ -53,7 +52,6 @@ function PostItNode({ id, data, selected }: NodeProps<Node<PostItNodeData>>) {
   const { size, onResize, onResizeEnd } = useNodeResize(id, readNodeSize(data.size));
   const width = size?.width ?? NOTE_SIZE_PX;
   const height = size?.height ?? NOTE_SIZE_PX;
-  const minSize = getNodeMinSize(NodeType.PostIt);
 
   useEffect(() => {
     if (storedText === syncedTextRef.current) return;
@@ -118,8 +116,8 @@ function PostItNode({ id, data, selected }: NodeProps<Node<PostItNodeData>>) {
     <>
       <NodeResizer
         isVisible={selected}
-        minWidth={minSize.width}
-        minHeight={minSize.height}
+        minWidth={NODE_MIN_WIDTH}
+        minHeight={NODE_MIN_HEIGHT}
         onResize={onResize}
         onResizeEnd={onResizeEnd}
       />
@@ -156,8 +154,8 @@ function PostItNode({ id, data, selected }: NodeProps<Node<PostItNodeData>>) {
           boxSizing: 'border-box',
           width,
           height,
-          minWidth: minSize.width,
-          minHeight: minSize.height,
+          minWidth: NODE_MIN_WIDTH,
+          minHeight: NODE_MIN_HEIGHT,
           p: `${NOTE_PADDING_PX}px`,
           bgcolor: NOTE_COLOR,
           color: NOTE_TEXT_COLOR,

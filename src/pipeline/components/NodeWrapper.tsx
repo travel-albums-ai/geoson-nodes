@@ -2,7 +2,7 @@
 import NodeHeader from '@/pipeline/components/NodeHeader';
 import { PreviewDemoStatic } from '@/pipeline/components/PreviewDemoStatic';
 import { paletteItemsByType } from '@/pipeline/NodePalette';
-import { getNodeMinSize, readNodeSize, type NodeSize } from '@/pipeline/nodeSizes';
+import { NODE_MIN_HEIGHT, NODE_MIN_WIDTH, readNodeSize, type NodeSize } from '@/pipeline/nodeSizes';
 import { useNodeResize } from '@/hooks/useNodeResize';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { alpha } from '@mui/material/styles';
@@ -39,7 +39,6 @@ export default function NodeWrapper({
   const [hasUnconnectedHandle, setHasUnconnectedHandle] = useState(false);
   const nodeContentRef = useRef<HTMLDivElement>(null);
   const isSkipping = nodeData?.data?.skip === true;
-  const minSize = getNodeMinSize(type);
   const { size, onResize, onResizeEnd } = useNodeResize(nodeId ?? '', readNodeSize(nodeData?.data?.size));
   const width = size?.width ?? defaultSize?.width;
   const height = size?.height ?? defaultSize?.height;
@@ -142,8 +141,8 @@ export default function NodeWrapper({
     <>
       <NodeResizer
         isVisible={isSelected}
-        minWidth={minSize.width}
-        minHeight={minSize.height}
+        minWidth={NODE_MIN_WIDTH}
+        minHeight={NODE_MIN_HEIGHT}
         onResize={onResize}
         onResizeEnd={onResizeEnd}
       />
@@ -221,8 +220,8 @@ export default function NodeWrapper({
             boxSizing: 'border-box',
             width,
             height,
-            minWidth: minSize.width,
-            minHeight: minSize.height,
+            minWidth: NODE_MIN_WIDTH,
+            minHeight: NODE_MIN_HEIGHT,
             borderRadius: 4,
             overflow: 'hidden',
             border: 2,
