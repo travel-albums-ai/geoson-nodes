@@ -9,7 +9,7 @@ import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { FlightEntry } from '@/types/types';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { File, FileJson, Hash } from 'lucide-react';
+import { ChevronsRight, File, FileJson } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -129,10 +129,10 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
   return (
     <NodeWrapper type="flight-path" tools={<PipelineStageTiming nodeId={id} nodeType={'flight-path'} />}>
       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-        <NewChip count={completeCount ?? 0} label={"Flights"} fontSize={16} icon={<Hash size={16} />} sx={{ height: 38 }} />
         {data.flightsFileName && (
           <NewChip count={''} label={data.flightsFileName} fontSize={16} icon={<File size={16} />} sx={{ height: 38 }} />
         )}
+        <NewChip count={completeCount ?? 0} label={"Flights"} fontSize={16} icon={<ChevronsRight size={16} />} sx={{ height: 38 }} />
       </Box>
       {!data.flightsKey && (data.flights?.length ?? 0) === 0 && (
         <Typography variant="caption" color="text.secondary" component="div">
