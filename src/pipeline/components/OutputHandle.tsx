@@ -1,15 +1,17 @@
+import { getHandleAnchorStyle, useHandleAnchor } from '@/hooks/useHandleAnchor';
 import { Box, useTheme } from '@mui/material';
 import { Handle, Position } from "@xyflow/react";
-import { Circle } from 'lucide-react';
+import { Square } from 'lucide-react';
 
 export function OutputHandle({ id, position, style, color }: { id: string; position?: Position; style?: React.CSSProperties; color?: string }) {
   const theme = useTheme()
+  const anchor = useHandleAnchor('source', id);
 
   return <>
     <Handle
       type="source"
-      style={{ width: '12px', height: '12px', backgroundColor: 'transparent', border: 0, ...style }}
-      position={position ?? Position.Right}
+      style={{ width: '12px', height: '12px', backgroundColor: 'transparent', border: 0, ...style, ...getHandleAnchorStyle(anchor) }}
+      position={anchor?.position ?? position ?? Position.Right}
       id={id}
     >
       <Box sx={{ position: 'relative',
@@ -21,7 +23,7 @@ export function OutputHandle({ id, position, style, color }: { id: string; posit
           filter: 'grayscale(0)',
         },
       }}>
-        <Circle size={10} style={{
+        <Square size={10} style={{
           position: 'absolute',
           right: '2px',
           stroke: theme.palette.divider,

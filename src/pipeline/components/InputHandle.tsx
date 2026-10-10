@@ -1,3 +1,4 @@
+import { getHandleAnchorStyle, useHandleAnchor } from '@/hooks/useHandleAnchor';
 import { Box, useTheme } from '@mui/material';
 import { Handle, Position } from "@xyflow/react";
 import { Circle } from 'lucide-react';
@@ -15,12 +16,13 @@ export function InputHandle({
   color?: string;
 }) {
   const theme = useTheme()
+  const anchor = useHandleAnchor('target', id);
 
   return <>
     <Handle
       type="target"
-      style={{ width: '10px', height: '10px', backgroundColor: 'transparent', border: 0, ...style }}
-      position={position ?? Position.Left}
+      style={{ width: '10px', height: '10px', backgroundColor: 'transparent', border: 0, ...style, ...getHandleAnchorStyle(anchor) }}
+      position={anchor?.position ?? position ?? Position.Left}
       id={id}
     >
       <Box sx={{ position: 'relative',
