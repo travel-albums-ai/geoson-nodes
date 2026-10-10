@@ -1,12 +1,12 @@
 import NewChip from '@/components/NewChip';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
-import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
 import { Box, TextField } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { Layers, MapPin } from 'lucide-react';
+import { ChevronsRight, Layers } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -59,7 +59,7 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
       <NodeWrapper type="geojson-jsonata" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-jsonata'} />}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', pb: 1 }}>
           <NewChip count={collections.length} label={t('pipelineGeoJsonCollections')} fontSize={16} icon={<Layers size={16} />} sx={{ height: 38 }} />
-          <NewChip count={featureCount} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<MapPin size={16} />} sx={{ height: 38 }} />
+          <NewChip count={featureCount} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<ChevronsRight size={16} />} sx={{ height: 38 }} />
         </Box>
         <TextField
           className="nowheel"
