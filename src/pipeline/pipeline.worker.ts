@@ -265,7 +265,7 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
       const query = typeof inputs.query === "string" ? inputs.query : "";
 
-      return { geojson: await runGeoJsonQuery(collections, query) };
+      return { geojson: await runGeoJsonQuery(collections, query, inputs.negate === true) };
     },
   },
   "flight-path": {
@@ -359,6 +359,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "geojson-jsonata") {
         inputs.query = node.data.query;
+        inputs.negate = node.data.negate === true;
       }
 
       if (SET_NODE_TYPES.has(node.type ?? "")) {

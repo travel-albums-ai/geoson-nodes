@@ -2,6 +2,7 @@ import type {
   GeoJsonFeature,
   GeoJsonFeatureCollectionArray,
 } from '@/types/types';
+import { featureKey } from '@/lib/geojsonSets';
 import jsonata from 'jsonata';
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
@@ -61,15 +62,39 @@ function compileQuery(expression: string): ReturnType<typeof jsonata> {
   return compiled;
 }
 
-// An empty query passes the collections through unchanged. Otherwise the
-// query runs against the whole list, so paths like features[...] span every collection.
+// Keeps the input features that the query did not select. Features match by content, as in the set
+// operations, so a copy of a selected feature also counts as selected.
+function leftOutFeatures(
+  collections: GeoJsonFeatureCollectionArray,
+  selected: GeoJsonFeatureCollectionArray,
+): GeoJsonFeatureCollectionArray {
+  const selectedKeys = new Set(selected.flatMap((collection) => collection.features.map(featureKey)));
+  const result: GeoJsonFeatureCollectionArray = [];
+
+  for (const collection of collections) {
+    const features = collection.features.filter((feature) => !selectedKeys.has(featureKey(feature)));
+
+    if (features.length > 0) {
+      result.push({ ...collection, features });
+    }
+  }
+
+  return result;
+}
+
+// An empty query selects everything. Otherwise the query runs against the whole
+// list, so paths like features[...] span every collection. With negate on, the
+// result is the input features the query left out, in place of the query result.
 export async function runGeoJsonQuery(
   collections: GeoJsonFeatureCollectionArray,
   query: string,
+  negate = false,
 ): Promise<GeoJsonFeatureCollectionArray> {
   const expression = query.trim();
 
-  if (expression === '') return collections;
+  if (expression === '') {
+    return negate ? [] : collections;
+  }
 
   let result: unknown;
 
@@ -80,5 +105,7 @@ export async function runGeoJsonQuery(
     throw toError(error);
   }
 
-  return toFeatureCollections(result);
+  const selected = toFeatureCollections(result);
+
+  return negate ? leftOutFeatures(collections, selected) : selected;
 }

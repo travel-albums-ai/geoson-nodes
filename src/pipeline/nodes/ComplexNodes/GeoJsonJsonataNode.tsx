@@ -4,14 +4,15 @@ import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
-import { Box, TextField } from '@mui/material';
+import { Box, FormControlLabel, Switch, TextField } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { ChevronsRight, Layers } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type GeoJsonJsonataNodeData = {
   query?: string;
+  negate?: boolean;
   geojson?: GeoJsonFeatureCollectionArray;
   error?: string;
 };
@@ -50,6 +51,15 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
     return () => window.clearTimeout(timer);
   }, [draft, id, setNodes]);
 
+  const toggleNegate = useCallback((negate: boolean) => {
+    setNodes((current) => current.map((node) =>
+      node.id === id
+        ? { ...node, data: { ...node.data, negate } }
+        : node
+    ));
+    window.dispatchEvent(new CustomEvent('pipeline:changed'));
+  }, [id, setNodes]);
+
   const collections = data.geojson ?? [];
   const featureCount = collections.reduce((total, collection) => total + collection.features.length, 0);
 
@@ -75,6 +85,17 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
           error={data.error !== undefined}
           helperText={data.error ?? t('pipelineGeoJsonJsonataHint')}
           sx={{ '& textarea': { fontFamily: 'monospace' } }}
+        />
+        <FormControlLabel
+          className="nodrag nopan"
+          label={t('pipelineGeoJsonJsonataNegate')}
+          control={
+            <Switch
+              size="small"
+              checked={data.negate === true}
+              onChange={(event) => toggleNegate(event.target.checked)}
+            />
+          }
         />
         <OutputHandle id="geojson" position={Position.Bottom} />
       </NodeWrapper>

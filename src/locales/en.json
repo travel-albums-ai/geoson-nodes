@@ -157,6 +157,7 @@
   "pipelineGeoJsonJsonataQueryLabel": "JSONata query",
   "pipelineGeoJsonJsonataPlaceholder": "features[properties.city = \"Rome\"]",
   "pipelineGeoJsonJsonataHint": "Runs on the list of collections. An empty query passes them through unchanged.",
+  "pipelineGeoJsonJsonataNegate": "Negate",
   "pipelinePostIt": "Post-it",
   "pipelinePostItPlaceholder": "Type a note…",
   "pipelineGpsMarkers": "Markers: {{count}}",
@@ -296,7 +297,7 @@
   "pipelineGeoJsonIntersectionDescription": "Keeps the features that appear in both inputs. Features match when their full content is the same.",
   "pipelineGeoJsonDifferenceDescription": "Keeps the features from the first input that do not appear in the second input.",
   "pipelineGeoJsonSymmetricDifferenceDescription": "Keeps the features that appear in exactly one of the two inputs.",
-  "pipelineGeoJsonJsonataDescription": "Runs a JSONata query over the list of GeoJSON collections and passes the result on. The query re-runs as you type.",
+  "pipelineGeoJsonJsonataDescription": "Runs a JSONata query over the list of GeoJSON collections and passes the result on. The query re-runs as you type. With negate on, passes on the features the query leaves out instead.",
   "pipelinePostItDescription": "A free-form sticky note for comments. The text shrinks as you type more. It does not take part in the pipeline.",
   "pipelineGeoJsonViewerDescription": "Plots GeoJSON features on a map and lists each collection with its city, source and feature count, with a small preview of each feature."
 }

@@ -19,7 +19,7 @@ const compareKeys = ([left]: [string, unknown], [right]: [string, unknown]) =>
   (left < right ? -1 : left > right ? 1 : 0);
 
 // Object keys are sorted so that features with the same content always produce the same key.
-const featureKey = (feature: GeoJsonFeature): string =>
+export const featureKey = (feature: GeoJsonFeature): string =>
   JSON.stringify(feature, (_key, value: unknown) =>
     value !== null && typeof value === 'object' && !Array.isArray(value)
       ? Object.fromEntries(Object.entries(value).sort(compareKeys))
