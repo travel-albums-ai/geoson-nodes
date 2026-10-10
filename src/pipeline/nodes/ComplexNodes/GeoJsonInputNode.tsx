@@ -113,15 +113,9 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fil
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap'}}>
         <Button
-          sx={{
-            bgcolor: theme => `color-mix(in srgb, ${theme.palette.background.paper} 80%, ${theme.palette.primary.main} 20%)`,
-            '&:hover': {
-              bgcolor: 'primary.main',
-            }
-          }}
           fullWidth
           component="label"
-          variant="contained"
+          variant="outlined"
           startIcon={<FileJson size={16} />}
         >
           {t('pipelineGeoJsonSelectFile')}
