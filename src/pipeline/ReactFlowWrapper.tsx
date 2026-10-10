@@ -28,7 +28,7 @@ import type { GeoJsonFeatureCollectionArray } from "@/types/types";
 import { useTranslation } from 'react-i18next';
 import { downloadPipelineFile, readPipelineFile } from './pipelineApi';
 import {
-  CONNECTION_LINE_TYPE,
+  EDGE_TYPE,
   INITIAL_EDGES,
   INITIAL_NODES,
   LAST_PIPELINE_STORAGE_KEY,
@@ -74,7 +74,7 @@ function Pipeline() {
   const styleEdges = useCallback((pipelineEdges: Edge[]) =>
     pipelineEdges.map((edge) => ({
       ...edge,
-      type: CONNECTION_LINE_TYPE,
+      type: EDGE_TYPE,
       style: {
         strokeWidth: 2,
         stroke: alpha(theme.palette.primary.main, 0.6),
@@ -411,18 +411,9 @@ function Pipeline() {
 
   const onConnect = useCallback(
     (connection: Connection) => {
-      setEdges((current) =>
-        addEdge({
-          ...connection,
-          type: CONNECTION_LINE_TYPE,
-          style: {
-            strokeWidth: 2,
-            stroke: alpha(theme.palette.primary.main, 0.6),
-          },
-        }, current)
-      );
+      setEdges((current) => styleEdges(addEdge(connection, current)));
     },
-    [setEdges, theme.palette.primary.main]
+    [setEdges, styleEdges]
   );
 
   // Dragging an existing edge's endpoint onto a new handle
@@ -605,8 +596,8 @@ function Pipeline() {
           edges={edges}
           snapToGrid
           snapGrid={SNAP_GRID}
-          connectionLineType={CONNECTION_LINE_TYPE}
-          defaultEdgeOptions={{ type: CONNECTION_LINE_TYPE }}
+          connectionLineType={EDGE_TYPE}
+          defaultEdgeOptions={{ type: EDGE_TYPE }}
           minZoom={!isMobile ? 0.25 : 0.125}
           maxZoom={4}
           nodeTypes={pipelineNodeTypes}

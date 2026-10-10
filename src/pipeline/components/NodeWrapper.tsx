@@ -1,9 +1,9 @@
 
+import { useNodeResize } from '@/hooks/useNodeResize';
 import NodeHeader from '@/pipeline/components/NodeHeader';
 import { PreviewDemoStatic } from '@/pipeline/components/PreviewDemoStatic';
 import { paletteItemsByType } from '@/pipeline/NodePalette';
 import { NODE_MIN_HEIGHT, NODE_MIN_WIDTH, readNodeSize, type NodeSize } from '@/pipeline/nodeSizes';
-import { useNodeResize } from '@/hooks/useNodeResize';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { NodeResizer, NodeToolbar, Position, useNodeConnections, useNodeId, useNodesData, useReactFlow, useStore } from '@xyflow/react';

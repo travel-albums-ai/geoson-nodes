@@ -1,4 +1,5 @@
 import { usePipelineStore } from '@/context/pipelineStore';
+import { EDGE_TYPE } from '@/pipeline/pipelineConfig';
 import { GEOJSON_MERGE_INPUT_HANDLES, GEOJSON_SET_INPUT_HANDLES, GEOJSON_SWITCH_INPUT_HANDLES, GEOJSON_WITHIN_AREA_INPUT_HANDLES, GEOJSON_ZIP_INPUT_HANDLES } from '@/types/types';
 import { addEdge } from '@xyflow/react';
 import { useEffect } from 'react';
@@ -182,6 +183,7 @@ export default function WebMCPConnectPipelineNodes() {
                 target: targetNodeId,
                 sourceHandle: resolvedSourceHandle,
                 targetHandle: resolvedTargetHandle,
+                type: EDGE_TYPE,
               },
               currentPipeline.edges,
             );

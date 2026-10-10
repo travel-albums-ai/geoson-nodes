@@ -1,10 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import { ConnectionLineType, type Edge, type Node } from '@xyflow/react';
 
-import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
-import GeoBoundsFilterNode from '@/pipeline/nodes/ComplexNodes/GeoBoundsFilterNode';
 import FlightPathNode from '@/pipeline/nodes/ComplexNodes/FlightPathNode';
-import ShortestRouteNode from '@/pipeline/nodes/ComplexNodes/ShortestRouteNode';
+import GeoBoundsFilterNode from '@/pipeline/nodes/ComplexNodes/GeoBoundsFilterNode';
 import GeoJsonInputNode from '@/pipeline/nodes/ComplexNodes/GeoJsonInputNode';
 import GeoJsonJsonataNode from '@/pipeline/nodes/ComplexNodes/GeoJsonJsonataNode';
 import GeoJsonMergeNode from '@/pipeline/nodes/ComplexNodes/GeoJsonMergeNode';
@@ -14,9 +12,11 @@ import GeoJsonSwitchNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSwitchNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
 import GeoJsonWithinAreaNode from '@/pipeline/nodes/ComplexNodes/GeoJsonWithinAreaNode';
 import GeoJsonZipNode from '@/pipeline/nodes/ComplexNodes/GeoJsonZipNode';
+import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
 import PostItNode from '@/pipeline/nodes/ComplexNodes/PostItNode';
+import ShortestRouteNode from '@/pipeline/nodes/ComplexNodes/ShortestRouteNode';
 
-export const CONNECTION_LINE_TYPE = ConnectionLineType.SmoothStep;
+export const EDGE_TYPE = ConnectionLineType.Bezier;
 export const INITIAL_NODES: Node[] = [];
 export const INITIAL_EDGES: Edge[] = [];
 export const SNAP_GRID: [number, number] = [20, 20];
