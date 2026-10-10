@@ -9,7 +9,9 @@
 //   respawns the worker if it ever crashes.
 
 import { getSettingsStore } from "@/context/settingsStore";
+import { hashString } from "@/lib/contentHash";
 import type {
+  FlightEntry,
   GeoJsonFeatureCollectionArray,
   PipelineEvaluateMessage,
   PipelineWorkerEdge,
@@ -20,8 +22,8 @@ import { GEOJSON_ZIP_KEYS_EVENT, VIEWER_NODE_TYPES, WORKER_NODE_TYPES } from "@/
 import type { Edge, Node } from "@xyflow/react";
 
 // node.data keys the engine reads. Everything else (React Flow internals)
-// stays on the main thread.
-const NODE_DATA_KEYS = ["geojsonFile", "fileKey", "skip", "bounds", "query", "reversed", "outside", "key", "serveB", "flights", "style", "from", "to", "via"] as const;
+// stays on the main thread. Flight lists are handled separately, see projectNode.
+const NODE_DATA_KEYS = ["geojsonFile", "fileKey", "skip", "bounds", "query", "reversed", "outside", "key", "serveB", "style", "from", "to", "via"] as const;
 
 type PendingViewer = {
   evaluationId: number;
@@ -31,6 +33,23 @@ type PendingViewer = {
 
 let worker: Worker | null = null;
 let activeEvaluationId = 0;
+
+// Hashes of flight lists the current worker already holds (see evaluatePipeline).
+let workerFlightHashes = new Set<string>();
+
+// Flight lists are large, so each array is hashed once per identity rather than on every run.
+const flightsHashes = new WeakMap<FlightEntry[], string>();
+
+function flightsHashOf(flights: FlightEntry[]): string {
+  let hash = flightsHashes.get(flights);
+
+  if (hash === undefined) {
+    hash = hashString(JSON.stringify(flights));
+    flightsHashes.set(flights, hash);
+  }
+
+  return hash;
+}
 
 const pendingViewers = new Map<string, PendingViewer>();
 
@@ -137,6 +156,9 @@ function getWorker(): Worker {
     type: "module",
   });
 
+  // A fresh worker holds no flight payloads yet.
+  workerFlightHashes = new Set();
+
   worker.onmessage = handleWorkerMessage;
 
   worker.onerror = (event) => {
@@ -158,13 +180,30 @@ function getWorker(): Worker {
   return worker;
 }
 
-function projectNode(node: Node): PipelineWorkerNode {
+function projectNode(
+  node: Node,
+  referencedFlightHashes: Set<string>,
+  flightPayloads: Record<string, FlightEntry[]>
+): PipelineWorkerNode {
   const data: Record<string, unknown> = {};
 
   for (const key of NODE_DATA_KEYS) {
     if (key in node.data) {
       data[key] = node.data[key];
     }
+  }
+
+  if (node.type === "flight-path") {
+    const flights = (node.data.flights as FlightEntry[] | undefined) ?? [];
+    const hash = flightsHashOf(flights);
+
+    referencedFlightHashes.add(hash);
+
+    if (!workerFlightHashes.has(hash)) {
+      flightPayloads[hash] = flights;
+    }
+
+    data.flightsHash = hash;
   }
 
   return { id: node.id, type: node.type, data };
@@ -221,16 +260,24 @@ export async function evaluatePipeline(
     );
   }
 
-  const message: PipelineEvaluateMessage = {
-    type: "evaluate",
-    evaluationId,
-    sequentialMode: getSettingsStore().pipelineSequentialMode,
-    nodes: supportedNodes.map(projectNode),
-    edges: supportedEdges.map(projectEdge),
-  };
-
   try {
-    getWorker().postMessage(message);
+    const activeWorker = getWorker();
+    const flightPayloads: Record<string, FlightEntry[]> = {};
+    const referencedFlightHashes = new Set<string>();
+
+    const message: PipelineEvaluateMessage = {
+      type: "evaluate",
+      evaluationId,
+      sequentialMode: getSettingsStore().pipelineSequentialMode,
+      nodes: supportedNodes.map((node) => projectNode(node, referencedFlightHashes, flightPayloads)),
+      edges: supportedEdges.map(projectEdge),
+      flightPayloads: Object.keys(flightPayloads).length > 0 ? flightPayloads : undefined,
+    };
+
+    activeWorker.postMessage(message);
+
+    // The worker keeps only the flight lists this graph references.
+    workerFlightHashes = referencedFlightHashes;
   } catch (error) {
     for (const [nodeId, pending] of pendingViewers) {
       if (pending.evaluationId !== evaluationId) continue;

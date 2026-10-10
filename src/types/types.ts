@@ -114,6 +114,8 @@ export type PipelineEvaluateMessage = {
   sequentialMode: boolean;
   nodes: PipelineWorkerNode[];
   edges: PipelineWorkerEdge[];
+  // Flight lists the worker does not hold yet, keyed by content hash.
+  flightPayloads?: Record<string, FlightEntry[]>;
 };
 
 // worker -> main thread

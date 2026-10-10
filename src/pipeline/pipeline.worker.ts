@@ -32,6 +32,7 @@ import { commonPropertyKeys, zipGeoJsonByKey } from "@/lib/geojsonZip";
 import { runGeoJsonQuery } from "@/lib/geojsonQuery";
 import { buildFlightPathCollections } from "@/lib/flights";
 import { filterFlightRoutes } from "@/lib/flightRoutes";
+import { hashString } from "@/lib/contentHash";
 import { cachePhaseOutput, getCachedPhaseOutput } from "@/pipeline/phaseOutputCache";
 
 // The app compiles against the DOM lib (where `self` is Window), so the
@@ -94,6 +95,39 @@ function serializeForCache(value: unknown): string {
   }
 
   return JSON.stringify(value);
+}
+
+// Hashed so a signature stays short even when it embeds upstream signatures.
+function signatureOf(value: unknown): string {
+  return hashString(serializeForCache(value));
+}
+
+// Flight payloads sent by the client, keyed by content hash. After each run
+// only the hashes the graph still references are retained.
+let retainedFlights = new Map<string, FlightEntry[]>();
+
+function resolveFlightPayloads(message: PipelineEvaluateMessage): Map<string, FlightEntry[]> {
+  const next = new Map<string, FlightEntry[]>();
+
+  for (const node of message.nodes) {
+    if (node.type !== "flight-path") continue;
+
+    const hash = node.data.flightsHash as string;
+
+    if (next.has(hash)) continue;
+
+    const flights = message.flightPayloads?.[hash] ?? retainedFlights.get(hash);
+
+    if (!flights) {
+      throw new Error(`Flight data ${hash} was not sent to the worker`);
+    }
+
+    next.set(hash, flights);
+  }
+
+  retainedFlights = next;
+
+  return next;
 }
 
 const geoJsonPassthroughNode: PipelineNodeDefinition = {
@@ -255,6 +289,7 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
 async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
   const { evaluationId, nodes, edges } = message;
   const startedAt = performance.now();
+  const flightsByHash = resolveFlightPayloads(message);
 
   const outputs = new Map<string, Promise<NodeOutputs>>();
   const signatures = new Map<string, string>();
@@ -344,7 +379,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       }
 
       if (node.type === "flight-path") {
-        inputs.flights = node.data.flights;
+        inputs.flights = flightsByHash.get(node.data.flightsHash as string);
       }
 
       if (node.type === "shortest-route") {
@@ -355,7 +390,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.data.skip === true) {
         console.log(`⏭ skipping ${node.id}`);
-        signatures.set(nodeId, serializeForCache({
+        signatures.set(nodeId, signatureOf({
           type: node.type,
           data: node.data,
           upstream: upstreamSignatures,
@@ -363,7 +398,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
         return inputs;
       }
 
-      const signature = serializeForCache({
+      const signature = signatureOf({
         type: node.type,
         data: node.data,
         upstream: upstreamSignatures,
