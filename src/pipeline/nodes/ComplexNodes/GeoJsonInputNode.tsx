@@ -2,23 +2,28 @@ import NewChip from '@/components/NewChip';
 import { usePipelineStoreSelector } from '@/context/pipelineStore';
 import { parseGeoJsonFeatureCollections } from '@/lib/geojson';
 import { createGeoJsonFileKey, deleteGeoJsonFile, loadGeoJsonFile, saveGeoJsonFile } from '@/lib/geojsonFileStore';
+import GeoJsonCollectionList from '@/pipeline/components/GeoJsonCollectionList';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
-import { Box, Button, Typography } from '@mui/material';
+import type { GeoJsonFeatureCollectionArray } from '@/types/types';
+import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { FileJson, Layers, MapPin } from 'lucide-react';
+import { Eye, EyeOff, FileJson, Layers, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fileKey?: string }>>) {
+function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fileKey?: string; showPreview?: boolean }>>) {
   const { t } = useTranslation();
-  const { getNodes } = useReactFlow();
+  const { getNodes, setNodes } = useReactFlow();
   const savedPipelines = usePipelineStoreSelector((state) => state.pipelines);
   const [file, setFile] = useState(data.geojsonFile);
   // Only the counts are kept; the parsed collections are dropped once counted.
   const [counts, setCounts] = useState<{ collections: number; features: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // Shown unless hidden, as in the GeoJSON viewer.
+  const showPreview = data.showPreview !== false;
+  const [previewCollections, setPreviewCollections] = useState<GeoJsonFeatureCollectionArray | null>(null);
 
   const featureCount = counts?.features ?? 0;
 
@@ -74,6 +79,38 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fil
       cancelled = true;
     };
   }, [file]);
+
+  // Parsed only while the preview is visible, so a hidden preview holds no collections.
+  useEffect(() => {
+    if (!showPreview || !(file instanceof File)) {
+      setPreviewCollections(null);
+      return;
+    }
+
+    let cancelled = false;
+
+    file.text()
+      .then((text) => {
+        if (!cancelled) setPreviewCollections(parseGeoJsonFeatureCollections(text));
+      })
+      .catch(() => {
+        // The counts effect reports read and parse errors.
+        if (!cancelled) setPreviewCollections(null);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [file, showPreview]);
+
+  const togglePreview = () => {
+    setNodes((current) => current.map((node) =>
+      node.id === id
+        ? { ...node, data: { ...node.data, showPreview: !showPreview } }
+        : node
+    ));
+    window.dispatchEvent(new CustomEvent('pipeline:changed'));
+  };
 
   // A stored record may still back a saved pipeline or a cloned node on the
   // canvas, so it is only removed when nothing else references it.
@@ -134,9 +171,18 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fil
         <NewChip count={counts?.collections ?? 0} label={t('pipelineGeoJsonCollections')} fontSize={16} icon={<Layers size={16} />} sx={{ height: 38 }} />
         <NewChip count={featureCount} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<MapPin size={16} />} sx={{ height: 38 }} />
         {file instanceof File && (
-          <Typography variant="caption" color="textSecondary" sx={{ width: '100%' }}>
-            {file.name}
-          </Typography>
+          <>
+            <NewChip label={file.name} fontSize={16} icon={<FileJson size={16} />} sx={{ height: 38 }} />
+            <Tooltip title={showPreview ? t('pipelineGeoJsonHidePreview') : t('pipelineGeoJsonShowPreview')}>
+              <IconButton
+                size="small"
+                aria-label={showPreview ? t('pipelineGeoJsonHidePreview') : t('pipelineGeoJsonShowPreview')}
+                onClick={togglePreview}
+              >
+                {showPreview ? <EyeOff size={16} /> : <Eye size={16} />}
+              </IconButton>
+            </Tooltip>
+          </>
         )}
         {error && (
           <Typography variant="caption" color="error" sx={{ width: '100%' }}>
@@ -144,6 +190,12 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fil
           </Typography>
         )}
       </Box>
+
+      {showPreview && previewCollections && (
+        <Box sx={{ pt: 1 }}>
+          <GeoJsonCollectionList collections={previewCollections} emptyMessage={t('pipelineGeoJsonPreviewEmpty')} />
+        </Box>
+      )}
 
       <OutputHandle id="geojson" position={Position.Top} />
     </NodeWrapper>
