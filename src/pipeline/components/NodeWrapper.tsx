@@ -221,10 +221,6 @@ export default function NodeWrapper({
             type={type}
             sx={{
               width: '100%',
-              border: 0,
-              borderRadius: 2,
-              borderBottomLeftRadius: 0,
-              borderBottomRightRadius: 0,
             }}
           >
             {tools && tools}
@@ -241,7 +237,8 @@ export default function NodeWrapper({
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
             gap: 2,
-            p: 2,
+            p: 1.5,
+            pt: 1,
             pr: 1.5,
             filter: isSkipping ? 'blur(2px) grayscale(75%)' : 'none',
             bgcolor: theme =>

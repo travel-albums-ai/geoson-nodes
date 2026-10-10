@@ -1,12 +1,13 @@
+import NewChip from '@/components/NewChip';
 import { loadAirports } from '@/lib/airports';
 import { parseFlightsFile } from '@/lib/flights';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { FlightEntry } from '@/types/types';
-import { Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { FileJson } from 'lucide-react';
+import { File, FileJson, Hash } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -64,14 +65,12 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
 
   return (
     <NodeWrapper type="flight-path" tools={<PipelineStageTiming nodeId={id} nodeType={'flight-path'} />}>
-      <Typography variant="body2" color="text.secondary">
-        {t('pipelineFlightPathSummary', { count: completeCount })}
-      </Typography>
-      {data.flightsFileName && (
-        <Typography variant="caption" color="text.secondary" component="div">
-          {data.flightsFileName}
-        </Typography>
-      )}
+      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+        <NewChip count={completeCount ?? 0} label={"Flights"} fontSize={16} icon={<Hash size={16} />} sx={{ height: 38 }} />
+        {data.flightsFileName && (
+          <NewChip count={''} label={data.flightsFileName} fontSize={16} icon={<File size={16} />} sx={{ height: 38 }} />
+        )}
+      </Box>
       {flights.length === 0 && (
         <Typography variant="caption" color="text.secondary" component="div">
           {t('pipelineFlightPathHint')}
@@ -79,9 +78,9 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
       )}
       <Stack direction="row" spacing={1} sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
         <Button
+          variant="outlined"
           className="nodrag nopan"
           component="label"
-          size="small"
           startIcon={<FileJson size={16} />}
         >
           {t('pipelineFlightPathLoadFile')}

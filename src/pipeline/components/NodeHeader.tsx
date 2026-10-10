@@ -74,13 +74,14 @@ export default function NodeHeader({
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: 2,
-          // p: 1,
+          p: 0.25,
+          pl: 0.25,
           bgcolor: 'background.paper',
 
           '&:hover': {
             background: hoverBackground,
           },
-          pr: 1,
+          pr: 1.75
         },
       ]}
     >

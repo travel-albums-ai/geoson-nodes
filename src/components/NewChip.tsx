@@ -51,7 +51,6 @@ export default function NewChip({
         fontSize,
         px: 1.5,
         py: 0.75,
-        m: 0.25,
 
         display: 'flex',
         alignItems: 'center',
