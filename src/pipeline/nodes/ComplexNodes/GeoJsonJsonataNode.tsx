@@ -1,6 +1,7 @@
 import NewChip from '@/components/NewChip';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
 import { Box, TextField } from '@mui/material';
@@ -55,7 +56,7 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geojson-jsonata">
+      <NodeWrapper type="geojson-jsonata" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-jsonata'} />}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', pb: 1 }}>
           <NewChip count={collections.length} label={t('pipelineGeoJsonCollections')} fontSize={16} icon={<Layers size={16} />} sx={{ height: 38 }} />
           <NewChip count={featureCount} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<MapPin size={16} />} sx={{ height: 38 }} />

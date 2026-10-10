@@ -1,5 +1,6 @@
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import { GEOJSON_ZIP_DEFAULT_KEY, GEOJSON_ZIP_INPUT_HANDLES, GEOJSON_ZIP_KEYS_EVENT } from '@/types/types';
 import { MenuItem, TextField, Typography } from '@mui/material';
@@ -56,7 +57,7 @@ function GeoJsonZipNode({ id, data }: NodeProps<Node<GeoJsonZipNodeData>>) {
           style={{ left: handleLeft(index) }}
         />
       ))}
-      <NodeWrapper type="geojson-zip">
+      <NodeWrapper type="geojson-zip" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-zip'} />}>
         <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
           {t('pipelineGeoJsonSetConnected', {
             connected: connectedCount,

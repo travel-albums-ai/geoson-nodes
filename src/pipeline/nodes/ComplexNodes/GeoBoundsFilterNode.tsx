@@ -1,6 +1,7 @@
 import GeoBoundsPicker from '@/pipeline/components/GeoBoundsPicker';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import { normalizeGeoBounds } from '@/lib/geojson';
 import type { GeoBounds } from '@/types/types';
@@ -28,7 +29,7 @@ function GeoBoundsFilterNode({ id, data }: NodeProps<Node<{ bounds?: GeoBounds }
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geo-bounds-filter">
+      <NodeWrapper type="geo-bounds-filter" tools={<PipelineStageTiming nodeId={id} nodeType={'geo-bounds-filter'} />}>
         <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
           {t('pipelineGpsBoundsValues', {
             west: formatDegrees(bounds.west),

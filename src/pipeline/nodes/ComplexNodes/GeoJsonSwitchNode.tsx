@@ -1,5 +1,6 @@
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import { GEOJSON_SWITCH_INPUT_HANDLES } from '@/types/types';
 import { FormControlLabel, Switch, Typography } from '@mui/material';
@@ -35,7 +36,7 @@ function GeoJsonSwitchNode({ id, data }: NodeProps<Node<{ serveB?: boolean }>>) 
           style={{ left: handleLeft(index) }}
         />
       ))}
-      <NodeWrapper type="geojson-switch">
+      <NodeWrapper type="geojson-switch" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-switch'} />}>
         <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
           {t('pipelineGeoJsonSetConnected', {
             connected: connectedCount,

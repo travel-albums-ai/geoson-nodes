@@ -1,5 +1,6 @@
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import { GEOJSON_SET_INPUT_HANDLES } from '@/types/types';
 import { FormControlLabel, Switch, Typography } from '@mui/material';
@@ -36,7 +37,7 @@ function GeoJsonSetNode({ id, type, data }: NodeProps<Node<{ reversed?: boolean 
           style={{ left: handleLeft(index) }}
         />
       ))}
-      <NodeWrapper type={type}>
+      <NodeWrapper type={type} tools={<PipelineStageTiming nodeId={id} nodeType={type} />}>
         <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
           {t('pipelineGeoJsonSetConnected', {
             connected: connectedCount,

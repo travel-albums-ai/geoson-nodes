@@ -1,6 +1,7 @@
 import { DEFAULT_GEOJSON_STYLE, readGeoJsonStyleSettings, type GeoJsonStyleSettings } from '@/lib/geojsonStyle';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import { Box, Slider, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
@@ -24,7 +25,7 @@ function GeoJsonStyleNode({ id, data }: NodeProps<Node<{ style?: Partial<GeoJson
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geojson-style">
+      <NodeWrapper type="geojson-style" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-style'} />}>
         <Typography variant="caption" color="text.secondary" component="div" sx={{ pb: 1 }}>
           {t('pipelineGeoJsonStyleHint')}
         </Typography>

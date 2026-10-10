@@ -2,6 +2,7 @@ import { loadAirports } from '@/lib/airports';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { Airport } from '@/types/types';
 import { Stack, TextField, Typography } from '@mui/material';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
@@ -75,7 +76,7 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="shortest-route">
+      <NodeWrapper type="shortest-route" tools={<PipelineStageTiming nodeId={id} nodeType={'shortest-route'} />}>
         <Typography variant="caption" color="text.secondary" component="div" sx={{ pb: 1 }}>
           {t('pipelineShortestRouteHint')}
         </Typography>

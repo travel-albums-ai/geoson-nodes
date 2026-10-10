@@ -1,15 +1,16 @@
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import { GEOJSON_MERGE_INPUT_HANDLES } from '@/types/types';
 import { Typography } from '@mui/material';
-import { Position, useNodeConnections } from '@xyflow/react';
+import { Position, useNodeConnections, type NodeProps } from '@xyflow/react';
 import { useTranslation } from 'react-i18next';
 
 const handleLeft = (index: number) =>
   `${((index + 1) / (GEOJSON_MERGE_INPUT_HANDLES.length + 1)) * 100}%`;
 
-function GeoJsonMergeNode() {
+function GeoJsonMergeNode({ id }: NodeProps) {
   const { t } = useTranslation();
   const connections = useNodeConnections({ handleType: 'target' });
   const connectedCount = new Set(connections.map((connection) => connection.targetHandle)).size;
@@ -24,7 +25,7 @@ function GeoJsonMergeNode() {
           style={{ left: handleLeft(index) }}
         />
       ))}
-      <NodeWrapper type="geojson-merge">
+      <NodeWrapper type="geojson-merge" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-merge'} />}>
         <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
           {t('pipelineGeoJsonMergeConnected', {
             connected: connectedCount,

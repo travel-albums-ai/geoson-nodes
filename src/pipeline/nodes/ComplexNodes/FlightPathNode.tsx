@@ -2,26 +2,20 @@ import { loadAirports } from '@/lib/airports';
 import { parseFlightsFile } from '@/lib/flights';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
-import type { Airport, FlightEntry } from '@/types/types';
-import { Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material';
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
+import type { FlightEntry } from '@/types/types';
+import { Button, Stack, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { FileJson, X } from 'lucide-react';
+import { FileJson } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type FlightPathNodeData = { flights?: FlightEntry[]; flightsFileName?: string };
 type FlightSide = 'from' | 'to';
 
-const filterAirports = createFilterOptions<Airport>({
-  limit: 50,
-  stringify: (airport) => `${airport.iata} ${airport.city} ${airport.name} ${airport.country}`,
-});
-
 function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
   const { t } = useTranslation();
   const { setNodes } = useReactFlow();
-  const [airports, setAirports] = useState<Airport[]>([]);
   const [loadIssue, setLoadIssue] = useState<string | null>(null);
   const flights = data.flights ?? [];
   const completeCount = flights.filter(({ from, to }) => from && to && from.iata !== to.iata).length;
@@ -30,7 +24,6 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
     let active = true;
     loadAirports()
       .then((list) => {
-        if (active) setAirports(list);
       })
       .catch((error: unknown) => console.error(error));
     return () => {
@@ -69,18 +62,8 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
       });
   };
 
-  const changeAirport = (index: number, side: FlightSide, airport: Airport | null) => {
-    commit(flights.map((flight, flightIndex) =>
-      flightIndex === index ? { ...flight, [side]: airport } : flight
-    ));
-  };
-
-  const removeFlight = (index: number) => {
-    commit(flights.filter((_, flightIndex) => flightIndex !== index));
-  };
-
   return (
-    <NodeWrapper type="flight-path">
+    <NodeWrapper type="flight-path" tools={<PipelineStageTiming nodeId={id} nodeType={'flight-path'} />}>
       <Typography variant="body2" color="text.secondary">
         {t('pipelineFlightPathSummary', { count: completeCount })}
       </Typography>
