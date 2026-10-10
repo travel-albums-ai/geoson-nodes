@@ -6,14 +6,28 @@ import GeoJsonCollectionList from '@/pipeline/components/GeoJsonCollectionList';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
-import type { GeoJsonFeatureCollectionArray } from '@/types/types';
-import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
+import type { GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/types/types';
+import { Box, Button, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { Eye, EyeOff, FileJson, Layers, MapPin } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fileKey?: string; showPreview?: boolean }>>) {
+const SEARCH_DEBOUNCE_MS = 300;
+
+function matchesSearch(feature: GeoJsonFeature, term: string): boolean {
+  const geometryType = feature.geometry?.type;
+  if (typeof geometryType === 'string' && geometryType.toLowerCase().includes(term)) return true;
+
+  return Object.values(feature.properties ?? {}).some(
+    (value) => typeof value === 'string' && value.toLowerCase().includes(term),
+  );
+}
+
+function GeoJsonInputNode({
+  id,
+  data,
+}: NodeProps<Node<{ geojsonFile?: File; fileKey?: string; showPreview?: boolean; searchTerm?: string }>>) {
   const { t } = useTranslation();
   const { getNodes, setNodes } = useReactFlow();
   const savedPipelines = usePipelineStoreSelector((state) => state.pipelines);
@@ -24,6 +38,10 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fil
   // Shown unless hidden, as in the GeoJSON viewer.
   const showPreview = data.showPreview !== false;
   const [previewCollections, setPreviewCollections] = useState<GeoJsonFeatureCollectionArray | null>(null);
+  const storedSearchTerm = data.searchTerm ?? '';
+  const [searchDraft, setSearchDraft] = useState(storedSearchTerm);
+  // Tells external changes apart from this node's own debounced commits.
+  const syncedSearchRef = useRef(storedSearchTerm);
 
   const featureCount = counts?.features ?? 0;
 
@@ -102,6 +120,42 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fil
       cancelled = true;
     };
   }, [file, showPreview]);
+
+  useEffect(() => {
+    if (storedSearchTerm === syncedSearchRef.current) return;
+
+    syncedSearchRef.current = storedSearchTerm;
+    setSearchDraft(storedSearchTerm);
+  }, [storedSearchTerm]);
+
+  useEffect(() => {
+    if (searchDraft === syncedSearchRef.current) return;
+
+    const timer = window.setTimeout(() => {
+      syncedSearchRef.current = searchDraft;
+      setNodes((current) => current.map((node) =>
+        node.id === id
+          ? { ...node, data: { ...node.data, searchTerm: searchDraft } }
+          : node
+      ));
+      window.dispatchEvent(new CustomEvent('pipeline:changed'));
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [searchDraft, id, setNodes]);
+
+  const normalizedSearch = storedSearchTerm.trim().toLowerCase();
+  const filteredCollections = useMemo<GeoJsonFeatureCollectionArray>(() => {
+    const collections = previewCollections ?? [];
+    if (!normalizedSearch) return collections;
+
+    return collections
+      .map((collection) => ({
+        ...collection,
+        features: collection.features.filter((feature) => matchesSearch(feature, normalizedSearch)),
+      }))
+      .filter((collection) => collection.features.length > 0);
+  }, [previewCollections, normalizedSearch]);
 
   const togglePreview = () => {
     setNodes((current) => current.map((node) =>
@@ -193,7 +247,23 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fil
 
       {showPreview && previewCollections && (
         <Box sx={{ pt: 1 }}>
-          <GeoJsonCollectionList collections={previewCollections} emptyMessage={t('pipelineGeoJsonPreviewEmpty')} />
+          <TextField
+            className="nodrag nopan nowheel"
+            type="search"
+            size="small"
+            fullWidth
+            value={searchDraft}
+            onChange={(event) => setSearchDraft(event.target.value)}
+            label={t('pipelineGeoJsonSearchLabel')}
+            placeholder={t('pipelineGeoJsonSearchPlaceholder')}
+            sx={{ mb: 1 }}
+          />
+          <GeoJsonCollectionList
+            collections={filteredCollections}
+            emptyMessage={normalizedSearch && previewCollections.length > 0
+              ? t('pipelineGeoJsonSearchNoMatches')
+              : t('pipelineGeoJsonPreviewEmpty')}
+          />
         </Box>
       )}
 

@@ -112,7 +112,7 @@ Enable AI features in the relevant settings and configure the required provider 
 
 Saved pipelines live in the browser where they were created. Clearing browser storage or switching browsers can remove access to them, so export important recipes as `.cep` files.
 
-Files loaded into **GeoJSON Input** nodes are stored in the browser's IndexedDB, so they are still there after a reload. The node shows the file name, collection and feature counts, and a feature preview; the eye button beside the file name hides or shows the preview, and that choice is saved with the node.
+Files loaded into **GeoJSON Input** nodes are stored in the browser's IndexedDB, so they are still there after a reload. The node shows the file name, collection and feature counts, and a feature preview; the eye button beside the file name hides or shows the preview, and that choice is saved with the node. A search field above the preview filters the listed features by name, geometry type, or any text property without changing the node's output.
 
 - **New** clears the current canvas for another recipe.
 - **Save** stores the current recipe.
