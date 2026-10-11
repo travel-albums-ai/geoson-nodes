@@ -152,6 +152,8 @@
   "pipelineGpsMap": "GPS Map",
   "pipelineGpsBoundsFilter": "GPS Bounds Filter",
   "pipelineGpsBoundsValues": "W {{west}}° · E {{east}}° · S {{south}}° · N {{north}}°",
+  "pipelineGeoBoundsFilterEntering": "Features entering the filter",
+  "pipelineGeoBoundsFilterLeaving": "Features passing the filter",
   "pipelineGeoJsonMerge": "GeoJSON Merge",
   "pipelineGeoJsonMergeConnected": "{{connected}} of {{total}} inputs connected",
   "pipelineGeoJsonMergeEntering": "Features entering input {{input}}",

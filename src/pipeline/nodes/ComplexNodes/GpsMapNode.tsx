@@ -4,9 +4,8 @@ import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
-import { Box } from '@mui/material';
 import { Position, type Node, type NodeProps } from '@xyflow/react';
-import { Hash } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -45,12 +44,13 @@ function GpsMapNode({ id, data }: NodeProps<Node<{ geojson?: GeoJsonFeatureColle
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="gps-map" defaultSize={{ width: 528 }} tools={<>
-        <PipelineStageTiming nodeId={id} nodeType={'gps-map'} />
-      </>}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <NewChip count={''} label={t('pipelineGpsMarkers', { count: features.length })} fontSize={16} icon={<Hash />} sx={{ height: 38 }} />
-        </Box>
+      <NodeWrapper type="gps-map" defaultSize={{ width: 528 }}
+        inputCounts={<>
+          <NewChip count={features.length} label="" fontSize={12} icon={<LogIn />} sx={{ height: 30 }} />
+        </>}
+        tools={<>
+          <PipelineStageTiming nodeId={id} nodeType={'gps-map'} />
+        </>}>
         {data.skip !== true && (
           <GeoJsonMap
             features={features}

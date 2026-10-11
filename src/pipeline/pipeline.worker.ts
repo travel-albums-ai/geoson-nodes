@@ -207,7 +207,13 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       await Promise.resolve();
 
       const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
-      return { geojson: filterGeoJsonByBounds(collections, normalizeGeoBounds(inputs.bounds)) };
+      const geojson = filterGeoJsonByBounds(collections, normalizeGeoBounds(inputs.bounds));
+
+      return {
+        geojson,
+        inputCount: countGeoJsonFeatures(collections),
+        outputCount: countGeoJsonFeatures(geojson),
+      };
     },
   },
   "geojson-merge": {
@@ -588,6 +594,18 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       evaluationId,
       nodeId: node.id,
       count: (nodeOutputs.featureCount as number | undefined) ?? 0,
+    });
+  }
+
+  for (const node of nodes.filter((candidate) => candidate.type === "geo-bounds-filter")) {
+    const nodeOutputs = await evaluateNode(node.id);
+
+    workerScope.postMessage({
+      type: "geo-bounds-filter-counts",
+      evaluationId,
+      nodeId: node.id,
+      inputCount: (nodeOutputs.inputCount as number | undefined) ?? 0,
+      outputCount: (nodeOutputs.outputCount as number | undefined) ?? 0,
     });
   }
 

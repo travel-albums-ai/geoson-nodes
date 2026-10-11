@@ -1,14 +1,22 @@
+import NewChip from '@/components/NewChip';
 import GeoBoundsPicker from '@/pipeline/components/GeoBoundsPicker';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import { normalizeGeoBounds } from '@/lib/geojson';
-import type { GeoBounds } from '@/types/types';
+import { GEO_BOUNDS_FILTER_COUNTS_EVENT, type GeoBounds } from '@/types/types';
 import { Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { useCallback, useMemo } from 'react';
+import { LogIn, LogOut } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+type BoundsFilterCountsEventDetail = {
+  nodeId: string;
+  inputCount: number;
+  outputCount: number;
+};
 
 const formatDegrees = (value: number) => value.toFixed(2);
 
@@ -16,6 +24,20 @@ function GeoBoundsFilterNode({ id, data }: NodeProps<Node<{ bounds?: GeoBounds }
   const { t } = useTranslation();
   const { setNodes } = useReactFlow();
   const bounds = useMemo(() => normalizeGeoBounds(data.bounds), [data.bounds]);
+  const [counts, setCounts] = useState<BoundsFilterCountsEventDetail | null>(null);
+
+  useEffect(() => {
+    const handleCounts = (event: Event) => {
+      const detail = (event as CustomEvent<BoundsFilterCountsEventDetail>).detail;
+
+      if (detail.nodeId === id) {
+        setCounts(detail);
+      }
+    };
+
+    window.addEventListener(GEO_BOUNDS_FILTER_COUNTS_EVENT, handleCounts);
+    return () => window.removeEventListener(GEO_BOUNDS_FILTER_COUNTS_EVENT, handleCounts);
+  }, [id]);
 
   const commitBounds = useCallback((next: GeoBounds) => {
     setNodes((current) => current.map((node) =>
@@ -29,7 +51,30 @@ function GeoBoundsFilterNode({ id, data }: NodeProps<Node<{ bounds?: GeoBounds }
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geo-bounds-filter" defaultSize={{ width: 448 }} tools={<PipelineStageTiming nodeId={id} nodeType={'geo-bounds-filter'} />}>
+      <NodeWrapper
+        type="geo-bounds-filter"
+        defaultSize={{ width: 448 }}
+        inputCounts={
+          <NewChip
+            count={counts?.inputCount ?? 0}
+            label={''}
+            icon={<LogIn size={16} />}
+            tooltip={t('pipelineGeoBoundsFilterEntering')}
+            fontSize={12}
+          />
+        }
+        outputCounts={
+          <NewChip
+            variant="important"
+            count={counts?.outputCount ?? 0}
+            label={''}
+            icon={<LogOut size={16} />}
+            tooltip={t('pipelineGeoBoundsFilterLeaving')}
+            fontSize={12}
+          />
+        }
+        tools={<PipelineStageTiming nodeId={id} nodeType={'geo-bounds-filter'} />}
+      >
         <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
           {t('pipelineGpsBoundsValues', {
             west: formatDegrees(bounds.west),
