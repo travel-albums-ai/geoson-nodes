@@ -1,13 +1,13 @@
 import NewChip from '@/components/NewChip';
 import { usePipelineStoreSelector } from '@/context/pipelineStore';
 import { createGeoJsonFileKey, deleteGeoJsonFile, saveGeoJsonFile } from '@/lib/geojsonFileStore';
-import { DEFAULT_QLEVER_QUERY, runQleverSparql, sparqlResultsToGeoJson } from '@/lib/qleverSparql';
+import { buildChatGptQueryPrompt, buildChatGptUrl, DEFAULT_QLEVER_QUERY, runQleverSparql, sparqlResultsToGeoJson } from '@/lib/qleverSparql';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { Clock, Database, LogOut } from 'lucide-react';
+import { Clock, Database, LogOut, MessageSquare } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -55,6 +55,10 @@ function QleverSparqlLoaderNode({ id, data }: NodeProps<Node<QleverSparqlLoaderN
 
     return () => window.clearTimeout(timer);
   }, [draft, id, setNodes]);
+
+  const openInChatGpt = () => {
+    window.open(buildChatGptUrl(buildChatGptQueryPrompt(draft)), '_blank', 'noopener,noreferrer');
+  };
 
   const updateNodeData = (patch: Partial<QleverSparqlLoaderNodeData>) => {
     setNodes((current) => current.map((node) => (
@@ -116,14 +120,24 @@ function QleverSparqlLoaderNode({ id, data }: NodeProps<Node<QleverSparqlLoaderN
           helperText={t('pipelineQleverSparqlLoaderQueryHint')}
           sx={{ '& textarea': { fontFamily: 'monospace' } }}
         />
-        <Button
-          variant="outlined"
-          startIcon={<Database size={16} />}
-          onClick={runQuery}
-          disabled={loading || draft.trim() === ''}
-        >
-          {loading ? t('pipelineQleverSparqlLoaderRunning') : t('pipelineQleverSparqlLoaderRun')}
-        </Button>
+        <Stack direction="row" spacing={1}>
+          <Button
+            variant="outlined"
+            startIcon={<Database size={16} />}
+            onClick={runQuery}
+            disabled={loading || draft.trim() === ''}
+          >
+            {loading ? t('pipelineQleverSparqlLoaderRunning') : t('pipelineQleverSparqlLoaderRun')}
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<MessageSquare size={16} />}
+            onClick={openInChatGpt}
+            disabled={draft.trim() === ''}
+          >
+            {t('pipelineQleverSparqlLoaderChatGpt')}
+          </Button>
+        </Stack>
         {error && (
           <Typography variant="caption" color="error" sx={{ whiteSpace: 'pre-wrap' }}>{error}</Typography>
         )}

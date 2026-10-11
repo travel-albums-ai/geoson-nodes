@@ -12,6 +12,21 @@ SELECT ?name ?wkt WHERE {
 }
 LIMIT 100`;
 
+export function buildChatGptQueryPrompt(query: string): string {
+  return [
+    `I am writing a SPARQL query for the QLever OSM planet endpoint (${QLEVER_OSM_PLANET_ENDPOINT}).`,
+    'Help me improve it. The query should return a ?wkt variable holding geo:wktLiteral geometries so it can be converted to GeoJSON.',
+    '',
+    '```sparql',
+    query,
+    '```',
+  ].join('\n');
+}
+
+export function buildChatGptUrl(prompt: string): string {
+  return `https://chatgpt.com/?prompt=${encodeURIComponent(prompt)}`;
+}
+
 export type SparqlTerm = { type: string; value: string; datatype?: string };
 
 // Subset of https://www.w3.org/TR/sparql11-results-json/ that the converter reads.

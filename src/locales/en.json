@@ -141,6 +141,7 @@
   "pipelineQleverSparqlLoaderPlaceholder": "SELECT ?name ?wkt WHERE { ... }",
   "pipelineQleverSparqlLoaderRun": "Run query",
   "pipelineQleverSparqlLoaderRunning": "Running query…",
+  "pipelineQleverSparqlLoaderChatGpt": "Ask ChatGPT",
   "pipelineQleverSparqlLoaderFetched": "Fetched",
   "pipelineOpenMeteoLoader": "Open-Meteo Weather",
   "pipelineOpenMeteoLoaderDescription": "Loads the current weather at every grid point inside a map bounding box from Open-Meteo when you press Load, and outputs one point per grid point with the selected values as a FeatureCollection array",
