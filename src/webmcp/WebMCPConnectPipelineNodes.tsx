@@ -18,6 +18,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: ['geojson'],
     targets: [],
   },
+  'open-meteo-loader': {
+    sources: ['geojson'],
+    targets: [],
+  },
   'fit-input': {
     sources: ['geojson'],
     targets: [],

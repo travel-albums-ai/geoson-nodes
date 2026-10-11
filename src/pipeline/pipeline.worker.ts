@@ -29,6 +29,7 @@ import {
 import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
 import { applyGeoJsonStyle, readGeoJsonStyleSettings } from "@/lib/geojsonStyle";
 import { filterGeoJsonWithinArea } from "@/lib/geojsonWithinArea";
+import { OPEN_METEO_VARIABLES, selectOpenMeteoVariables } from "@/lib/openMeteo";
 import { parseFitFile } from "@/lib/fit";
 import { loadFitFiles } from "@/lib/fitFileStore";
 import { loadGeoJsonFile } from "@/lib/geojsonFileStore";
@@ -336,6 +337,17 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   },
   "url-geojson-loader": storedGeoJsonLoaderNode,
   "gdelt-events-loader": storedGeoJsonLoaderNode,
+  "open-meteo-loader": {
+    async execute(inputs) {
+      const file = typeof inputs.fileKey === "string" ? await loadGeoJsonFile(inputs.fileKey) : null;
+      const collections = file instanceof File ? parseGeoJsonFeatureCollections(await file.text()) : [];
+      const variables = Array.isArray(inputs.variables) ? inputs.variables as string[] : [...OPEN_METEO_VARIABLES];
+
+      const geojson = selectOpenMeteoVariables(collections, variables);
+
+      return { geojson, outputCount: countGeoJsonFeatures(geojson) };
+    },
+  },
   "fit-input": {
     async execute(inputs) {
       const fileKey = inputs.fileKey;
@@ -468,8 +480,12 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
         inputs.flights = flightsByHash.get(node.data.flightsHash as string);
       }
 
-      if (node.type === "url-geojson-loader" || node.type === "gdelt-events-loader" || node.type === "fit-input") {
+      if (node.type === "url-geojson-loader" || node.type === "gdelt-events-loader" || node.type === "open-meteo-loader" || node.type === "fit-input") {
         inputs.fileKey = node.data.fileKey;
+      }
+
+      if (node.type === "open-meteo-loader") {
+        inputs.variables = node.data.variables;
       }
 
       if (node.type === "shortest-route") {
