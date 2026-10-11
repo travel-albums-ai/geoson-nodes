@@ -170,6 +170,19 @@ const geoJsonSetNodeDefinition = (operation: GeoJsonSetOperation): PipelineNodeD
   },
 });
 
+// Loader nodes fetch in the browser when their button is pressed and store the result under fileKey.
+const storedGeoJsonLoaderNode: PipelineNodeDefinition = {
+  async execute(inputs) {
+    const file = typeof inputs.fileKey === "string" ? await loadGeoJsonFile(inputs.fileKey) : null;
+
+    if (!(file instanceof File)) {
+      return { geojson: [] };
+    }
+
+    return { geojson: parseGeoJsonFeatureCollections(await file.text()) };
+  },
+};
+
 const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   "geojson-input": {
     async execute(inputs) {
@@ -284,18 +297,8 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       return { geojson: await runGeoJsonQuery(collections, query, inputs.negate === true) };
     },
   },
-  "url-geojson-loader": {
-    async execute(inputs) {
-      // The browser fetches the URL when the node's button is pressed and stores the result under fileKey.
-      const file = typeof inputs.fileKey === "string" ? await loadGeoJsonFile(inputs.fileKey) : null;
-
-      if (!(file instanceof File)) {
-        return { geojson: [] };
-      }
-
-      return { geojson: parseGeoJsonFeatureCollections(await file.text()) };
-    },
-  },
+  "url-geojson-loader": storedGeoJsonLoaderNode,
+  "gdelt-events-loader": storedGeoJsonLoaderNode,
   "flight-path": {
     async execute(inputs) {
       await Promise.resolve();
@@ -418,7 +421,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
         inputs.flights = flightsByHash.get(node.data.flightsHash as string);
       }
 
-      if (node.type === "url-geojson-loader") {
+      if (node.type === "url-geojson-loader" || node.type === "gdelt-events-loader") {
         inputs.fileKey = node.data.fileKey;
       }
 

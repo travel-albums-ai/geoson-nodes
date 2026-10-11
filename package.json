@@ -32,6 +32,7 @@
     "@vercel/speed-insights": "^2.0.0",
     "@xyflow/react": "^12.11.6",
     "driver.js": "^1.8.0",
+    "fflate": "^0.8.3",
     "i18next": "^26.4.2",
     "jsonata": "^2.2.2",
     "leaflet": "^1.9.4",

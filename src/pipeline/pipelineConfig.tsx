@@ -14,6 +14,7 @@ import GeoJsonWithinAreaNode from '@/pipeline/nodes/ComplexNodes/GeoJsonWithinAr
 import GeoJsonZipNode from '@/pipeline/nodes/ComplexNodes/GeoJsonZipNode';
 import GeoJsonFeaturePickerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonFeaturePickerNode';
 import UrlGeoJsonLoaderNode from '@/pipeline/nodes/ComplexNodes/UrlGeoJsonLoaderNode';
+import GdeltEventsLoaderNode from '@/pipeline/nodes/ComplexNodes/GdeltEventsLoaderNode';
 import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
 import PostItNode from '@/pipeline/nodes/ComplexNodes/PostItNode';
 import ShortestRouteNode from '@/pipeline/nodes/ComplexNodes/ShortestRouteNode';
@@ -36,6 +37,7 @@ export const pipelineNodeTypes = {
   'geojson-merge': GeoJsonMergeNode,
   'flight-path': FlightPathNode,
   'url-geojson-loader': UrlGeoJsonLoaderNode,
+  'gdelt-events-loader': GdeltEventsLoaderNode,
   'shortest-route': ShortestRouteNode,
   'geojson-switch': GeoJsonSwitchNode,
   'geojson-style': GeoJsonStyleNode,

@@ -14,6 +14,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: ['geojson'],
     targets: [],
   },
+  'gdelt-events-loader': {
+    sources: ['geojson'],
+    targets: [],
+  },
   'gps-map': {
     sources: [],
     targets: ['geojson'],
