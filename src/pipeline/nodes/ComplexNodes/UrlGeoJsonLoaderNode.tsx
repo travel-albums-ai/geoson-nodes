@@ -21,6 +21,8 @@ const EXAMPLES = [
   { labelKey: 'pipelineUrlGeoJsonLoaderExampleGeoMap', url: URL_GEOJSON_EXAMPLE_URLS.geoMap },
   { labelKey: 'pipelineUrlGeoJsonLoaderExampleAirport', url: URL_GEOJSON_EXAMPLE_URLS.airport },
   { labelKey: 'pipelineUrlGeoJsonLoaderExampleUnesco', url: URL_GEOJSON_EXAMPLE_URLS.unesco },
+  { labelKey: 'pipelineUrlGeoJsonLoaderExamplePassportIndex', url: URL_GEOJSON_EXAMPLE_URLS.passportIndex },
+  { labelKey: 'pipelineUrlGeoJsonLoaderExampleVaccines', url: URL_GEOJSON_EXAMPLE_URLS.vaccines },
 ];
 
 type UrlGeoJsonLoaderNodeData = {

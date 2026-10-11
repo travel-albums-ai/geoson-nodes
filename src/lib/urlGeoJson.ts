@@ -9,7 +9,9 @@ export const URL_GEOJSON_EXAMPLE_URLS = {
   gdeltTimespan15: 'https://api.gdeltproject.org/api/v1/gkg_geojson?TIMESPAN=15',
   geoMap: 'https://axx2igptegogljsl.public.blob.vercel-storage.com/custom.geo.json',
   airport: 'https://axx2igptegogljsl.public.blob.vercel-storage.com/airports.geojson',
-  unesco: 'https://axx2igptegogljsl.public.blob.vercel-storage.com/whc001.geojson'
+  unesco: 'https://axx2igptegogljsl.public.blob.vercel-storage.com/whc001.geojson',
+  passportIndex: 'https://axx2igptegogljsl.public.blob.vercel-storage.com/passport-index-formatted.geojson',
+  vaccines: 'https://axx2igptegogljsl.public.blob.vercel-storage.com/vaccines-processed.geojson'
 } as const;
 
 const GDELT_ERROR_PREFIX = 'ERROR:';
