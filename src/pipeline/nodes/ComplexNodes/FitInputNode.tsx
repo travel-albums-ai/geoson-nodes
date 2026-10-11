@@ -7,7 +7,7 @@ import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { Box, Button, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { Bike, FileJson, Layers, MapPin } from 'lucide-react';
+import { Bike, Layers, LogIn, LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -124,8 +124,15 @@ function FitInputNode({ id, data }: NodeProps<Node<{ fileKey?: string }>>) {
 
   return (
     <NodeWrapper type="fit-input" tools={
-      <PipelineStageTiming nodeId={id} nodeType={'fit-input'} />
-    }>
+      <PipelineStageTiming nodeId={id} nodeType={'fit-input'}  />
+    }
+    inputCounts={<>
+      <NewChip count={files.length} label={''} fontSize={12} icon={<LogIn size={16} />} />
+    </>}
+    outputCounts={<>
+      <NewChip count={counts?.features ?? 0} label={''} variant="important" fontSize={12} icon={<LogOut size={16} />} />
+    </>}
+    >
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
         <Button
@@ -149,9 +156,7 @@ function FitInputNode({ id, data }: NodeProps<Node<{ fileKey?: string }>>) {
             }}
           />
         </Button>
-        <NewChip count={files.length} label={t('pipelineFitInputFiles')} fontSize={16} icon={<FileJson size={16} />} sx={{ height: 38 }} />
         <NewChip count={counts?.collections ?? 0} label={t('pipelineGeoJsonCollections')} fontSize={16} icon={<Layers size={16} />} sx={{ height: 38 }} />
-        <NewChip count={counts?.features ?? 0} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<MapPin size={16} />} sx={{ height: 38 }} />
         {error && (
           <Typography variant="caption" color="error" sx={{ width: '100%' }}>
             {error}
