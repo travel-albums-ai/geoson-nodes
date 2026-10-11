@@ -72,7 +72,7 @@ function GpsMapNode({ id, data }: NodeProps<Node<{ geojson?: GeoJsonFeatureColle
         </>}>
         <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1 1 auto', minHeight: 0, gap: 1 }}>
           {propertyKeys.length > 0 && (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, maxHeight: '100px', overflow: 'auto' }}>
               {propertyKeys.map((key) => {
                 const selected = selectedKeys.includes(key);
                 return (

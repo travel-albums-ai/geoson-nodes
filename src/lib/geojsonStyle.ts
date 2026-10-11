@@ -11,12 +11,18 @@ export type GeoJsonStyleSettings = {
   fill: string;
   fillSource: GeoJsonColorSource;
   fillKey: string;
+  fillBase: string;
   stroke: string;
   strokeSource: GeoJsonColorSource;
   strokeKey: string;
+  strokeBase: string;
   strokeWidth: number;
   opacity: number;
 };
+
+// A generated color is this share of the base color mixed with the string-to-color
+// color; the rest comes from string-to-color.
+export const GEOJSON_GENERATED_BASE_SHARE = 0.8;
 
 export const GEOJSON_STROKE_WIDTH = { min: 0, max: 10, step: 0.5, default: 3 } as const;
 
@@ -24,9 +30,11 @@ export const DEFAULT_GEOJSON_STYLE: GeoJsonStyleSettings = {
   fill: '#d32f2f',
   fillSource: 'palette',
   fillKey: '',
+  fillBase: '#d32f2f',
   stroke: '#d32f2f',
   strokeSource: 'palette',
   strokeKey: '',
+  strokeBase: '#d32f2f',
   strokeWidth: GEOJSON_STROKE_WIDTH.default,
   opacity: 1,
 };
@@ -82,9 +90,11 @@ export function readGeoJsonStyleSettings(value: unknown): GeoJsonStyleSettings {
     fill: toColor(source.fill) ?? DEFAULT_GEOJSON_STYLE.fill,
     fillSource: toColorSource(source.fillSource),
     fillKey: toPropertyKey(source.fillKey),
+    fillBase: toColor(source.fillBase) ?? DEFAULT_GEOJSON_STYLE.fillBase,
     stroke: toColor(source.stroke) ?? DEFAULT_GEOJSON_STYLE.stroke,
     strokeSource: toColorSource(source.strokeSource),
     strokeKey: toPropertyKey(source.strokeKey),
+    strokeBase: toColor(source.strokeBase) ?? DEFAULT_GEOJSON_STYLE.strokeBase,
     strokeWidth: toStrokeWidth(source.strokeWidth) ?? DEFAULT_GEOJSON_STYLE.strokeWidth,
     opacity: toOpacity(source.opacity) ?? DEFAULT_GEOJSON_STYLE.opacity,
   };
@@ -119,20 +129,45 @@ export function listFeaturePropertyKeys(collections: GeoJsonFeatureCollectionArr
   return [...keys].sort();
 }
 
-// Picks the color for one feature: a color generated from the value of the chosen
-// property, or the palette color when generation is off or the feature lacks the property.
+type ColorHex = [number, number, number];
+
+const parseHex = (value: string): ColorHex | undefined => {
+  const match = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(value.trim());
+  if (!match) return undefined;
+
+  const digits = match[1].length === 3 ? [...match[1]].map((digit) => digit + digit).join('') : match[1];
+  return [0, 2, 4].map((offset) => parseInt(digits.slice(offset, offset + 2), 16)) as ColorHex;
+};
+
+// Mixes two hex colors channel by channel. The base color gets GEOJSON_GENERATED_BASE_SHARE
+// of the result. If either color is not a hex color, the base color is returned unchanged.
+export function mixColors(base: string, generated: string): string {
+  const baseRgb = parseHex(base);
+  const generatedRgb = parseHex(generated);
+  if (!baseRgb || !generatedRgb) return base;
+
+  const hex = baseRgb.map((channel, index) => {
+    const mixed = Math.round(channel * GEOJSON_GENERATED_BASE_SHARE + generatedRgb[index] * (1 - GEOJSON_GENERATED_BASE_SHARE));
+    return mixed.toString(16).padStart(2, '0');
+  });
+
+  return `#${hex.join('')}`;
+}
+
+// Picks the color for one feature. With palette, the palette color is used. With generated,
+// the base color is mixed with a string-to-color color from the chosen property's value;
+// a feature without that property gets the base color.
 export function resolveFeatureColor(
   properties: Record<string, unknown> | null | undefined,
-  source: GeoJsonColorSource,
-  key: string,
-  paletteColor: string,
+  choice: { source: GeoJsonColorSource; key: string; paletteColor: string; baseColor: string },
 ): string {
-  if (source !== 'generated' || key === '') return paletteColor;
+  if (choice.source !== 'generated') return choice.paletteColor;
+  if (choice.key === '') return choice.baseColor;
 
-  const value = properties?.[key];
-  if (value === undefined || value === null) return paletteColor;
+  const value = properties?.[choice.key];
+  if (value === undefined || value === null) return choice.baseColor;
 
-  return stc(typeof value === 'object' ? JSON.stringify(value) : String(value));
+  return mixColors(choice.baseColor, stc(typeof value === 'object' ? JSON.stringify(value) : String(value)));
 }
 
 function styleFeature(feature: GeoJsonFeature, style: GeoJsonStyleSettings): GeoJsonFeature {
@@ -140,9 +175,13 @@ function styleFeature(feature: GeoJsonFeature, style: GeoJsonStyleSettings): Geo
     ...feature,
     properties: {
       ...feature.properties,
-      [GEOJSON_STYLE_PROPERTY.fill]: resolveFeatureColor(feature.properties, style.fillSource, style.fillKey, style.fill),
+      [GEOJSON_STYLE_PROPERTY.fill]: resolveFeatureColor(feature.properties, {
+        source: style.fillSource, key: style.fillKey, paletteColor: style.fill, baseColor: style.fillBase,
+      }),
       [GEOJSON_STYLE_PROPERTY.fillOpacity]: style.opacity,
-      [GEOJSON_STYLE_PROPERTY.stroke]: resolveFeatureColor(feature.properties, style.strokeSource, style.strokeKey, style.stroke),
+      [GEOJSON_STYLE_PROPERTY.stroke]: resolveFeatureColor(feature.properties, {
+        source: style.strokeSource, key: style.strokeKey, paletteColor: style.stroke, baseColor: style.strokeBase,
+      }),
       [GEOJSON_STYLE_PROPERTY.strokeOpacity]: style.opacity,
       [GEOJSON_STYLE_PROPERTY.strokeWidth]: style.strokeWidth,
     },

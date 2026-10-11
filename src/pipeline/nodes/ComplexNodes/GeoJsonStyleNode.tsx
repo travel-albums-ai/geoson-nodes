@@ -13,6 +13,7 @@ type ColorChoice = {
   source: GeoJsonColorSource;
   color: string;
   key: string;
+  base: string;
 };
 
 type ColorFieldProps = {
@@ -55,19 +56,29 @@ function ColorField({ label, value, propertyKeys, onChange }: ColorFieldProps) {
           fullWidth
         />
       ) : (
-        <TextField
-          size="small"
-          select
-          label={t('pipelineGeoJsonStyleKey')}
-          value={value.key}
-          onChange={(event) => onChange({ ...value, key: event.target.value })}
-          helperText={keyOptions.length === 0 ? t('pipelineGeoJsonStyleNoKeys') : t('pipelineGeoJsonStyleKeyHint')}
-          fullWidth
-        >
-          {keyOptions.map((key) => (
-            <MenuItem key={key} value={key}>{key}</MenuItem>
-          ))}
-        </TextField>
+        <>
+          <TextField
+            size="small"
+            type="color"
+            label={t('pipelineGeoJsonStyleBaseColor')}
+            value={value.base}
+            onChange={(event) => onChange({ ...value, base: event.target.value })}
+            fullWidth
+          />
+          <TextField
+            size="small"
+            select
+            label={t('pipelineGeoJsonStyleKey')}
+            value={value.key}
+            onChange={(event) => onChange({ ...value, key: event.target.value })}
+            helperText={keyOptions.length === 0 ? t('pipelineGeoJsonStyleNoKeys') : t('pipelineGeoJsonStyleKeyHint')}
+            fullWidth
+          >
+            {keyOptions.map((key) => (
+              <MenuItem key={key} value={key}>{key}</MenuItem>
+            ))}
+          </TextField>
+        </>
       )}
     </Box>
   );
@@ -98,15 +109,15 @@ function GeoJsonStyleNode({ id, data }: NodeProps<Node<{ style?: Partial<GeoJson
         <Box className="nodrag nopan" sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
           <ColorField
             label={t('pipelineGeoJsonStyleFill')}
-            value={{ source: style.fillSource, color: style.fill, key: style.fillKey }}
+            value={{ source: style.fillSource, color: style.fill, key: style.fillKey, base: style.fillBase }}
             propertyKeys={propertyKeys}
-            onChange={(next) => updateStyle({ fillSource: next.source, fill: next.color, fillKey: next.key })}
+            onChange={(next) => updateStyle({ fillSource: next.source, fill: next.color, fillKey: next.key, fillBase: next.base })}
           />
           <ColorField
             label={t('pipelineGeoJsonStyleStroke')}
-            value={{ source: style.strokeSource, color: style.stroke, key: style.strokeKey }}
+            value={{ source: style.strokeSource, color: style.stroke, key: style.strokeKey, base: style.strokeBase }}
             propertyKeys={propertyKeys}
-            onChange={(next) => updateStyle({ strokeSource: next.source, stroke: next.color, strokeKey: next.key })}
+            onChange={(next) => updateStyle({ strokeSource: next.source, stroke: next.color, strokeKey: next.key, strokeBase: next.base })}
           />
           <Box>
             <Typography variant="body2" color="text.secondary">
