@@ -1,12 +1,23 @@
+import NewChip from '@/components/NewChip';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
-import { GEOJSON_WITHIN_AREA_INPUT_HANDLES } from '@/types/types';
+import { GEOJSON_WITHIN_AREA_COUNTS_EVENT, GEOJSON_WITHIN_AREA_INPUT_HANDLES } from '@/types/types';
 import { FormControlLabel, Switch, Typography } from '@mui/material';
 import { Position, useNodeConnections, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { useCallback } from 'react';
+import { LogIn, LogOut } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+type WithinAreaCountsEventDetail = {
+  nodeId: string;
+  inputCounts: Record<string, number>;
+  outputCount: number;
+};
+
+// Shown on the input chips, in the same order as GEOJSON_WITHIN_AREA_INPUT_HANDLES.
+const WITHIN_AREA_INPUT_NAMES = ['A', 'B'];
 
 const handleLeft = (index: number) =>
   `${((index + 1) / (GEOJSON_WITHIN_AREA_INPUT_HANDLES.length + 1)) * 100}%`;
@@ -16,6 +27,20 @@ function GeoJsonWithinAreaNode({ id, data }: NodeProps<Node<{ outside?: boolean 
   const { setNodes } = useReactFlow();
   const connections = useNodeConnections({ handleType: 'target' });
   const connectedCount = new Set(connections.map((connection) => connection.targetHandle)).size;
+  const [counts, setCounts] = useState<WithinAreaCountsEventDetail | null>(null);
+
+  useEffect(() => {
+    const handleCounts = (event: Event) => {
+      const detail = (event as CustomEvent<WithinAreaCountsEventDetail>).detail;
+
+      if (detail.nodeId === id) {
+        setCounts(detail);
+      }
+    };
+
+    window.addEventListener(GEOJSON_WITHIN_AREA_COUNTS_EVENT, handleCounts);
+    return () => window.removeEventListener(GEOJSON_WITHIN_AREA_COUNTS_EVENT, handleCounts);
+  }, [id]);
 
   const toggleOutside = useCallback((outside: boolean) => {
     setNodes((current) => current.map((node) =>
@@ -36,7 +61,32 @@ function GeoJsonWithinAreaNode({ id, data }: NodeProps<Node<{ outside?: boolean 
           style={{ left: handleLeft(index) }}
         />
       ))}
-      <NodeWrapper type="geojson-within-area" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-within-area'} />}>
+      <NodeWrapper
+        type="geojson-within-area"
+        inputCounts={<>
+          {GEOJSON_WITHIN_AREA_INPUT_HANDLES.map((handleId, index) => (
+            <NewChip
+              key={handleId}
+              count={counts?.inputCounts[handleId] ?? 0}
+              label={WITHIN_AREA_INPUT_NAMES[index]}
+              icon={<LogIn size={16} />}
+              tooltip={t('pipelineGeoJsonWithinAreaEntering', { input: WITHIN_AREA_INPUT_NAMES[index] })}
+              fontSize={12}
+            />
+          ))}
+        </>}
+        outputCounts={
+          <NewChip
+            variant="important"
+            count={counts?.outputCount ?? 0}
+            label={''}
+            icon={<LogOut size={16} />}
+            tooltip={t('pipelineGeoJsonWithinAreaLeaving')}
+            fontSize={12}
+          />
+        }
+        tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-within-area'} />}
+      >
         <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
           {t('pipelineGeoJsonSetConnected', {
             connected: connectedCount,

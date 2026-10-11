@@ -174,12 +174,9 @@ const geoJsonSetNodeDefinition = (operation: GeoJsonSetOperation): PipelineNodeD
 const storedGeoJsonLoaderNode: PipelineNodeDefinition = {
   async execute(inputs) {
     const file = typeof inputs.fileKey === "string" ? await loadGeoJsonFile(inputs.fileKey) : null;
+    const geojson = file instanceof File ? parseGeoJsonFeatureCollections(await file.text()) : [];
 
-    if (!(file instanceof File)) {
-      return { geojson: [] };
-    }
-
-    return { geojson: parseGeoJsonFeatureCollections(await file.text()) };
+    return { geojson, outputCount: countGeoJsonFeatures(geojson) };
   },
 };
 
@@ -238,14 +235,19 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       await Promise.resolve();
 
       const [areaHandle, featuresHandle] = GEOJSON_WITHIN_AREA_INPUT_HANDLES;
+      const inputCounts = Object.fromEntries(
+        GEOJSON_WITHIN_AREA_INPUT_HANDLES.map((handle) => [
+          handle,
+          countGeoJsonFeatures((inputs[handle] as GeoJsonFeatureCollectionArray | undefined) ?? []),
+        ]),
+      );
+      const geojson = filterGeoJsonWithinArea(
+        (inputs[areaHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
+        (inputs[featuresHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
+        inputs.outside === true,
+      );
 
-      return {
-        geojson: filterGeoJsonWithinArea(
-          (inputs[areaHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
-          (inputs[featuresHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
-          inputs.outside === true,
-        ),
-      };
+      return { geojson, inputCounts, outputCount: countGeoJsonFeatures(geojson) };
     },
   },
   "geojson-switch": {
@@ -651,6 +653,29 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       evaluationId,
       nodeId: node.id,
       inputCount: (nodeOutputs.inputCount as number | undefined) ?? 0,
+      outputCount: (nodeOutputs.outputCount as number | undefined) ?? 0,
+    });
+  }
+
+  for (const node of nodes.filter((candidate) => candidate.type === "geojson-within-area")) {
+    const nodeOutputs = await evaluateNode(node.id);
+
+    workerScope.postMessage({
+      type: "geojson-within-area-counts",
+      evaluationId,
+      nodeId: node.id,
+      inputCounts: nodeOutputs.inputCounts as Record<string, number>,
+      outputCount: (nodeOutputs.outputCount as number | undefined) ?? 0,
+    });
+  }
+
+  for (const node of nodes.filter((candidate) => candidate.type === "url-geojson-loader")) {
+    const nodeOutputs = await evaluateNode(node.id);
+
+    workerScope.postMessage({
+      type: "url-geojson-loader-counts",
+      evaluationId,
+      nodeId: node.id,
       outputCount: (nodeOutputs.outputCount as number | undefined) ?? 0,
     });
   }

@@ -91,6 +91,12 @@ export const GEOJSON_SWITCH_COUNTS_EVENT = 'geojson-switch:counts';
 // Window event carrying how many features enter the JSONata node and how many leave it.
 export const GEOJSON_JSONATA_COUNTS_EVENT = 'geojson-jsonata:counts';
 
+// Window event carrying how many features enter each input of the within-area node and how many leave it.
+export const GEOJSON_WITHIN_AREA_COUNTS_EVENT = 'geojson-within-area:counts';
+
+// Window event carrying how many features the URL loader fetched.
+export const URL_GEOJSON_LOADER_COUNTS_EVENT = 'url-geojson-loader:counts';
+
 // Node types whose results are posted back to the main thread.
 // The JSONata node is included so its live output and errors can be shown on the node.
 export const VIEWER_NODE_TYPES = new Set(["gps-map", "geojson-viewer", "geojson-first-feature", "geojson-jsonata"]);
@@ -205,6 +211,21 @@ export type PipelineGeoJsonJsonataCountsMessage = {
   outputCount: number;
 };
 
+export type PipelineGeoJsonWithinAreaCountsMessage = {
+  type: "geojson-within-area-counts";
+  evaluationId: number;
+  nodeId: string;
+  inputCounts: Record<string, number>;
+  outputCount: number;
+};
+
+export type PipelineUrlGeoJsonLoaderCountsMessage = {
+  type: "url-geojson-loader-counts";
+  evaluationId: number;
+  nodeId: string;
+  outputCount: number;
+};
+
 export type PipelineDoneMessage = {
   type: "done";
   evaluationId: number;
@@ -227,5 +248,7 @@ export type PipelineWorkerOutbound =
   | PipelineGeoBoundsFilterCountsMessage
   | PipelineGeoJsonSwitchCountsMessage
   | PipelineGeoJsonJsonataCountsMessage
+  | PipelineGeoJsonWithinAreaCountsMessage
+  | PipelineUrlGeoJsonLoaderCountsMessage
   | PipelineDoneMessage
   | PipelineErrorMessage;

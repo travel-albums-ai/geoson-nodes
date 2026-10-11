@@ -1,13 +1,15 @@
+import NewChip from '@/components/NewChip';
 import { usePipelineStoreSelector } from '@/context/pipelineStore';
 import { createGeoJsonFileKey, deleteGeoJsonFile, saveGeoJsonFile } from '@/lib/geojsonFileStore';
 import { fetchUrlGeoJson, parseHttpUrl, URL_GEOJSON_EXAMPLE_URLS } from '@/lib/urlGeoJson';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
+import { URL_GEOJSON_LOADER_COUNTS_EVENT } from '@/types/types';
 import { Box, Button, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { Globe } from 'lucide-react';
-import { useState } from 'react';
+import { Globe, LogOut } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const EXAMPLES = [
@@ -39,6 +41,20 @@ function UrlGeoJsonLoaderNode({ id, data }: NodeProps<Node<UrlGeoJsonLoaderNodeD
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [newUrl, setNewUrl] = useState('');
+  const [counts, setCounts] = useState<{ outputCount: number } | null>(null);
+
+  useEffect(() => {
+    const handleCounts = (event: Event) => {
+      const detail = (event as CustomEvent<{ nodeId: string; outputCount: number }>).detail;
+
+      if (detail.nodeId === id) {
+        setCounts({ outputCount: detail.outputCount });
+      }
+    };
+
+    window.addEventListener(URL_GEOJSON_LOADER_COUNTS_EVENT, handleCounts);
+    return () => window.removeEventListener(URL_GEOJSON_LOADER_COUNTS_EVENT, handleCounts);
+  }, [id]);
 
   const entries = data.entries ?? [];
   const selectedUrl = data.url ?? EXAMPLES[0].url;
@@ -100,7 +116,20 @@ function UrlGeoJsonLoaderNode({ id, data }: NodeProps<Node<UrlGeoJsonLoaderNodeD
   };
 
   return (
-    <NodeWrapper type="url-geojson-loader" tools={<PipelineStageTiming nodeId={id} nodeType={'url-geojson-loader'} />}>
+    <NodeWrapper
+      type="url-geojson-loader"
+      outputCounts={
+        <NewChip
+          variant="important"
+          count={counts?.outputCount ?? 0}
+          label={''}
+          icon={<LogOut size={16} />}
+          tooltip={t('pipelineUrlGeoJsonLoaderLeaving')}
+          fontSize={12}
+        />
+      }
+      tools={<PipelineStageTiming nodeId={id} nodeType={'url-geojson-loader'} />}
+    >
       <Stack spacing={1} sx={{ p: 1, minWidth: 280 }} className="nodrag nopan">
         <Typography variant="body2">{t('pipelineUrlGeoJsonLoaderHint')}</Typography>
         <TextField
@@ -136,7 +165,6 @@ function UrlGeoJsonLoaderNode({ id, data }: NodeProps<Node<UrlGeoJsonLoaderNodeD
           </Button>
         </Box>
         <Button
-          size="small"
           variant="outlined"
           startIcon={<Globe size={16} />}
           onClick={fetchFeed}
