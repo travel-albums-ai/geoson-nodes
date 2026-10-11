@@ -17,6 +17,7 @@ import GeoJsonZipNode from '@/pipeline/nodes/ComplexNodes/GeoJsonZipNode';
 import GeoJsonFeaturePickerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonFeaturePickerNode';
 import UrlGeoJsonLoaderNode from '@/pipeline/nodes/ComplexNodes/UrlGeoJsonLoaderNode';
 import GdeltEventsLoaderNode from '@/pipeline/nodes/ComplexNodes/GdeltEventsLoaderNode';
+import QleverSparqlLoaderNode from '@/pipeline/nodes/ComplexNodes/QleverSparqlLoaderNode';
 import OpenMeteoLoaderNode from '@/pipeline/nodes/ComplexNodes/OpenMeteoLoaderNode';
 import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
 import PostItNode from '@/pipeline/nodes/ComplexNodes/PostItNode';
@@ -42,6 +43,7 @@ export const pipelineNodeTypes = {
   'flight-path': FlightPathNode,
   'url-geojson-loader': UrlGeoJsonLoaderNode,
   'gdelt-events-loader': GdeltEventsLoaderNode,
+  'qlever-sparql-loader': QleverSparqlLoaderNode,
   'open-meteo-loader': OpenMeteoLoaderNode,
   'fit-input': FitInputNode,
   'shortest-route': ShortestRouteNode,

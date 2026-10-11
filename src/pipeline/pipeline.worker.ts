@@ -337,6 +337,7 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   },
   "url-geojson-loader": storedGeoJsonLoaderNode,
   "gdelt-events-loader": storedGeoJsonLoaderNode,
+  "qlever-sparql-loader": storedGeoJsonLoaderNode,
   "open-meteo-loader": {
     async execute(inputs) {
       const file = typeof inputs.fileKey === "string" ? await loadGeoJsonFile(inputs.fileKey) : null;
@@ -480,7 +481,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
         inputs.flights = flightsByHash.get(node.data.flightsHash as string);
       }
 
-      if (node.type === "url-geojson-loader" || node.type === "gdelt-events-loader" || node.type === "open-meteo-loader" || node.type === "fit-input") {
+      if (node.type === "url-geojson-loader" || node.type === "gdelt-events-loader" || node.type === "qlever-sparql-loader" || node.type === "open-meteo-loader" || node.type === "fit-input") {
         inputs.fileKey = node.data.fileKey;
       }
 

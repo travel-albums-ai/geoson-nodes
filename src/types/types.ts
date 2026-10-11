@@ -50,7 +50,7 @@ export type FlightEntry = {
 };
 
 // Node types the pipeline engine can evaluate.
-export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-style', 'geojson-zip', 'geojson-feature-picker', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer', 'geojson-first-feature', 'flight-path', 'url-geojson-loader', 'gdelt-events-loader', 'open-meteo-loader', 'fit-input', 'shortest-route']);
+export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-style', 'geojson-zip', 'geojson-feature-picker', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer', 'geojson-first-feature', 'flight-path', 'url-geojson-loader', 'gdelt-events-loader', 'qlever-sparql-loader', 'open-meteo-loader', 'fit-input', 'shortest-route']);
 
 // Canvas-only nodes (e.g. notes). They are saved with the pipeline but never sent to the engine.
 export const ANNOTATION_NODE_TYPES = new Set(['post-it']);
