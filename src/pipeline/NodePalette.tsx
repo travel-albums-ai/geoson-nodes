@@ -1,7 +1,8 @@
-import { Blend, Braces, Combine, Crop, Diff, FileJson, GitFork, Globe, Layers, Link2, Merge, MapPinned, Newspaper, Palette, Plane, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote, TextCursorInput } from 'lucide-react';
+import { Bike, Blend, Braces, Combine, Crop, Diff, FileJson, GitFork, Globe, Layers, Link2, Merge, MapPinned, Newspaper, Palette, Plane, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote, TextCursorInput } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
+  FitInput = 'fit-input',
   FlightPath = 'flight-path',
   UrlGeoJsonLoader = 'url-geojson-loader',
   GdeltEventsLoader = 'gdelt-events-loader',
@@ -82,6 +83,12 @@ const sourceStages: Array<NodeStageItem> = [
     labelKey: "pipelineGdeltEventsLoader", icon: <Newspaper size={16} />,
     processing: 'static',
     labelDescription: 'pipelineGdeltEventsLoaderDescription',
+  },
+  {
+    type: NodeType.FitInput,
+    labelKey: "pipelineFitInput", icon: <Bike size={16} />,
+    processing: 'static',
+    labelDescription: 'pipelineFitInputDescription',
   },
 ];
 

@@ -29,6 +29,8 @@ import {
 import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
 import { applyGeoJsonStyle, readGeoJsonStyleSettings } from "@/lib/geojsonStyle";
 import { filterGeoJsonWithinArea } from "@/lib/geojsonWithinArea";
+import { parseFitFile } from "@/lib/fit";
+import { loadFitFiles } from "@/lib/fitFileStore";
 import { loadGeoJsonFile } from "@/lib/geojsonFileStore";
 import { commonPropertyKeys, zipGeoJsonByKey } from "@/lib/geojsonZip";
 import { runGeoJsonQuery } from "@/lib/geojsonQuery";
@@ -324,6 +326,16 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   },
   "url-geojson-loader": storedGeoJsonLoaderNode,
   "gdelt-events-loader": storedGeoJsonLoaderNode,
+  "fit-input": {
+    async execute(inputs) {
+      const fileKey = inputs.fileKey;
+      const files = typeof fileKey === "string" ? await loadFitFiles(fileKey) : [];
+
+      return {
+        geojson: await Promise.all(files.map(async (file) => parseFitFile(await file.arrayBuffer(), file.name))),
+      };
+    },
+  },
   "flight-path": {
     async execute(inputs) {
       await Promise.resolve();
@@ -446,7 +458,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
         inputs.flights = flightsByHash.get(node.data.flightsHash as string);
       }
 
-      if (node.type === "url-geojson-loader" || node.type === "gdelt-events-loader") {
+      if (node.type === "url-geojson-loader" || node.type === "gdelt-events-loader" || node.type === "fit-input") {
         inputs.fileKey = node.data.fileKey;
       }
 
