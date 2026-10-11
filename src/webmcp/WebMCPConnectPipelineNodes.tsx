@@ -62,6 +62,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: ['geojson'],
     targets: ['geojson'],
   },
+  'geojson-heatmap': {
+    sources: ['geojson'],
+    targets: ['geojson'],
+  },
   'geojson-zip': {
     sources: ['geojson'],
     targets: [...GEOJSON_ZIP_INPUT_HANDLES],

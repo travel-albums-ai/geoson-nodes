@@ -28,6 +28,7 @@ import {
 } from "@/lib/geojson";
 import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
 import { applyGeoJsonStyle, readGeoJsonStyleSettings } from "@/lib/geojsonStyle";
+import { buildGeoJsonHeatmap } from "@/lib/geojsonHeatmap";
 import { filterGeoJsonWithinArea } from "@/lib/geojsonWithinArea";
 import { OPEN_METEO_VARIABLES, selectOpenMeteoVariables } from "@/lib/openMeteo";
 import { parseFitFile } from "@/lib/fit";
@@ -289,6 +290,15 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       return { geojson: applyGeoJsonStyle(collections, readGeoJsonStyleSettings(inputs.style)) };
     },
   },
+  "geojson-heatmap": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
+
+      return { geojson: buildGeoJsonHeatmap(collections, inputs.heatmap) };
+    },
+  },
   "geojson-zip": {
     async execute(inputs) {
       await Promise.resolve();
@@ -467,6 +477,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "geojson-style") {
         inputs.style = node.data.style;
+      }
+
+      if (node.type === "geojson-heatmap") {
+        inputs.heatmap = node.data.heatmap;
       }
 
       if (node.type === "geojson-feature-picker") {

@@ -1,4 +1,4 @@
-import { Bike, Blend, Braces, CloudSun, Combine, Crop, Database, Diff, FileJson, GitFork, Globe, Layers, Link2, Merge, MapPinned, Newspaper, Palette, Plane, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote, TextCursorInput } from 'lucide-react';
+import { Bike, Blend, Braces, CloudSun, Combine, Crop, Database, Diff, FileJson, Flame, GitFork, Globe, Layers, Link2, Merge, MapPinned, Newspaper, Palette, Plane, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote, TextCursorInput } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
@@ -14,6 +14,7 @@ export enum NodeType {
   GeoJsonMerge = 'geojson-merge',
   GeoJsonSwitch = 'geojson-switch',
   GeoJsonStyle = 'geojson-style',
+  GeoJsonHeatmap = 'geojson-heatmap',
   GeoJsonZip = 'geojson-zip',
   GeoJsonFeaturePicker = 'geojson-feature-picker',
   GeoJsonUnion = 'geojson-union',
@@ -137,6 +138,10 @@ const utilityStages: Array<NodeStageItem> = [
   {
     type: NodeType.GeoJsonStyle, labelKey: "pipelineGeoJsonStyle", icon: <Palette size={16} />,
     processing: 'static', labelDescription: 'pipelineGeoJsonStyleDescription'
+  },
+  {
+    type: NodeType.GeoJsonHeatmap, labelKey: "pipelineGeoJsonHeatmap", icon: <Flame size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonHeatmapDescription'
   },
   {
     type: NodeType.GeoJsonZip, labelKey: "pipelineGeoJsonZip", icon: <Link2 size={16} />,

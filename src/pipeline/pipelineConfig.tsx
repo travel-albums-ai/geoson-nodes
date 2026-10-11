@@ -9,6 +9,7 @@ import GeoJsonJsonataNode from '@/pipeline/nodes/ComplexNodes/GeoJsonJsonataNode
 import GeoJsonMergeNode from '@/pipeline/nodes/ComplexNodes/GeoJsonMergeNode';
 import GeoJsonSetNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSetNode';
 import GeoJsonStyleNode from '@/pipeline/nodes/ComplexNodes/GeoJsonStyleNode';
+import GeoJsonHeatmapNode from '@/pipeline/nodes/ComplexNodes/GeoJsonHeatmapNode';
 import GeoJsonSwitchNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSwitchNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
 import GeoJsonFirstFeatureNode from '@/pipeline/nodes/ComplexNodes/GeoJsonFirstFeatureNode';
@@ -49,6 +50,7 @@ export const pipelineNodeTypes = {
   'shortest-route': ShortestRouteNode,
   'geojson-switch': GeoJsonSwitchNode,
   'geojson-style': GeoJsonStyleNode,
+  'geojson-heatmap': GeoJsonHeatmapNode,
   'geojson-zip': GeoJsonZipNode,
   'geojson-feature-picker': GeoJsonFeaturePickerNode,
   'geojson-union': GeoJsonSetNode,
