@@ -1,17 +1,83 @@
-import { DEFAULT_GEOJSON_STYLE, readGeoJsonStyleSettings, type GeoJsonStyleSettings } from '@/lib/geojsonStyle';
+import { DEFAULT_GEOJSON_STYLE, GEOJSON_STROKE_WIDTH, listFeaturePropertyKeys, readGeoJsonStyleSettings, type GeoJsonColorSource, type GeoJsonStyleSettings } from '@/lib/geojsonStyle';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
-import { Box, Slider, TextField, Typography } from '@mui/material';
+import type { GeoJsonFeatureCollectionArray } from '@/types/types';
+import { Box, MenuItem, Slider, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function GeoJsonStyleNode({ id, data }: NodeProps<Node<{ style?: Partial<GeoJsonStyleSettings> }>>) {
+type ColorChoice = {
+  source: GeoJsonColorSource;
+  color: string;
+  key: string;
+};
+
+type ColorFieldProps = {
+  label: string;
+  value: ColorChoice;
+  propertyKeys: string[];
+  onChange: (next: ColorChoice) => void;
+};
+
+// A palette color or a color generated from a property. The property options come from the input features.
+function ColorField({ label, value, propertyKeys, onChange }: ColorFieldProps) {
+  const { t } = useTranslation();
+  const keyOptions = value.key !== '' && !propertyKeys.includes(value.key)
+    ? [value.key, ...propertyKeys]
+    : propertyKeys;
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
+        <Typography variant="body2" color="text.secondary">{label}</Typography>
+        <ToggleButtonGroup
+          size="small"
+          exclusive
+          value={value.source}
+          onChange={(_, source: GeoJsonColorSource | null) => {
+            if (source !== null) onChange({ ...value, source });
+          }}
+        >
+          <ToggleButton value="palette">{t('pipelineGeoJsonStyleFromPalette')}</ToggleButton>
+          <ToggleButton value="generated">{t('pipelineGeoJsonStyleGenerated')}</ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
+      {value.source === 'palette' ? (
+        <TextField
+          size="small"
+          type="color"
+          label={label}
+          value={value.color}
+          onChange={(event) => onChange({ ...value, color: event.target.value })}
+          fullWidth
+        />
+      ) : (
+        <TextField
+          size="small"
+          select
+          label={t('pipelineGeoJsonStyleKey')}
+          value={value.key}
+          onChange={(event) => onChange({ ...value, key: event.target.value })}
+          helperText={keyOptions.length === 0 ? t('pipelineGeoJsonStyleNoKeys') : t('pipelineGeoJsonStyleKeyHint')}
+          fullWidth
+        >
+          {keyOptions.map((key) => (
+            <MenuItem key={key} value={key}>{key}</MenuItem>
+          ))}
+        </TextField>
+      )}
+    </Box>
+  );
+}
+
+function GeoJsonStyleNode({ id, data }: NodeProps<Node<{ style?: Partial<GeoJsonStyleSettings>; geojson?: GeoJsonFeatureCollectionArray }>>) {
   const { t } = useTranslation();
   const { setNodes } = useReactFlow();
   const style = readGeoJsonStyleSettings({ ...DEFAULT_GEOJSON_STYLE, ...data.style });
+  const propertyKeys = useMemo(() => listFeaturePropertyKeys(data.geojson ?? []), [data.geojson]);
 
   const updateStyle = useCallback((patch: Partial<GeoJsonStyleSettings>) => {
     setNodes((current) => current.map((node) =>
@@ -30,22 +96,31 @@ function GeoJsonStyleNode({ id, data }: NodeProps<Node<{ style?: Partial<GeoJson
           {t('pipelineGeoJsonStyleHint')}
         </Typography>
         <Box className="nodrag nopan" sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-          <TextField
-            size="small"
-            type="color"
+          <ColorField
             label={t('pipelineGeoJsonStyleFill')}
-            value={style.fill}
-            onChange={(event) => updateStyle({ fill: event.target.value })}
-            fullWidth
+            value={{ source: style.fillSource, color: style.fill, key: style.fillKey }}
+            propertyKeys={propertyKeys}
+            onChange={(next) => updateStyle({ fillSource: next.source, fill: next.color, fillKey: next.key })}
           />
-          <TextField
-            size="small"
-            type="color"
+          <ColorField
             label={t('pipelineGeoJsonStyleStroke')}
-            value={style.stroke}
-            onChange={(event) => updateStyle({ stroke: event.target.value })}
-            fullWidth
+            value={{ source: style.strokeSource, color: style.stroke, key: style.strokeKey }}
+            propertyKeys={propertyKeys}
+            onChange={(next) => updateStyle({ strokeSource: next.source, stroke: next.color, strokeKey: next.key })}
           />
+          <Box>
+            <Typography variant="body2" color="text.secondary">
+              {t('pipelineGeoJsonStyleStrokeWidth', { value: style.strokeWidth })}
+            </Typography>
+            <Slider
+              size="small"
+              min={GEOJSON_STROKE_WIDTH.min}
+              max={GEOJSON_STROKE_WIDTH.max}
+              step={GEOJSON_STROKE_WIDTH.step}
+              value={style.strokeWidth}
+              onChange={(_, value) => updateStyle({ strokeWidth: value as number })}
+            />
+          </Box>
           <Box>
             <Typography variant="body2" color="text.secondary">
               {t('pipelineGeoJsonStyleOpacity', { value: Math.round(style.opacity * 100) })}

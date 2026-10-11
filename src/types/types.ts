@@ -99,7 +99,7 @@ export const URL_GEOJSON_LOADER_COUNTS_EVENT = 'url-geojson-loader:counts';
 
 // Node types whose results are posted back to the main thread.
 // The JSONata node is included so its live output and errors can be shown on the node.
-export const VIEWER_NODE_TYPES = new Set(["gps-map", "geojson-viewer", "geojson-first-feature", "geojson-jsonata"]);
+export const VIEWER_NODE_TYPES = new Set(["gps-map", "geojson-viewer", "geojson-first-feature", "geojson-jsonata", "geojson-style"]);
 
 export type NodeInputs = Record<string, unknown>;
 export type NodeOutputs = Record<string, unknown>;

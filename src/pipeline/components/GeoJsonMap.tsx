@@ -143,7 +143,7 @@ export default function GeoJsonMap({ features, emptyMessage, onLoaded, markerKey
             return {
               color: style.stroke ?? DEFAULT_COLOR,
               opacity: style.strokeOpacity ?? 1,
-              weight: 3,
+              weight: style.strokeWidth ?? 3,
               fillColor: style.fill ?? DEFAULT_COLOR,
               fillOpacity: style.fillOpacity ?? 0.3,
             };
@@ -154,7 +154,7 @@ export default function GeoJsonMap({ features, emptyMessage, onLoaded, markerKey
               radius: 7,
               color: style.stroke ?? '#ffffff',
               opacity: style.strokeOpacity ?? 1,
-              weight: 2,
+              weight: style.strokeWidth ?? 2,
               fillColor: style.fill ?? DEFAULT_COLOR,
               fillOpacity: style.fillOpacity ?? 0.9,
             });
