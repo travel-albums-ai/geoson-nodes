@@ -19,7 +19,7 @@ import type {
   PipelineWorkerNode,
   PipelineWorkerOutbound,
 } from "@/types/types";
-import { GEO_BOUNDS_FILTER_COUNTS_EVENT, GEOJSON_FEATURE_COUNT_EVENT, GEOJSON_MERGE_COUNTS_EVENT, GEOJSON_ZIP_KEYS_EVENT, VIEWER_NODE_TYPES, WORKER_NODE_TYPES } from "@/types/types";
+import { GEO_BOUNDS_FILTER_COUNTS_EVENT, GEOJSON_FEATURE_COUNT_EVENT, GEOJSON_JSONATA_COUNTS_EVENT, GEOJSON_MERGE_COUNTS_EVENT, GEOJSON_SWITCH_COUNTS_EVENT, GEOJSON_ZIP_KEYS_EVENT, VIEWER_NODE_TYPES, WORKER_NODE_TYPES } from "@/types/types";
 import type { Edge, Node } from "@xyflow/react";
 
 // node.data keys the engine reads. Everything else (React Flow internals)
@@ -134,6 +134,32 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
           detail: {
             nodeId: message.nodeId,
             inputCounts: message.inputCounts,
+            outputCount: message.outputCount,
+          },
+        })
+      );
+      return;
+    }
+
+    case "geojson-switch-counts": {
+      window.dispatchEvent(
+        new CustomEvent(GEOJSON_SWITCH_COUNTS_EVENT, {
+          detail: {
+            nodeId: message.nodeId,
+            inputCounts: message.inputCounts,
+            outputCount: message.outputCount,
+          },
+        })
+      );
+      return;
+    }
+
+    case "geojson-jsonata-counts": {
+      window.dispatchEvent(
+        new CustomEvent(GEOJSON_JSONATA_COUNTS_EVENT, {
+          detail: {
+            nodeId: message.nodeId,
+            inputCount: message.inputCount,
             outputCount: message.outputCount,
           },
         })

@@ -3,10 +3,10 @@ import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
-import type { GeoJsonFeatureCollectionArray } from '@/types/types';
+import { GEOJSON_JSONATA_COUNTS_EVENT, type GeoJsonFeatureCollectionArray } from '@/types/types';
 import { Box, FormControlLabel, Switch, TextField } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { ChevronsRight, Layers } from 'lucide-react';
+import { Layers, LogIn, LogOut } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -17,6 +17,12 @@ type GeoJsonJsonataNodeData = {
   error?: string;
 };
 
+type JsonataCountsEventDetail = {
+  nodeId: string;
+  inputCount: number;
+  outputCount: number;
+};
+
 const QUERY_DEBOUNCE_MS = 300;
 
 function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>>) {
@@ -24,9 +30,23 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
   const { setNodes } = useReactFlow();
   const storedQuery = data.query ?? '';
   const [draft, setDraft] = useState(storedQuery);
+  const [counts, setCounts] = useState<JsonataCountsEventDetail | null>(null);
   // The last query known to match node data. Lets external changes be
   // distinguished from the node's own debounced commits.
   const syncedQueryRef = useRef(storedQuery);
+
+  useEffect(() => {
+    const handleCounts = (event: Event) => {
+      const detail = (event as CustomEvent<JsonataCountsEventDetail>).detail;
+
+      if (detail.nodeId === id) {
+        setCounts(detail);
+      }
+    };
+
+    window.addEventListener(GEOJSON_JSONATA_COUNTS_EVENT, handleCounts);
+    return () => window.removeEventListener(GEOJSON_JSONATA_COUNTS_EVENT, handleCounts);
+  }, [id]);
 
   useEffect(() => {
     if (storedQuery === syncedQueryRef.current) return;
@@ -61,15 +81,36 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
   }, [id, setNodes]);
 
   const collections = data.geojson ?? [];
-  const featureCount = collections.reduce((total, collection) => total + collection.features.length, 0);
 
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geojson-jsonata" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-jsonata'} />}>
+      <NodeWrapper
+        type="geojson-jsonata"
+        inputCounts={
+          <NewChip
+            count={counts?.inputCount ?? 0}
+            label={''}
+            icon={<LogIn size={16} />}
+            tooltip={t('pipelineGeoJsonJsonataEntering')}
+            fontSize={12}
+          />
+        }
+        outputCounts={
+          <NewChip
+            variant="important"
+            // A failed query passes nothing on, so show zero rather than the last successful count.
+            count={data.error !== undefined ? 0 : counts?.outputCount ?? 0}
+            label={''}
+            icon={<LogOut size={16} />}
+            tooltip={t('pipelineGeoJsonJsonataLeaving')}
+            fontSize={12}
+          />
+        }
+        tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-jsonata'} />}
+      >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', pb: 1 }}>
           <NewChip count={collections.length} label={t('pipelineGeoJsonCollections')} fontSize={16} icon={<Layers size={16} />} sx={{ height: 38 }} />
-          <NewChip count={featureCount} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<ChevronsRight size={16} />} sx={{ height: 38 }} />
           <FormControlLabel
             className="nodrag nopan"
             label={t('pipelineGeoJsonJsonataNegate')}

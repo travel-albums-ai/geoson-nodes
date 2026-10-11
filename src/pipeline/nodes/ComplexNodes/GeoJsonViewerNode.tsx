@@ -6,7 +6,7 @@ import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
 import { Box } from '@mui/material';
 import { Position, type Node, type NodeProps } from '@xyflow/react';
-import { Layers, MapPin } from 'lucide-react';
+import { Layers, LogIn } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -21,10 +21,22 @@ function GeoJsonViewerNode({ id, data }: NodeProps<Node<{ geojson?: GeoJsonFeatu
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geojson-viewer" defaultSize={{ width: 508, height: 520 }} tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-viewer'} />}>
+      <NodeWrapper
+        type="geojson-viewer"
+        defaultSize={{ width: 508, height: 520 }}
+        inputCounts={
+          <NewChip
+            count={features.length}
+            label={''}
+            icon={<LogIn size={16} />}
+            tooltip={t('pipelineGeoJsonViewerEntering')}
+            fontSize={12}
+          />
+        }
+        tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-viewer'} />}
+      >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
           <NewChip count={collections?.length ?? 0} label={t('pipelineGeoJsonCollections')} fontSize={16} icon={<Layers size={16} />} sx={{ height: 38 }} />
-          <NewChip count={features.length} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<MapPin size={16} />} sx={{ height: 38 }} />
         </Box>
         <Box sx={{ pt: 1, flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
           {data.skip !== true && (<GeoJsonCollectionList collections={collections} emptyMessage={t('pipelineGeoJsonViewerEmpty')} />)}

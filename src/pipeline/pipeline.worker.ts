@@ -254,10 +254,15 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
 
       const [offHandle, onHandle] = GEOJSON_SWITCH_INPUT_HANDLES;
       const selectedHandle = inputs.serveB === true ? onHandle : offHandle;
+      const geojson = (inputs[selectedHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [];
+      const inputCounts = Object.fromEntries(
+        GEOJSON_SWITCH_INPUT_HANDLES.map((handle) => [
+          handle,
+          countGeoJsonFeatures((inputs[handle] as GeoJsonFeatureCollectionArray | undefined) ?? []),
+        ]),
+      );
 
-      return {
-        geojson: (inputs[selectedHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
-      };
+      return { geojson, inputCounts, outputCount: countGeoJsonFeatures(geojson) };
     },
   },
   "geojson-style": {
@@ -306,8 +311,13 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
     async execute(inputs) {
       const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
       const query = typeof inputs.query === "string" ? inputs.query : "";
+      const geojson = await runGeoJsonQuery(collections, query, inputs.negate === true);
 
-      return { geojson: await runGeoJsonQuery(collections, query, inputs.negate === true) };
+      return {
+        geojson,
+        inputCount: countGeoJsonFeatures(collections),
+        outputCount: countGeoJsonFeatures(geojson),
+      };
     },
   },
   "url-geojson-loader": storedGeoJsonLoaderNode,
@@ -617,6 +627,30 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       evaluationId,
       nodeId: node.id,
       inputCounts: nodeOutputs.inputCounts as Record<string, number>,
+      outputCount: (nodeOutputs.outputCount as number | undefined) ?? 0,
+    });
+  }
+
+  for (const node of nodes.filter((candidate) => candidate.type === "geojson-switch")) {
+    const nodeOutputs = await evaluateNode(node.id);
+
+    workerScope.postMessage({
+      type: "geojson-switch-counts",
+      evaluationId,
+      nodeId: node.id,
+      inputCounts: nodeOutputs.inputCounts as Record<string, number>,
+      outputCount: (nodeOutputs.outputCount as number | undefined) ?? 0,
+    });
+  }
+
+  for (const node of nodes.filter((candidate) => candidate.type === "geojson-jsonata")) {
+    const nodeOutputs = await evaluateNode(node.id);
+
+    workerScope.postMessage({
+      type: "geojson-jsonata-counts",
+      evaluationId,
+      nodeId: node.id,
+      inputCount: (nodeOutputs.inputCount as number | undefined) ?? 0,
       outputCount: (nodeOutputs.outputCount as number | undefined) ?? 0,
     });
   }
