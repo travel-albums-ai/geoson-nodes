@@ -2,12 +2,12 @@ import NewChip from '@/components/NewChip';
 import { usePipelineStoreSelector } from '@/context/pipelineStore';
 import { normalizeGeoBounds } from '@/lib/geojson';
 import { createGeoJsonFileKey, deleteGeoJsonFile, saveGeoJsonFile } from '@/lib/geojsonFileStore';
-import { OPEN_METEO_GRID_STEP, OPEN_METEO_MAX_LOCATIONS, OPEN_METEO_VARIABLES, countOpenMeteoGridPoints, fetchOpenMeteoGeoJson, type OpenMeteoVariable } from '@/lib/openMeteo';
+import { OPEN_METEO_DEFAULT_GRID_STEP, OPEN_METEO_MAX_LOCATIONS, OPEN_METEO_MIN_GRID_STEP, OPEN_METEO_VARIABLES, countOpenMeteoGridPoints, fetchOpenMeteoGeoJson, type OpenMeteoVariable } from '@/lib/openMeteo';
 import GeoBoundsPicker from '@/pipeline/components/GeoBoundsPicker';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { Clock, CloudSun, LogOut } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -21,6 +21,8 @@ type OpenMeteoLoaderNodeData = {
   featureCount?: number;
   // The map box that Load fetches weather for.
   bounds?: GeoBounds;
+  // Kept as text so a partially typed step is not lost while editing.
+  gridStep?: string;
   // Filters the stored data in the worker, so changing it does not need a new fetch.
   variables?: OpenMeteoVariable[];
 };
@@ -38,8 +40,8 @@ const VARIABLE_LABEL_KEYS: Record<OpenMeteoVariable, string> = {
 const formatDegrees = (value: number) => value.toFixed(2);
 
 // Kept outside the component so the timestamp is not read during render.
-async function loadOpenMeteoFile(bounds: GeoBounds) {
-  const collections = await fetchOpenMeteoGeoJson(bounds);
+async function loadOpenMeteoFile(bounds: GeoBounds, step: number) {
+  const collections = await fetchOpenMeteoGeoJson(bounds, step);
   const fileKey = createGeoJsonFileKey();
   const file = new File([JSON.stringify(collections)], 'open-meteo.geojson', { type: 'application/geo+json' });
   const featureCount = collections.reduce((total, collection) => total + collection.features.length, 0);
@@ -57,7 +59,11 @@ function OpenMeteoLoaderNode({ id, data }: NodeProps<Node<OpenMeteoLoaderNodeDat
   const [error, setError] = useState<string | null>(null);
 
   const bounds = useMemo(() => normalizeGeoBounds(data.bounds ?? DEFAULT_BOUNDS), [data.bounds]);
-  const pointCount = countOpenMeteoGridPoints(bounds);
+  const stepText = data.gridStep ?? String(OPEN_METEO_DEFAULT_GRID_STEP);
+  const step = Number(stepText);
+  const stepValid = Number.isFinite(step) && step >= OPEN_METEO_MIN_GRID_STEP;
+  // Recalculated on every render, so the count follows the box and the step as they change.
+  const pointCount = stepValid ? countOpenMeteoGridPoints(bounds, step) : 0;
   const selectedVariables = data.variables ?? [...OPEN_METEO_VARIABLES];
 
   const updateNodeData = (patch: Partial<OpenMeteoLoaderNodeData>) => {
@@ -83,6 +89,11 @@ function OpenMeteoLoaderNode({ id, data }: NodeProps<Node<OpenMeteoLoaderNodeDat
     getNodes().some((node) => node.id !== id && node.data.fileKey === key);
 
   const loadWeather = async () => {
+    if (!stepValid) {
+      setError(t('pipelineOpenMeteoLoaderInvalidStep', { min: OPEN_METEO_MIN_GRID_STEP }));
+      return;
+    }
+
     if (pointCount === 0) {
       setError(t('pipelineOpenMeteoLoaderNoPoints'));
       return;
@@ -97,7 +108,7 @@ function OpenMeteoLoaderNode({ id, data }: NodeProps<Node<OpenMeteoLoaderNodeDat
     setError(null);
 
     try {
-      const { fileKey, featureCount, fetchedAt } = await loadOpenMeteoFile(bounds);
+      const { fileKey, featureCount, fetchedAt } = await loadOpenMeteoFile(bounds, step);
       const previousKey = getNodes().find((node) => node.id === id)?.data.fileKey as string | undefined;
 
       updateNodeData({ fileKey, fetchedAt, featureCount });
@@ -129,9 +140,25 @@ function OpenMeteoLoaderNode({ id, data }: NodeProps<Node<OpenMeteoLoaderNodeDat
         })}
       </Typography>
       <GeoBoundsPicker bounds={bounds} onCommit={commitBounds} />
-      <Typography variant="caption" color={pointCount > OPEN_METEO_MAX_LOCATIONS ? 'error' : 'text.secondary'}>
-        {t('pipelineOpenMeteoLoaderPoints', { count: pointCount, step: OPEN_METEO_GRID_STEP })}
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <TextField
+          size="small"
+          label={t('pipelineOpenMeteoLoaderStep')}
+          value={stepText}
+          onChange={(event) => updateNodeData({ gridStep: event.target.value })}
+          error={!stepValid}
+          className="nodrag nopan"
+          sx={{ width: 130 }}
+        />
+        <Typography
+          variant="caption"
+          color={!stepValid || pointCount > OPEN_METEO_MAX_LOCATIONS ? 'error' : 'text.secondary'}
+        >
+          {stepValid
+            ? t('pipelineOpenMeteoLoaderPoints', { count: pointCount, step })
+            : t('pipelineOpenMeteoLoaderInvalidStep', { min: OPEN_METEO_MIN_GRID_STEP })}
+        </Typography>
+      </Box>
       <Typography variant="subtitle2">{t('pipelineOpenMeteoLoaderShow')}</Typography>
       <FormGroup className="nodrag nopan">
         {OPEN_METEO_VARIABLES.map((variable) => (

@@ -24,7 +24,7 @@ import type { Edge, Node } from "@xyflow/react";
 
 // node.data keys the engine reads. Everything else (React Flow internals)
 // stays on the main thread. Flight lists are handled separately, see projectNode.
-const NODE_DATA_KEYS = ["geojsonFile", "fileKey", "skip", "bounds", "query", "negate", "reversed", "outside", "key", "serveB", "style", "featureIndex", "from", "to", "via", "variables"] as const;
+const NODE_DATA_KEYS = ["geojsonFile", "fileKey", "skip", "bounds", "gridStep", "query", "negate", "reversed", "outside", "key", "serveB", "style", "featureIndex", "from", "to", "via", "variables"] as const;
 
 type PendingViewer = {
   evaluationId: number;
