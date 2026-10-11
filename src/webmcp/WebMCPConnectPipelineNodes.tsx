@@ -10,7 +10,7 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: ['geojson'],
     targets: [],
   },
-  'gdelt-gkg-geojson': {
+  'url-geojson-loader': {
     sources: ['geojson'],
     targets: [],
   },

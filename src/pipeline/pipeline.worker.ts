@@ -284,9 +284,9 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       return { geojson: await runGeoJsonQuery(collections, query, inputs.negate === true) };
     },
   },
-  "gdelt-gkg-geojson": {
+  "url-geojson-loader": {
     async execute(inputs) {
-      // The browser fetches GDELT when the node's button is pressed and stores the result under fileKey.
+      // The browser fetches the URL when the node's button is pressed and stores the result under fileKey.
       const file = typeof inputs.fileKey === "string" ? await loadGeoJsonFile(inputs.fileKey) : null;
 
       if (!(file instanceof File)) {
@@ -418,7 +418,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
         inputs.flights = flightsByHash.get(node.data.flightsHash as string);
       }
 
-      if (node.type === "gdelt-gkg-geojson") {
+      if (node.type === "url-geojson-loader") {
         inputs.fileKey = node.data.fileKey;
       }
 

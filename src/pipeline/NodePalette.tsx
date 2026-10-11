@@ -1,9 +1,9 @@
-import { Blend, Braces, Combine, Crop, Diff, FileJson, GitFork, Layers, Link2, Merge, MapPinned, Newspaper, Palette, Plane, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote } from 'lucide-react';
+import { Blend, Braces, Combine, Crop, Diff, FileJson, GitFork, Globe, Layers, Link2, Merge, MapPinned, Palette, Plane, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
   FlightPath = 'flight-path',
-  GdeltGkg = 'gdelt-gkg-geojson',
+  UrlGeoJsonLoader = 'url-geojson-loader',
   ShortestRoute = 'shortest-route',
   GeoBoundsFilter = 'geo-bounds-filter',
   GeoJsonWithinArea = 'geojson-within-area',
@@ -70,10 +70,10 @@ const sourceStages: Array<NodeStageItem> = [
     labelDescription: 'pipelineFlightPathDescription',
   },
   {
-    type: NodeType.GdeltGkg,
-    labelKey: "pipelineGdeltGkg", icon: <Newspaper size={16} />,
+    type: NodeType.UrlGeoJsonLoader,
+    labelKey: "pipelineUrlGeoJsonLoader", icon: <Globe size={16} />,
     processing: 'static',
-    labelDescription: 'pipelineGdeltGkgDescription',
+    labelDescription: 'pipelineUrlGeoJsonLoaderDescription',
   },
 ];
 
