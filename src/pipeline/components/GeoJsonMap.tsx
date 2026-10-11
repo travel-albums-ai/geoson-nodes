@@ -5,24 +5,74 @@ import L from 'leaflet';
 import { useEffect, useRef } from 'react';
 
 const DEFAULT_COLOR = '#d32f2f';
+const NO_MARKER_KEYS: string[] = [];
 
 type GeoJsonMapProps = {
   features: GeoJsonFeature[];
   emptyMessage: string;
   // Called after the features are drawn and the map has no tiles left to load.
   onLoaded?: () => void;
+  // Property keys whose values make up the tooltip of point markers.
+  markerKeys?: string[];
 };
 
-export default function GeoJsonMap({ features, emptyMessage, onLoaded }: GeoJsonMapProps) {
+function isEmptyValue(value: unknown): boolean {
+  if (value === null || value === undefined) return true;
+  if (typeof value === 'string') return value.trim().length === 0;
+  if (Array.isArray(value)) return value.length === 0;
+  if (typeof value === 'object') return Object.keys(value).length === 0;
+  return false;
+}
+
+function formatValue(value: unknown): string {
+  return typeof value === 'object' ? JSON.stringify(value) : String(value);
+}
+
+function escapeHtml(text: string): string {
+  return text.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
+}
+
+function bindFeatureTooltip(featureLayer: L.Layer, feature: GeoJsonFeature | undefined, markerKeys: string[]) {
+  featureLayer.unbindTooltip();
+  if (!feature) return;
+
+  if (markerKeys.length > 0 && feature.geometry?.type === 'Point') {
+    const label = markerKeys
+      .filter((key) => !isEmptyValue(feature.properties?.[key]))
+      .map((key) => `${key}: ${formatValue(feature.properties?.[key])}`)
+      .join(', ');
+    if (label.length > 0) featureLayer.bindTooltip(escapeHtml(label));
+    return;
+  }
+
+  // Flight routes carry a tooltip with their price, date and extra text.
+  const tooltip = feature.properties?.tooltip;
+  const label = typeof tooltip === 'string' && tooltip.length > 0
+    ? tooltip
+    : feature.properties?.name || feature.properties?.name_en || feature.properties?.title;
+  if (typeof label === 'string' && label.length > 0) {
+    featureLayer.bindTooltip(label);
+  }
+}
+
+export default function GeoJsonMap({ features, emptyMessage, onLoaded, markerKeys = NO_MARKER_KEYS }: GeoJsonMapProps) {
   const mapElementRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const tileLayerRef = useRef<L.TileLayer | null>(null);
   const layerRef = useRef<L.GeoJSON | null>(null);
   const onLoadedRef = useRef(onLoaded);
+  const markerKeysRef = useRef(markerKeys);
 
   useEffect(() => {
     onLoadedRef.current = onLoaded;
   }, [onLoaded]);
+
+  useEffect(() => {
+    markerKeysRef.current = markerKeys;
+    layerRef.current?.eachLayer((featureLayer: L.Layer) => {
+      bindFeatureTooltip(featureLayer, (featureLayer as L.Layer & { feature?: GeoJsonFeature }).feature, markerKeys);
+    });
+  }, [markerKeys]);
 
   useEffect(() => {
     if (!mapElementRef.current) return;
@@ -109,15 +159,8 @@ export default function GeoJsonMap({ features, emptyMessage, onLoaded }: GeoJson
               fillOpacity: style.fillOpacity ?? 0.9,
             });
           },
-          onEachFeature: (feature: GeoJsonFeature, featureLayer: { bindTooltip: (content: string) => unknown }) => {
-            // Flight routes carry a tooltip with their price, date and extra text.
-            const tooltip = feature.properties?.tooltip;
-            const label = typeof tooltip === 'string' && tooltip.length > 0
-              ? tooltip
-              : feature.properties?.name || feature.properties?.name_en || feature.properties?.title;
-            if (typeof label === 'string' && label.length > 0) {
-              featureLayer.bindTooltip(label);
-            }
+          onEachFeature: (feature: GeoJsonFeature, featureLayer: L.Layer) => {
+            bindFeatureTooltip(featureLayer, feature, markerKeysRef.current);
           },
         }
       ).addTo(map);
