@@ -3,15 +3,35 @@ import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
-import { Box, Slider, Typography } from '@mui/material';
+import { GEOJSON_HEATMAP_KEYS_EVENT } from '@/types/types';
+import { Box, MenuItem, Slider, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+type HeatmapKeysEventDetail = { nodeId: string; keys: string[] };
 
 function GeoJsonHeatmapNode({ id, data }: NodeProps<Node<{ heatmap?: Partial<GeoJsonHeatmapSettings> }>>) {
   const { t } = useTranslation();
   const { setNodes } = useReactFlow();
   const settings = readGeoJsonHeatmapSettings(data.heatmap);
+  const [numericKeys, setNumericKeys] = useState<string[]>([]);
+
+  useEffect(() => {
+    const handleKeys = (event: Event) => {
+      const detail = (event as CustomEvent<HeatmapKeysEventDetail>).detail;
+
+      if (detail.nodeId === id) {
+        setNumericKeys(detail.keys);
+      }
+    };
+
+    window.addEventListener(GEOJSON_HEATMAP_KEYS_EVENT, handleKeys);
+    return () => window.removeEventListener(GEOJSON_HEATMAP_KEYS_EVENT, handleKeys);
+  }, [id]);
+
+  // A saved key that the input no longer holds as numeric is shown as None, matching what the heatmap uses.
+  const intensityValue = numericKeys.includes(settings.intensityKey) ? settings.intensityKey : '';
 
   const updateSettings = useCallback((patch: Partial<GeoJsonHeatmapSettings>) => {
     setNodes((current) => current.map((node) =>
@@ -69,6 +89,20 @@ function GeoJsonHeatmapNode({ id, data }: NodeProps<Node<{ heatmap?: Partial<Geo
               onChange={(_, value) => updateSettings({ smoothing: value as number })}
             />
           </Box>
+          <TextField
+            size="small"
+            select
+            label={t('pipelineGeoJsonHeatmapIntensity')}
+            value={intensityValue}
+            onChange={(event) => updateSettings({ intensityKey: event.target.value })}
+            helperText={numericKeys.length === 0 ? t('pipelineGeoJsonHeatmapNoNumericKeys') : t('pipelineGeoJsonHeatmapIntensityHint')}
+            fullWidth
+          >
+            <MenuItem value="">{t('pipelineGeoJsonHeatmapIntensityNone')}</MenuItem>
+            {numericKeys.map((key) => (
+              <MenuItem key={key} value={key}>{key}</MenuItem>
+            ))}
+          </TextField>
         </Box>
         <OutputHandle id="geojson" position={Position.Bottom} />
       </NodeWrapper>

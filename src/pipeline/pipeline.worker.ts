@@ -28,7 +28,7 @@ import {
 } from "@/lib/geojson";
 import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
 import { applyGeoJsonStyle, readGeoJsonStyleSettings } from "@/lib/geojsonStyle";
-import { buildGeoJsonHeatmap } from "@/lib/geojsonHeatmap";
+import { buildGeoJsonHeatmap, listNumericPropertyKeys } from "@/lib/geojsonHeatmap";
 import { filterGeoJsonWithinArea } from "@/lib/geojsonWithinArea";
 import { OPEN_METEO_VARIABLES, selectOpenMeteoVariables } from "@/lib/openMeteo";
 import { parseFitFile } from "@/lib/fit";
@@ -296,7 +296,10 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
 
       const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
 
-      return { geojson: buildGeoJsonHeatmap(collections, inputs.heatmap) };
+      return {
+        geojson: buildGeoJsonHeatmap(collections, inputs.heatmap),
+        keys: listNumericPropertyKeys(collections),
+      };
     },
   },
   "geojson-zip": {
@@ -635,6 +638,17 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
     workerScope.postMessage({
       type: "geojson-zip-keys",
+      evaluationId,
+      nodeId: node.id,
+      keys: (nodeOutputs.keys as string[] | undefined) ?? [],
+    });
+  }
+
+  for (const node of nodes.filter((candidate) => candidate.type === "geojson-heatmap")) {
+    const nodeOutputs = await evaluateNode(node.id);
+
+    workerScope.postMessage({
+      type: "geojson-heatmap-keys",
       evaluationId,
       nodeId: node.id,
       keys: (nodeOutputs.keys as string[] | undefined) ?? [],

@@ -19,7 +19,7 @@ import type {
   PipelineWorkerNode,
   PipelineWorkerOutbound,
 } from "@/types/types";
-import { GEO_BOUNDS_FILTER_COUNTS_EVENT, GEOJSON_FEATURE_COUNT_EVENT, GEOJSON_JSONATA_COUNTS_EVENT, GEOJSON_MERGE_COUNTS_EVENT, GEOJSON_SWITCH_COUNTS_EVENT, GEOJSON_WITHIN_AREA_COUNTS_EVENT, GEOJSON_ZIP_KEYS_EVENT, URL_GEOJSON_LOADER_COUNTS_EVENT, VIEWER_NODE_TYPES, WORKER_NODE_TYPES } from "@/types/types";
+import { GEO_BOUNDS_FILTER_COUNTS_EVENT, GEOJSON_FEATURE_COUNT_EVENT, GEOJSON_HEATMAP_KEYS_EVENT, GEOJSON_JSONATA_COUNTS_EVENT, GEOJSON_MERGE_COUNTS_EVENT, GEOJSON_SWITCH_COUNTS_EVENT, GEOJSON_WITHIN_AREA_COUNTS_EVENT, GEOJSON_ZIP_KEYS_EVENT, URL_GEOJSON_LOADER_COUNTS_EVENT, VIEWER_NODE_TYPES, WORKER_NODE_TYPES } from "@/types/types";
 import type { Edge, Node } from "@xyflow/react";
 
 // node.data keys the engine reads. Everything else (React Flow internals)
@@ -107,6 +107,18 @@ function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
     case "geojson-zip-keys": {
       window.dispatchEvent(
         new CustomEvent(GEOJSON_ZIP_KEYS_EVENT, {
+          detail: {
+            nodeId: message.nodeId,
+            keys: message.keys,
+          },
+        })
+      );
+      return;
+    }
+
+    case "geojson-heatmap-keys": {
+      window.dispatchEvent(
+        new CustomEvent(GEOJSON_HEATMAP_KEYS_EVENT, {
           detail: {
             nodeId: message.nodeId,
             keys: message.keys,

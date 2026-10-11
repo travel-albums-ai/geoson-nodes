@@ -1,12 +1,14 @@
+import { GEOJSON_STYLE_PROPERTY, GEOJSON_STYLE_PROPERTY_NAMES } from '@/lib/geojsonStyle';
+import type { GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/types/types';
 import { isobands } from '@turf/isobands';
 import type { Feature, FeatureCollection, GeoJsonProperties, Point, Position } from 'geojson';
-import { GEOJSON_STYLE_PROPERTY } from '@/lib/geojsonStyle';
-import type { GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/types/types';
 
 export type GeoJsonHeatmapSettings = {
   granularity: number;
   complexity: number;
   smoothing: number;
+  // Property whose numeric value sets each feature's intensity; empty when every feature weighs the same.
+  intensityKey: string;
 };
 
 export const HEATMAP_GRANULARITY = { min: 1, max: 10, step: 1, default: 4 } as const;
@@ -40,6 +42,19 @@ type DensityGrid = {
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
 
+const isMissing = (value: unknown): boolean =>
+  value === null || value === undefined || (typeof value === 'string' && value.trim() === '');
+
+// Numbers, and strings holding a number, count as numeric.
+const parseNumeric = (value: unknown): number | undefined => {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : undefined;
+  if (typeof value === 'string' && value.trim() !== '') {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : undefined;
+  }
+  return undefined;
+};
+
 const toRange = (value: unknown, range: { min: number; max: number; default: number }): number =>
   typeof value === 'number' && Number.isFinite(value)
     ? Math.min(range.max, Math.max(range.min, Math.round(value)))
@@ -52,7 +67,26 @@ export function readGeoJsonHeatmapSettings(value: unknown): GeoJsonHeatmapSettin
     granularity: toRange(source.granularity, HEATMAP_GRANULARITY),
     complexity: toRange(source.complexity, HEATMAP_COMPLEXITY),
     smoothing: toRange(source.smoothing, HEATMAP_SMOOTHING),
+    intensityKey: typeof source.intensityKey === 'string' ? source.intensityKey : '',
   };
+}
+
+// A key is listed only when every value it holds across the collections is numeric. Missing values are ignored.
+export function listNumericPropertyKeys(collections: GeoJsonFeatureCollectionArray): string[] {
+  const numeric = new Set<string>();
+  const notNumeric = new Set<string>();
+
+  for (const collection of collections) {
+    for (const feature of collection.features) {
+      for (const [key, value] of Object.entries(feature.properties ?? {})) {
+        if (GEOJSON_STYLE_PROPERTY_NAMES.has(key) || isMissing(value)) continue;
+        if (parseNumeric(value) === undefined) notNumeric.add(key);
+        else numeric.add(key);
+      }
+    }
+  }
+
+  return [...numeric].filter((key) => !notNumeric.has(key)).sort();
 }
 
 // Visits every coordinate pair in a geometry, however deeply its coordinates are nested.
@@ -76,19 +110,29 @@ function collectGeometryPositions(geometry: Record<string, unknown> | null, out:
   collectPositions(geometry.coordinates, out);
 }
 
-// Each feature carries one unit of weight, shared across its vertices.
-function collectSamples(collections: GeoJsonFeatureCollectionArray): Sample[] {
+// A feature weighs one unit, or its intensity value when a numeric key is chosen. Features without a usable value weigh nothing.
+function featureWeight(feature: GeoJsonFeature, intensityKey: string | null): number {
+  if (intensityKey === null) return 1;
+  const value = parseNumeric(feature.properties?.[intensityKey]);
+  return value === undefined ? 0 : Math.max(0, value);
+}
+
+// A feature's weight is shared across its vertices.
+function collectSamples(collections: GeoJsonFeatureCollectionArray, intensityKey: string | null): Sample[] {
   const samples: Sample[] = [];
 
   for (const collection of collections) {
     for (const feature of collection.features) {
+      const weight = featureWeight(feature, intensityKey);
+      if (weight <= 0) continue;
+
       const positions: Position[] = [];
       collectGeometryPositions(feature.geometry, positions);
       const valid = positions.filter((position) => Number.isFinite(position[0]) && Number.isFinite(position[1]));
       if (valid.length === 0) continue;
 
-      const weight = 1 / valid.length;
-      for (const [lon, lat] of valid) samples.push({ lon, lat, weight });
+      const share = weight / valid.length;
+      for (const [lon, lat] of valid) samples.push({ lon, lat, weight: share });
     }
   }
 
@@ -251,8 +295,11 @@ export function buildGeoJsonHeatmap(
   collections: GeoJsonFeatureCollectionArray,
   settings: unknown,
 ): GeoJsonFeatureCollectionArray {
-  const { granularity, complexity, smoothing } = readGeoJsonHeatmapSettings(settings);
-  const samples = collectSamples(collections);
+  const { granularity, complexity, smoothing, intensityKey } = readGeoJsonHeatmapSettings(settings);
+  const activeIntensityKey = intensityKey !== '' && listNumericPropertyKeys(collections).includes(intensityKey)
+    ? intensityKey
+    : null;
+  const samples = collectSamples(collections, activeIntensityKey);
   if (samples.length === 0) return [];
 
   const grid = buildDensityGrid(samples, granularity, smoothing);

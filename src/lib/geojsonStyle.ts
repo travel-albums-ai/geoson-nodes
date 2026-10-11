@@ -48,7 +48,7 @@ export const GEOJSON_STYLE_PROPERTY = {
   strokeWidth: 'stroke-width',
 } as const;
 
-const GEOJSON_STYLE_PROPERTY_NAMES: ReadonlySet<string> = new Set(Object.values(GEOJSON_STYLE_PROPERTY));
+export const GEOJSON_STYLE_PROPERTY_NAMES: ReadonlySet<string> = new Set(Object.values(GEOJSON_STYLE_PROPERTY));
 
 // Style read back from a feature's properties. A key is missing when the
 // property is absent or invalid, so renderers can fall back to their defaults.
