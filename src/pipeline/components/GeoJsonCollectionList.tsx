@@ -61,6 +61,7 @@ function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; 
               {geometryType}
             </Typography>
           )}
+          <textarea readOnly value={JSON.stringify(feature.properties ?? {}, null, 4)} style={{ width: '400px', resize: 'none', height: '300px' }} />
         </Box>
       </Tooltip>
     </Box>
