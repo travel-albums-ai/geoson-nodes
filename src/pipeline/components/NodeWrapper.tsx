@@ -17,6 +17,8 @@ type NodeWrapperProps = {
   type: string;
   helper?: React.ReactNode;
   tools?: React.ReactNode;
+  inputCounts?: React.ReactNode;
+  outputCounts?: React.ReactNode;
   // Used until the user resizes the node, for content that needs an explicit starting size.
   defaultSize?: Partial<NodeSize>;
 };
@@ -27,6 +29,8 @@ export default function NodeWrapper({
   helper,
   tools,
   defaultSize,
+  inputCounts,
+  outputCounts,
 }: NodeWrapperProps) {
   const nodeId = useNodeId();
   const nodeData = useNodesData(nodeId ?? '');
@@ -271,6 +275,19 @@ export default function NodeWrapper({
         >
           {children}
         </Box>}
+        <Box sx={{ p: 1, display: 'flex', flexDirection: 'row', gap: 1, justifyContent: 'space-between',
+          bgcolor: theme =>
+            hasUnconnectedHandle
+              ? `color-mix(in srgb, ${theme.palette.primary.light} 10%, ${theme.palette.background.paper} 85%)`
+              : alpha(theme.palette.background.paper, 1),
+        }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+            {inputCounts && inputCounts}
+          </Box>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+            {outputCounts && outputCounts}
+          </Box>
+        </Box>
       </Box>
     </>
   );

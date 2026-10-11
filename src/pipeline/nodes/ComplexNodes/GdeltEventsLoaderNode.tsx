@@ -67,8 +67,12 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
   };
 
   return (
-    <NodeWrapper type="gdelt-events-loader" tools={<PipelineStageTiming nodeId={id} nodeType={'gdelt-events-loader'} />}>
-      <Stack spacing={1} sx={{ p: 1, minWidth: 280 }} className="nodrag nopan">
+    <NodeWrapper type="gdelt-events-loader"
+      outputCounts={<>
+        <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />
+      </>}
+      tools={<PipelineStageTiming nodeId={id} nodeType={'gdelt-events-loader'} />}>
+      <Stack spacing={1} sx={{ minWidth: 280 }} className="nodrag nopan">
         <Typography variant="body2">{t('pipelineGdeltEventsLoaderHint')}</Typography>
         <TextField
           select
@@ -97,7 +101,6 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
         )}
         {!error && data.fetchedAt !== undefined && (<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <NewChip count={new Date(data.fetchedAt).toLocaleTimeString(i18n.language)} icon={<Clock />} label="Fetched" sx={{ height: 30 }} fontSize={12} />
-          <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="Features" sx={{ height: 30 }} fontSize={12} />
         </Box>)}
       </Stack>
       <OutputHandle id="geojson" position={Position.Bottom} />

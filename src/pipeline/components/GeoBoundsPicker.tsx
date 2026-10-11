@@ -6,6 +6,8 @@ import { useCallback, useEffect, useRef } from 'react';
 // Web Mercator limit; the map cannot show latitudes beyond this.
 const MAX_MAP_LATITUDE = 85.0511;
 const LINE_COLOR = '#1976d2';
+// Share of the map's width/height the bounds occupy after fitting; the rest is split evenly as margin.
+const FIT_FILL = 0.85;
 
 type Edge = keyof GeoBounds;
 
@@ -23,6 +25,13 @@ type GeoBoundsPickerProps = {
 };
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
+const sameBounds = (a: GeoBounds, b: GeoBounds) => EDGES.every((edge) => a[edge] === b[edge]);
+
+const toLatLngBounds = (bounds: GeoBounds) => L.latLngBounds(
+  [clamp(bounds.south, -MAX_MAP_LATITUDE, MAX_MAP_LATITUDE), bounds.west],
+  [clamp(bounds.north, -MAX_MAP_LATITUDE, MAX_MAP_LATITUDE), bounds.east],
+);
 
 // West and east are longitudes (vertical lines); south and north are latitudes (horizontal lines).
 const isLongitudeEdge = (edge: Edge) => edge === 'west' || edge === 'east';
@@ -72,6 +81,7 @@ const gripIcon = (edge: Edge) => {
 
 export default function GeoBoundsPicker({ bounds, onCommit }: GeoBoundsPickerProps) {
   const mapElementRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<L.Map | null>(null);
   const layersRef = useRef<PickerLayers | null>(null);
   const draftRef = useRef<GeoBounds>(bounds);
   const committedRef = useRef<GeoBounds>(bounds);
@@ -85,10 +95,7 @@ export default function GeoBoundsPicker({ bounds, onCommit }: GeoBoundsPickerPro
     const layers = layersRef.current;
     if (!layers) return;
 
-    layers.rectangle.setBounds([
-      [clamp(current.south, -MAX_MAP_LATITUDE, MAX_MAP_LATITUDE), current.west],
-      [clamp(current.north, -MAX_MAP_LATITUDE, MAX_MAP_LATITUDE), current.east],
-    ]);
+    layers.rectangle.setBounds(toLatLngBounds(current));
 
     EDGES.forEach((edge) => {
       layers.lines[edge].setLatLngs(lineLatLngs(current, edge));
@@ -96,15 +103,30 @@ export default function GeoBoundsPicker({ bounds, onCommit }: GeoBoundsPickerPro
     });
   }, []);
 
+  const fitView = useCallback((current: GeoBounds) => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const size = map.getSize();
+    const margin = (1 - FIT_FILL) / 2;
+    map.fitBounds(toLatLngBounds(current), {
+      animate: false,
+      padding: [Math.round(size.x * margin), Math.round(size.y * margin)],
+    });
+  }, []);
+
   useEffect(() => {
     if (!mapElementRef.current) return;
 
+    // Fractional zoom is needed so the bounds can fill exactly FIT_FILL of the map.
     const map = L.map(mapElementRef.current, {
       attributionControl: true,
       zoomControl: true,
       scrollWheelZoom: false,
       minZoom: 1,
+      zoomSnap: 0,
     });
+    mapRef.current = map;
     map.setView([15, 0], 1);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -151,6 +173,7 @@ export default function GeoBoundsPicker({ bounds, onCommit }: GeoBoundsPickerPro
     });
 
     layersRef.current = { rectangle, lines, grips };
+    fitView(draftRef.current);
 
     const resizeObserver = new ResizeObserver(() => map.invalidateSize());
     resizeObserver.observe(mapElementRef.current);
@@ -158,15 +181,19 @@ export default function GeoBoundsPicker({ bounds, onCommit }: GeoBoundsPickerPro
     return () => {
       resizeObserver.disconnect();
       layersRef.current = null;
+      mapRef.current = null;
       map.remove();
     };
-  }, [render]);
+  }, [render, fitView]);
 
   useEffect(() => {
+    // Bounds that differ from the last committed value came from outside the picker and need to be shown.
+    const isExternal = !sameBounds(bounds, committedRef.current);
     draftRef.current = bounds;
     committedRef.current = bounds;
     render(bounds);
-  }, [bounds, render]);
+    if (isExternal) fitView(bounds);
+  }, [bounds, render, fitView]);
 
   return (
     <Box className="nowheel" sx={{ position: 'relative', width: '100%', flex: '1 1 320px', minWidth: 0, minHeight: 0 }}>

@@ -4,7 +4,7 @@ import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { GEOJSON_MERGE_COUNTS_EVENT, GEOJSON_MERGE_INPUT_HANDLES } from '@/types/types';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Position, useNodeConnections, type NodeProps } from '@xyflow/react';
 import { LogIn, LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -48,37 +48,39 @@ function GeoJsonMergeNode({ id }: NodeProps) {
           style={{ left: handleLeft(index) }}
         />
       ))}
-      <NodeWrapper type="geojson-merge" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-merge'} />}>
-        <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
-          {t('pipelineGeoJsonMergeConnected', {
-            connected: connectedCount,
-            total: GEOJSON_MERGE_INPUT_HANDLES.length,
-          })}
-        </Typography>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
+      <NodeWrapper type="geojson-merge"
+        inputCounts={<>
           {GEOJSON_MERGE_INPUT_HANDLES
             .filter((handleId) => counts?.inputCounts[handleId] ?? 0 > 0)
             .map((handleId, index) => (
               <NewChip
                 key={handleId}
                 count={counts?.inputCounts[handleId] ?? 0}
-                label={t('pipelineGeoJsonFeatures')}
+                label={''}
+
                 icon={<LogIn size={16} />}
                 tooltip={t('pipelineGeoJsonMergeEntering', { input: index + 1 })}
                 fontSize={12}
-                sx={{ height: 30 }}
               />
             ))}
+        </>}
+        outputCounts={
           <NewChip
             variant="important"
             count={counts?.outputCount ?? 0}
-            label={t('pipelineGeoJsonFeatures')}
+            label={''}
             icon={<LogOut size={16} />}
             tooltip={t('pipelineGeoJsonMergeLeaving')}
             fontSize={12}
-            sx={{ height: 30 }}
           />
-        </Box>
+        }
+        tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-merge'} />}>
+        <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
+          {t('pipelineGeoJsonMergeConnected', {
+            connected: connectedCount,
+            total: GEOJSON_MERGE_INPUT_HANDLES.length,
+          })}
+        </Typography>
         <OutputHandle id="geojson" position={Position.Bottom} />
       </NodeWrapper>
     </>
