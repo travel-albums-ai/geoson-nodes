@@ -7,6 +7,9 @@ export const URL_GEOJSON_EXAMPLE_URLS = {
   usgsSignificantWeek: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson',
   usgsMagnitude45Day: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson',
   gdeltTimespan15: 'https://api.gdeltproject.org/api/v1/gkg_geojson?TIMESPAN=15',
+  geoMap: 'https://axx2igptegogljsl.public.blob.vercel-storage.com/custom.geo.json',
+  airport: 'https://axx2igptegogljsl.public.blob.vercel-storage.com/airports.geojson',
+  unesco: 'https://axx2igptegogljsl.public.blob.vercel-storage.com/whc001.geojson'
 } as const;
 
 const GDELT_ERROR_PREFIX = 'ERROR:';

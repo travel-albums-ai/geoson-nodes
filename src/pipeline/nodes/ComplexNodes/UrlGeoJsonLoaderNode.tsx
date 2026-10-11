@@ -16,6 +16,9 @@ const EXAMPLES = [
   { labelKey: 'pipelineUrlGeoJsonLoaderExampleUsgsSignificantWeek', url: URL_GEOJSON_EXAMPLE_URLS.usgsSignificantWeek },
   { labelKey: 'pipelineUrlGeoJsonLoaderExampleUsgsMagnitude45Day', url: URL_GEOJSON_EXAMPLE_URLS.usgsMagnitude45Day },
   { labelKey: 'pipelineUrlGeoJsonLoaderExampleGdelt', url: URL_GEOJSON_EXAMPLE_URLS.gdeltTimespan15 },
+  { labelKey: 'pipelineUrlGeoJsonLoaderExampleGeoMap', url: URL_GEOJSON_EXAMPLE_URLS.geoMap },
+  { labelKey: 'pipelineUrlGeoJsonLoaderExampleAirport', url: URL_GEOJSON_EXAMPLE_URLS.airport },
+  { labelKey: 'pipelineUrlGeoJsonLoaderExampleUnesco', url: URL_GEOJSON_EXAMPLE_URLS.unesco },
 ];
 
 type UrlGeoJsonLoaderNodeData = {
