@@ -1,6 +1,7 @@
+import NewChip from '@/components/NewChip';
 import GeoJsonFeaturePreview from '@/pipeline/components/GeoJsonFeaturePreview';
 import type { GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/types/types';
-import { Box, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
@@ -33,6 +34,10 @@ function CollectionHeader({ collection }: { collection: CollectionType }) {
   );
 }
 
+const excludedProperties = ['name', 'name_en', 'title', 'SQLDATE', 'EventCode', 'EventRootCode', 'GLOBALEVENTID', 'Actor1Name', 'Actor2Name', 'QuadClass', "GoldsteinScale", 'AvgTone', 'ActionGeo_CountryCode', 'Actor1CountryCode', 'Actor2CountryCode', 'DATEADDED', "SOURCEURL", "ActionGeo_FullName"];
+
+const urlProperties = ['SOURCEURL', 'url'];
+
 function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; isLastInCollection: boolean }) {
   const { t } = useTranslation();
   const name = feature.properties?.name || feature.properties?.name_en || feature.properties?.title;
@@ -45,8 +50,8 @@ function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; 
         gap: 1,
         minWidth: 0,
         pt: 0.5,
-        pb: isLastInCollection ? 1 : 0,
-        borderBottom: isLastInCollection ? '1px dotted' : 'none',
+        pb: 1,
+        borderBottom: '1px dotted',
         borderColor: 'divider',
       }}
     >
@@ -61,7 +66,23 @@ function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; 
               {geometryType}
             </Typography>
           )}
-          <textarea readOnly value={JSON.stringify(feature.properties ?? {}, null, 4)} style={{ width: '400px', resize: 'none', height: '300px' }} />
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
+            {Object.entries(feature.properties ?? {})
+              .filter(([key]) => !excludedProperties.includes(key))
+              .map(([key, value]) => (
+                <NewChip key={key} label={String(key)} count={value || 0} />
+              ))}
+          </Box>
+          <Box>
+            {Object.entries(feature.properties ?? {})
+              .filter(([key]) => urlProperties.includes(key))
+              .map(([key, value]) => (
+                <Button key={key} href={String(value)} target="_blank" rel="noopener noreferrer" size="small" variant="outlined">
+                  {String(value).substring(0, 50)+'...'}
+                </Button>
+              ))}
+          </Box>
+          {/* <textarea readOnly value={JSON.stringify(feature.properties ?? {}, null, 4)} style={{ width: '400px', resize: 'none', height: '300px' }} /> */}
         </Box>
       </Tooltip>
     </Box>
