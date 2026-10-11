@@ -38,6 +38,8 @@ const excludedProperties = ['name', 'name_en', 'title', 'SQLDATE', 'EventCode', 
 
 const urlProperties = ['SOURCEURL', 'url'];
 
+const parseProperties = ['SOURCEURL']
+
 function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; isLastInCollection: boolean }) {
   const { t } = useTranslation();
   const name = feature.properties?.name || feature.properties?.name_en || feature.properties?.title;
@@ -68,20 +70,38 @@ function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; 
           )}
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
             {Object.entries(feature.properties ?? {})
+              .filter(([key]) => parseProperties.includes(key))
+              .map(([key, value]) => {
+                const parsedValue = String(value || '')
+                  .replace("http://", "")
+                  .replace("https://", "")
+                  .replaceAll('"', ' ')
+                  .replaceAll('-', ' ')
+                  .replaceAll('www.', '')
+                  .replaceAll('.html', '')
+                  .split('/')
+                  .join(' ');
+
+                return (
+                  <textarea readOnly value={parsedValue} style={{ width: '400px', resize: 'none', height: '100px', border: '0', outline: 'none' }} />
+                );
+              })}
+          </Box>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1, height: '100px', overflow: 'auto' }}>
+            {Object.entries(feature.properties ?? {})
               .filter(([key]) => !excludedProperties.includes(key))
               .map(([key, value]) => (
                 <NewChip key={key} label={String(key)} count={value || 0} />
               ))}
-          </Box>
-          <Box>
             {Object.entries(feature.properties ?? {})
               .filter(([key]) => urlProperties.includes(key))
               .map(([key, value]) => (
                 <Button key={key} href={String(value)} target="_blank" rel="noopener noreferrer" size="small" variant="outlined">
-                  {String(value).substring(0, 50)+'...'}
+                  {String(value).substring(0, 25)+'...'}
                 </Button>
               ))}
           </Box>
+
           {/* <textarea readOnly value={JSON.stringify(feature.properties ?? {}, null, 4)} style={{ width: '400px', resize: 'none', height: '300px' }} /> */}
         </Box>
       </Tooltip>

@@ -70,6 +70,17 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', pb: 1 }}>
           <NewChip count={collections.length} label={t('pipelineGeoJsonCollections')} fontSize={16} icon={<Layers size={16} />} sx={{ height: 38 }} />
           <NewChip count={featureCount} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<ChevronsRight size={16} />} sx={{ height: 38 }} />
+          <FormControlLabel
+            className="nodrag nopan"
+            label={t('pipelineGeoJsonJsonataNegate')}
+            control={
+              <Switch
+                size="small"
+                checked={data.negate === true}
+                onChange={(event) => toggleNegate(event.target.checked)}
+              />
+            }
+          />
         </Box>
         <TextField
           className="nowheel"
@@ -86,17 +97,7 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
           helperText={data.error ?? t('pipelineGeoJsonJsonataHint')}
           sx={{ '& textarea': { fontFamily: 'monospace' } }}
         />
-        <FormControlLabel
-          className="nodrag nopan"
-          label={t('pipelineGeoJsonJsonataNegate')}
-          control={
-            <Switch
-              size="small"
-              checked={data.negate === true}
-              onChange={(event) => toggleNegate(event.target.checked)}
-            />
-          }
-        />
+
         <OutputHandle id="geojson" position={Position.Bottom} />
       </NodeWrapper>
     </>
