@@ -192,6 +192,8 @@
   "pipelineGpsMapConnectGeoJson": "Connect a GeoJSON Input node to plot its features.",
   "pipelineGeoJsonViewer": "GeoJSON Viewer",
   "pipelineGeoJsonViewerEmpty": "No GeoJSON collections connected.",
+  "pipelineGeoJsonFirstFeature": "GeoJSON First Feature",
+  "pipelineGeoJsonFirstFeatureEmpty": "No GeoJSON features connected.",
   "pipelineDragToAdd": "Drag to add a {{label}} to your flow",
   "aiActionConverted": "converted",
   "pipelineOrganizeLayoutWithAI": "Organize layout with AI",
@@ -326,5 +328,6 @@
   "pipelineGeoJsonSymmetricDifferenceDescription": "Keeps the features that appear in exactly one of the two inputs.",
   "pipelineGeoJsonJsonataDescription": "Runs a JSONata query over the list of GeoJSON collections and passes the result on. The query re-runs as you type. With negate on, passes on the features the query leaves out instead.",
   "pipelinePostItDescription": "A free-form sticky note for comments. The text shrinks as you type more. It does not take part in the pipeline.",
-  "pipelineGeoJsonViewerDescription": "Plots GeoJSON features on a map and lists each collection with its city, source and feature count, with a small preview of each feature."
+  "pipelineGeoJsonViewerDescription": "Plots GeoJSON features on a map and lists each collection with its city, source and feature count, with a small preview of each feature.",
+  "pipelineGeoJsonFirstFeatureDescription": "Shows the properties of the first feature in the list of GeoJSON collections in a read-only text box. It has no output."
 }

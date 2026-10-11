@@ -50,7 +50,7 @@ export type FlightEntry = {
 };
 
 // Node types the pipeline engine can evaluate.
-export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-style', 'geojson-zip', 'geojson-feature-picker', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer', 'flight-path', 'url-geojson-loader', 'gdelt-events-loader', 'shortest-route']);
+export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-style', 'geojson-zip', 'geojson-feature-picker', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer', 'geojson-first-feature', 'flight-path', 'url-geojson-loader', 'gdelt-events-loader', 'shortest-route']);
 
 // Canvas-only nodes (e.g. notes). They are saved with the pipeline but never sent to the engine.
 export const ANNOTATION_NODE_TYPES = new Set(['post-it']);
@@ -81,7 +81,7 @@ export const GEOJSON_FEATURE_COUNT_EVENT = 'geojson-feature-picker:count';
 
 // Node types whose results are posted back to the main thread.
 // The JSONata node is included so its live output and errors can be shown on the node.
-export const VIEWER_NODE_TYPES = new Set(["gps-map", "geojson-viewer", "geojson-jsonata"]);
+export const VIEWER_NODE_TYPES = new Set(["gps-map", "geojson-viewer", "geojson-first-feature", "geojson-jsonata"]);
 
 export type NodeInputs = Record<string, unknown>;
 export type NodeOutputs = Record<string, unknown>;

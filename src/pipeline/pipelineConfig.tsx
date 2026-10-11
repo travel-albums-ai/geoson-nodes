@@ -10,6 +10,7 @@ import GeoJsonSetNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSetNode';
 import GeoJsonStyleNode from '@/pipeline/nodes/ComplexNodes/GeoJsonStyleNode';
 import GeoJsonSwitchNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSwitchNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
+import GeoJsonFirstFeatureNode from '@/pipeline/nodes/ComplexNodes/GeoJsonFirstFeatureNode';
 import GeoJsonWithinAreaNode from '@/pipeline/nodes/ComplexNodes/GeoJsonWithinAreaNode';
 import GeoJsonZipNode from '@/pipeline/nodes/ComplexNodes/GeoJsonZipNode';
 import GeoJsonFeaturePickerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonFeaturePickerNode';
@@ -31,6 +32,7 @@ export const PIPELINE_NODE_COUNT_REQUEST_EVENT = 'pipeline:node-count-request';
 export const pipelineNodeTypes = {
   'geojson-input': GeoJsonInputNode,
   'geojson-viewer': GeoJsonViewerNode,
+  'geojson-first-feature': GeoJsonFirstFeatureNode,
   'gps-map': GpsMapNode,
   'geo-bounds-filter': GeoBoundsFilterNode,
   'geojson-within-area': GeoJsonWithinAreaNode,
