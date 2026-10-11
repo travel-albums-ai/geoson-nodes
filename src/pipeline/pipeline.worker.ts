@@ -137,6 +137,22 @@ function resolveFlightPayloads(message: PipelineEvaluateMessage): Map<string, Fl
   return next;
 }
 
+const withinAreaInputCounts = (inputs: NodeInputs): Record<string, number> =>
+  Object.fromEntries(
+    GEOJSON_WITHIN_AREA_INPUT_HANDLES.map((handle) => [
+      handle,
+      countGeoJsonFeatures((inputs[handle] as GeoJsonFeatureCollectionArray | undefined) ?? []),
+    ]),
+  );
+
+// A skipped within-area node passes input A through as its geojson output.
+const skippedWithinAreaOutputs = (inputs: NodeInputs): NodeOutputs => {
+  const [areaHandle] = GEOJSON_WITHIN_AREA_INPUT_HANDLES;
+  const geojson = (inputs[areaHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [];
+
+  return { geojson, inputCounts: withinAreaInputCounts(inputs), outputCount: countGeoJsonFeatures(geojson) };
+};
+
 const geoJsonPassthroughNode: PipelineNodeDefinition = {
   async execute(inputs) {
     await Promise.resolve();
@@ -237,19 +253,13 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       await Promise.resolve();
 
       const [areaHandle, featuresHandle] = GEOJSON_WITHIN_AREA_INPUT_HANDLES;
-      const inputCounts = Object.fromEntries(
-        GEOJSON_WITHIN_AREA_INPUT_HANDLES.map((handle) => [
-          handle,
-          countGeoJsonFeatures((inputs[handle] as GeoJsonFeatureCollectionArray | undefined) ?? []),
-        ]),
-      );
       const geojson = filterGeoJsonWithinArea(
         (inputs[areaHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
         (inputs[featuresHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
         inputs.outside === true,
       );
 
-      return { geojson, inputCounts, outputCount: countGeoJsonFeatures(geojson) };
+      return { geojson, inputCounts: withinAreaInputCounts(inputs), outputCount: countGeoJsonFeatures(geojson) };
     },
   },
   "geojson-switch": {
@@ -475,7 +485,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
           data: node.data,
           upstream: upstreamSignatures,
         }));
-        return inputs;
+        return node.type === "geojson-within-area" ? skippedWithinAreaOutputs(inputs) : inputs;
       }
 
       const signature = signatureOf({
