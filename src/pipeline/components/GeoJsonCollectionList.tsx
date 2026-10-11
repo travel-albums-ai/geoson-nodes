@@ -2,11 +2,9 @@ import NewChip from '@/components/NewChip';
 import GeoJsonFeaturePreview from '@/pipeline/components/GeoJsonFeaturePreview';
 import type { GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/types/types';
 import { Box, Button, Tooltip, Typography } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
-
-const MAX_LIST_HEIGHT = 400;
 
 type CollectionType = GeoJsonFeatureCollectionArray[number];
 
@@ -87,7 +85,7 @@ function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; 
                 );
               })}
           </Box>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1, height: '100px', overflow: 'auto' }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1, maxHeight: '100px', overflow: 'auto' }}>
             {Object.entries(feature.properties ?? {})
               .filter(([key]) => !excludedProperties.includes(key))
               .map(([key, value]) => (
@@ -115,8 +113,6 @@ type GeoJsonCollectionListProps = {
 };
 
 export default function GeoJsonCollectionList({ collections, emptyMessage }: GeoJsonCollectionListProps) {
-  const [totalHeight, setTotalHeight] = useState(MAX_LIST_HEIGHT);
-
   const sortedCollections = useMemo(
     () => [...(collections ?? [])].sort((a, b) => (a.city || '').localeCompare(b.city || '')),
     [collections],
@@ -136,11 +132,10 @@ export default function GeoJsonCollectionList({ collections, emptyMessage }: Geo
   );
 
   return (
-    <Box className="nowheel" sx={{ width: '100%' }}>
+    <Box className="nowheel" sx={{ width: '100%', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
       {sortedCollections.length > 0 ? (
         <Virtuoso
-          style={{ height: Math.min(totalHeight, MAX_LIST_HEIGHT), minHeight: 100 }}
-          totalListHeightChanged={setTotalHeight}
+          style={{ height: '100%', minHeight: 100 }}
           data={rows}
           defaultItemHeight={44}
           computeItemKey={(_, row) => row.key}
