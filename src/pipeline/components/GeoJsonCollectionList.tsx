@@ -32,9 +32,9 @@ function CollectionHeader({ collection }: { collection: CollectionType }) {
   );
 }
 
-const excludedProperties = ['name', 'name_en', 'title', 'SQLDATE', 'EventCode', 'EventRootCode', 'GLOBALEVENTID', 'Actor1Name', 'Actor2Name', 'QuadClass', "GoldsteinScale", 'AvgTone', 'ActionGeo_CountryCode', 'Actor1CountryCode', 'Actor2CountryCode', 'DATEADDED', "SOURCEURL", "ActionGeo_FullName"];
+const excludedProperties = ['name', 'name_en', 'title', 'SQLDATE', 'EventCode', 'EventRootCode', 'GLOBALEVENTID', 'Actor1Name', 'Actor2Name', 'QuadClass', "GoldsteinScale", 'AvgTone', 'ActionGeo_CountryCode', 'Actor1CountryCode', 'website', 'Actor2CountryCode', 'DATEADDED', "SOURCEURL", "ActionGeo_FullName"];
 
-const urlProperties = ['SOURCEURL', 'url'];
+const urlProperties = ['SOURCEURL', 'url', 'website', 'link', 'source', 'source_url', 'sourceUrl', 'url_source', 'urlSource', 'url_source_url', 'url_sourceUrl', 'url_source_url_source', 'url_source_urlSource'];
 
 const parseProperties = ['SOURCEURL']
 
@@ -56,53 +56,55 @@ function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; 
       }}
     >
       <GeoJsonFeaturePreview feature={feature} />
-      <Tooltip title={`${Object.keys(feature.properties ?? {}).length ?? 0} - ${JSON.stringify(feature.properties ?? {})}`} arrow>
-        <Box sx={{ minWidth: 0 }}>
+
+      <Box sx={{ minWidth: 0 }}>
+        <Tooltip title={`${Object.keys(feature.properties ?? {}).length ?? 0} - ${JSON.stringify(feature.properties ?? {})}`} arrow>
           <Typography variant="caption" component="div" noWrap>
             {typeof name === 'string' && name.length > 0 ? name : t('pipelineGeoJsonUnnamedFeature')}
           </Typography>
-          {typeof geometryType === 'string' && (
-            <Typography variant="caption" color="textSecondary" component="div" noWrap>
-              {geometryType}
-            </Typography>
-          )}
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
-            {Object.entries(feature.properties ?? {})
-              .filter(([key]) => parseProperties.includes(key))
-              .map(([key, value]) => {
-                const parsedValue = String(value || '')
-                  .replace("http://", "")
-                  .replace("https://", "")
-                  .replaceAll('"', ' ')
-                  .replaceAll('-', ' ')
-                  .replaceAll('www.', '')
-                  .replaceAll('.html', '')
-                  .split('/')
-                  .join(' ');
+        </Tooltip>
+        {typeof geometryType === 'string' && (
+          <Typography variant="caption" color="textSecondary" component="div" noWrap>
+            {geometryType}
+          </Typography>
+        )}
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
+          {Object.entries(feature.properties ?? {})
+            .filter(([key]) => parseProperties.includes(key))
+            .map(([key, value]) => {
+              const parsedValue = String(value || '')
+                .replace("http://", "")
+                .replace("https://", "")
+                .replaceAll('"', ' ')
+                .replaceAll('-', ' ')
+                .replaceAll('www.', '')
+                .replaceAll('.html', '')
+                .split('/')
+                .join(' ');
 
-                return (
-                  <textarea readOnly value={parsedValue} style={{ width: '400px', resize: 'none', height: '100px', border: '0', outline: 'none' }} />
-                );
-              })}
-          </Box>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1, maxHeight: '100px', overflow: 'auto' }}>
-            {Object.entries(feature.properties ?? {})
-              .filter(([key]) => !excludedProperties.includes(key))
-              .map(([key, value]) => (
-                <NewChip key={key} label={String(key)} count={value || 0} />
-              ))}
-            {Object.entries(feature.properties ?? {})
-              .filter(([key]) => urlProperties.includes(key))
-              .map(([key, value]) => (
-                <Button key={key} href={String(value)} target="_blank" rel="noopener noreferrer" size="small" variant="outlined">
-                  {String(value).substring(0, 25)+'...'}
-                </Button>
-              ))}
-          </Box>
-
-          {/* <textarea readOnly value={JSON.stringify(feature.properties ?? {}, null, 4)} style={{ width: '400px', resize: 'none', height: '300px' }} /> */}
+              return (
+                <textarea readOnly value={parsedValue} style={{ width: '400px', resize: 'none', height: '100px', border: '0', outline: 'none' }} />
+              );
+            })}
         </Box>
-      </Tooltip>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1, maxHeight: '100px', overflow: 'auto' }}>
+          {Object.entries(feature.properties ?? {})
+            .filter(([key]) => urlProperties.includes(key))
+            .map(([key, value]) => (
+              <Button key={key} href={String(value)} target="_blank" rel="noopener noreferrer" size="small" variant="outlined">
+                {String(value).substring(0, 25)+'...'}
+              </Button>
+            ))}
+          {Object.entries(feature.properties ?? {})
+            .filter(([key]) => !excludedProperties.includes(key))
+            .map(([key, value]) => (
+              <NewChip key={key} label={String(key)} count={value || 0} />
+            ))}
+
+        </Box>
+
+        {/* <textarea readOnly value={JSON.stringify(feature.properties ?? {}, null, 4)} style={{ width: '400px', resize: 'none', height: '300px' }} /> */}
+      </Box>
     </Box>
   );
 }
