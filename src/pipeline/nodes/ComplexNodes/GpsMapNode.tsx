@@ -4,6 +4,7 @@ import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
+import { Box, Chip } from '@mui/material';
 import { Position, type Node, type NodeProps } from '@xyflow/react';
 import { LogIn } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
@@ -16,6 +17,13 @@ function GpsMapNode({ id, data }: NodeProps<Node<{ geojson?: GeoJsonFeatureColle
     () => (data.geojson ?? []).flatMap((collection) => collection.features),
     [data.geojson]
   );
+  const propertyKeys = useMemo(() => {
+    const keys = new Set<string>();
+    for (const feature of features) {
+      Object.keys(feature.properties ?? {}).forEach((key) => keys.add(key));
+    }
+    return [...keys].sort();
+  }, [features]);
   const drawStartedAtRef = useRef<number | null>(null);
 
   // The worker's timing for this node only covers a passthrough, so the time is
@@ -51,13 +59,22 @@ function GpsMapNode({ id, data }: NodeProps<Node<{ geojson?: GeoJsonFeatureColle
         tools={<>
           <PipelineStageTiming nodeId={id} nodeType={'gps-map'} />
         </>}>
-        {data.skip !== true && (
-          <GeoJsonMap
-            features={features}
-            emptyMessage={hasCollections ? t('pipelineGeoJsonNoFeatures') : t('pipelineGpsMapConnectGeoJson')}
-            onLoaded={handleMapLoaded}
-          />
-        )}
+        <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1 1 auto', minHeight: 0, gap: 1 }}>
+          {propertyKeys.length > 0 && (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {propertyKeys.map((key) => (
+                <Chip key={key} label={key} size="small" variant="outlined" />
+              ))}
+            </Box>
+          )}
+          {data.skip !== true && (
+            <GeoJsonMap
+              features={features}
+              emptyMessage={hasCollections ? t('pipelineGeoJsonNoFeatures') : t('pipelineGpsMapConnectGeoJson')}
+              onLoaded={handleMapLoaded}
+            />
+          )}
+        </Box>
       </NodeWrapper>
     </>
   );
