@@ -1,12 +1,13 @@
+import NewChip from '@/components/NewChip';
 import { usePipelineStoreSelector } from '@/context/pipelineStore';
 import { GDELT_EVENT_FILE_NAMES, fetchGdeltEventsGeoJson } from '@/lib/gdeltEvents';
 import { createGeoJsonFileKey, deleteGeoJsonFile, saveGeoJsonFile } from '@/lib/geojsonFileStore';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
-import { Button, MenuItem, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { Newspaper } from 'lucide-react';
+import { Clock, LogOut, Newspaper } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -84,7 +85,6 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
           ))}
         </TextField>
         <Button
-          size="small"
           variant="outlined"
           startIcon={<Newspaper size={16} />}
           onClick={loadEvents}
@@ -95,14 +95,10 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
         {error && (
           <Typography variant="caption" color="error">{error}</Typography>
         )}
-        {!error && data.fetchedAt !== undefined && (
-          <Typography variant="caption" color="text.secondary">
-            {t('pipelineGdeltEventsLoaderSummary', {
-              count: data.featureCount ?? 0,
-              time: new Date(data.fetchedAt).toLocaleTimeString(i18n.language),
-            })}
-          </Typography>
-        )}
+        {!error && data.fetchedAt !== undefined && (<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <NewChip count={new Date(data.fetchedAt).toLocaleTimeString(i18n.language)} icon={<Clock />} label="Fetched" sx={{ height: 30 }} fontSize={12} />
+          <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="Features" sx={{ height: 30 }} fontSize={12} />
+        </Box>)}
       </Stack>
       <OutputHandle id="geojson" position={Position.Bottom} />
     </NodeWrapper>

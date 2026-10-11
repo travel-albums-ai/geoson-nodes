@@ -79,6 +79,9 @@ export const GEOJSON_ZIP_KEYS_EVENT = 'geojson-zip:keys';
 // Window event carrying how many features the picker node's input holds, so its slider can cap its range.
 export const GEOJSON_FEATURE_COUNT_EVENT = 'geojson-feature-picker:count';
 
+// Window event carrying how many features enter each input of the merge node and how many leave it.
+export const GEOJSON_MERGE_COUNTS_EVENT = 'geojson-merge:counts';
+
 // Node types whose results are posted back to the main thread.
 // The JSONata node is included so its live output and errors can be shown on the node.
 export const VIEWER_NODE_TYPES = new Set(["gps-map", "geojson-viewer", "geojson-first-feature", "geojson-jsonata"]);
@@ -161,6 +164,14 @@ export type PipelineGeoJsonFeatureCountMessage = {
   count: number;
 };
 
+export type PipelineGeoJsonMergeCountsMessage = {
+  type: "geojson-merge-counts";
+  evaluationId: number;
+  nodeId: string;
+  inputCounts: Record<string, number>;
+  outputCount: number;
+};
+
 export type PipelineDoneMessage = {
   type: "done";
   evaluationId: number;
@@ -179,5 +190,6 @@ export type PipelineWorkerOutbound =
   | PipelineGeoJsonViewerMessage
   | PipelineGeoJsonZipKeysMessage
   | PipelineGeoJsonFeatureCountMessage
+  | PipelineGeoJsonMergeCountsMessage
   | PipelineDoneMessage
   | PipelineErrorMessage;

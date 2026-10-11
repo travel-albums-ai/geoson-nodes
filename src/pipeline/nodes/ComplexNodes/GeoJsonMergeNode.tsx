@@ -1,11 +1,20 @@
+import NewChip from '@/components/NewChip';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
-import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
-import { GEOJSON_MERGE_INPUT_HANDLES } from '@/types/types';
-import { Typography } from '@mui/material';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
+import { GEOJSON_MERGE_COUNTS_EVENT, GEOJSON_MERGE_INPUT_HANDLES } from '@/types/types';
+import { Box, Typography } from '@mui/material';
 import { Position, useNodeConnections, type NodeProps } from '@xyflow/react';
+import { LogIn, LogOut } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+type MergeCountsEventDetail = {
+  nodeId: string;
+  inputCounts: Record<string, number>;
+  outputCount: number;
+};
 
 const handleLeft = (index: number) =>
   `${((index + 1) / (GEOJSON_MERGE_INPUT_HANDLES.length + 1)) * 100}%`;
@@ -14,6 +23,20 @@ function GeoJsonMergeNode({ id }: NodeProps) {
   const { t } = useTranslation();
   const connections = useNodeConnections({ handleType: 'target' });
   const connectedCount = new Set(connections.map((connection) => connection.targetHandle)).size;
+  const [counts, setCounts] = useState<MergeCountsEventDetail | null>(null);
+
+  useEffect(() => {
+    const handleCounts = (event: Event) => {
+      const detail = (event as CustomEvent<MergeCountsEventDetail>).detail;
+
+      if (detail.nodeId === id) {
+        setCounts(detail);
+      }
+    };
+
+    window.addEventListener(GEOJSON_MERGE_COUNTS_EVENT, handleCounts);
+    return () => window.removeEventListener(GEOJSON_MERGE_COUNTS_EVENT, handleCounts);
+  }, [id]);
 
   return (
     <>
@@ -32,6 +55,30 @@ function GeoJsonMergeNode({ id }: NodeProps) {
             total: GEOJSON_MERGE_INPUT_HANDLES.length,
           })}
         </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
+          {GEOJSON_MERGE_INPUT_HANDLES
+            .filter((handleId) => counts?.inputCounts[handleId] ?? 0 > 0)
+            .map((handleId, index) => (
+              <NewChip
+                key={handleId}
+                count={counts?.inputCounts[handleId] ?? 0}
+                label={t('pipelineGeoJsonFeatures')}
+                icon={<LogIn size={16} />}
+                tooltip={t('pipelineGeoJsonMergeEntering', { input: index + 1 })}
+                fontSize={12}
+                sx={{ height: 30 }}
+              />
+            ))}
+          <NewChip
+            variant="important"
+            count={counts?.outputCount ?? 0}
+            label={t('pipelineGeoJsonFeatures')}
+            icon={<LogOut size={16} />}
+            tooltip={t('pipelineGeoJsonMergeLeaving')}
+            fontSize={12}
+            sx={{ height: 30 }}
+          />
+        </Box>
         <OutputHandle id="geojson" position={Position.Bottom} />
       </NodeWrapper>
     </>

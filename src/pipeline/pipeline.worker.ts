@@ -214,11 +214,17 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
     async execute(inputs) {
       await Promise.resolve();
 
-      return {
-        geojson: GEOJSON_MERGE_INPUT_HANDLES.flatMap(
-          (handle) => (inputs[handle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
-        ),
-      };
+      const inputCounts = Object.fromEntries(
+        GEOJSON_MERGE_INPUT_HANDLES.map((handle) => [
+          handle,
+          countGeoJsonFeatures((inputs[handle] as GeoJsonFeatureCollectionArray | undefined) ?? []),
+        ]),
+      );
+      const geojson = GEOJSON_MERGE_INPUT_HANDLES.flatMap(
+        (handle) => (inputs[handle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
+      );
+
+      return { geojson, inputCounts, outputCount: countGeoJsonFeatures(geojson) };
     },
   },
   "geojson-within-area": {
@@ -582,6 +588,18 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       evaluationId,
       nodeId: node.id,
       count: (nodeOutputs.featureCount as number | undefined) ?? 0,
+    });
+  }
+
+  for (const node of nodes.filter((candidate) => candidate.type === "geojson-merge")) {
+    const nodeOutputs = await evaluateNode(node.id);
+
+    workerScope.postMessage({
+      type: "geojson-merge-counts",
+      evaluationId,
+      nodeId: node.id,
+      inputCounts: nodeOutputs.inputCounts as Record<string, number>,
+      outputCount: (nodeOutputs.outputCount as number | undefined) ?? 0,
     });
   }
 
