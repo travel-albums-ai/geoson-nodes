@@ -1,5 +1,5 @@
-import type { GeoJsonFeature } from '@/types/types';
 import { readFeatureStyle } from '@/lib/geojsonStyle';
+import type { GeoJsonFeature } from '@/types/types';
 import { Box, Typography } from '@mui/material';
 import L from 'leaflet';
 import { useEffect, useRef } from 'react';
@@ -114,7 +114,7 @@ export default function GeoJsonMap({ features, emptyMessage, onLoaded }: GeoJson
             const tooltip = feature.properties?.tooltip;
             const label = typeof tooltip === 'string' && tooltip.length > 0
               ? tooltip
-              : feature.properties?.name || feature.properties?.name_en;
+              : feature.properties?.name || feature.properties?.name_en || feature.properties?.title;
             if (typeof label === 'string' && label.length > 0) {
               featureLayer.bindTooltip(label);
             }

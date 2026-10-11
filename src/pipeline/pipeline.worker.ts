@@ -284,6 +284,18 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       return { geojson: await runGeoJsonQuery(collections, query, inputs.negate === true) };
     },
   },
+  "gdelt-gkg-geojson": {
+    async execute(inputs) {
+      // The browser fetches GDELT when the node's button is pressed and stores the result under fileKey.
+      const file = typeof inputs.fileKey === "string" ? await loadGeoJsonFile(inputs.fileKey) : null;
+
+      if (!(file instanceof File)) {
+        return { geojson: [] };
+      }
+
+      return { geojson: parseGeoJsonFeatureCollections(await file.text()) };
+    },
+  },
   "flight-path": {
     async execute(inputs) {
       await Promise.resolve();
@@ -404,6 +416,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "flight-path") {
         inputs.flights = flightsByHash.get(node.data.flightsHash as string);
+      }
+
+      if (node.type === "gdelt-gkg-geojson") {
+        inputs.fileKey = node.data.fileKey;
       }
 
       if (node.type === "shortest-route") {

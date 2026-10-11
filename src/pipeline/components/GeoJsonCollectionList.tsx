@@ -35,7 +35,7 @@ function CollectionHeader({ collection }: { collection: CollectionType }) {
 
 function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; isLastInCollection: boolean }) {
   const { t } = useTranslation();
-  const name = feature.properties?.name || feature.properties?.name_en;
+  const name = feature.properties?.name || feature.properties?.name_en || feature.properties?.title;
   const geometryType = feature.geometry?.type;
   return (
     <Box
