@@ -18,6 +18,7 @@ export function PipelineTrashProvider({ children }: { children: ReactNode }) {
     fitView: () => {},
     zoomTo100: () => {},
     getZoom: () => 1,
+    addPostIt: () => {},
   });
 
   return (

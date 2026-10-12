@@ -327,6 +327,7 @@
   "searchToolbox": "Search in the toolbox...",
   "toolboxAddNode": "Add a node",
   "toolboxAddNodeDescription": "Drag to the canvas to add it",
+  "toolboxAddPostIt": "Add a post-it to the canvas",
   "helpManualTitle": "Manual",
   "helpManualDescription": "Learn how to use each node feature in the pipeline effectively.",
   "settingsWindowTitle": "Settings",

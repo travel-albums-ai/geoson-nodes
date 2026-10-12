@@ -70,6 +70,7 @@ function Pipeline() {
   const nodesRef = useRef(nodes);
   const edgesRef = useRef(edges);
   const fitPaneOnDoubleClickRef = useRef(true);
+  const canvasRef = useRef<HTMLDivElement>(null);
 
   const styleEdges = useCallback((pipelineEdges: Edge[]) =>
     pipelineEdges.map((edge) => ({
@@ -488,23 +489,9 @@ function Pipeline() {
     [isOverTrash, setNodes, setEdges]
   );
 
-  // Drops a node dragged from the toolbox at the cursor position.
-  const onDrop = useCallback(
-    (event: React.DragEvent<HTMLDivElement>) => {
-      event.preventDefault();
-
-      const type = event.dataTransfer.getData(
-        "application/reactflow"
-      );
-
-      if (!type || !(type in pipelineNodeTypes)) {
-        return;
-      }
-
-      const position = screenToFlowPosition({
-        x: event.clientX,
-        y: event.clientY,
-      });
+  const addNodeAtScreenPoint = useCallback(
+    (type: string, screenX: number, screenY: number) => {
+      const position = screenToFlowPosition({ x: screenX, y: screenY });
       const snappedPosition = {
         x: Math.round(position.x / SNAP_GRID[0]) * SNAP_GRID[0],
         y: Math.round(position.y / SNAP_GRID[1]) * SNAP_GRID[1],
@@ -524,6 +511,36 @@ function Pipeline() {
     },
     [screenToFlowPosition, setNodes]
   );
+
+  // Drops a node dragged from the toolbox at the cursor position.
+  const onDrop = useCallback(
+    (event: React.DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
+
+      const type = event.dataTransfer.getData(
+        "application/reactflow"
+      );
+
+      if (!type || !(type in pipelineNodeTypes)) {
+        return;
+      }
+
+      addNodeAtScreenPoint(type, event.clientX, event.clientY);
+    },
+    [addNodeAtScreenPoint]
+  );
+
+  const addPostItAtCanvasCenter = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    addNodeAtScreenPoint(
+      'post-it',
+      rect.left + rect.width / 2,
+      rect.top + rect.height / 2,
+    );
+  }, [addNodeAtScreenPoint]);
 
   // Double-clicking the empty canvas re-centers the view instead of the
   // default zoom-in, which only fires when the pane itself is the target.
@@ -560,8 +577,9 @@ function Pipeline() {
       fitView: () => void fitPipelineView(),
       zoomTo100,
       getZoom,
+      addPostIt: addPostItAtCanvasCenter,
     };
-  }, [actionsRef, clearWorkspace, downloadPipeline, fitPipelineView, getZoom, openPipelineFile, saveAsCopy, saveCurrent, uploadPipeline, zoomInCanvas, zoomOutCanvas, zoomTo100]);
+  }, [actionsRef, addPostItAtCanvasCenter, clearWorkspace, downloadPipeline, fitPipelineView, getZoom, openPipelineFile, saveAsCopy, saveCurrent, uploadPipeline, zoomInCanvas, zoomOutCanvas, zoomTo100]);
 
   useEffect(() => {
     const launchQueue = (window as Window & {
@@ -586,6 +604,7 @@ function Pipeline() {
   return (
     <Box className="app" sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper' }}>
       <div
+        ref={canvasRef}
         className="reactflow-canvas"
         onDragOver={onDragOver}
         onDrop={onDrop}

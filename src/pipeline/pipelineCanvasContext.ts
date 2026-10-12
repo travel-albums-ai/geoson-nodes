@@ -12,6 +12,7 @@ export type PipelineCanvasActions = {
   fitView: () => void;
   zoomTo100: () => void;
   getZoom: () => number;
+  addPostIt: () => void;
 };
 
 export type PipelineCanvasContextValue = {

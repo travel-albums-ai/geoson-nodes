@@ -7,6 +7,7 @@ import VersionStatus from '@/base/VersionStatus';
 import FloatingToolbar from '@/components/FloatingToolbar';
 import { usePipelineStoreSelector } from '@/context/pipelineStore';
 import { TOOLBAR_GAP } from '@/lib/utils';
+import AddPostItToggle from '@/toolbars/tools/AddPostItToggle';
 import AppName from '@/toolbars/tools/AppName';
 import DarkLightStatus from '@/toolbars/tools/DarkLightStatus';
 import DeleteButton from '@/toolbars/tools/DeleteButton';
@@ -56,6 +57,7 @@ export default function Toolbars() {
           <Divider />
           <TemplatesToggle />
           <ToggleToolbox />
+          <AddPostItToggle />
           {!isEmptyPipeline && <>
             <Divider />
             <DeleteButton />
