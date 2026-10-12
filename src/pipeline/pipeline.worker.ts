@@ -384,7 +384,7 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       await Promise.resolve();
 
       const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
-      const from = (inputs.from as Airport | null | undefined)?.iata;
+      const from = toAirportList(inputs.from as Airport | Airport[] | null | undefined).map((airport) => airport.iata);
       const to = toAirportList(inputs.to as Airport | Airport[] | null | undefined).map((airport) => airport.iata);
       const via = ((inputs.via as Airport[] | undefined) ?? []).map((airport) => airport.iata);
       const geojson = filterFlightRoutes(collections, from, to, via);

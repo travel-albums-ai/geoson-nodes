@@ -28,14 +28,16 @@
         "y": 540
       },
       "data": {
-        "from": {
-          "iata": "BER",
-          "name": "Berlin Brandenburg Airport",
-          "city": "Berlin",
-          "country": "DE",
-          "lat": 52.3617,
-          "lon": 13.5023
-        },
+        "from": [
+          {
+            "iata": "BER",
+            "name": "Berlin Brandenburg Airport",
+            "city": "Berlin",
+            "country": "DE",
+            "lat": 52.3617,
+            "lon": 13.5023
+          }
+        ],
         "to": [
           {
             "iata": "BER",

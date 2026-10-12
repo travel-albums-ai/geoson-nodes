@@ -13,8 +13,8 @@ import { LogIn, LogOut } from 'lucide-react';
 import { useCallback, useEffect, useState, type HTMLAttributes, type Key } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// "to" is a list of airports the route must reach. A single airport from before it was a list is still accepted.
-type ShortestRouteNodeData = { from?: Airport | null; to?: Airport | Airport[] | null; via?: Airport[] };
+// "from" and "to" are lists of airports. A single airport from before they were lists is still accepted.
+type ShortestRouteNodeData = { from?: Airport | Airport[] | null; to?: Airport | Airport[] | null; via?: Airport[] };
 
 type ShortestRouteCountsEventDetail = {
   nodeId: string;
@@ -33,9 +33,10 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
   const [airports, setAirports] = useState<Airport[]>([]);
   const [loadIssue, setLoadIssue] = useState<string | null>(null);
   const [counts, setCounts] = useState<ShortestRouteCountsEventDetail | null>(null);
+  const fromAirports = toAirportList(data.from);
   const toAirports = toAirportList(data.to);
   const hasStops = (data.via?.length ?? 0) > 0;
-  const returnsToStart = !!data.from && toAirports.some((airport) => airport.iata === data.from?.iata);
+  const returnsToStart = fromAirports.some((from) => toAirports.some((to) => to.iata === from.iata));
   const roundTripNeedsStop = returnsToStart && !hasStops;
 
   useEffect(() => {
@@ -82,30 +83,14 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
     </li>
   );
 
-  const renderFromField = () => (
-    <Autocomplete<Airport>
-      className="nodrag nopan"
-      size="small"
-      options={airports}
-      loading={airports.length === 0 && loadIssue === null}
-      value={data.from ?? null}
-      onChange={(_event, airport) => commit({ from: airport })}
-      filterOptions={filterAirports}
-      isOptionEqualToValue={(option, value) => option.iata === value.iata}
-      getOptionLabel={airportOptionLabel}
-      renderOption={renderAirportOption}
-      renderInput={(params) => <TextField {...params} label={t('pipelineShortestRouteFrom')} />}
-    />
-  );
-
-  const renderAirportListField = (field: 'via' | 'to', label: string) => (
+  const renderAirportListField = (field: 'from' | 'via' | 'to', label: string) => (
     <Autocomplete<Airport, true>
       className="nodrag nopan"
       multiple
       size="small"
       options={airports}
       loading={airports.length === 0 && loadIssue === null}
-      value={field === 'to' ? toAirports : data.via ?? []}
+      value={field === 'from' ? fromAirports : field === 'to' ? toAirports : data.via ?? []}
       onChange={(_event, list) => commit({ [field]: list })}
       filterOptions={filterAirports}
       filterSelectedOptions
@@ -146,7 +131,7 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
           {t('pipelineShortestRouteHint')}
         </Typography>
         <Stack spacing={1} sx={{ minWidth: 220 }}>
-          {renderFromField()}
+          {renderAirportListField('from', t('pipelineShortestRouteFrom'))}
           {renderAirportListField('via', t('pipelineShortestRouteVia'))}
           {renderAirportListField('to', t('pipelineShortestRouteTo'))}
         </Stack>
