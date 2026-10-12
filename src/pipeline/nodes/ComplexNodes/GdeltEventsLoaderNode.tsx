@@ -94,7 +94,7 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
         {!error && data.fetchedAt !== undefined && (
           <NewChip count={new Date(data.fetchedAt).toLocaleTimeString(i18n.language)} icon={<Clock />} label="Loaded" fontSize={12} />
         )}
-        <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />
+        <NewChip variant="important" count={data.featureCount || 0} icon={<LogOut />} label="" fontSize={12} />
       </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'gdelt-events-loader'} />}>
       <Box sx={{ minWidth: 280, display: 'flex', flexDirection: 'column', gap: 2 }} className="nodrag nopan">

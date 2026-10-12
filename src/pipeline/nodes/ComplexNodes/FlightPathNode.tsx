@@ -141,6 +141,7 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
       </Typography>
       <Stack direction="row" spacing={1} sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
         <Button
+          fullWidth
           variant="contained"
           className="nodrag nopan"
           component="label"

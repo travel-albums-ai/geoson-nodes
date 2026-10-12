@@ -4,8 +4,7 @@ import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { GEOJSON_MERGE_COUNTS_EVENT, GEOJSON_MERGE_INPUT_HANDLES } from '@/types/types';
-import { Typography } from '@mui/material';
-import { Position, useNodeConnections, type NodeProps } from '@xyflow/react';
+import { Position, type NodeProps } from '@xyflow/react';
 import { LogIn, LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -21,8 +20,6 @@ const handleLeft = (index: number) =>
 
 function GeoJsonMergeNode({ id }: NodeProps) {
   const { t } = useTranslation();
-  const connections = useNodeConnections({ handleType: 'target' });
-  const connectedCount = new Set(connections.map((connection) => connection.targetHandle)).size;
   const [counts, setCounts] = useState<MergeCountsEventDetail | null>(null);
 
   useEffect(() => {
@@ -75,14 +72,8 @@ function GeoJsonMergeNode({ id }: NodeProps) {
           />
         }
         tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-merge'} />}>
-        <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
-          {t('pipelineGeoJsonMergeConnected', {
-            connected: connectedCount,
-            total: GEOJSON_MERGE_INPUT_HANDLES.length,
-          })}
-        </Typography>
-        <OutputHandle id="geojson" position={Position.Bottom} />
       </NodeWrapper>
+      <OutputHandle id="geojson" position={Position.Bottom} />
     </>
   );
 }

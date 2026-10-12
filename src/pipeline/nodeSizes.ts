@@ -1,7 +1,7 @@
 export type NodeSize = { width: number; height: number };
 
 export const NODE_MIN_WIDTH = 400;
-export const NODE_MIN_HEIGHT = 120;
+export const NODE_MIN_HEIGHT = 100;
 
 // Node data is persisted as JSON, so the stored size is validated before use.
 export function readNodeSize(value: unknown): NodeSize | undefined {
