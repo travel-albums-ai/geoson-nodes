@@ -249,6 +249,7 @@ export default function NodeWrapper({
 
             }}
           >
+            {nodeId}
             {tools && tools}
           </NodeHeader>
         )}

@@ -65,7 +65,6 @@ function Pipeline() {
   const currentPipelineId = currentPipeline.id;
   const currentPipelineName = currentPipeline.name;
   const isDirty = currentPipeline.isDirty;
-  const nodeIdRef = useRef(0);
   const restoredPipelineRef = useRef(false);
   const evaluationId = useRef(0);
   const nodesRef = useRef(nodes);
@@ -511,7 +510,7 @@ function Pipeline() {
         y: Math.round(position.y / SNAP_GRID[1]) * SNAP_GRID[1],
       };
 
-      const id = `${type}-${++nodeIdRef.current}`;
+      const id = `${type}-${crypto.randomUUID()}`;
 
       setNodes((current) => [
         ...current,
