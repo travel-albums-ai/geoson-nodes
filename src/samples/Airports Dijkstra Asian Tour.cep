@@ -1,0 +1,1034 @@
+{
+  "name": "Airports Dijkstra Asian Tour",
+  "nodes": [
+    {
+      "id": "flight-path-d24446e2-eb1a-47fb-93cd-114413d589d0",
+      "type": "flight-path",
+      "position": {
+        "x": -60,
+        "y": -700
+      },
+      "data": {
+        "flightsKey": "flights-1791826724585-lv5y0m",
+        "completeCount": 36710,
+        "flightsFileName": "routes-sample.json"
+      },
+      "measured": {
+        "width": 462,
+        "height": 218
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "shortest-route-1",
+      "type": "shortest-route",
+      "position": {
+        "x": 1080,
+        "y": -360
+      },
+      "data": {
+        "from": [
+          {
+            "iata": "FRA",
+            "name": "Frankfurt Main Airport",
+            "city": "Frankfurt am Main",
+            "country": "DE",
+            "lat": 50.0267,
+            "lon": 8.5584
+          },
+          {
+            "iata": "BER",
+            "name": "Berlin Brandenburg Airport",
+            "city": "Berlin",
+            "country": "DE",
+            "lat": 52.3617,
+            "lon": 13.5023
+          },
+          {
+            "iata": "LEJ",
+            "name": "Leipzig/Halle Airport",
+            "city": "Schkeuditz",
+            "country": "DE",
+            "lat": 51.4207,
+            "lon": 12.2327
+          },
+          {
+            "iata": "HAM",
+            "name": "Hamburg Helmut Schmidt Airport",
+            "city": "Hamburg",
+            "country": "DE",
+            "lat": 53.6304,
+            "lon": 9.9882
+          }
+        ],
+        "to": [
+          {
+            "iata": "SAW",
+            "name": "Istanbul Sabiha Gökçen International Airport",
+            "city": "Pendik, Istanbul",
+            "country": "TR",
+            "lat": 40.8986,
+            "lon": 29.3092
+          },
+          {
+            "iata": "AHN",
+            "name": "Athens Ben Epps Airport",
+            "city": "Athens",
+            "country": "US",
+            "lat": 33.9488,
+            "lon": -83.3256
+          },
+          {
+            "iata": "DOH",
+            "name": "Hamad International Airport",
+            "city": "Doha",
+            "country": "QA",
+            "lat": 25.2731,
+            "lon": 51.6081
+          },
+          {
+            "iata": "DXB",
+            "name": "Dubai International Airport",
+            "city": "Dubai",
+            "country": "AE",
+            "lat": 25.2498,
+            "lon": 55.371
+          },
+          {
+            "iata": "VIE",
+            "name": "Vienna International Airport",
+            "city": "Vienna",
+            "country": "AT",
+            "lat": 48.1103,
+            "lon": 16.5697
+          },
+          {
+            "iata": "BAH",
+            "name": "Bahrain International Airport",
+            "city": "Manama",
+            "country": "BH",
+            "lat": 26.2673,
+            "lon": 50.6376
+          }
+        ],
+        "via": [
+          {
+            "iata": "PRG",
+            "name": "Václav Havel Airport Prague",
+            "city": "Prague",
+            "country": "CZ",
+            "lat": 50.1009,
+            "lon": 14.2599
+          },
+          {
+            "iata": "WAW",
+            "name": "Warsaw Chopin Airport",
+            "city": "Warsaw",
+            "country": "PL",
+            "lat": 52.1657,
+            "lon": 20.9671
+          },
+          {
+            "iata": "AMS",
+            "name": "Amsterdam Airport Schiphol",
+            "city": "Amsterdam",
+            "country": "NL",
+            "lat": 52.3086,
+            "lon": 4.7639
+          },
+          {
+            "iata": "VIE",
+            "name": "Vienna International Airport",
+            "city": "Vienna",
+            "country": "AT",
+            "lat": 48.1103,
+            "lon": 16.5697
+          },
+          {
+            "iata": "FRA",
+            "name": "Frankfurt Main Airport",
+            "city": "Frankfurt am Main",
+            "country": "DE",
+            "lat": 50.0267,
+            "lon": 8.5584
+          },
+          {
+            "iata": "LEJ",
+            "name": "Leipzig/Halle Airport",
+            "city": "Schkeuditz",
+            "country": "DE",
+            "lat": 51.4207,
+            "lon": 12.2327
+          }
+        ],
+        "size": {
+          "width": 620,
+          "height": 324
+        }
+      },
+      "measured": {
+        "width": 620,
+        "height": 324
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 620,
+      "height": 324,
+      "resizing": true
+    },
+    {
+      "id": "geojson-merge-d74de396-0d9d-4730-9315-19b545d587f4",
+      "type": "geojson-merge",
+      "position": {
+        "x": 2280,
+        "y": -380
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "post-it-af998f32-e0d1-4006-b97d-598fbd2a7e9b",
+      "type": "post-it",
+      "position": {
+        "x": 620,
+        "y": -440
+      },
+      "data": {
+        "text": "START",
+        "size": {
+          "width": 420,
+          "height": 220
+        }
+      },
+      "measured": {
+        "width": 420,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 420,
+      "height": 220,
+      "resizing": true
+    },
+    {
+      "id": "shortest-route-e187c7f5-9371-498f-b911-24bb09709bb2",
+      "type": "shortest-route",
+      "position": {
+        "x": 1080,
+        "y": -760
+      },
+      "data": {
+        "from": [
+          {
+            "iata": "SAW",
+            "name": "Istanbul Sabiha Gökçen International Airport",
+            "city": "Pendik, Istanbul",
+            "country": "TR",
+            "lat": 40.8986,
+            "lon": 29.3092
+          },
+          {
+            "iata": "DOH",
+            "name": "Hamad International Airport",
+            "city": "Doha",
+            "country": "QA",
+            "lat": 25.2731,
+            "lon": 51.6081
+          },
+          {
+            "iata": "DXB",
+            "name": "Dubai International Airport",
+            "city": "Dubai",
+            "country": "AE",
+            "lat": 25.2498,
+            "lon": 55.371
+          },
+          {
+            "iata": "AHN",
+            "name": "Athens Ben Epps Airport",
+            "city": "Athens",
+            "country": "US",
+            "lat": 33.9488,
+            "lon": -83.3256
+          },
+          {
+            "iata": "VIE",
+            "name": "Vienna International Airport",
+            "city": "Vienna",
+            "country": "AT",
+            "lat": 48.1103,
+            "lon": 16.5697
+          },
+          {
+            "iata": "BAH",
+            "name": "Bahrain International Airport",
+            "city": "Manama",
+            "country": "BH",
+            "lat": 26.2673,
+            "lon": 50.6376
+          }
+        ],
+        "to": [
+          {
+            "iata": "SIN",
+            "name": "Singapore Changi Airport",
+            "city": "Singapore",
+            "country": "SG",
+            "lat": 1.3502,
+            "lon": 103.994
+          },
+          {
+            "iata": "KUL",
+            "name": "Kuala Lumpur International Airport",
+            "city": "Sepang",
+            "country": "MY",
+            "lat": 2.7456,
+            "lon": 101.71
+          }
+        ],
+        "via": [
+          {
+            "iata": "DEL",
+            "name": "Indira Gandhi International Airport",
+            "city": "New Delhi",
+            "country": "IN",
+            "lat": 28.5556,
+            "lon": 77.0952
+          },
+          {
+            "iata": "BOM",
+            "name": "Chhatrapati Shivaji Maharaj International Airport",
+            "city": "Mumbai",
+            "country": "IN",
+            "lat": 19.0887,
+            "lon": 72.8679
+          },
+          {
+            "iata": "BLR",
+            "name": "Kempegowda International Airport Bengaluru",
+            "city": "Bengaluru",
+            "country": "IN",
+            "lat": 13.1979,
+            "lon": 77.7063
+          },
+          {
+            "iata": "CMB",
+            "name": "Bandaranaike International Colombo Airport",
+            "city": "Colombo",
+            "country": "LK",
+            "lat": 7.1808,
+            "lon": 79.8841
+          }
+        ],
+        "size": {
+          "width": 620,
+          "height": 324
+        },
+        "skip": false
+      },
+      "measured": {
+        "width": 620,
+        "height": 324
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 620,
+      "height": 324,
+      "resizing": true
+    },
+    {
+      "id": "geojson-merge-18b4775d-6128-454b-b49e-38b2874671ba",
+      "type": "geojson-merge",
+      "position": {
+        "x": 2280,
+        "y": -940
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "shortest-route-72762a29-8ca6-4da1-9362-77cdf5344b3f",
+      "type": "shortest-route",
+      "position": {
+        "x": 1080,
+        "y": -1180
+      },
+      "data": {
+        "from": [
+          {
+            "iata": "SIN",
+            "name": "Singapore Changi Airport",
+            "city": "Singapore",
+            "country": "SG",
+            "lat": 1.3502,
+            "lon": 103.994
+          },
+          {
+            "iata": "KUL",
+            "name": "Kuala Lumpur International Airport",
+            "city": "Sepang",
+            "country": "MY",
+            "lat": 2.7456,
+            "lon": 101.71
+          }
+        ],
+        "to": [
+          {
+            "iata": "MNL",
+            "name": "Ninoy Aquino International Airport",
+            "city": "Manila (Pasay)",
+            "country": "PH",
+            "lat": 14.5086,
+            "lon": 121.02
+          },
+          {
+            "iata": "VTE",
+            "name": "Wattay International Airport",
+            "city": "Vientiane",
+            "country": "LA",
+            "lat": 17.9851,
+            "lon": 102.5667
+          },
+          {
+            "iata": "HKT",
+            "name": "Phuket International Airport",
+            "city": "Phuket",
+            "country": "TH",
+            "lat": 8.1133,
+            "lon": 98.3174
+          }
+        ],
+        "via": [
+          {
+            "iata": "SGN",
+            "name": "Tan Son Nhat International Airport",
+            "city": "Ho Chi Minh City",
+            "country": "VN",
+            "lat": 10.8188,
+            "lon": 106.652
+          },
+          {
+            "iata": "HAN",
+            "name": "Noi Bai International Airport",
+            "city": "Hanoi (Soc Son)",
+            "country": "VN",
+            "lat": 21.2212,
+            "lon": 105.807
+          },
+          {
+            "iata": "DAD",
+            "name": "Da Nang International Airport",
+            "city": "Da Nang",
+            "country": "VN",
+            "lat": 16.0439,
+            "lon": 108.199
+          }
+        ],
+        "size": {
+          "width": 620,
+          "height": 324
+        }
+      },
+      "measured": {
+        "width": 620,
+        "height": 324
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 620,
+      "height": 324,
+      "resizing": true
+    },
+    {
+      "id": "post-it-fc14f2df-4127-40c2-82ac-55407d198899",
+      "type": "post-it",
+      "position": {
+        "x": 620,
+        "y": -840
+      },
+      "data": {
+        "text": "MIDDLE",
+        "size": {
+          "width": 420,
+          "height": 220
+        }
+      },
+      "measured": {
+        "width": 420,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 420,
+      "height": 220,
+      "resizing": true
+    },
+    {
+      "id": "post-it-208b85bb-7b05-43ba-908c-c68980e311f5",
+      "type": "post-it",
+      "position": {
+        "x": 620,
+        "y": -1260
+      },
+      "data": {
+        "text": "FINISH",
+        "size": {
+          "width": 420,
+          "height": 220
+        }
+      },
+      "measured": {
+        "width": 420,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 420,
+      "height": 220,
+      "resizing": true
+    },
+    {
+      "id": "geojson-merge-c49d7c57-8d1c-40d3-a755-f223f4b0bc18",
+      "type": "geojson-merge",
+      "position": {
+        "x": 640,
+        "y": -600
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-merge-75ae563d-dc74-4c76-8e97-a30e25e08cd7",
+      "type": "geojson-merge",
+      "position": {
+        "x": 640,
+        "y": -200
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-merge-83c1c408-5f92-49a4-b52e-6d5c63eb5ea8",
+      "type": "geojson-merge",
+      "position": {
+        "x": 640,
+        "y": -1020
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-0badccd8-b9c8-4705-8109-acd0d36264c4",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 2680,
+        "y": -1420
+      },
+      "data": {
+        "query": "features[\n  properties.totalPrice != null and $number(properties.totalPrice) < 500 and properties.legCount >= 1\n] ~> $sort(function($a, $b) {\n  $number($a.properties.totalPrice) > $number($b.properties.totalPrice)\n})",
+        "skip": false,
+        "negate": false
+      },
+      "measured": {
+        "width": 514,
+        "height": 399
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-merge-29610bd1-1317-4fa9-b539-f22b5d8fef94",
+      "type": "geojson-merge",
+      "position": {
+        "x": 2720,
+        "y": -660
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-376db558-f2bc-4e65-a7ca-72651e171e5a",
+      "type": "gps-map",
+      "position": {
+        "x": 3220,
+        "y": -1420
+      },
+      "data": {
+        "size": {
+          "width": 1228,
+          "height": 778
+        }
+      },
+      "measured": {
+        "width": 1228,
+        "height": 778
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 1228,
+      "height": 778,
+      "resizing": true
+    },
+    {
+      "id": "geojson-merge-568ecc86-9e7b-4355-bb6b-a23832882876",
+      "type": "geojson-merge",
+      "position": {
+        "x": 2280,
+        "y": -660
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-feature-picker-69903ba6-824f-403e-bb2b-e0708987eee7",
+      "type": "geojson-feature-picker",
+      "position": {
+        "x": 2940,
+        "y": -460
+      },
+      "data": {
+        "featureIndex": 315
+      },
+      "measured": {
+        "width": 499,
+        "height": 184
+      },
+      "selected": true,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-39bc3053-8259-49d2-808b-89c72b1bcb98",
+      "type": "gps-map",
+      "position": {
+        "x": 3480,
+        "y": -460
+      },
+      "data": {
+        "size": {
+          "width": 988,
+          "height": 538
+        }
+      },
+      "measured": {
+        "width": 988,
+        "height": 538
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 988,
+      "height": 538,
+      "resizing": true
+    },
+    {
+      "id": "geojson-style-2600e68a-8445-4c1c-b160-3abfb54bf3bf",
+      "type": "geojson-style",
+      "position": {
+        "x": 1800,
+        "y": -1320
+      },
+      "data": {
+        "style": {
+          "fill": "#d32f2f",
+          "fillSource": "palette",
+          "fillKey": "",
+          "fillBase": "#d32f2f",
+          "stroke": "#d32f2f",
+          "strokeSource": "generated",
+          "strokeKey": "totalPrice",
+          "strokeBase": "#d32f2f",
+          "strokeWidth": 2,
+          "opacity": 0.5
+        },
+        "size": {
+          "width": 439,
+          "height": 505
+        }
+      },
+      "measured": {
+        "width": 439,
+        "height": 505
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 439,
+      "height": 505,
+      "resizing": true
+    },
+    {
+      "id": "geojson-style-e443a5ea-6e1f-4885-8daa-c1aded92a65d",
+      "type": "geojson-style",
+      "position": {
+        "x": 1800,
+        "y": -800
+      },
+      "data": {
+        "style": {
+          "fill": "#31d362",
+          "fillSource": "palette",
+          "fillKey": "",
+          "fillBase": "#d32f2f",
+          "stroke": "#31d34c",
+          "strokeSource": "generated",
+          "strokeKey": "totalPrice",
+          "strokeBase": "#31d359",
+          "strokeWidth": 2,
+          "opacity": 0.5
+        },
+        "size": {
+          "width": 439,
+          "height": 525
+        }
+      },
+      "measured": {
+        "width": 439,
+        "height": 525
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 439,
+      "height": 525,
+      "resizing": true
+    },
+    {
+      "id": "geojson-style-190f5c4d-24bb-42c9-829e-773b60452570",
+      "type": "geojson-style",
+      "position": {
+        "x": 1800,
+        "y": -260
+      },
+      "data": {
+        "style": {
+          "fill": "#4c31d3",
+          "fillSource": "palette",
+          "fillKey": "",
+          "fillBase": "#d32f2f",
+          "stroke": "#3c31d3",
+          "strokeSource": "generated",
+          "strokeKey": "totalPrice",
+          "strokeBase": "#3c31d3",
+          "strokeWidth": 2,
+          "opacity": 0.5
+        },
+        "size": {
+          "width": 439,
+          "height": 525
+        }
+      },
+      "measured": {
+        "width": 439,
+        "height": 525
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 439,
+      "height": 525,
+      "resizing": true
+    },
+    {
+      "id": "geojson-style-8f9477aa-6736-473b-8035-50afcb2e75ed",
+      "type": "geojson-style",
+      "position": {
+        "x": 3000,
+        "y": -260
+      },
+      "data": {
+        "style": {
+          "fill": "#d32f2f",
+          "fillSource": "palette",
+          "fillKey": "",
+          "fillBase": "#d32f2f",
+          "stroke": "#d32f2f",
+          "strokeSource": "palette",
+          "strokeKey": "",
+          "strokeBase": "#d32f2f",
+          "strokeWidth": 9,
+          "opacity": 1
+        }
+      },
+      "measured": {
+        "width": 440,
+        "height": 393
+      },
+      "selected": false,
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "type": "default",
+      "source": "flight-path-d24446e2-eb1a-47fb-93cd-114413d589d0",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-83c1c408-5f92-49a4-b52e-6d5c63eb5ea8",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__flight-path-1geojson-geojson-merge-83c1c408-5f92-49a4-b52e-6d5c63eb5ea8geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "flight-path-d24446e2-eb1a-47fb-93cd-114413d589d0",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-75ae563d-dc74-4c76-8e97-a30e25e08cd7",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__flight-path-1geojson-geojson-merge-75ae563d-dc74-4c76-8e97-a30e25e08cd7geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-83c1c408-5f92-49a4-b52e-6d5c63eb5ea8",
+      "sourceHandle": "geojson",
+      "target": "shortest-route-72762a29-8ca6-4da1-9362-77cdf5344b3f",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-merge-83c1c408-5f92-49a4-b52e-6d5c63eb5ea8geojson-shortest-route-72762a29-8ca6-4da1-9362-77cdf5344b3fgeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-75ae563d-dc74-4c76-8e97-a30e25e08cd7",
+      "sourceHandle": "geojson",
+      "target": "shortest-route-1",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-merge-75ae563d-dc74-4c76-8e97-a30e25e08cd7geojson-shortest-route-1geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-18b4775d-6128-454b-b49e-38b2874671ba",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-29610bd1-1317-4fa9-b539-f22b5d8fef94",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__geojson-merge-18b4775d-6128-454b-b49e-38b2874671bageojson-geojson-merge-29610bd1-1317-4fa9-b539-f22b5d8fef94geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-d74de396-0d9d-4730-9315-19b545d587f4",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-29610bd1-1317-4fa9-b539-f22b5d8fef94",
+      "targetHandle": "geojson-3",
+      "id": "xy-edge__geojson-merge-d74de396-0d9d-4730-9315-19b545d587f4geojson-geojson-merge-29610bd1-1317-4fa9-b539-f22b5d8fef94geojson-3",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-29610bd1-1317-4fa9-b539-f22b5d8fef94",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-0badccd8-b9c8-4705-8109-acd0d36264c4",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-merge-29610bd1-1317-4fa9-b539-f22b5d8fef94geojson-geojson-jsonata-0badccd8-b9c8-4705-8109-acd0d36264c4geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-0badccd8-b9c8-4705-8109-acd0d36264c4",
+      "sourceHandle": "geojson",
+      "target": "gps-map-376db558-f2bc-4e65-a7ca-72651e171e5a",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-jsonata-0badccd8-b9c8-4705-8109-acd0d36264c4geojson-gps-map-376db558-f2bc-4e65-a7ca-72651e171e5ageojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-c49d7c57-8d1c-40d3-a755-f223f4b0bc18",
+      "sourceHandle": "geojson",
+      "target": "shortest-route-e187c7f5-9371-498f-b911-24bb09709bb2",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-merge-c49d7c57-8d1c-40d3-a755-f223f4b0bc18geojson-shortest-route-e187c7f5-9371-498f-b911-24bb09709bb2geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-568ecc86-9e7b-4355-bb6b-a23832882876",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-29610bd1-1317-4fa9-b539-f22b5d8fef94",
+      "targetHandle": "geojson-2",
+      "id": "xy-edge__geojson-merge-568ecc86-9e7b-4355-bb6b-a23832882876geojson-geojson-merge-29610bd1-1317-4fa9-b539-f22b5d8fef94geojson-2",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-0badccd8-b9c8-4705-8109-acd0d36264c4",
+      "sourceHandle": "geojson",
+      "target": "geojson-feature-picker-69903ba6-824f-403e-bb2b-e0708987eee7",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-jsonata-0badccd8-b9c8-4705-8109-acd0d36264c4geojson-geojson-feature-picker-69903ba6-824f-403e-bb2b-e0708987eee7geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "flight-path-d24446e2-eb1a-47fb-93cd-114413d589d0",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-c49d7c57-8d1c-40d3-a755-f223f4b0bc18",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__flight-path-d24446e2-eb1a-47fb-93cd-114413d589d0geojson-geojson-merge-c49d7c57-8d1c-40d3-a755-f223f4b0bc18geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "shortest-route-72762a29-8ca6-4da1-9362-77cdf5344b3f",
+      "sourceHandle": "geojson",
+      "target": "geojson-style-2600e68a-8445-4c1c-b160-3abfb54bf3bf",
+      "targetHandle": "geojson",
+      "id": "xy-edge__shortest-route-72762a29-8ca6-4da1-9362-77cdf5344b3fgeojson-geojson-style-2600e68a-8445-4c1c-b160-3abfb54bf3bfgeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-style-2600e68a-8445-4c1c-b160-3abfb54bf3bf",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-18b4775d-6128-454b-b49e-38b2874671ba",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__geojson-style-2600e68a-8445-4c1c-b160-3abfb54bf3bfgeojson-geojson-merge-18b4775d-6128-454b-b49e-38b2874671bageojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-style-e443a5ea-6e1f-4885-8daa-c1aded92a65d",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-568ecc86-9e7b-4355-bb6b-a23832882876",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__geojson-style-e443a5ea-6e1f-4885-8daa-c1aded92a65dgeojson-geojson-merge-568ecc86-9e7b-4355-bb6b-a23832882876geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "shortest-route-e187c7f5-9371-498f-b911-24bb09709bb2",
+      "sourceHandle": "geojson",
+      "target": "geojson-style-e443a5ea-6e1f-4885-8daa-c1aded92a65d",
+      "targetHandle": "geojson",
+      "id": "xy-edge__shortest-route-e187c7f5-9371-498f-b911-24bb09709bb2geojson-geojson-style-e443a5ea-6e1f-4885-8daa-c1aded92a65dgeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "shortest-route-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-style-190f5c4d-24bb-42c9-829e-773b60452570",
+      "targetHandle": "geojson",
+      "id": "xy-edge__shortest-route-1geojson-geojson-style-190f5c4d-24bb-42c9-829e-773b60452570geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-style-190f5c4d-24bb-42c9-829e-773b60452570",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-d74de396-0d9d-4730-9315-19b545d587f4",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__geojson-style-190f5c4d-24bb-42c9-829e-773b60452570geojson-geojson-merge-d74de396-0d9d-4730-9315-19b545d587f4geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-feature-picker-69903ba6-824f-403e-bb2b-e0708987eee7",
+      "sourceHandle": "geojson",
+      "target": "geojson-style-8f9477aa-6736-473b-8035-50afcb2e75ed",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-feature-picker-69903ba6-824f-403e-bb2b-e0708987eee7geojson-geojson-style-8f9477aa-6736-473b-8035-50afcb2e75edgeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-style-8f9477aa-6736-473b-8035-50afcb2e75ed",
+      "sourceHandle": "geojson",
+      "target": "gps-map-39bc3053-8259-49d2-808b-89c72b1bcb98",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-style-8f9477aa-6736-473b-8035-50afcb2e75edgeojson-gps-map-39bc3053-8259-49d2-808b-89c72b1bcb98geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    }
+  ]
+}
