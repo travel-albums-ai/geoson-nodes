@@ -1,0 +1,143 @@
+{
+  "name": "GDELT distinct URL's",
+  "nodes": [
+    {
+      "id": "gdelt-events-loader-6c867fc7-56c6-4089-8ada-00765a96b231",
+      "type": "gdelt-events-loader",
+      "position": {
+        "x": 120,
+        "y": 400
+      },
+      "data": {
+        "fileKey": "geojson-file-1791820828963-ll68d7",
+        "fetchedAt": 1791820829422,
+        "featureCount": 113963,
+        "fileName": "20261007.export.CSV.zip"
+      },
+      "measured": {
+        "width": 413,
+        "height": 254
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-viewer-0f4a5186-dfe4-4175-95f3-10aa88f285ad",
+      "type": "geojson-viewer",
+      "position": {
+        "x": 400,
+        "y": 800
+      },
+      "data": {
+        "size": {
+          "width": 508,
+          "height": 500
+        }
+      },
+      "measured": {
+        "width": 508,
+        "height": 500
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 508,
+      "height": 500,
+      "resizing": true
+    },
+    {
+      "id": "geojson-viewer-c78068c3-8ef9-492f-98ba-8b36825218df",
+      "type": "geojson-viewer",
+      "position": {
+        "x": 940,
+        "y": 800
+      },
+      "data": {
+        "size": {
+          "width": 508,
+          "height": 500
+        }
+      },
+      "measured": {
+        "width": 508,
+        "height": 500
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 508,
+      "height": 500,
+      "resizing": true
+    },
+    {
+      "id": "geojson-jsonata-cff4420a-4ee0-4ffa-9a5e-b6b2d5db768a",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 760,
+        "y": 400
+      },
+      "data": {
+        "query": "$each(features{properties.SOURCEURL: $}, function($v) { $v[0] })"
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "post-it-7d9b5e04-92b5-45e2-9583-827c38d8bfe3",
+      "type": "post-it",
+      "position": {
+        "x": 1300,
+        "y": 460
+      },
+      "data": {
+        "text": "distinct URLs"
+      },
+      "measured": {
+        "width": 400,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "type": "default",
+      "source": "gdelt-events-loader-6c867fc7-56c6-4089-8ada-00765a96b231",
+      "sourceHandle": "geojson",
+      "target": "geojson-viewer-0f4a5186-dfe4-4175-95f3-10aa88f285ad",
+      "targetHandle": "geojson",
+      "id": "xy-edge__gdelt-events-loader-6c867fc7-56c6-4089-8ada-00765a96b231geojson-geojson-viewer-0f4a5186-dfe4-4175-95f3-10aa88f285adgeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "gdelt-events-loader-6c867fc7-56c6-4089-8ada-00765a96b231",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-cff4420a-4ee0-4ffa-9a5e-b6b2d5db768a",
+      "targetHandle": "geojson",
+      "id": "xy-edge__gdelt-events-loader-6c867fc7-56c6-4089-8ada-00765a96b231geojson-geojson-jsonata-cff4420a-4ee0-4ffa-9a5e-b6b2d5db768ageojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-cff4420a-4ee0-4ffa-9a5e-b6b2d5db768a",
+      "sourceHandle": "geojson",
+      "target": "geojson-viewer-c78068c3-8ef9-492f-98ba-8b36825218df",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-jsonata-cff4420a-4ee0-4ffa-9a5e-b6b2d5db768ageojson-geojson-viewer-c78068c3-8ef9-492f-98ba-8b36825218dfgeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    }
+  ]
+}

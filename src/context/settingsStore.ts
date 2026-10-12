@@ -26,7 +26,7 @@ const defaults: SettingsStore = {
   newVersion: false,
   helpIndependent: false,
   performanceMode: false,
-  templatesOpen: false,
+  templatesOpen: true,
   themeMode: 'light',
   themeId: 'default',
   tutorial: false,
