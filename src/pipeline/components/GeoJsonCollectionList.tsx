@@ -2,35 +2,27 @@ import NewChip from '@/components/NewChip';
 import GeoJsonFeaturePreview from '@/pipeline/components/GeoJsonFeaturePreview';
 import type { GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/types/types';
 import { Box, Button, Tooltip, Typography } from '@mui/material';
-import { useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Virtuoso } from 'react-virtuoso';
+import { VirtuosoGrid, type GridComponents } from 'react-virtuoso';
 
-type CollectionType = GeoJsonFeatureCollectionArray[number];
+const CARD_HEIGHT = 240;
+const CARD_MIN_WIDTH = 280;
 
-type ListRow =
-  | { type: 'header'; key: string; collection: CollectionType }
-  | { type: 'feature'; key: string; feature: GeoJsonFeature; isLastInCollection: boolean };
+type FeatureEntry = { key: string; feature: GeoJsonFeature };
 
-function CollectionHeader({ collection }: { collection: CollectionType }) {
-  const { t } = useTranslation();
+const GridList: GridComponents['List'] = forwardRef(function GridList({ style, ...props }, ref) {
   return (
-    <Box sx={{ pt: 0, pb: 0 }}>
-      <Typography variant="body2" sx={{ fontWeight: 600 }}>
-        {collection.city || t('pipelineGeoJsonUnknownCity')}
-      </Typography>
-      <Typography variant="caption" color="textSecondary" component="div">
-        {collection.source}
-      </Typography>
-      <Typography variant="caption" color="textSecondary" component="div" sx={{ wordBreak: 'break-all' }}>
-        {collection.url}
-      </Typography>
-      <Typography variant="caption" component="div">
-        {t('pipelineGeoJsonFeatureCount', { count: collection.features.length })}
-      </Typography>
-    </Box>
+    <Box
+      {...props}
+      ref={ref}
+      style={style}
+      sx={{ display: 'grid', gridTemplateColumns: `repeat(auto-fill, minmax(${CARD_MIN_WIDTH}px, 1fr))`, gap: 1 }}
+    />
   );
-}
+});
+
+const gridComponents = { List: GridList };
 
 const excludedProperties = ['name', 'name_en', 'title', 'SQLDATE', 'EventCode', 'EventRootCode', 'GLOBALEVENTID', 'Actor1Name', 'Actor2Name', 'QuadClass', "GoldsteinScale", 'AvgTone', 'ActionGeo_CountryCode', 'Actor1CountryCode', 'website', 'Actor2CountryCode', 'DATEADDED', "SOURCEURL", "ActionGeo_FullName"];
 
@@ -38,7 +30,7 @@ const urlProperties = ['SOURCEURL', 'url', 'website', 'link', 'source', 'source_
 
 const parseProperties = ['SOURCEURL']
 
-function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; isLastInCollection: boolean }) {
+function FeatureRow({ feature }: { feature: GeoJsonFeature }) {
   const { t } = useTranslation();
   const name = feature.properties?.name || feature.properties?.name_en || feature.properties?.title;
   const geometryType = feature.geometry?.type;
@@ -46,48 +38,53 @@ function FeatureRow({ feature, isLastInCollection }: { feature: GeoJsonFeature; 
     <Box
       sx={{
         display: 'flex',
-        alignItems: 'center',
-        gap: 1,
+        flexDirection: 'column',
+        gap: 0.5,
         minWidth: 0,
-        pt: 0.5,
-        pb: 1,
-        borderBottom: '1px dotted',
+        height: CARD_HEIGHT,
+        p: 1,
+        overflow: 'hidden',
+        border: '1px dotted',
         borderColor: 'divider',
+        borderRadius: 2,
       }}
     >
-      <GeoJsonFeaturePreview feature={feature} />
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0 }}>
+        <GeoJsonFeaturePreview feature={feature} />
 
-      <Box sx={{ minWidth: 0 }}>
-        <Tooltip title={`${Object.keys(feature.properties ?? {}).length ?? 0} - ${JSON.stringify(feature.properties ?? {})}`} arrow>
-          <Typography variant="caption" component="div" noWrap>
-            {typeof name === 'string' && name.length > 0 ? name : t('pipelineGeoJsonUnnamedFeature')}
-          </Typography>
-        </Tooltip>
-        {typeof geometryType === 'string' && (
-          <Typography variant="caption" color="textSecondary" component="div" noWrap>
-            {geometryType}
-          </Typography>
-        )}
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
-          {Object.entries(feature.properties ?? {})
-            .filter(([key]) => parseProperties.includes(key))
-            .map(([key, value]) => {
-              const parsedValue = String(value || '')
-                .replace("http://", "")
-                .replace("https://", "")
-                .replaceAll('"', ' ')
-                .replaceAll('-', ' ')
-                .replaceAll('www.', '')
-                .replaceAll('.html', '')
-                .split('/')
-                .join(' ');
-
-              return (
-                <textarea readOnly value={parsedValue} style={{ width: '400px', resize: 'none', height: '100px', border: '0', outline: 'none' }} />
-              );
-            })}
+        <Box sx={{ minWidth: 0, flex: 1 }}>
+          <Tooltip title={`${Object.keys(feature.properties ?? {}).length ?? 0} - ${JSON.stringify(feature.properties ?? {})}`} arrow>
+            <Typography variant="caption" component="div" noWrap>
+              {typeof name === 'string' && name.length > 0 ? name : t('pipelineGeoJsonUnnamedFeature')}
+            </Typography>
+          </Tooltip>
+          {typeof geometryType === 'string' && (
+            <Typography variant="caption" color="textSecondary" component="div" noWrap>
+              {geometryType}
+            </Typography>
+          )}
         </Box>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1, maxHeight: '100px', overflow: 'auto' }}>
+      </Box>
+
+      <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto', display: 'flex', flexDirection: 'column', gap: 1 }}>
+        {Object.entries(feature.properties ?? {})
+          .filter(([key]) => parseProperties.includes(key))
+          .map(([key, value]) => {
+            const parsedValue = String(value || '')
+              .replace("http://", "")
+              .replace("https://", "")
+              .replaceAll('"', ' ')
+              .replaceAll('-', ' ')
+              .replaceAll('www.', '')
+              .replaceAll('.html', '')
+              .split('/')
+              .join(' ');
+
+            return (
+              <textarea key={key} readOnly value={parsedValue} style={{ fontFamily: 'inherit', width: '100%', resize: 'none', height: '100px', border: '0', outline: 'none' }} />
+            );
+          })}
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
           {Object.entries(feature.properties ?? {})
             .filter(([key]) => urlProperties.includes(key))
             .map(([key, value]) => (
@@ -115,39 +112,28 @@ type GeoJsonCollectionListProps = {
 };
 
 export default function GeoJsonCollectionList({ collections, emptyMessage }: GeoJsonCollectionListProps) {
-  const sortedCollections = useMemo(
-    () => [...(collections ?? [])].sort((a, b) => (a.city || '').localeCompare(b.city || '')),
-    [collections],
-  );
-  const rows = useMemo<ListRow[]>(
+  const entries = useMemo<FeatureEntry[]>(
     () =>
-      sortedCollections.flatMap((collection, collectionIndex) => [
-        { type: 'header' as const, key: `header-${collectionIndex}`, collection },
-        ...collection.features.map((feature, featureIndex) => ({
-          type: 'feature' as const,
-          key: `feature-${collectionIndex}-${featureIndex}`,
-          feature,
-          isLastInCollection: featureIndex === collection.features.length - 1,
-        })),
-      ]),
-    [sortedCollections],
+      [...(collections ?? [])]
+        .sort((a, b) => (a.city || '').localeCompare(b.city || ''))
+        .flatMap((collection, collectionIndex) =>
+          collection.features.map((feature, featureIndex) => ({
+            key: `feature-${collectionIndex}-${featureIndex}`,
+            feature,
+          })),
+        ),
+    [collections],
   );
 
   return (
     <Box className="nowheel" sx={{ width: '100%', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
-      {sortedCollections.length > 0 ? (
-        <Virtuoso
+      {entries.length > 0 ? (
+        <VirtuosoGrid
           style={{ height: '100%', minHeight: 100 }}
-          data={rows}
-          defaultItemHeight={44}
-          computeItemKey={(_, row) => row.key}
-          itemContent={(_, row) =>
-            row.type === 'header' ? (
-              <CollectionHeader collection={row.collection} />
-            ) : (
-              <FeatureRow feature={row.feature} isLastInCollection={row.isLastInCollection} />
-            )
-          }
+          data={entries}
+          computeItemKey={(_, entry) => entry.key}
+          components={gridComponents}
+          itemContent={(_, entry) => <FeatureRow feature={entry.feature} />}
         />
       ) : (
         <Typography variant="body2" color="textSecondary" sx={{ py: 2 }}>
