@@ -28,6 +28,11 @@ const excludedProperties = ['name', 'name_en', 'title', 'SQLDATE', 'EventCode', 
 
 const urlProperties = ['SOURCEURL', 'url', 'website', 'link', 'source', 'source_url', 'sourceUrl', 'url_source', 'urlSource', 'url_source_url', 'url_sourceUrl', 'url_source_url_source', 'url_source_urlSource'];
 
+const isWebsiteLike = (token: string) =>
+  /^(https?:\/\/|www\.)/i.test(token) || /^([a-z0-9-]+\.)+[a-z]{2,}([:/?#].*)?$/i.test(token);
+
+const isNumberOnly = (token: string) => /^\d+([.,]\d+)*$/.test(token);
+
 const parseProperties = ['SOURCEURL']
 
 function FeatureRow({ feature }: { feature: GeoJsonFeature }) {
@@ -71,6 +76,7 @@ function FeatureRow({ feature }: { feature: GeoJsonFeature }) {
           .filter(([key]) => parseProperties.includes(key))
           .map(([key, value]) => {
             const parsedValue = String(value || '')
+              // .replace(/[^\s"]+/g, (token) => (isWebsiteLike(token) || isNumberOnly(token) ? '' : token))
               .replace("http://", "")
               .replace("https://", "")
               .replaceAll('"', ' ')
