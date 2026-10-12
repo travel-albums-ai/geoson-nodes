@@ -387,8 +387,13 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       const from = (inputs.from as Airport | null | undefined)?.iata;
       const to = (inputs.to as Airport | null | undefined)?.iata;
       const via = ((inputs.via as Airport[] | undefined) ?? []).map((airport) => airport.iata);
+      const geojson = filterFlightRoutes(collections, from, to, via);
 
-      return { geojson: filterFlightRoutes(collections, from, to, via) };
+      return {
+        geojson,
+        inputCount: countGeoJsonFeatures(collections),
+        outputCount: countGeoJsonFeatures(geojson),
+      };
     },
   },
 };
@@ -717,6 +722,18 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
     workerScope.postMessage({
       type: "geojson-jsonata-counts",
+      evaluationId,
+      nodeId: node.id,
+      inputCount: (nodeOutputs.inputCount as number | undefined) ?? 0,
+      outputCount: (nodeOutputs.outputCount as number | undefined) ?? 0,
+    });
+  }
+
+  for (const node of nodes.filter((candidate) => candidate.type === "shortest-route")) {
+    const nodeOutputs = await evaluateNode(node.id);
+
+    workerScope.postMessage({
+      type: "shortest-route-counts",
       evaluationId,
       nodeId: node.id,
       inputCount: (nodeOutputs.inputCount as number | undefined) ?? 0,

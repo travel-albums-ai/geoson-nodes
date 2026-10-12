@@ -97,6 +97,9 @@ export const GEOJSON_JSONATA_COUNTS_EVENT = 'geojson-jsonata:counts';
 // Window event carrying how many features enter each input of the within-area node and how many leave it.
 export const GEOJSON_WITHIN_AREA_COUNTS_EVENT = 'geojson-within-area:counts';
 
+// Window event carrying how many features enter the shortest route node and how many routes leave it.
+export const SHORTEST_ROUTE_COUNTS_EVENT = 'shortest-route:counts';
+
 // Window event carrying how many features the URL loader fetched.
 export const URL_GEOJSON_LOADER_COUNTS_EVENT = 'url-geojson-loader:counts';
 
@@ -229,6 +232,14 @@ export type PipelineGeoJsonWithinAreaCountsMessage = {
   outputCount: number;
 };
 
+export type PipelineShortestRouteCountsMessage = {
+  type: "shortest-route-counts";
+  evaluationId: number;
+  nodeId: string;
+  inputCount: number;
+  outputCount: number;
+};
+
 export type PipelineUrlGeoJsonLoaderCountsMessage = {
   type: "url-geojson-loader-counts";
   evaluationId: number;
@@ -260,6 +271,7 @@ export type PipelineWorkerOutbound =
   | PipelineGeoJsonSwitchCountsMessage
   | PipelineGeoJsonJsonataCountsMessage
   | PipelineGeoJsonWithinAreaCountsMessage
+  | PipelineShortestRouteCountsMessage
   | PipelineUrlGeoJsonLoaderCountsMessage
   | PipelineDoneMessage
   | PipelineErrorMessage;

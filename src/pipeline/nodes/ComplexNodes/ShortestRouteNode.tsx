@@ -1,17 +1,25 @@
+import NewChip from '@/components/NewChip';
 import { loadAirports } from '@/lib/airports';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
-import type { Airport } from '@/types/types';
+import { SHORTEST_ROUTE_COUNTS_EVENT, type Airport } from '@/types/types';
 import { Stack, TextField, Typography } from '@mui/material';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
+import { LogIn, LogOut } from 'lucide-react';
 import { useCallback, useEffect, useState, type HTMLAttributes, type Key } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type ShortestRouteNodeData = { from?: Airport | null; to?: Airport | null; via?: Airport[] };
 type EndpointSide = 'from' | 'to';
+
+type ShortestRouteCountsEventDetail = {
+  nodeId: string;
+  inputCount: number;
+  outputCount: number;
+};
 
 const filterAirports = createFilterOptions<Airport>({
   limit: 50,
@@ -23,8 +31,22 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
   const { setNodes } = useReactFlow();
   const [airports, setAirports] = useState<Airport[]>([]);
   const [loadIssue, setLoadIssue] = useState<string | null>(null);
+  const [counts, setCounts] = useState<ShortestRouteCountsEventDetail | null>(null);
   const sameEndpoints = data.from && data.to && data.from.iata === data.to.iata;
   const hasStops = (data.via?.length ?? 0) > 0;
+
+  useEffect(() => {
+    const handleCounts = (event: Event) => {
+      const detail = (event as CustomEvent<ShortestRouteCountsEventDetail>).detail;
+
+      if (detail.nodeId === id) {
+        setCounts(detail);
+      }
+    };
+
+    window.addEventListener(SHORTEST_ROUTE_COUNTS_EVENT, handleCounts);
+    return () => window.removeEventListener(SHORTEST_ROUTE_COUNTS_EVENT, handleCounts);
+  }, [id]);
 
   useEffect(() => {
     let active = true;
@@ -76,7 +98,29 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="shortest-route" tools={<PipelineStageTiming nodeId={id} nodeType={'shortest-route'} />}>
+      <NodeWrapper
+        type="shortest-route"
+        inputCounts={
+          <NewChip
+            count={counts?.inputCount ?? 0}
+            label={''}
+            icon={<LogIn size={16} />}
+            tooltip={t('pipelineShortestRouteEntering')}
+            fontSize={12}
+          />
+        }
+        outputCounts={
+          <NewChip
+            variant="important"
+            count={counts?.outputCount ?? 0}
+            label={''}
+            icon={<LogOut size={16} />}
+            tooltip={t('pipelineShortestRouteLeaving')}
+            fontSize={12}
+          />
+        }
+        tools={<PipelineStageTiming nodeId={id} nodeType={'shortest-route'} />}
+      >
         <Typography variant="caption" color="text.secondary" component="div" sx={{ pb: 1 }}>
           {t('pipelineShortestRouteHint')}
         </Typography>

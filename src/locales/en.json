@@ -385,6 +385,8 @@
   "pipelineShortestRouteRoundTripHint": "Add at least one stop to make a round trip.",
   "pipelineShortestRouteFrom": "From airport",
   "pipelineShortestRouteTo": "To airport",
+  "pipelineShortestRouteEntering": "Features entering the route search",
+  "pipelineShortestRouteLeaving": "Routes leaving the route search",
   "pipelineGeoJsonMergeDescription": "Concatenates the GeoJSON collections from up to four inputs into one list.",
   "pipelineGeoJsonSwitchDescription": "Passes on input A by default. With the switch on, passes on input B instead. The unused input is ignored.",
   "pipelineGeoJsonUnionDescription": "Keeps each distinct feature found in either of the two inputs. Features match when their full content is the same.",
