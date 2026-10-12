@@ -232,7 +232,6 @@ export default function NodeWrapper({
 
             }}
           >
-            {nodeId}
             {tools && tools}
           </NodeHeader>
         )}
@@ -260,7 +259,7 @@ export default function NodeWrapper({
         >
           {children}
         </Box>}
-        <Box sx={{ p: 1, display: 'flex', flexDirection: 'row', gap: 1, justifyContent: 'space-between',
+        {(inputCounts || outputCounts) && <Box sx={{ p: 1, display: 'flex', flexDirection: 'row', gap: 1, justifyContent: 'space-between',
           bgcolor: theme =>
             hasUnconnectedHandle
               ? `color-mix(in srgb, ${theme.palette.primary.light} 10%, ${theme.palette.background.paper} 85%)`
@@ -272,7 +271,7 @@ export default function NodeWrapper({
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
             {outputCounts && outputCounts}
           </Box>
-        </Box>
+        </Box>}
       </Box>
     </>
   );

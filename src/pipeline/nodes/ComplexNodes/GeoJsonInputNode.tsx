@@ -113,7 +113,7 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fil
           <NewChip label={file.name} fontSize={12} icon={<FileJson size={16} />}  />
         )}
         {counts?.collections !== undefined && <NewChip count={counts?.collections ?? 0} label={''} fontSize={12} icon={<Layers size={16} />} />}
-        {featureCount !== undefined && <NewChip count={featureCount} variant="important" label={''} fontSize={12} icon={<LogOut size={16} />}  />}
+        {featureCount !== 0 && <NewChip count={featureCount} variant="important" label={''} fontSize={12} icon={<LogOut size={16} />}  />}
       </>}
       tools={
         <PipelineStageTiming nodeId={id} nodeType={'geojson-input'} />

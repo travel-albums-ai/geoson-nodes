@@ -21,7 +21,7 @@ type SettingsStore = {
 }
 
 const defaults: SettingsStore = {
-  onboarding: true,
+  onboarding: false,
   onboardingStep: 0,
   newVersion: false,
   helpIndependent: false,

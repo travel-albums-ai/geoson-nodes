@@ -116,11 +116,10 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
           </TextField>
           <Button sx={{ flex: '0 0 auto'}}
             variant="outlined"
-            startIcon={<RefreshCw size={14} />}
             onClick={refreshFileNames}
             disabled={refreshing}
           >
-            {t('pipelineGdeltEventsLoaderRefresh')}
+            <RefreshCw size={16} />
           </Button>
         </Box>
         <Button

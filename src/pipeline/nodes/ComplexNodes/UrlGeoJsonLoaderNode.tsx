@@ -8,7 +8,7 @@ import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { URL_GEOJSON_LOADER_COUNTS_EVENT } from '@/types/types';
 import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { Clock, Download, LogOut } from 'lucide-react';
+import { Clock, Download, LogOut, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -124,7 +124,7 @@ function UrlGeoJsonLoaderNode({ id, data }: NodeProps<Node<UrlGeoJsonLoaderNodeD
         {!error && data.fetchedAt !== undefined && (
           <NewChip count={new Date(data.fetchedAt).toLocaleTimeString(i18n.language)} icon={<Clock />} label="Loaded" sx={{ height: 30 }} fontSize={12} />
         )}
-        {counts?.outputCount !== 0 && <NewChip
+        {counts?.outputCount !== undefined && counts?.outputCount !== 0 && <NewChip
           variant="important"
           count={counts?.outputCount ?? 0}
           label={''}
@@ -166,7 +166,7 @@ function UrlGeoJsonLoaderNode({ id, data }: NodeProps<Node<UrlGeoJsonLoaderNodeD
             }}
           />
           <Button size="small" variant="outlined" onClick={addEntry} disabled={!newUrl.trim()}>
-            {t('pipelineUrlGeoJsonLoaderAdd')}
+            <Plus size={16} />
           </Button>
         </Box>
         <Button
