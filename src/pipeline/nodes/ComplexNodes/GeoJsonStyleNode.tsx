@@ -1,10 +1,11 @@
 import { DEFAULT_GEOJSON_STYLE, GEOJSON_STROKE_WIDTH, listFeaturePropertyKeys, readGeoJsonStyleSettings, type GeoJsonColorSource, type GeoJsonStyleSettings } from '@/lib/geojsonStyle';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
+import LabeledSlider from '@/pipeline/components/LabeledSlider';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
-import { Box, MenuItem, Slider, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Box, MenuItem, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -119,31 +120,23 @@ function GeoJsonStyleNode({ id, data }: NodeProps<Node<{ style?: Partial<GeoJson
             propertyKeys={propertyKeys}
             onChange={(next) => updateStyle({ strokeSource: next.source, stroke: next.color, strokeKey: next.key, strokeBase: next.base })}
           />
-          <Box>
-            <Typography variant="body2" color="text.secondary">
-              {t('pipelineGeoJsonStyleStrokeWidth', { value: style.strokeWidth })}
-            </Typography>
-            <Slider
-              size="small"
-              min={GEOJSON_STROKE_WIDTH.min}
-              max={GEOJSON_STROKE_WIDTH.max}
-              step={GEOJSON_STROKE_WIDTH.step}
-              value={style.strokeWidth}
-              onChange={(_, value) => updateStyle({ strokeWidth: value as number })}
-            />
-          </Box>
-          <Box>
-            <Typography variant="body2" color="text.secondary">
-              {t('pipelineGeoJsonStyleOpacity', { value: Math.round(style.opacity * 100) })}
-            </Typography>
-            <Slider
-              size="small"
-              min={0}
-              max={100}
-              value={Math.round(style.opacity * 100)}
-              onChange={(_, value) => updateStyle({ opacity: (value as number) / 100 })}
-            />
-          </Box>
+          <LabeledSlider
+            label={t('pipelineGeoJsonStyleStrokeWidth')}
+            value={style.strokeWidth}
+            valueText={`${style.strokeWidth} px`}
+            min={GEOJSON_STROKE_WIDTH.min}
+            max={GEOJSON_STROKE_WIDTH.max}
+            step={GEOJSON_STROKE_WIDTH.step}
+            onChange={(strokeWidth) => updateStyle({ strokeWidth })}
+          />
+          <LabeledSlider
+            label={t('pipelineGeoJsonStyleOpacity')}
+            value={Math.round(style.opacity * 100)}
+            valueText={`${Math.round(style.opacity * 100)}%`}
+            min={0}
+            max={100}
+            onChange={(opacity) => updateStyle({ opacity: opacity / 100 })}
+          />
         </Box>
         <OutputHandle id="geojson" position={Position.Bottom} />
       </NodeWrapper>

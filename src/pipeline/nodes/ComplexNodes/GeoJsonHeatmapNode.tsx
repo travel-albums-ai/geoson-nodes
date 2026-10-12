@@ -1,10 +1,11 @@
 import { HEATMAP_COMPLEXITY, HEATMAP_GRANULARITY, HEATMAP_SMOOTHING, readGeoJsonHeatmapSettings, type GeoJsonHeatmapSettings } from '@/lib/geojsonHeatmap';
 import { InputHandle } from '@/pipeline/components/InputHandle';
+import LabeledSlider from '@/pipeline/components/LabeledSlider';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
-import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { GEOJSON_HEATMAP_KEYS_EVENT } from '@/types/types';
-import { Box, MenuItem, Slider, TextField, Typography } from '@mui/material';
+import { Box, MenuItem, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -50,45 +51,33 @@ function GeoJsonHeatmapNode({ id, data }: NodeProps<Node<{ heatmap?: Partial<Geo
           {t('pipelineGeoJsonHeatmapHint')}
         </Typography>
         <Box className="nodrag nopan" sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-          <Box>
-            <Typography variant="body2" color="text.secondary">
-              {t('pipelineGeoJsonHeatmapGranularity', { value: settings.granularity })}
-            </Typography>
-            <Slider
-              size="small"
-              min={HEATMAP_GRANULARITY.min}
-              max={HEATMAP_GRANULARITY.max}
-              step={HEATMAP_GRANULARITY.step}
-              value={settings.granularity}
-              onChange={(_, value) => updateSettings({ granularity: value as number })}
-            />
-          </Box>
-          <Box>
-            <Typography variant="body2" color="text.secondary">
-              {t('pipelineGeoJsonHeatmapComplexity', { value: settings.complexity })}
-            </Typography>
-            <Slider
-              size="small"
-              min={HEATMAP_COMPLEXITY.min}
-              max={HEATMAP_COMPLEXITY.max}
-              step={HEATMAP_COMPLEXITY.step}
-              value={settings.complexity}
-              onChange={(_, value) => updateSettings({ complexity: value as number })}
-            />
-          </Box>
-          <Box>
-            <Typography variant="body2" color="text.secondary">
-              {t('pipelineGeoJsonHeatmapSmoothing', { value: settings.smoothing })}
-            </Typography>
-            <Slider
-              size="small"
-              min={HEATMAP_SMOOTHING.min}
-              max={HEATMAP_SMOOTHING.max}
-              step={HEATMAP_SMOOTHING.step}
-              value={settings.smoothing}
-              onChange={(_, value) => updateSettings({ smoothing: value as number })}
-            />
-          </Box>
+          <LabeledSlider
+            label={t('pipelineGeoJsonHeatmapGranularity')}
+            value={settings.granularity}
+            valueText={`${settings.granularity}`}
+            min={HEATMAP_GRANULARITY.min}
+            max={HEATMAP_GRANULARITY.max}
+            step={HEATMAP_GRANULARITY.step}
+            onChange={(value) => updateSettings({ granularity: value })}
+          />
+          <LabeledSlider
+            label={t('pipelineGeoJsonHeatmapComplexity')}
+            value={settings.complexity}
+            valueText={`${settings.complexity}`}
+            min={HEATMAP_COMPLEXITY.min}
+            max={HEATMAP_COMPLEXITY.max}
+            step={HEATMAP_COMPLEXITY.step}
+            onChange={(value) => updateSettings({ complexity: value })}
+          />
+          <LabeledSlider
+            label={t('pipelineGeoJsonHeatmapSmoothing')}
+            value={settings.smoothing}
+            valueText={`${settings.smoothing}`}
+            min={HEATMAP_SMOOTHING.min}
+            max={HEATMAP_SMOOTHING.max}
+            step={HEATMAP_SMOOTHING.step}
+            onChange={(value) => updateSettings({ smoothing: value })}
+          />
           <TextField
             size="small"
             select
