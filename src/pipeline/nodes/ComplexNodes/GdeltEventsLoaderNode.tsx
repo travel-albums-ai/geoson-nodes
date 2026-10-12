@@ -92,28 +92,28 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
 
       outputCounts={<>
         {!error && data.fetchedAt !== undefined && (
-          <NewChip count={new Date(data.fetchedAt).toLocaleTimeString(i18n.language)} icon={<Clock />} label="Loaded" sx={{ height: 30 }} fontSize={12} />
+          <NewChip count={new Date(data.fetchedAt).toLocaleTimeString(i18n.language)} icon={<Clock />} label="Loaded" fontSize={12} />
         )}
         {data.featureCount !== undefined && <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />}
       </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'gdelt-events-loader'} />}>
-      <Box sx={{ minWidth: 280, display: 'flex', flexDirection: 'column', gap: 1 }} className="nodrag nopan">
-        <Typography variant="caption" color="textSecondary" sx={{ mb: 1 }}>{t('pipelineGdeltEventsLoaderHint')}</Typography>
-        <TextField
-          select
-          size="small"
-          fullWidth
-          label={t('pipelineGdeltEventsLoaderFile')}
-          value={selectedFileName}
-          onChange={(event) => updateNodeData({ fileName: event.target.value })}
-        >
-          {menuFileNames.map((fileName) => (
-            <MenuItem key={fileName} value={fileName}>
-              <Typography variant="body2">{fileName}</Typography>
-            </MenuItem>
-          ))}
-        </TextField>
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+      <Box sx={{ minWidth: 280, display: 'flex', flexDirection: 'column', gap: 2 }} className="nodrag nopan">
+        <Typography variant="caption" color="textSecondary">{t('pipelineGdeltEventsLoaderHint')}</Typography>
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'stretch' }}>
+          <TextField
+            select
+            size="small"
+            fullWidth
+            label={t('pipelineGdeltEventsLoaderFile')}
+            value={selectedFileName}
+            onChange={(event) => updateNodeData({ fileName: event.target.value })}
+          >
+            {menuFileNames.map((fileName) => (
+              <MenuItem key={fileName} value={fileName}>
+                <Typography variant="body2">{fileName}</Typography>
+              </MenuItem>
+            ))}
+          </TextField>
           <Button sx={{ flex: '0 0 auto'}}
             variant="outlined"
             startIcon={<RefreshCw size={14} />}
@@ -122,16 +122,16 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
           >
             {t('pipelineGdeltEventsLoaderRefresh')}
           </Button>
-          <Button
-            fullWidth
-            variant="contained"
-            startIcon={<Download size={16} />}
-            onClick={loadEvents}
-            disabled={loading}
-          >
-            {loading ? t('pipelineGdeltEventsLoaderLoading') : t('pipelineGdeltEventsLoaderLoad')}
-          </Button>
         </Box>
+        <Button
+          fullWidth
+          variant="contained"
+          startIcon={<Download size={16} />}
+          onClick={loadEvents}
+          disabled={loading}
+        >
+          {loading ? t('pipelineGdeltEventsLoaderLoading') : t('pipelineGdeltEventsLoaderLoad')}
+        </Button>
         {error && (
           <Typography variant="caption" color="error">{error}</Typography>
         )}

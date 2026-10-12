@@ -7,7 +7,7 @@ import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { Box, Button, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { FileJson, Layers, MapPin } from 'lucide-react';
+import { FileJson, Layers, LogOut, Upload } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -107,16 +107,24 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fil
   };
 
   return (
-    <NodeWrapper type="geojson-input" tools={
-      <PipelineStageTiming nodeId={id} nodeType={'geojson-input'} />
-    }>
+    <NodeWrapper type="geojson-input"
+      outputCounts={<>
+        {file instanceof File && (
+          <NewChip label={file.name} fontSize={12} icon={<FileJson size={16} />}  />
+        )}
+        {counts?.collections !== undefined && <NewChip count={counts?.collections ?? 0} label={''} fontSize={12} icon={<Layers size={16} />} />}
+        {featureCount !== undefined && <NewChip count={featureCount} variant="important" label={''} fontSize={12} icon={<LogOut size={16} />}  />}
+      </>}
+      tools={
+        <PipelineStageTiming nodeId={id} nodeType={'geojson-input'} />
+      }>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap'}}>
         <Button
           fullWidth
           component="label"
-          variant="outlined"
-          startIcon={<FileJson size={16} />}
+          variant="contained"
+          startIcon={<Upload size={16} />}
         >
           {t('pipelineGeoJsonSelectFile')}
           <input
@@ -131,11 +139,6 @@ function GeoJsonInputNode({ id, data }: NodeProps<Node<{ geojsonFile?: File; fil
             }}
           />
         </Button>
-        <NewChip count={counts?.collections ?? 0} label={t('pipelineGeoJsonCollections')} fontSize={16} icon={<Layers size={16} />} sx={{ height: 38 }} />
-        <NewChip count={featureCount} label={t('pipelineGeoJsonFeatures')} fontSize={16} icon={<MapPin size={16} />} sx={{ height: 38 }} />
-        {file instanceof File && (
-          <NewChip label={file.name} fontSize={16} icon={<FileJson size={16} />} sx={{ height: 38 }} />
-        )}
         {error && (
           <Typography variant="caption" color="error" sx={{ width: '100%' }}>
             {error}

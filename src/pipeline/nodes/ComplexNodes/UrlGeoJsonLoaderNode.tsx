@@ -6,9 +6,9 @@ import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { URL_GEOJSON_LOADER_COUNTS_EVENT } from '@/types/types';
-import { Box, Button, MenuItem, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { Globe, LogOut } from 'lucide-react';
+import { Clock, Download, LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -120,20 +120,23 @@ function UrlGeoJsonLoaderNode({ id, data }: NodeProps<Node<UrlGeoJsonLoaderNodeD
   return (
     <NodeWrapper
       type="url-geojson-loader"
-      outputCounts={
-        <NewChip
+      outputCounts={<>
+        {!error && data.fetchedAt !== undefined && (
+          <NewChip count={new Date(data.fetchedAt).toLocaleTimeString(i18n.language)} icon={<Clock />} label="Loaded" sx={{ height: 30 }} fontSize={12} />
+        )}
+        {counts?.outputCount !== 0 && <NewChip
           variant="important"
           count={counts?.outputCount ?? 0}
           label={''}
           icon={<LogOut size={16} />}
           tooltip={t('pipelineUrlGeoJsonLoaderLeaving')}
           fontSize={12}
-        />
-      }
+        />}
+      </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'url-geojson-loader'} />}
     >
-      <Stack spacing={1} sx={{ p: 1, minWidth: 280 }} className="nodrag nopan">
-        <Typography variant="body2">{t('pipelineUrlGeoJsonLoaderHint')}</Typography>
+      <Box sx={{ minWidth: 280, display: 'flex', flexDirection: 'column', gap: 2 }} className="nodrag nopan">
+        <Typography variant="caption" color="textSecondary">{t('pipelineUrlGeoJsonLoaderHint')}</Typography>
         <TextField
           select
           size="small"
@@ -167,8 +170,8 @@ function UrlGeoJsonLoaderNode({ id, data }: NodeProps<Node<UrlGeoJsonLoaderNodeD
           </Button>
         </Box>
         <Button
-          variant="outlined"
-          startIcon={<Globe size={16} />}
+          variant="contained"
+          startIcon={<Download size={16} />}
           onClick={fetchFeed}
           disabled={fetching}
         >
@@ -177,15 +180,7 @@ function UrlGeoJsonLoaderNode({ id, data }: NodeProps<Node<UrlGeoJsonLoaderNodeD
         {error && (
           <Typography variant="caption" color="error">{error}</Typography>
         )}
-        {!error && data.fetchedAt !== undefined && (
-          <Typography variant="caption" color="text.secondary">
-            {t('pipelineUrlGeoJsonLoaderSummary', {
-              count: data.featureCount ?? 0,
-              time: new Date(data.fetchedAt).toLocaleTimeString(i18n.language),
-            })}
-          </Typography>
-        )}
-      </Stack>
+      </Box>
       <OutputHandle id="geojson" position={Position.Bottom} />
     </NodeWrapper>
   );

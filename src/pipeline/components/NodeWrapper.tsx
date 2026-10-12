@@ -227,6 +227,7 @@ export default function NodeWrapper({
             minWidth: NODE_MIN_WIDTH,
             minHeight: NODE_MIN_HEIGHT,
             borderRadius: 4,
+            filter: isSkipping ? 'blur(2px) grayscale(75%)' : 'none',
             overflow: 'hidden',
             border: 2,
             borderColor: theme => alpha(theme.palette.primary.main, 0.4),
@@ -245,6 +246,7 @@ export default function NodeWrapper({
             type={type}
             sx={{
               width: '100%',
+
             }}
           >
             {tools && tools}
@@ -266,7 +268,6 @@ export default function NodeWrapper({
             p: 1.5,
             pt: 1,
             pr: 1.5,
-            filter: isSkipping ? 'blur(2px) grayscale(75%)' : 'none',
             bgcolor: theme =>
               hasUnconnectedHandle
                 ? `color-mix(in srgb, ${theme.palette.primary.light} 10%, ${theme.palette.background.paper} 85%)`
