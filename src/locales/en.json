@@ -131,6 +131,7 @@
   "pipelineGdeltEventsLoaderHint": "Choose a daily export, then press Load to download it.",
   "pipelineGdeltEventsLoaderFile": "Daily export",
   "pipelineGdeltEventsLoaderLoad": "Load",
+  "pipelineGdeltEventsLoaderRefresh": "Refresh list",
   "pipelineGdeltEventsLoaderLoading": "Loading…",
   "pipelineGdeltEventsLoaderSummary": "Loaded {{count}} events at {{time}}",
   "pipelineQleverSparqlLoader": "QLever OSM Query",

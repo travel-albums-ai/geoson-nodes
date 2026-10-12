@@ -2,9 +2,17 @@ import { unzipSync } from 'fflate';
 import type { GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/types/types';
 
 const GDELT_EVENTS_BASE_URL = 'https://data.gdeltproject.org/events/';
+const GDELT_EVENTS_INDEX_URL = `${GDELT_EVENTS_BASE_URL}index.html`;
+
+// How many of the newest daily exports the refreshed list keeps.
+const GDELT_EVENT_FILE_COUNT = 19;
+
+// Matches each daily export link in the index, e.g. HREF="20261010.export.CSV.zip".
+const GDELT_DAILY_EXPORT_LINK = /href="(\d{8}\.export\.CSV\.zip)"/gi;
 
 // Daily event exports from https://data.gdeltproject.org/events/index.html, newest first.
 // The 1979-2013 master archive is left out: at about 1.1 GB it is too large to download in a browser tab.
+// This is the built-in starting list; fetchGdeltEventFileNames returns a fresh one from the server.
 export const GDELT_EVENT_FILE_NAMES = [
   '20261010.export.CSV.zip',
   '20261009.export.CSV.zip',
@@ -107,6 +115,27 @@ function parseGdeltEventsTsv(text: string): GeoJsonFeature[] {
   }
 
   return features;
+}
+
+// The newest daily exports listed on the server, newest first.
+export async function fetchGdeltEventFileNames(): Promise<string[]> {
+  const response = await fetch(GDELT_EVENTS_INDEX_URL);
+  if (!response.ok) {
+    throw new Error(`GDELT index request failed with HTTP ${response.status}`);
+  }
+
+  const fileNames = new Set<string>();
+  for (const match of (await response.text()).matchAll(GDELT_DAILY_EXPORT_LINK)) {
+    fileNames.add(match[1]);
+  }
+
+  // File names start with YYYYMMDD, so reverse lexical order is newest first.
+  const newestFirst = [...fileNames].sort().reverse().slice(0, GDELT_EVENT_FILE_COUNT);
+  if (newestFirst.length === 0) {
+    throw new Error('No daily GDELT exports were found on the server');
+  }
+
+  return newestFirst;
 }
 
 export async function fetchGdeltEventsGeoJson(fileName: string): Promise<GeoJsonFeatureCollectionArray> {

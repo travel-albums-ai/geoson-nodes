@@ -1,13 +1,13 @@
 import NewChip from '@/components/NewChip';
 import { usePipelineStoreSelector } from '@/context/pipelineStore';
-import { GDELT_EVENT_FILE_NAMES, fetchGdeltEventsGeoJson } from '@/lib/gdeltEvents';
+import { GDELT_EVENT_FILE_NAMES, fetchGdeltEventFileNames, fetchGdeltEventsGeoJson } from '@/lib/gdeltEvents';
 import { createGeoJsonFileKey, deleteGeoJsonFile, saveGeoJsonFile } from '@/lib/geojsonFileStore';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
-import { Box, Button, MenuItem, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { Clock, LogOut, Newspaper } from 'lucide-react';
+import { Clock, Download, LogOut, RefreshCw } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -18,6 +18,8 @@ type GdeltEventsLoaderNodeData = {
   featureCount?: number;
   // The daily export picked in the dropdown; defaults to the newest file.
   fileName?: string;
+  // The newest daily exports from the server, set by Refresh list; the built-in list is used until then.
+  fileNames?: string[];
 };
 
 function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNodeData>>) {
@@ -25,9 +27,15 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
   const { getNodes, setNodes } = useReactFlow();
   const savedPipelines = usePipelineStoreSelector((state) => state.pipelines);
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const selectedFileName = data.fileName ?? GDELT_EVENT_FILE_NAMES[0];
+  const fileNameOptions: readonly string[] = data.fileNames ?? GDELT_EVENT_FILE_NAMES;
+  const selectedFileName = data.fileName ?? fileNameOptions[0];
+  // Keep the selection visible even if a refresh has dropped it from the list.
+  const menuFileNames = fileNameOptions.includes(selectedFileName)
+    ? fileNameOptions
+    : [selectedFileName, ...fileNameOptions];
 
   const updateNodeData = (patch: Partial<GdeltEventsLoaderNodeData>) => {
     setNodes((current) => current.map((node) => (
@@ -39,6 +47,19 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
   const isFileKeyReferenced = (key: string) =>
     savedPipelines.some((pipeline) => pipeline.nodes.some((node) => node.data.fileKey === key)) ||
     getNodes().some((node) => node.id !== id && node.data.fileKey === key);
+
+  const refreshFileNames = async () => {
+    setRefreshing(true);
+    setError(null);
+
+    try {
+      updateNodeData({ fileNames: await fetchGdeltEventFileNames() });
+    } catch (reason: unknown) {
+      setError(reason instanceof Error ? reason.message : String(reason));
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const loadEvents = async () => {
     setLoading(true);
@@ -68,12 +89,16 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
 
   return (
     <NodeWrapper type="gdelt-events-loader"
+
       outputCounts={<>
-        <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />
+        {!error && data.fetchedAt !== undefined && (
+          <NewChip count={new Date(data.fetchedAt).toLocaleTimeString(i18n.language)} icon={<Clock />} label="Loaded" sx={{ height: 30 }} fontSize={12} />
+        )}
+        {data.featureCount !== undefined && <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />}
       </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'gdelt-events-loader'} />}>
-      <Stack spacing={1} sx={{ minWidth: 280 }} className="nodrag nopan">
-        <Typography variant="body2">{t('pipelineGdeltEventsLoaderHint')}</Typography>
+      <Box sx={{ minWidth: 280, display: 'flex', flexDirection: 'column', gap: 1 }} className="nodrag nopan">
+        <Typography variant="caption" color="textSecondary" sx={{ mb: 1 }}>{t('pipelineGdeltEventsLoaderHint')}</Typography>
         <TextField
           select
           size="small"
@@ -82,27 +107,35 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
           value={selectedFileName}
           onChange={(event) => updateNodeData({ fileName: event.target.value })}
         >
-          {GDELT_EVENT_FILE_NAMES.map((fileName) => (
+          {menuFileNames.map((fileName) => (
             <MenuItem key={fileName} value={fileName}>
               <Typography variant="body2">{fileName}</Typography>
             </MenuItem>
           ))}
         </TextField>
-        <Button
-          variant="outlined"
-          startIcon={<Newspaper size={16} />}
-          onClick={loadEvents}
-          disabled={loading}
-        >
-          {loading ? t('pipelineGdeltEventsLoaderLoading') : t('pipelineGdeltEventsLoaderLoad')}
-        </Button>
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <Button sx={{ flex: '0 0 auto'}}
+            variant="outlined"
+            startIcon={<RefreshCw size={14} />}
+            onClick={refreshFileNames}
+            disabled={refreshing}
+          >
+            {t('pipelineGdeltEventsLoaderRefresh')}
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            startIcon={<Download size={16} />}
+            onClick={loadEvents}
+            disabled={loading}
+          >
+            {loading ? t('pipelineGdeltEventsLoaderLoading') : t('pipelineGdeltEventsLoaderLoad')}
+          </Button>
+        </Box>
         {error && (
           <Typography variant="caption" color="error">{error}</Typography>
         )}
-        {!error && data.fetchedAt !== undefined && (<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <NewChip count={new Date(data.fetchedAt).toLocaleTimeString(i18n.language)} icon={<Clock />} label="Fetched" sx={{ height: 30 }} fontSize={12} />
-        </Box>)}
-      </Stack>
+      </Box>
       <OutputHandle id="geojson" position={Position.Bottom} />
     </NodeWrapper>
   );

@@ -229,7 +229,7 @@ export default function NodeWrapper({
             borderRadius: 4,
             overflow: 'hidden',
             border: 2,
-            borderColor: 'divider',
+            borderColor: theme => alpha(theme.palette.primary.main, 0.4),
             boxShadow: theme => `0 0 8px 0px ${theme.palette.divider}`,
             transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
 
