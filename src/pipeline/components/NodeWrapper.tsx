@@ -37,7 +37,7 @@ export default function NodeWrapper({
   const isSelected = useStore((state) => state.nodes.find((node) => node.id === nodeId)?.selected ?? false);
   const inputConnections = useNodeConnections({ handleType: 'target' });
   const outputConnections = useNodeConnections({ handleType: 'source' });
-  const { addNodes, deleteElements, getNode, getNodes, setEdges, setNodes } = useReactFlow();
+  const { addNodes, deleteElements, getNode, setEdges, setNodes } = useReactFlow();
   const { t } = useTranslation();
   const [showHelper, setShowHelper] = useState(false);
   const [hasUnconnectedHandle, setHasUnconnectedHandle] = useState(false);
@@ -78,15 +78,7 @@ export default function NodeWrapper({
     const node = getNode(nodeId);
     if (!node) return;
 
-    const existingIds = new Set(getNodes().map(existingNode => existingNode.id));
-    const baseId = `${nodeId}-reset`;
-    let resetId = baseId;
-    let suffix = 2;
-
-    while (existingIds.has(resetId)) {
-      resetId = `${baseId}-${suffix++}`;
-    }
-
+    const resetId = `${node.type ?? 'node'}-${crypto.randomUUID()}`;
     const config = node.type ? paletteItemsByType[node.type]?.config : undefined;
     const resetData = config ? { amount: config.defaultValue } : {};
 
@@ -109,18 +101,9 @@ export default function NodeWrapper({
     const node = getNode(nodeId);
     if (!node) return;
 
-    const existingIds = new Set(getNodes().map(existingNode => existingNode.id));
-    const baseId = `${node.id}-copy`;
-    let cloneId = baseId;
-    let suffix = 2;
-
-    while (existingIds.has(cloneId)) {
-      cloneId = `${baseId}-${suffix++}`;
-    }
-
     addNodes({
       ...node,
-      id: cloneId,
+      id: `${node.type ?? 'node'}-${crypto.randomUUID()}`,
       position: {
         x: node.position.x + 540,
         y: node.position.y + 40,

@@ -45,14 +45,7 @@ export default function WebMCPClonePipelineNode() {
               return `Pipeline node not found: ${nodeId}`;
             }
 
-            const existingIds = new Set(currentPipeline.nodes.map((item) => item.id));
-            const baseId = `${node.id}-copy`;
-            let cloneId = baseId;
-            let suffix = 2;
-
-            while (existingIds.has(cloneId)) {
-              cloneId = `${baseId}-${suffix++}`;
-            }
+            const cloneId = `${node.type ?? 'node'}-${crypto.randomUUID()}`;
 
             const clone = {
               ...node,

@@ -42,7 +42,7 @@ function fitFontSize(textarea: HTMLTextAreaElement) {
 
 function PostItNode({ id, data, selected }: NodeProps<Node<PostItNodeData>>) {
   const { t } = useTranslation();
-  const { addNodes, deleteElements, getNode, getNodes, setNodes } = useReactFlow();
+  const { addNodes, deleteElements, getNode, setNodes } = useReactFlow();
   const storedText = data.text ?? '';
   const [draft, setDraft] = useState(storedText);
   // The last text known to match node data. Lets external changes be
@@ -91,18 +91,9 @@ function PostItNode({ id, data, selected }: NodeProps<Node<PostItNodeData>>) {
     const node = getNode(id);
     if (!node) return;
 
-    const existingIds = new Set(getNodes().map((existingNode) => existingNode.id));
-    const baseId = `${id}-copy`;
-    let cloneId = baseId;
-    let suffix = 2;
-
-    while (existingIds.has(cloneId)) {
-      cloneId = `${baseId}-${suffix++}`;
-    }
-
     addNodes({
       ...node,
-      id: cloneId,
+      id: `${node.type ?? 'node'}-${crypto.randomUUID()}`,
       position: {
         x: node.position.x + NOTE_SIZE_PX + 40,
         y: node.position.y + 40,
