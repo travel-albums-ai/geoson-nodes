@@ -1,0 +1,545 @@
+{
+  "name": "GDELT 3 Days Narrow by location and topic",
+  "nodes": [
+    {
+      "id": "gps-map-2",
+      "type": "gps-map",
+      "position": {
+        "x": 2120,
+        "y": 480
+      },
+      "data": {
+        "size": {
+          "width": 1088,
+          "height": 838
+        }
+      },
+      "measured": {
+        "width": 1088,
+        "height": 838
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 1088,
+      "height": 838,
+      "resizing": true
+    },
+    {
+      "id": "geojson-jsonata-4",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": -560,
+        "y": 480
+      },
+      "data": {
+        "query": "features[properties.name in [\n  \"Germany\"\n]]",
+        "skip": false
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-within-area-5",
+      "type": "geojson-within-area",
+      "position": {
+        "x": 100,
+        "y": 1180
+      },
+      "data": {},
+      "measured": {
+        "width": 563,
+        "height": 238
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-viewer-6",
+      "type": "geojson-viewer",
+      "position": {
+        "x": 2120,
+        "y": 1360
+      },
+      "data": {
+        "size": {
+          "width": 1088,
+          "height": 546
+        }
+      },
+      "measured": {
+        "width": 1088,
+        "height": 546
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 1088,
+      "height": 546,
+      "resizing": true
+    },
+    {
+      "id": "geojson-merge-7",
+      "type": "geojson-merge",
+      "position": {
+        "x": -260,
+        "y": 1620
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gdelt-events-loader-1-copy-reset",
+      "type": "gdelt-events-loader",
+      "position": {
+        "x": -780,
+        "y": 1600
+      },
+      "data": {
+        "skip": false,
+        "fileName": "20261009.export.CSV.zip",
+        "fileKey": "geojson-file-1791819633533-bokmti",
+        "fetchedAt": 1791819633991,
+        "featureCount": 112904
+      },
+      "measured": {
+        "width": 413,
+        "height": 254
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gdelt-events-loader-1-copy-2-reset",
+      "type": "gdelt-events-loader",
+      "position": {
+        "x": -340,
+        "y": 1820
+      },
+      "data": {
+        "skip": false,
+        "fileKey": "geojson-file-1791819624722-wzohx9",
+        "fetchedAt": 1791819624967,
+        "featureCount": 72908
+      },
+      "measured": {
+        "width": 413,
+        "height": 254
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gdelt-events-loader-1-copy-3",
+      "type": "gdelt-events-loader",
+      "position": {
+        "x": 160,
+        "y": 1620
+      },
+      "data": {
+        "fileKey": "geojson-file-1791819616807-atzep4",
+        "fetchedAt": 1791819617079,
+        "featureCount": 65370,
+        "fileName": "20261011.export.CSV.zip",
+        "fileNames": [
+          "20261011.export.CSV.zip",
+          "20261010.export.CSV.zip",
+          "20261009.export.CSV.zip",
+          "20261008.export.CSV.zip",
+          "20261007.export.CSV.zip",
+          "20261006.export.CSV.zip",
+          "20261005.export.CSV.zip",
+          "20261004.export.CSV.zip",
+          "20261003.export.CSV.zip",
+          "20261002.export.CSV.zip",
+          "20261001.export.CSV.zip",
+          "20260930.export.CSV.zip",
+          "20260929.export.CSV.zip",
+          "20260928.export.CSV.zip",
+          "20260927.export.CSV.zip",
+          "20260926.export.CSV.zip",
+          "20260925.export.CSV.zip",
+          "20260924.export.CSV.zip",
+          "20260923.export.CSV.zip"
+        ]
+      },
+      "measured": {
+        "width": 413,
+        "height": 254
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "post-it-10",
+      "type": "post-it",
+      "position": {
+        "x": -1080,
+        "y": 980
+      },
+      "data": {
+        "text": "Load globe and narrow to a country list"
+      },
+      "measured": {
+        "width": 280,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "post-it-10-copy",
+      "type": "post-it",
+      "position": {
+        "x": -360,
+        "y": 1360
+      },
+      "data": {
+        "text": "Load global events for N days"
+      },
+      "measured": {
+        "width": 280,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-switch-2",
+      "type": "geojson-switch",
+      "position": {
+        "x": 40,
+        "y": 660
+      },
+      "data": {
+        "serveB": true
+      },
+      "measured": {
+        "width": 400,
+        "height": 238
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-4-copy",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": -560,
+        "y": 820
+      },
+      "data": {
+        "query": "features[properties.continent in [\n  \"Europe\"\n]]",
+        "skip": false
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-1",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 820,
+        "y": 1300
+      },
+      "data": {
+        "query": "features[properties.SOURCEURL ~> $match(/tesla/i)]",
+        "skip": false
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-2",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 820,
+        "y": 960
+      },
+      "data": {
+        "query": "features[properties.SOURCEURL ~> $match(/ursula/i)]",
+        "negate": false
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-merge-3",
+      "type": "geojson-merge",
+      "position": {
+        "x": 1400,
+        "y": 1060
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geo-bounds-filter-4",
+      "type": "geo-bounds-filter",
+      "position": {
+        "x": 1400,
+        "y": 1300
+      },
+      "data": {
+        "bounds": {
+          "west": 20.36758724047067,
+          "east": 39.4876343634372,
+          "south": 37.182825734197515,
+          "north": 56.279119126653974
+        },
+        "size": {
+          "width": 648,
+          "height": 548
+        },
+        "skip": false
+      },
+      "measured": {
+        "width": 648,
+        "height": 548
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 648,
+      "height": 548,
+      "resizing": true
+    },
+    {
+      "id": "url-geojson-loader-1",
+      "type": "url-geojson-loader",
+      "position": {
+        "x": -1080,
+        "y": 640
+      },
+      "data": {
+        "url": "https://axx2igptegogljsl.public.blob.vercel-storage.com/custom.geo.json",
+        "fileKey": "geojson-file-1791737820205-sd3coe",
+        "fetchedAt": 1791737820451,
+        "featureCount": 258
+      },
+      "measured": {
+        "width": 415,
+        "height": 314
+      },
+      "selected": false,
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "type": "default",
+      "source": "gdelt-events-loader-1-copy-3",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-7",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__gdelt-events-loader-1-copy-3geojson-geojson-merge-7geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "gdelt-events-loader-1-copy-2-reset",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-7",
+      "targetHandle": "geojson-2",
+      "id": "xy-edge__gdelt-events-loader-1-copy-2geojson-geojson-merge-7geojson-2",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "gdelt-events-loader-1-copy-reset",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-7",
+      "targetHandle": "geojson-3",
+      "id": "xy-edge__gdelt-events-loader-1-copygeojson-geojson-merge-7geojson-3",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-7",
+      "sourceHandle": "geojson",
+      "target": "geojson-within-area-5",
+      "targetHandle": "geojson-features",
+      "id": "xy-edge__geojson-merge-7geojson-geojson-within-area-5geojson-features",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-4",
+      "sourceHandle": "geojson",
+      "target": "geojson-switch-2",
+      "targetHandle": "geojson-a",
+      "id": "xy-edge__geojson-jsonata-4geojson-geojson-switch-2geojson-a",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-4-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-switch-2",
+      "targetHandle": "geojson-b",
+      "id": "xy-edge__geojson-jsonata-4-copygeojson-geojson-switch-2geojson-b",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-switch-2",
+      "sourceHandle": "geojson",
+      "target": "geojson-within-area-5",
+      "targetHandle": "geojson-area",
+      "id": "xy-edge__geojson-switch-2geojson-geojson-within-area-5geojson-area",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-3",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__geojson-jsonata-1geojson-geojson-merge-3geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-2",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-3",
+      "targetHandle": "geojson-3",
+      "id": "xy-edge__geojson-jsonata-2geojson-geojson-merge-3geojson-3",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-3",
+      "sourceHandle": "geojson",
+      "target": "geo-bounds-filter-4",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-merge-3geojson-geo-bounds-filter-4geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geo-bounds-filter-4",
+      "sourceHandle": "geojson",
+      "target": "geojson-viewer-6",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geo-bounds-filter-4geojson-geojson-viewer-6geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geo-bounds-filter-4",
+      "sourceHandle": "geojson",
+      "target": "gps-map-2",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geo-bounds-filter-4geojson-gps-map-2geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-within-area-5",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-2",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-within-area-5geojson-geojson-jsonata-2geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-within-area-5",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-1",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-within-area-5geojson-geojson-jsonata-1geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "url-geojson-loader-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-4",
+      "targetHandle": "geojson",
+      "id": "xy-edge__url-geojson-loader-1geojson-geojson-jsonata-4geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "url-geojson-loader-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-4-copy",
+      "targetHandle": "geojson",
+      "id": "xy-edge__url-geojson-loader-1geojson-geojson-jsonata-4-copygeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    }
+  ]
+}

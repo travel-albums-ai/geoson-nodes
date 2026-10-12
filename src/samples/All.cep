@@ -1,0 +1,710 @@
+{
+  "name": "All",
+  "nodes": [
+    {
+      "id": "geojson-input-66bee5c5-09e3-42d9-8d14-916df3d9e297",
+      "type": "geojson-input",
+      "position": {
+        "x": -160,
+        "y": 1380
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 137
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "flight-path-5f2cfda4-89ac-4030-9228-8bdc967563d5",
+      "type": "flight-path",
+      "position": {
+        "x": 840,
+        "y": 1000
+      },
+      "data": {},
+      "measured": {
+        "width": 462,
+        "height": 218
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "url-geojson-loader-0cc56fbd-606f-41db-94ea-28f240a13c39",
+      "type": "url-geojson-loader",
+      "position": {
+        "x": 1400,
+        "y": 220
+      },
+      "data": {},
+      "measured": {
+        "width": 415,
+        "height": 310
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gdelt-events-loader-304d3c3c-e771-4799-b6ae-740f6fe1e2be",
+      "type": "gdelt-events-loader",
+      "position": {
+        "x": 1860,
+        "y": 280
+      },
+      "data": {},
+      "measured": {
+        "width": 413,
+        "height": 254
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "qlever-sparql-loader-1bad56d2-27ee-4ea8-a57d-57706f3f790b",
+      "type": "qlever-sparql-loader",
+      "position": {
+        "x": 1360,
+        "y": 600
+      },
+      "data": {
+        "size": {
+          "width": 720,
+          "height": 480
+        }
+      },
+      "measured": {
+        "width": 720,
+        "height": 480
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 720,
+      "height": 480,
+      "resizing": true
+    },
+    {
+      "id": "open-meteo-loader-85af35f5-f1bb-43e1-9dcb-2de0191726b2",
+      "type": "open-meteo-loader",
+      "position": {
+        "x": -200,
+        "y": 480
+      },
+      "data": {},
+      "measured": {
+        "width": 448,
+        "height": 873
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "fit-input-d7ad59eb-5516-40fa-b41b-4dce262d1b69",
+      "type": "fit-input",
+      "position": {
+        "x": 2420,
+        "y": 1140
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 163
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geo-bounds-filter-2313d463-4288-453f-8cc5-6ec4fc22b8d5",
+      "type": "geo-bounds-filter",
+      "position": {
+        "x": 840,
+        "y": 440
+      },
+      "data": {},
+      "measured": {
+        "width": 448,
+        "height": 530
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-within-area-9842fc83-0201-4230-884d-8873c52a2f8f",
+      "type": "geojson-within-area",
+      "position": {
+        "x": 2160,
+        "y": 860
+      },
+      "data": {},
+      "measured": {
+        "width": 563,
+        "height": 238
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "shortest-route-2f277fc0-ca80-487e-b37c-61aa7df5f406",
+      "type": "shortest-route",
+      "position": {
+        "x": 2340,
+        "y": 400
+      },
+      "data": {},
+      "measured": {
+        "width": 780,
+        "height": 264
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-feature-picker-cdb42ff9-9949-4e9f-aad7-ce06078ecf98",
+      "type": "geojson-feature-picker",
+      "position": {
+        "x": 3160,
+        "y": 480
+      },
+      "data": {},
+      "measured": {
+        "width": 499,
+        "height": 184
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-merge-7b723c62-03d6-4358-a50a-473f788be13f",
+      "type": "geojson-merge",
+      "position": {
+        "x": 3240,
+        "y": 720
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-switch-70bbb742-989c-4285-a9d4-312f7eaba959",
+      "type": "geojson-switch",
+      "position": {
+        "x": 2780,
+        "y": 720
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 238
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-style-9baa663c-a9a0-4806-bfcc-9aaacfb613b7",
+      "type": "geojson-style",
+      "position": {
+        "x": 3380,
+        "y": 900
+      },
+      "data": {},
+      "measured": {
+        "width": 440,
+        "height": 393
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-heatmap-f794a9fa-6b6f-456b-bf52-15658fe4e0c4",
+      "type": "geojson-heatmap",
+      "position": {
+        "x": 2860,
+        "y": 1000
+      },
+      "data": {},
+      "measured": {
+        "width": 495,
+        "height": 312
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-zip-89f3dc85-5cff-4496-94f0-da022139322e",
+      "type": "geojson-zip",
+      "position": {
+        "x": 1800,
+        "y": 1120
+      },
+      "data": {},
+      "measured": {
+        "width": 537,
+        "height": 236
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-union-127ca2cc-16b0-45e4-8f0c-87fa55944608",
+      "type": "geojson-union",
+      "position": {
+        "x": 1400,
+        "y": 1180
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 152
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-intersection-a920ec63-4c41-49d3-969f-59da717fd1f6",
+      "type": "geojson-intersection",
+      "position": {
+        "x": 2260,
+        "y": 1400
+      },
+      "data": {},
+      "measured": {
+        "width": 416,
+        "height": 152
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-difference-605db41b-3756-4bb2-8174-3d01e0b48aa1",
+      "type": "geojson-difference",
+      "position": {
+        "x": 1820,
+        "y": 1400
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 152
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-symmetric-difference-d16ca039-aebd-4332-941e-3c7d3f9e3b5b",
+      "type": "geojson-symmetric-difference",
+      "position": {
+        "x": 1380,
+        "y": 1380
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 152
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-a6ec87fc-d1f6-4571-84f2-04d16e76af52",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 880,
+        "y": 1280
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "post-it-53eb3679-e3ae-4c95-af7b-50be8a0491db",
+      "type": "post-it",
+      "position": {
+        "x": -160,
+        "y": 220
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-8377c9fa-da50-4748-8dfb-7dae6b2bde2e",
+      "type": "gps-map",
+      "position": {
+        "x": 280,
+        "y": 960
+      },
+      "data": {},
+      "measured": {
+        "width": 528,
+        "height": 630
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-viewer-9e67831d-f64c-4ff5-a558-4ae3deef1687",
+      "type": "geojson-viewer",
+      "position": {
+        "x": 280,
+        "y": 220
+      },
+      "data": {},
+      "measured": {
+        "width": 508,
+        "height": 520
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-first-feature-e6d152e3-34b6-48af-b025-9ecceee0fb2d",
+      "type": "geojson-first-feature",
+      "position": {
+        "x": 280,
+        "y": 760
+      },
+      "data": {
+        "size": {
+          "width": 480,
+          "height": 160
+        }
+      },
+      "measured": {
+        "width": 480,
+        "height": 160
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 480,
+      "height": 160,
+      "resizing": true
+    }
+  ],
+  "edges": [
+    {
+      "type": "default",
+      "source": "qlever-sparql-loader-1bad56d2-27ee-4ea8-a57d-57706f3f790b",
+      "sourceHandle": "geojson",
+      "target": "geojson-union-127ca2cc-16b0-45e4-8f0c-87fa55944608",
+      "targetHandle": "geojson-a",
+      "id": "xy-edge__qlever-sparql-loader-1bad56d2-27ee-4ea8-a57d-57706f3f790bgeojson-geojson-union-127ca2cc-16b0-45e4-8f0c-87fa55944608geojson-a",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "qlever-sparql-loader-1bad56d2-27ee-4ea8-a57d-57706f3f790b",
+      "sourceHandle": "geojson",
+      "target": "geojson-union-127ca2cc-16b0-45e4-8f0c-87fa55944608",
+      "targetHandle": "geojson-b",
+      "id": "xy-edge__qlever-sparql-loader-1bad56d2-27ee-4ea8-a57d-57706f3f790bgeojson-geojson-union-127ca2cc-16b0-45e4-8f0c-87fa55944608geojson-b",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-union-127ca2cc-16b0-45e4-8f0c-87fa55944608",
+      "sourceHandle": "geojson",
+      "target": "geojson-symmetric-difference-d16ca039-aebd-4332-941e-3c7d3f9e3b5b",
+      "targetHandle": "geojson-a",
+      "id": "xy-edge__geojson-union-127ca2cc-16b0-45e4-8f0c-87fa55944608geojson-geojson-symmetric-difference-d16ca039-aebd-4332-941e-3c7d3f9e3b5bgeojson-a",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-union-127ca2cc-16b0-45e4-8f0c-87fa55944608",
+      "sourceHandle": "geojson",
+      "target": "geojson-symmetric-difference-d16ca039-aebd-4332-941e-3c7d3f9e3b5b",
+      "targetHandle": "geojson-b",
+      "id": "xy-edge__geojson-union-127ca2cc-16b0-45e4-8f0c-87fa55944608geojson-geojson-symmetric-difference-d16ca039-aebd-4332-941e-3c7d3f9e3b5bgeojson-b",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-symmetric-difference-d16ca039-aebd-4332-941e-3c7d3f9e3b5b",
+      "sourceHandle": "geojson",
+      "target": "geojson-zip-89f3dc85-5cff-4496-94f0-da022139322e",
+      "targetHandle": "geojson-a",
+      "id": "xy-edge__geojson-symmetric-difference-d16ca039-aebd-4332-941e-3c7d3f9e3b5bgeojson-geojson-zip-89f3dc85-5cff-4496-94f0-da022139322egeojson-a",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-zip-89f3dc85-5cff-4496-94f0-da022139322e",
+      "sourceHandle": "geojson",
+      "target": "geojson-difference-605db41b-3756-4bb2-8174-3d01e0b48aa1",
+      "targetHandle": "geojson-a",
+      "id": "xy-edge__geojson-zip-89f3dc85-5cff-4496-94f0-da022139322egeojson-geojson-difference-605db41b-3756-4bb2-8174-3d01e0b48aa1geojson-a",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-zip-89f3dc85-5cff-4496-94f0-da022139322e",
+      "sourceHandle": "geojson",
+      "target": "geojson-difference-605db41b-3756-4bb2-8174-3d01e0b48aa1",
+      "targetHandle": "geojson-b",
+      "id": "xy-edge__geojson-zip-89f3dc85-5cff-4496-94f0-da022139322egeojson-geojson-difference-605db41b-3756-4bb2-8174-3d01e0b48aa1geojson-b",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-difference-605db41b-3756-4bb2-8174-3d01e0b48aa1",
+      "sourceHandle": "geojson",
+      "target": "geojson-intersection-a920ec63-4c41-49d3-969f-59da717fd1f6",
+      "targetHandle": "geojson-a",
+      "id": "xy-edge__geojson-difference-605db41b-3756-4bb2-8174-3d01e0b48aa1geojson-geojson-intersection-a920ec63-4c41-49d3-969f-59da717fd1f6geojson-a",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-difference-605db41b-3756-4bb2-8174-3d01e0b48aa1",
+      "sourceHandle": "geojson",
+      "target": "geojson-intersection-a920ec63-4c41-49d3-969f-59da717fd1f6",
+      "targetHandle": "geojson-b",
+      "id": "xy-edge__geojson-difference-605db41b-3756-4bb2-8174-3d01e0b48aa1geojson-geojson-intersection-a920ec63-4c41-49d3-969f-59da717fd1f6geojson-b",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-intersection-a920ec63-4c41-49d3-969f-59da717fd1f6",
+      "sourceHandle": "geojson",
+      "target": "geojson-heatmap-f794a9fa-6b6f-456b-bf52-15658fe4e0c4",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-intersection-a920ec63-4c41-49d3-969f-59da717fd1f6geojson-geojson-heatmap-f794a9fa-6b6f-456b-bf52-15658fe4e0c4geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-heatmap-f794a9fa-6b6f-456b-bf52-15658fe4e0c4",
+      "sourceHandle": "geojson",
+      "target": "geojson-style-9baa663c-a9a0-4806-bfcc-9aaacfb613b7",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-heatmap-f794a9fa-6b6f-456b-bf52-15658fe4e0c4geojson-geojson-style-9baa663c-a9a0-4806-bfcc-9aaacfb613b7geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-style-9baa663c-a9a0-4806-bfcc-9aaacfb613b7",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-7b723c62-03d6-4358-a50a-473f788be13f",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__geojson-style-9baa663c-a9a0-4806-bfcc-9aaacfb613b7geojson-geojson-merge-7b723c62-03d6-4358-a50a-473f788be13fgeojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-7b723c62-03d6-4358-a50a-473f788be13f",
+      "sourceHandle": "geojson",
+      "target": "geojson-feature-picker-cdb42ff9-9949-4e9f-aad7-ce06078ecf98",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-merge-7b723c62-03d6-4358-a50a-473f788be13fgeojson-geojson-feature-picker-cdb42ff9-9949-4e9f-aad7-ce06078ecf98geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-feature-picker-cdb42ff9-9949-4e9f-aad7-ce06078ecf98",
+      "sourceHandle": "geojson",
+      "target": "geojson-switch-70bbb742-989c-4285-a9d4-312f7eaba959",
+      "targetHandle": "geojson-a",
+      "id": "xy-edge__geojson-feature-picker-cdb42ff9-9949-4e9f-aad7-ce06078ecf98geojson-geojson-switch-70bbb742-989c-4285-a9d4-312f7eaba959geojson-a",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-switch-70bbb742-989c-4285-a9d4-312f7eaba959",
+      "sourceHandle": "geojson",
+      "target": "geojson-within-area-9842fc83-0201-4230-884d-8873c52a2f8f",
+      "targetHandle": "geojson-features",
+      "id": "xy-edge__geojson-switch-70bbb742-989c-4285-a9d4-312f7eaba959geojson-geojson-within-area-9842fc83-0201-4230-884d-8873c52a2f8fgeojson-features",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "fit-input-d7ad59eb-5516-40fa-b41b-4dce262d1b69",
+      "sourceHandle": "geojson",
+      "target": "geojson-within-area-9842fc83-0201-4230-884d-8873c52a2f8f",
+      "targetHandle": "geojson-area",
+      "id": "xy-edge__fit-input-d3b938a6-0442-42e6-aef6-e3712e64542egeojson-geojson-within-area-9842fc83-0201-4230-884d-8873c52a2f8fgeojson-area",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-within-area-9842fc83-0201-4230-884d-8873c52a2f8f",
+      "sourceHandle": "geojson",
+      "target": "shortest-route-2f277fc0-ca80-487e-b37c-61aa7df5f406",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-within-area-9842fc83-0201-4230-884d-8873c52a2f8fgeojson-shortest-route-2f277fc0-ca80-487e-b37c-61aa7df5f406geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "shortest-route-2f277fc0-ca80-487e-b37c-61aa7df5f406",
+      "sourceHandle": "geojson",
+      "target": "geojson-switch-70bbb742-989c-4285-a9d4-312f7eaba959",
+      "targetHandle": "geojson-b",
+      "id": "xy-edge__shortest-route-2f277fc0-ca80-487e-b37c-61aa7df5f406geojson-geojson-switch-70bbb742-989c-4285-a9d4-312f7eaba959geojson-b",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "shortest-route-2f277fc0-ca80-487e-b37c-61aa7df5f406",
+      "sourceHandle": "geojson",
+      "target": "geo-bounds-filter-2313d463-4288-453f-8cc5-6ec4fc22b8d5",
+      "targetHandle": "geojson",
+      "id": "xy-edge__shortest-route-2f277fc0-ca80-487e-b37c-61aa7df5f406geojson-geo-bounds-filter-2313d463-4288-453f-8cc5-6ec4fc22b8d5geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "open-meteo-loader-85af35f5-f1bb-43e1-9dcb-2de0191726b2",
+      "sourceHandle": "geojson",
+      "target": "geojson-viewer-9e67831d-f64c-4ff5-a558-4ae3deef1687",
+      "targetHandle": "geojson",
+      "id": "xy-edge__open-meteo-loader-85af35f5-f1bb-43e1-9dcb-2de0191726b2geojson-geojson-viewer-9e67831d-f64c-4ff5-a558-4ae3deef1687geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "url-geojson-loader-0cc56fbd-606f-41db-94ea-28f240a13c39",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-7b723c62-03d6-4358-a50a-473f788be13f",
+      "targetHandle": "geojson-2",
+      "id": "xy-edge__url-geojson-loader-0cc56fbd-606f-41db-94ea-28f240a13c39geojson-geojson-merge-7b723c62-03d6-4358-a50a-473f788be13fgeojson-2",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "gdelt-events-loader-304d3c3c-e771-4799-b6ae-740f6fe1e2be",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-7b723c62-03d6-4358-a50a-473f788be13f",
+      "targetHandle": "geojson-4",
+      "id": "xy-edge__gdelt-events-loader-304d3c3c-e771-4799-b6ae-740f6fe1e2begeojson-geojson-merge-7b723c62-03d6-4358-a50a-473f788be13fgeojson-4",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "qlever-sparql-loader-1bad56d2-27ee-4ea8-a57d-57706f3f790b",
+      "sourceHandle": "geojson",
+      "target": "geojson-zip-89f3dc85-5cff-4496-94f0-da022139322e",
+      "targetHandle": "geojson-b",
+      "id": "xy-edge__qlever-sparql-loader-1bad56d2-27ee-4ea8-a57d-57706f3f790bgeojson-geojson-zip-89f3dc85-5cff-4496-94f0-da022139322egeojson-b",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "flight-path-5f2cfda4-89ac-4030-9228-8bdc967563d5",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-a6ec87fc-d1f6-4571-84f2-04d16e76af52",
+      "targetHandle": "geojson",
+      "id": "xy-edge__flight-path-5f2cfda4-89ac-4030-9228-8bdc967563d5geojson-geojson-jsonata-00567a35-b1b0-4fd2-96e3-cf452cb1391dgeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-a6ec87fc-d1f6-4571-84f2-04d16e76af52",
+      "sourceHandle": "geojson",
+      "target": "gps-map-8377c9fa-da50-4748-8dfb-7dae6b2bde2e",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-jsonata-00567a35-b1b0-4fd2-96e3-cf452cb1391dgeojson-gps-map-8377c9fa-da50-4748-8dfb-7dae6b2bde2egeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-input-66bee5c5-09e3-42d9-8d14-916df3d9e297",
+      "sourceHandle": "geojson",
+      "target": "geojson-first-feature-e6d152e3-34b6-48af-b025-9ecceee0fb2d",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-input-66bee5c5-09e3-42d9-8d14-916df3d9e297geojson-geojson-first-feature-e6d152e3-34b6-48af-b025-9ecceee0fb2dgeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    }
+  ]
+}

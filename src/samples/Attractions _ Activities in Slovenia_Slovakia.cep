@@ -5,23 +5,23 @@
       "id": "gps-map-2",
       "type": "gps-map",
       "position": {
-        "x": 1800,
-        "y": 1060
+        "x": 2700,
+        "y": 320
       },
       "data": {
         "size": {
-          "width": 568,
-          "height": 582
+          "width": 1448,
+          "height": 1530
         }
       },
       "measured": {
-        "width": 568,
-        "height": 582
+        "width": 1448,
+        "height": 1530
       },
       "selected": false,
       "dragging": false,
-      "width": 568,
-      "height": 582,
+      "width": 1448,
+      "height": 1530,
       "resizing": true
     },
     {
@@ -55,23 +55,23 @@
       "id": "geojson-viewer-4",
       "type": "geojson-viewer",
       "position": {
-        "x": 2400,
-        "y": 400
+        "x": 1680,
+        "y": 980
       },
       "data": {
         "size": {
-          "width": 808,
-          "height": 1240
+          "width": 988,
+          "height": 880
         }
       },
       "measured": {
-        "width": 808,
-        "height": 1240
+        "width": 988,
+        "height": 880
       },
       "selected": false,
       "dragging": false,
-      "width": 808,
-      "height": 1240,
+      "width": 988,
+      "height": 880,
       "resizing": true
     },
     {
@@ -83,8 +83,8 @@
       },
       "data": {},
       "measured": {
-        "width": 360,
-        "height": 160
+        "width": 400,
+        "height": 106
       },
       "selected": false,
       "dragging": false
@@ -127,7 +127,7 @@
         "text": "Slovenia"
       },
       "measured": {
-        "width": 280,
+        "width": 400,
         "height": 220
       },
       "selected": false,
@@ -144,7 +144,7 @@
         "text": "Slovakia"
       },
       "measured": {
-        "width": 280,
+        "width": 400,
         "height": 220
       },
       "selected": false,
@@ -154,8 +154,8 @@
       "id": "geojson-heatmap-6",
       "type": "geojson-heatmap",
       "position": {
-        "x": 1960,
-        "y": 560
+        "x": 1700,
+        "y": 320
       },
       "data": {
         "heatmap": {
@@ -183,8 +183,8 @@
       "id": "gps-map-2-copy",
       "type": "gps-map",
       "position": {
-        "x": 1380,
-        "y": 300
+        "x": 2140,
+        "y": 320
       },
       "data": {
         "size": {

@@ -1,0 +1,548 @@
+{
+  "name": "Slovenia Weather",
+  "nodes": [
+    {
+      "id": "gps-map-2",
+      "type": "gps-map",
+      "position": {
+        "x": 2500,
+        "y": 500
+      },
+      "data": {
+        "size": {
+          "width": 1188,
+          "height": 1090
+        }
+      },
+      "measured": {
+        "width": 1188,
+        "height": 1090
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 1188,
+      "height": 1090,
+      "resizing": true
+    },
+    {
+      "id": "open-meteo-loader-1",
+      "type": "open-meteo-loader",
+      "position": {
+        "x": -180,
+        "y": 40
+      },
+      "data": {
+        "fileKey": "geojson-file-1791806971012-g5ntz2",
+        "fetchedAt": 1791806971025,
+        "featureCount": 540,
+        "bounds": {
+          "west": 12.08599709995432,
+          "east": 16.57988505651354,
+          "south": 44.73783263441763,
+          "north": 47.47466314843302
+        },
+        "gridStep": "0.15",
+        "size": {
+          "width": 828,
+          "height": 1079
+        }
+      },
+      "measured": {
+        "width": 828,
+        "height": 1079
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 828,
+      "height": 1079,
+      "resizing": true
+    },
+    {
+      "id": "geojson-merge-1",
+      "type": "geojson-merge",
+      "position": {
+        "x": 2060,
+        "y": 580
+      },
+      "data": {},
+      "measured": {
+        "width": 400,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-2",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 780,
+        "y": 180
+      },
+      "data": {
+        "query": "features[properties.apparent_temperature > 20 ]"
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-3",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 780,
+        "y": 820
+      },
+      "data": {
+        "query": "features[properties.apparent_temperature < 10 ]"
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-style-4",
+      "type": "geojson-style",
+      "position": {
+        "x": 1380,
+        "y": -100
+      },
+      "data": {
+        "style": {
+          "fill": "#d32f2f",
+          "fillSource": "generated",
+          "fillKey": "temperature_2m",
+          "fillBase": "#d32f2f",
+          "stroke": "#d32f2f",
+          "strokeSource": "palette",
+          "strokeKey": "",
+          "strokeBase": "#d32f2f",
+          "strokeWidth": 0,
+          "opacity": 1
+        },
+        "size": {
+          "width": 439,
+          "height": 514
+        }
+      },
+      "measured": {
+        "width": 439,
+        "height": 514
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 439,
+      "height": 514,
+      "resizing": true
+    },
+    {
+      "id": "geojson-style-e6226702-f0c2-4ccc-9448-a1c4c8ec649e",
+      "type": "geojson-style",
+      "position": {
+        "x": 1380,
+        "y": 980
+      },
+      "data": {
+        "style": {
+          "fill": "#d32f2f",
+          "fillSource": "generated",
+          "fillKey": "temperature_2m",
+          "fillBase": "#5c31d3",
+          "stroke": "#4431d3",
+          "strokeSource": "palette",
+          "strokeKey": "",
+          "strokeBase": "#d32f2f",
+          "strokeWidth": 3,
+          "opacity": 1
+        },
+        "size": {
+          "width": 439,
+          "height": 525
+        }
+      },
+      "measured": {
+        "width": 439,
+        "height": 525
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 439,
+      "height": 525,
+      "resizing": true
+    },
+    {
+      "id": "geojson-jsonata-3-copy",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 780,
+        "y": 500
+      },
+      "data": {
+        "query": "features[properties.apparent_temperature >= 10 and properties.apparent_temperature <= 18  ]"
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-style-5-copy",
+      "type": "geojson-style",
+      "position": {
+        "x": 1380,
+        "y": 440
+      },
+      "data": {
+        "style": {
+          "fill": "#31d359",
+          "fillSource": "generated",
+          "fillKey": "temperature_2m",
+          "fillBase": "#31d34c",
+          "stroke": "#4cd331",
+          "strokeSource": "palette",
+          "strokeKey": "",
+          "strokeBase": "#d32f2f",
+          "strokeWidth": 0,
+          "opacity": 1
+        },
+        "size": {
+          "width": 439,
+          "height": 514
+        }
+      },
+      "measured": {
+        "width": 439,
+        "height": 514
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 439,
+      "height": 514,
+      "resizing": true
+    },
+    {
+      "id": "url-geojson-loader-1",
+      "type": "url-geojson-loader",
+      "position": {
+        "x": 3280,
+        "y": -100
+      },
+      "data": {
+        "url": "https://axx2igptegogljsl.public.blob.vercel-storage.com/custom.geo.json",
+        "fileKey": "geojson-file-1791736013047-amnca0",
+        "fetchedAt": 1791736013298,
+        "featureCount": 258
+      },
+      "measured": {
+        "width": 415,
+        "height": 314
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-2",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 780,
+        "y": 180
+      },
+      "data": {
+        "query": "features[properties.apparent_temperature > 20 ]"
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-3",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 780,
+        "y": 820
+      },
+      "data": {
+        "query": "features[properties.apparent_temperature < 10 ]"
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-4",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 2700,
+        "y": -100
+      },
+      "data": {
+        "query": "features[properties.name_en in [\n  \"Slovenia\"\n]]",
+        "skip": false
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-within-area-5",
+      "type": "geojson-within-area",
+      "position": {
+        "x": 2080,
+        "y": 20
+      },
+      "data": {
+        "outside": false
+      },
+      "measured": {
+        "width": 563,
+        "height": 238
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-heatmap-1",
+      "type": "geojson-heatmap",
+      "position": {
+        "x": 3760,
+        "y": 160
+      },
+      "data": {
+        "heatmap": {
+          "granularity": 10,
+          "complexity": 10,
+          "smoothing": 2,
+          "intensityKey": "temperature_2m"
+        }
+      },
+      "measured": {
+        "width": 535,
+        "height": 312
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-2-copy",
+      "type": "gps-map",
+      "position": {
+        "x": 3760,
+        "y": 520
+      },
+      "data": {
+        "size": {
+          "width": 608,
+          "height": 810
+        }
+      },
+      "measured": {
+        "width": 608,
+        "height": 810
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 608,
+      "height": 810,
+      "resizing": true
+    }
+  ],
+  "edges": [
+    {
+      "type": "default",
+      "source": "open-meteo-loader-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-2",
+      "targetHandle": "geojson",
+      "id": "xy-edge__open-meteo-loader-1geojson-geojson-jsonata-2geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-2",
+      "sourceHandle": "geojson",
+      "target": "geojson-style-4",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-jsonata-2geojson-geojson-style-4geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-style-4",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-1",
+      "targetHandle": "geojson-2",
+      "id": "xy-edge__geojson-style-4geojson-geojson-merge-1geojson-2",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-3",
+      "sourceHandle": "geojson",
+      "target": "geojson-style-e6226702-f0c2-4ccc-9448-a1c4c8ec649e",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-jsonata-3geojson-geojson-style-5geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-style-e6226702-f0c2-4ccc-9448-a1c4c8ec649e",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-1",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__geojson-style-5geojson-geojson-merge-1geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-3-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-style-5-copy",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-jsonata-3-copygeojson-geojson-style-5-copygeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-style-5-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-1",
+      "targetHandle": "geojson-3",
+      "id": "xy-edge__geojson-style-5-copygeojson-geojson-merge-1geojson-3",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "url-geojson-loader-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-4",
+      "targetHandle": "geojson",
+      "id": "xy-edge__url-geojson-loader-1geojson-geojson-jsonata-4geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-within-area-5",
+      "sourceHandle": "geojson",
+      "target": "gps-map-2",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-within-area-5geojson-gps-map-2geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-within-area-5",
+      "targetHandle": "geojson-features",
+      "id": "xy-edge__geojson-merge-1geojson-geojson-within-area-5geojson-features",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-4",
+      "sourceHandle": "geojson",
+      "target": "geojson-within-area-5",
+      "targetHandle": "geojson-area",
+      "id": "xy-edge__geojson-jsonata-4geojson-geojson-within-area-5geojson-area",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "open-meteo-loader-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-3-copy",
+      "targetHandle": "geojson",
+      "id": "xy-edge__open-meteo-loader-1geojson-geojson-jsonata-3-copygeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "open-meteo-loader-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-3",
+      "targetHandle": "geojson",
+      "id": "xy-edge__open-meteo-loader-1geojson-geojson-jsonata-3geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-heatmap-1",
+      "sourceHandle": "geojson",
+      "target": "gps-map-2-copy",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-heatmap-1geojson-gps-map-2-copygeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-within-area-5",
+      "sourceHandle": "geojson",
+      "target": "geojson-heatmap-1",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-within-area-5geojson-geojson-heatmap-1geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    }
+  ]
+}

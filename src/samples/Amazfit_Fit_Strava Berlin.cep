@@ -1,0 +1,376 @@
+{
+  "name": "Amazfit/Fit/Strava Berlin",
+  "nodes": [
+    {
+      "id": "fit-input-1",
+      "type": "fit-input",
+      "position": {
+        "x": 1880,
+        "y": 1040
+      },
+      "data": {
+        "fileKey": "fit-1791730981305-45ec5s"
+      },
+      "measured": {
+        "width": 400,
+        "height": 163
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-1",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 1300,
+        "y": 560
+      },
+      "data": {
+        "query": "features[properties.name in [\n  \"Germany\"\n]]"
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "url-geojson-loader-3",
+      "type": "url-geojson-loader",
+      "position": {
+        "x": 800,
+        "y": 340
+      },
+      "data": {
+        "url": "https://axx2igptegogljsl.public.blob.vercel-storage.com/custom.geo.json",
+        "fileKey": "geojson-file-1791731562773-ys3bvb",
+        "fetchedAt": 1791731563190,
+        "featureCount": 258
+      },
+      "measured": {
+        "width": 415,
+        "height": 314
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-within-area-5",
+      "type": "geojson-within-area",
+      "position": {
+        "x": 1880,
+        "y": 740
+      },
+      "data": {
+        "outside": false
+      },
+      "measured": {
+        "width": 563,
+        "height": 238
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-2",
+      "type": "gps-map",
+      "position": {
+        "x": 3320,
+        "y": 520
+      },
+      "data": {
+        "size": {
+          "width": 1448,
+          "height": 850
+        }
+      },
+      "measured": {
+        "width": 1448,
+        "height": 850
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 1448,
+      "height": 850,
+      "resizing": true
+    },
+    {
+      "id": "geojson-heatmap-1",
+      "type": "geojson-heatmap",
+      "position": {
+        "x": 3340,
+        "y": 160
+      },
+      "data": {
+        "heatmap": {
+          "granularity": 3,
+          "complexity": 4,
+          "smoothing": 1,
+          "intensityKey": "maxHeartRate"
+        }
+      },
+      "measured": {
+        "width": 535,
+        "height": 312
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-2",
+      "type": "gps-map",
+      "position": {
+        "x": 3320,
+        "y": 520
+      },
+      "data": {
+        "size": {
+          "width": 1448,
+          "height": 850
+        }
+      },
+      "measured": {
+        "width": 1448,
+        "height": 850
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 1448,
+      "height": 850,
+      "resizing": true
+    },
+    {
+      "id": "gps-map-3",
+      "type": "gps-map",
+      "position": {
+        "x": 3940,
+        "y": 0
+      },
+      "data": {
+        "size": {
+          "width": 828,
+          "height": 482
+        }
+      },
+      "measured": {
+        "width": 828,
+        "height": 482
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 828,
+      "height": 482,
+      "resizing": true
+    },
+    {
+      "id": "geojson-jsonata-1-copy",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 1300,
+        "y": 240
+      },
+      "data": {
+        "query": "features[properties.continent in [\n  \"Europe\"\n]]"
+      },
+      "measured": {
+        "width": 514,
+        "height": 284
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-switch-1",
+      "type": "geojson-switch",
+      "position": {
+        "x": 1880,
+        "y": 440
+      },
+      "data": {
+        "serveB": false
+      },
+      "measured": {
+        "width": 400,
+        "height": 238
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-3",
+      "type": "gps-map",
+      "position": {
+        "x": 3940,
+        "y": 0
+      },
+      "data": {
+        "size": {
+          "width": 828,
+          "height": 482
+        }
+      },
+      "measured": {
+        "width": 828,
+        "height": 482
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 828,
+      "height": 482,
+      "resizing": true
+    },
+    {
+      "id": "geo-bounds-filter-5",
+      "type": "geo-bounds-filter",
+      "position": {
+        "x": 2500,
+        "y": 480
+      },
+      "data": {
+        "size": {
+          "width": 728,
+          "height": 750
+        },
+        "bounds": {
+          "west": 13.184072223643948,
+          "east": 13.651965768104072,
+          "south": 52.400512066710185,
+          "north": 52.63782282946247
+        },
+        "skip": false
+      },
+      "measured": {
+        "width": 728,
+        "height": 750
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 728,
+      "height": 750,
+      "resizing": true
+    }
+  ],
+  "edges": [
+    {
+      "type": "default",
+      "source": "url-geojson-loader-3",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-1",
+      "targetHandle": "geojson",
+      "id": "xy-edge__url-geojson-loader-3geojson-geojson-jsonata-1geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "fit-input-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-within-area-5",
+      "targetHandle": "geojson-features",
+      "id": "xy-edge__fit-input-1geojson-geojson-within-area-5geojson-features",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-heatmap-1",
+      "sourceHandle": "geojson",
+      "target": "gps-map-3",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-heatmap-1geojson-gps-map-3geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "url-geojson-loader-3",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-1-copy",
+      "targetHandle": "geojson",
+      "id": "xy-edge__url-geojson-loader-3geojson-geojson-jsonata-1-copygeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-switch-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-within-area-5",
+      "targetHandle": "geojson-area",
+      "id": "xy-edge__geojson-switch-1geojson-geojson-within-area-5geojson-area",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-switch-1",
+      "targetHandle": "geojson-a",
+      "id": "xy-edge__geojson-jsonata-1geojson-geojson-switch-1geojson-a",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-1-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-switch-1",
+      "targetHandle": "geojson-b",
+      "id": "xy-edge__geojson-jsonata-1-copygeojson-geojson-switch-1geojson-b",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geo-bounds-filter-5",
+      "sourceHandle": "geojson",
+      "target": "geojson-heatmap-1",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geo-bounds-filter-5geojson-geojson-heatmap-1geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geo-bounds-filter-5",
+      "sourceHandle": "geojson",
+      "target": "gps-map-2",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geo-bounds-filter-5geojson-gps-map-2geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-within-area-5",
+      "sourceHandle": "geojson",
+      "target": "geo-bounds-filter-5",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-within-area-5geojson-geo-bounds-filter-5geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    }
+  ]
+}
