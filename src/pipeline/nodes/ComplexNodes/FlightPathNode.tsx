@@ -9,7 +9,7 @@ import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { FlightEntry } from '@/types/types';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { ChevronsRight, File, FileJson } from 'lucide-react';
+import { File, LogOut, Upload } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -127,24 +127,24 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
   };
 
   return (
-    <NodeWrapper type="flight-path" tools={<PipelineStageTiming nodeId={id} nodeType={'flight-path'} />}>
-      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-        {data.flightsFileName && (
-          <NewChip count={''} label={data.flightsFileName} fontSize={16} icon={<File size={16} />} sx={{ height: 38 }} />
-        )}
-        <NewChip count={completeCount ?? 0} label={"Flights"} fontSize={16} icon={<ChevronsRight size={16} />} sx={{ height: 38 }} />
-      </Box>
-      {!data.flightsKey && (data.flights?.length ?? 0) === 0 && (
-        <Typography variant="caption" color="text.secondary" component="div">
-          {t('pipelineFlightPathHint')}
-        </Typography>
+    <NodeWrapper type="flight-path" outputCounts={<>
+      {data.flightsFileName && (
+        <NewChip count={''} label={data.flightsFileName} fontSize={16} icon={<File size={16} />} />
       )}
+      <NewChip count={completeCount ?? 0} variant="important" label={""} fontSize={16} icon={<LogOut size={16} />} />
+
+    </>} tools={<PipelineStageTiming nodeId={id} nodeType={'flight-path'} />}>
+      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+      </Box>
+      <Typography variant="caption" color="text.secondary">
+        {t('pipelineFlightPathHint')}
+      </Typography>
       <Stack direction="row" spacing={1} sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
         <Button
-          variant="outlined"
+          variant="contained"
           className="nodrag nopan"
           component="label"
-          startIcon={<FileJson size={16} />}
+          startIcon={<Upload size={16} />}
         >
           {t('pipelineFlightPathLoadFile')}
           <input

@@ -124,14 +124,14 @@ function UrlGeoJsonLoaderNode({ id, data }: NodeProps<Node<UrlGeoJsonLoaderNodeD
         {!error && data.fetchedAt !== undefined && (
           <NewChip count={new Date(data.fetchedAt).toLocaleTimeString(i18n.language)} icon={<Clock />} label="Loaded" sx={{ height: 30 }} fontSize={12} />
         )}
-        {counts?.outputCount !== undefined && counts?.outputCount !== 0 && <NewChip
+        <NewChip
           variant="important"
           count={counts?.outputCount ?? 0}
           label={''}
           icon={<LogOut size={16} />}
           tooltip={t('pipelineUrlGeoJsonLoaderLeaving')}
           fontSize={12}
-        />}
+        />
       </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'url-geojson-loader'} />}
     >

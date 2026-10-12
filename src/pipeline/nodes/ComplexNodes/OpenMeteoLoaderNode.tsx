@@ -7,12 +7,12 @@ import GeoBoundsPicker from '@/pipeline/components/GeoBoundsPicker';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
+import type { GeoBounds } from '@/types/types';
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { Clock, CloudSun, LogOut } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { GeoBounds } from '@/types/types';
 
 type OpenMeteoLoaderNodeData = {
   // The loaded FeatureCollection array lives in IndexedDB under fileKey (see geojsonFileStore).
@@ -127,7 +127,7 @@ function OpenMeteoLoaderNode({ id, data }: NodeProps<Node<OpenMeteoLoaderNodeDat
     <NodeWrapper type="open-meteo-loader"
       defaultSize={{ width: 448 }}
       outputCounts={<>
-        <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />
+        <NewChip variant="important" count={data.featureCount || 0} icon={<LogOut />} label="" fontSize={12} />
       </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'open-meteo-loader'} />}>
       <Typography variant="body2">{t('pipelineOpenMeteoLoaderHint')}</Typography>

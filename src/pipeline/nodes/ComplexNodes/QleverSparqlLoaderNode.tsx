@@ -102,7 +102,7 @@ function QleverSparqlLoaderNode({ id, data }: NodeProps<Node<QleverSparqlLoaderN
     <NodeWrapper type="qlever-sparql-loader"
       defaultSize={{ height: 420 }}
       outputCounts={<>
-        {data.featureCount !== undefined && <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />}
+        <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />
       </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'qlever-sparql-loader'} />}>
       <Stack spacing={1} sx={{ minWidth: 320, flex: 1, minHeight: 0 }} className="nodrag nopan">
