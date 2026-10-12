@@ -1,14 +1,14 @@
 import NewChip from '@/components/NewChip';
+import { normalizeGeoBounds } from '@/lib/geojson';
 import GeoBoundsPicker from '@/pipeline/components/GeoBoundsPicker';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
-import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
-import { normalizeGeoBounds } from '@/lib/geojson';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { GEO_BOUNDS_FILTER_COUNTS_EVENT, type GeoBounds } from '@/types/types';
-import { Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { LogIn, LogOut } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, LogIn, LogOut } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -75,14 +75,12 @@ function GeoBoundsFilterNode({ id, data }: NodeProps<Node<{ bounds?: GeoBounds }
         }
         tools={<PipelineStageTiming nodeId={id} nodeType={'geo-bounds-filter'} />}
       >
-        <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
-          {t('pipelineGpsBoundsValues', {
-            west: formatDegrees(bounds.west),
-            east: formatDegrees(bounds.east),
-            south: formatDegrees(bounds.south),
-            north: formatDegrees(bounds.north),
-          })}
-        </Typography>
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+          <NewChip count={formatDegrees(bounds.west)} icon={<ArrowLeft />} label="West" sx={{ height: 30 }} fontSize={12} />
+          <NewChip count={formatDegrees(bounds.east)} icon={<ArrowRight />} label="East" sx={{ height: 30 }} fontSize={12} />
+          <NewChip count={formatDegrees(bounds.south)} icon={<ArrowDown />} label="South" sx={{ height: 30 }} fontSize={12} />
+          <NewChip count={formatDegrees(bounds.north)} icon={<ArrowUp />} label="North" sx={{ height: 30 }} fontSize={12} />
+        </Box>
         <GeoBoundsPicker bounds={bounds} onCommit={commitBounds} />
         <OutputHandle id="geojson" position={Position.Bottom} />
       </NodeWrapper>
