@@ -122,6 +122,8 @@ Files loaded into **GeoJSON Input** and **FIT Input** nodes are stored in the br
 - **Download pipeline** exports the current recipe.
 - **Upload pipeline** imports a `.cep` recipe.
 
+The **Starter Templates** group in the templates window lists every `.cep` file in `src/samples/`, found at build time. Starters are read-only: opening one loads it, and saving it creates your own copy. Starters cannot be deleted.
+
 ## ⚙️ Settings, themes, and help
 
 Settings contain application configuration and available personalization options. The built-in help view is useful when a control or workflow is unclear.

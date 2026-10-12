@@ -1,0 +1,497 @@
+{
+  "name": "Visas comparison",
+  "nodes": [
+    {
+      "id": "geojson-zip-1",
+      "type": "geojson-zip",
+      "position": {
+        "x": 1860,
+        "y": -660
+      },
+      "data": {},
+      "measured": {
+        "width": 537,
+        "height": 228
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-2-copy",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 2500,
+        "y": -1160
+      },
+      "data": {
+        "query": "(\n  $nationalities := [\"Romania\", \"Germany\"];\n  $allowed := [\"e-visa\", \"visa free\", \"eta\", \"visa on arrival\"];\n  features[\n    $count(properties.visas[\n      key in $nationalities and status in $allowed\n    ]) = $count($nationalities)\n  ]\n)"
+      },
+      "measured": {
+        "width": 514,
+        "height": 459
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-5-copy-copy",
+      "type": "gps-map",
+      "position": {
+        "x": 3880,
+        "y": -1880
+      },
+      "data": {
+        "skip": false,
+        "size": {
+          "width": 1148,
+          "height": 1318
+        }
+      },
+      "measured": {
+        "width": 1148,
+        "height": 1318
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 1148,
+      "height": 1318,
+      "resizing": true
+    },
+    {
+      "id": "post-it-9",
+      "type": "post-it",
+      "position": {
+        "x": 2160,
+        "y": -1020
+      },
+      "data": {
+        "text": "Places where visas for Romania / Germany work"
+      },
+      "measured": {
+        "width": 280,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-1",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 940,
+        "y": -1840
+      },
+      "data": {
+        "query": "features[properties.name in [\n  \"Antarctica\",\n  \"Russia\",\n  \"North Korea\",\n  \"Belarus\",\n  \"Ukraine\",\n  \"Iran\",\n  \"Israel\",\n  \"Turkey\",\n  \"Ethiopia\",\n  \"United States of America\",\n  \"India\",\n  \"Pakistan\",\n  \"Egypt\",\n  \"United Arab Emirates\",\n  \"China\",\n  \"Philippines\",\n  \"Georgia\",\n  \"Armenia\",\n  \"Yemen\",\n  \"Saudi Arabia\",\n  \"Lebanon\"\n]]",
+        "skip": false,
+        "size": {
+          "width": 594,
+          "height": 457
+        },
+        "negate": true
+      },
+      "measured": {
+        "width": 594,
+        "height": 457
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 594,
+      "height": 457,
+      "resizing": true
+    },
+    {
+      "id": "geojson-merge-3",
+      "type": "geojson-merge",
+      "position": {
+        "x": 1700,
+        "y": -1220
+      },
+      "data": {},
+      "measured": {
+        "width": 360,
+        "height": 160
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "post-it-9-copy",
+      "type": "post-it",
+      "position": {
+        "x": 620,
+        "y": -1600
+      },
+      "data": {
+        "text": "Countries in active military conflict"
+      },
+      "measured": {
+        "width": 280,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-1-copy",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 940,
+        "y": -1340
+      },
+      "data": {
+        "query": "features[properties.name in [\n  \"Åland\",\n  \"Albania\",\n  \"Andorra\",\n  \"Armenia\",\n  \"Austria\",\n  \"Azerbaijan\",\n  \"Belgium\",\n  \"Bulgaria\",\n  \"Cabo Verde\",\n  \"Cambodia\",\n  \"China\",\n  \"Croatia\",\n  \"Cyprus\",\n  \"Czechia\",\n  \"Denmark\",\n  \"Egypt\",\n  \"Estonia\",\n  \"Finland\",\n  \"France\",\n  \"Georgia\",\n  \"Germany\",\n  \"Gibraltar\",\n  \"Greece\",\n  \"Hungary\",\n  \"Iceland\",\n  \"India\",\n  \"Indonesia\",\n  \"Ireland\",\n  \"Isle of Man\",\n  \"Israel\",\n  \"Italy\",\n  \"Japan\",\n  \"Kazakhstan\",\n  \"Latvia\",\n  \"Lithuania\",\n  \"Luxembourg\",\n  \"Malaysia\",\n  \"Malta\",\n  \"Monaco\",\n  \"Montenegro\",\n  \"Morocco\",\n  \"Netherlands\",\n  \"North Macedonia\",\n  \"Philippines\",\n  \"Poland\",\n  \"Portugal\",\n  \"Romania\",\n  \"Serbia\",\n  \"Singapore\",\n  \"Slovakia\",\n  \"Slovenia\",\n  \"South Korea\",\n  \"Spain\",\n  \"Sweden\",\n  \"Switzerland\",\n  \"Taiwan\",\n  \"Thailand\",\n  \"Turkey\",\n  \"United Arab Emirates\",\n  \"United Kingdom\",\n  \"United States\",\n  \"Vatican City\",\n  \"Vietnam\"\n]]",
+        "skip": false,
+        "size": {
+          "width": 594,
+          "height": 477
+        },
+        "negate": true
+      },
+      "measured": {
+        "width": 594,
+        "height": 477
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 594,
+      "height": 477,
+      "resizing": true
+    },
+    {
+      "id": "post-it-9-copy-copy",
+      "type": "post-it",
+      "position": {
+        "x": 620,
+        "y": -1080
+      },
+      "data": {
+        "text": "Countries visited"
+      },
+      "measured": {
+        "width": 280,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-style-1",
+      "type": "geojson-style",
+      "position": {
+        "x": 3060,
+        "y": -1160
+      },
+      "data": {
+        "style": {
+          "fill": "#313cd3",
+          "fillSource": "generated",
+          "fillKey": "name_en",
+          "fillBase": "#31d33c",
+          "stroke": "#ffffff",
+          "strokeSource": "palette",
+          "strokeKey": "",
+          "strokeBase": "#d32f2f",
+          "strokeWidth": 1,
+          "opacity": 0.95
+        },
+        "skip": false
+      },
+      "measured": {
+        "width": 619,
+        "height": 534
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-4",
+      "type": "gps-map",
+      "position": {
+        "x": 2120,
+        "y": -2020
+      },
+      "data": {
+        "size": {
+          "width": 588,
+          "height": 738
+        }
+      },
+      "measured": {
+        "width": 588,
+        "height": 738
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 588,
+      "height": 738,
+      "resizing": true
+    },
+    {
+      "id": "url-geojson-loader-4",
+      "type": "url-geojson-loader",
+      "position": {
+        "x": 80,
+        "y": -1780
+      },
+      "data": {
+        "url": "https://axx2igptegogljsl.public.blob.vercel-storage.com/custom.geo.json",
+        "fileKey": "geojson-file-1791738587595-ta82zl",
+        "fetchedAt": 1791738587838,
+        "featureCount": 258
+      },
+      "measured": {
+        "width": 415,
+        "height": 330
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "url-geojson-loader-5",
+      "type": "url-geojson-loader",
+      "position": {
+        "x": 1380,
+        "y": -700
+      },
+      "data": {
+        "url": "https://axx2igptegogljsl.public.blob.vercel-storage.com/passport-index-formatted.geojson",
+        "fileKey": "geojson-file-1791738893780-5741ci",
+        "fetchedAt": 1791738893829,
+        "featureCount": 258
+      },
+      "measured": {
+        "width": 415,
+        "height": 330
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-2-copy-copy",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 2500,
+        "y": -580
+      },
+      "data": {
+        "query": "(\n  $nationalities := [\"Romania\", \"Germany\"];\n  $allowed := [\"visa required\"];\n  features[\n    $count(properties.visas[\n      key in $nationalities and status in $allowed\n    ]) = $count($nationalities)\n  ]\n)"
+      },
+      "measured": {
+        "width": 514,
+        "height": 436
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-style-1-copy",
+      "type": "geojson-style",
+      "position": {
+        "x": 3060,
+        "y": -580
+      },
+      "data": {
+        "style": {
+          "fill": "#d3a831",
+          "fillSource": "generated",
+          "fillKey": "name_en",
+          "fillBase": "#d3a831",
+          "stroke": "#ffffff",
+          "strokeSource": "palette",
+          "strokeKey": "",
+          "strokeBase": "#d32f2f",
+          "strokeWidth": 1,
+          "opacity": 0.95
+        },
+        "skip": false,
+        "size": {
+          "width": 620,
+          "height": 482
+        }
+      },
+      "measured": {
+        "width": 620,
+        "height": 482
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 620,
+      "height": 482,
+      "resizing": true
+    },
+    {
+      "id": "geojson-merge-1",
+      "type": "geojson-merge",
+      "position": {
+        "x": 3760,
+        "y": -520
+      },
+      "data": {},
+      "measured": {
+        "width": 360,
+        "height": 160
+      },
+      "selected": false,
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "type": "default",
+      "source": "geojson-zip-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-2-copy",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-zip-1geojson-geojson-jsonata-2-copygeojson"
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-3",
+      "sourceHandle": "geojson",
+      "target": "geojson-zip-1",
+      "targetHandle": "geojson-a",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-merge-3geojson-geojson-zip-1geojson-a"
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-2-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-style-1",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-jsonata-2-copygeojson-geojson-style-1geojson"
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-1-copy",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-jsonata-1geojson-geojson-jsonata-1-copygeojson"
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-3",
+      "sourceHandle": "geojson",
+      "target": "gps-map-4",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-merge-3geojson-gps-map-4geojson"
+    },
+    {
+      "type": "default",
+      "source": "url-geojson-loader-4",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-1",
+      "targetHandle": "geojson",
+      "id": "xy-edge__url-geojson-loader-4geojson-geojson-jsonata-1geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-1-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-3",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__geojson-jsonata-1-copygeojson-geojson-merge-3geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "url-geojson-loader-5",
+      "sourceHandle": "geojson",
+      "target": "geojson-zip-1",
+      "targetHandle": "geojson-b",
+      "id": "xy-edge__url-geojson-loader-5geojson-geojson-zip-1geojson-b",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-2-copy-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-style-1-copy",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-jsonata-2-copy-copygeojson-geojson-style-1-copygeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-style-1-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-1",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__geojson-style-1-copygeojson-geojson-merge-1geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-style-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-1",
+      "targetHandle": "geojson-2",
+      "id": "xy-edge__geojson-style-1geojson-geojson-merge-1geojson-2",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-1",
+      "sourceHandle": "geojson",
+      "target": "gps-map-5-copy-copy",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-merge-1geojson-gps-map-5-copy-copygeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-zip-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-2-copy-copy",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-zip-1geojson-geojson-jsonata-2-copy-copygeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,445 @@
+{
+  "name": "Airports Dijkstra Demo",
+  "nodes": [
+    {
+      "id": "flight-path-1",
+      "type": "flight-path",
+      "position": {
+        "x": 2140,
+        "y": 220
+      },
+      "data": {
+        "flightsFileName": "flights-sample - Copy.json",
+        "flightsKey": "flights-1791799581639-a0e3kc",
+        "completeCount": 50000
+      },
+      "measured": {
+        "width": 414,
+        "height": 191
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "shortest-route-1",
+      "type": "shortest-route",
+      "position": {
+        "x": 1220,
+        "y": 540
+      },
+      "data": {
+        "from": {
+          "iata": "BER",
+          "name": "Berlin Brandenburg Airport",
+          "city": "Berlin",
+          "country": "DE",
+          "lat": 52.3617,
+          "lon": 13.5023
+        },
+        "to": {
+          "iata": "BER",
+          "name": "Berlin Brandenburg Airport",
+          "city": "Berlin",
+          "country": "DE",
+          "lat": 52.3617,
+          "lon": 13.5023
+        },
+        "via": [
+          {
+            "iata": "FRA",
+            "name": "Frankfurt Main Airport",
+            "city": "Frankfurt am Main",
+            "country": "DE",
+            "lat": 50.0267,
+            "lon": 8.5584
+          },
+          {
+            "iata": "VLC",
+            "name": "Valencia Airport",
+            "city": "Valencia",
+            "country": "ES",
+            "lat": 39.4892,
+            "lon": -0.481
+          },
+          {
+            "iata": "GRU",
+            "name": "São Paulo/Guarulhos–Governor André Franco Montoro International Airport",
+            "city": "São Paulo",
+            "country": "BR",
+            "lat": -23.4313,
+            "lon": -46.47
+          },
+          {
+            "iata": "BLQ",
+            "name": "Bologna Guglielmo Marconi Airport",
+            "city": "Bologna",
+            "country": "IT",
+            "lat": 44.5354,
+            "lon": 11.2887
+          },
+          {
+            "iata": "CAI",
+            "name": "Cairo International Airport",
+            "city": "Cairo",
+            "country": "EG",
+            "lat": 30.1115,
+            "lon": 31.3967
+          },
+          {
+            "iata": "SAI",
+            "name": "Siem Reap-Angkor International Airport",
+            "city": "Siem Reap",
+            "country": "KH",
+            "lat": 13.3697,
+            "lon": 104.2238
+          }
+        ],
+        "size": {
+          "width": 840,
+          "height": 264
+        }
+      },
+      "measured": {
+        "width": 840,
+        "height": 264
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 840,
+      "height": 264,
+      "resizing": true
+    },
+    {
+      "id": "gps-map-2-copy-2",
+      "type": "gps-map",
+      "position": {
+        "x": 160,
+        "y": 960
+      },
+      "data": {
+        "size": {
+          "width": 848,
+          "height": 1018
+        }
+      },
+      "measured": {
+        "width": 848,
+        "height": 1018
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 848,
+      "height": 1018,
+      "resizing": true
+    },
+    {
+      "id": "geojson-viewer-1",
+      "type": "geojson-viewer",
+      "position": {
+        "x": 1040,
+        "y": 1440
+      },
+      "data": {},
+      "measured": {
+        "width": 508,
+        "height": 520
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-1-copy",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 660,
+        "y": 540
+      },
+      "data": {
+        "query": "features[\n  $number(properties.totalPrice) < 300 and properties.legCount >= 3\n] ~> $sort(function($a, $b) {\n  $number($a.properties.totalPrice) - $number($b.properties.totalPrice)\n})",
+        "skip": false
+      },
+      "measured": {
+        "width": 514,
+        "height": 390
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-jsonata-1-copy-copy",
+      "type": "geojson-jsonata",
+      "position": {
+        "x": 3400,
+        "y": 660
+      },
+      "data": {
+        "query": "features[properties.from = 'SIN' or properties.to = 'SIN']",
+        "skip": false
+      },
+      "measured": {
+        "width": 514,
+        "height": 298
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-3-copy",
+      "type": "gps-map",
+      "position": {
+        "x": 3980,
+        "y": 660
+      },
+      "data": {
+        "size": {
+          "width": 1008,
+          "height": 1038
+        }
+      },
+      "measured": {
+        "width": 1008,
+        "height": 1038
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 1008,
+      "height": 1038,
+      "resizing": true
+    },
+    {
+      "id": "geojson-viewer-5-copy",
+      "type": "geojson-viewer",
+      "position": {
+        "x": 3420,
+        "y": 1180
+      },
+      "data": {
+        "skip": false
+      },
+      "measured": {
+        "width": 508,
+        "height": 520
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "post-it-1",
+      "type": "post-it",
+      "position": {
+        "x": 3400,
+        "y": 400
+      },
+      "data": {
+        "text": "Filter flights that go/come to SIN(gapore)"
+      },
+      "measured": {
+        "width": 280,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "post-it-1-copy",
+      "type": "post-it",
+      "position": {
+        "x": 160,
+        "y": 700
+      },
+      "data": {
+        "text": "Permute \n\nBER > somewhere > BER",
+        "size": {
+          "width": 420,
+          "height": 220
+        }
+      },
+      "measured": {
+        "width": 420,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 420,
+      "height": 220,
+      "resizing": true
+    },
+    {
+      "id": "geojson-feature-picker-1",
+      "type": "geojson-feature-picker",
+      "position": {
+        "x": 1560,
+        "y": 840
+      },
+      "data": {
+        "featureIndex": 51
+      },
+      "measured": {
+        "width": 499,
+        "height": 200
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-viewer-1-copy",
+      "type": "geojson-viewer",
+      "position": {
+        "x": 2340,
+        "y": 680
+      },
+      "data": {},
+      "measured": {
+        "width": 508,
+        "height": 520
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-2-copy-2-copy",
+      "type": "gps-map",
+      "position": {
+        "x": 1760,
+        "y": 1220
+      },
+      "data": {
+        "size": {
+          "width": 1088,
+          "height": 678
+        }
+      },
+      "measured": {
+        "width": 1088,
+        "height": 678
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 1088,
+      "height": 678,
+      "resizing": true
+    }
+  ],
+  "edges": [
+    {
+      "type": "default",
+      "source": "flight-path-1",
+      "sourceHandle": "geojson",
+      "target": "shortest-route-1",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__flight-path-1geojson-shortest-route-1geojson"
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-1-copy-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-viewer-5-copy",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-jsonata-1-copy-copygeojson-geojson-viewer-5-copygeojson"
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-1-copy-copy",
+      "sourceHandle": "geojson",
+      "target": "gps-map-3-copy",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-jsonata-1-copy-copygeojson-gps-map-3-copygeojson"
+    },
+    {
+      "type": "default",
+      "source": "geojson-feature-picker-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-viewer-1-copy",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-feature-picker-1geojson-geojson-viewer-1-copygeojson"
+    },
+    {
+      "type": "default",
+      "source": "geojson-feature-picker-1",
+      "sourceHandle": "geojson",
+      "target": "gps-map-2-copy-2-copy",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-feature-picker-1geojson-gps-map-2-copy-2-copygeojson"
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-1-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-feature-picker-1",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-jsonata-1-copygeojson-geojson-feature-picker-1geojson"
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-1-copy",
+      "sourceHandle": "geojson",
+      "target": "gps-map-2-copy-2",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-jsonata-1-copygeojson-gps-map-2-copy-2geojson"
+    },
+    {
+      "type": "default",
+      "source": "geojson-jsonata-1-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-viewer-1",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__geojson-jsonata-1-copygeojson-geojson-viewer-1geojson"
+    },
+    {
+      "type": "default",
+      "source": "shortest-route-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-1-copy",
+      "targetHandle": "geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      },
+      "id": "xy-edge__shortest-route-1geojson-geojson-jsonata-1-copygeojson"
+    },
+    {
+      "type": "default",
+      "source": "flight-path-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-jsonata-1-copy-copy",
+      "targetHandle": "geojson",
+      "id": "xy-edge__flight-path-1geojson-geojson-jsonata-1-copy-copygeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    }
+  ]
+}

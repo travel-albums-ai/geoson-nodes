@@ -1,4 +1,5 @@
 import { createLocalStorageStoreNg } from '@/lib/createLocalStorageStoreNg';
+import { findStarterTemplate } from '@/pipeline/starterTemplates';
 import { ANNOTATION_NODE_TYPES, WORKER_NODE_TYPES } from '@/types/types';
 import type { Edge, Node } from '@xyflow/react';
 
@@ -7,7 +8,7 @@ export type PipelineGraph = {
   edges: Edge[]
 }
 
-export type PipelineType = 'user' | 'community'
+export type PipelineType = 'user' | 'community' | 'starter'
 
 
 export type SavedPipeline = PipelineGraph & {
@@ -165,7 +166,7 @@ export const usePipelineStore = () => {
       return pipeline.id
     },
     cloneExisting: (id: string, name?: string) => {
-      const existing = store.pipelines.find((pipeline) => pipeline.id === id)
+      const existing = store.pipelines.find((pipeline) => pipeline.id === id) ?? findStarterTemplate(id)
       if (!existing) return undefined
 
       const date = createPipelineDate()
@@ -215,7 +216,7 @@ export const usePipelineStore = () => {
       })
     },
     loadById: (id: string) => {
-      const pipeline = store.pipelines.find((item) => item.id === id)
+      const pipeline = store.pipelines.find((item) => item.id === id) ?? findStarterTemplate(id)
       return pipeline && { ...pipeline, ...keepSupportedGraph(pipeline) }
     }
   }

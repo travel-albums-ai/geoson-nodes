@@ -1,0 +1,280 @@
+{
+  "name": "Attractions / Activities in Slovenia/Slovakia",
+  "nodes": [
+    {
+      "id": "gps-map-2",
+      "type": "gps-map",
+      "position": {
+        "x": 1800,
+        "y": 1060
+      },
+      "data": {
+        "size": {
+          "width": 568,
+          "height": 582
+        }
+      },
+      "measured": {
+        "width": 568,
+        "height": 582
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 568,
+      "height": 582,
+      "resizing": true
+    },
+    {
+      "id": "qlever-sparql-loader-1",
+      "type": "qlever-sparql-loader",
+      "position": {
+        "x": 160,
+        "y": 400
+      },
+      "data": {
+        "query": "PREFIX osmkey: <https://www.openstreetmap.org/wiki/Key:>\nPREFIX geo: <http://www.opengis.net/ont/geosparql#>\nPREFIX ogc: <http://www.opengis.net/rdf#>\nPREFIX osmrel: <https://www.openstreetmap.org/relation/>\n\nSELECT DISTINCT ?type ?name ?description ?image ?website ?wikipedia ?wikidata ?wkt WHERE {\n  osmrel:14296 ogc:sfContains ?osm_id .\n\n  {\n    ?osm_id osmkey:tourism ?type .\n    VALUES ?type { \"attraction\" \"activity\" \"tourism\" \"museum\" }\n  }\n  UNION\n  {\n    ?osm_id osmkey:leisure \"water_park\" .\n    BIND(\"water_park\" AS ?type)\n  }\n  UNION\n  {\n    ?osm_id osmkey:natural \"cave_entrance\" .\n    BIND(\"cave\" AS ?type)\n  }\n  UNION\n  {\n    ?osm_id osmkey:sport ?type .\n    VALUES ?type { \"canyoning\" \"whitewater_rafting\" }\n  }\n\n  ?osm_id osmkey:name ?name ;\n          osmkey:website ?website ;\n          geo:hasGeometry/geo:asWKT ?wkt .\n\n  OPTIONAL { ?osm_id osmkey:description ?description }\n  OPTIONAL { ?osm_id osmkey:wikipedia ?wikipedia }\n  OPTIONAL { ?osm_id osmkey:wikidata ?wikidata }\n\n  FILTER(BOUND(?wikipedia) || BOUND(?wikidata))\n}\nLIMIT 200",
+        "fileKey": "geojson-file-1791756975436-afsvi3",
+        "fetchedAt": 1791756975443,
+        "featureCount": 190,
+        "size": {
+          "width": 880,
+          "height": 559
+        }
+      },
+      "measured": {
+        "width": 880,
+        "height": 559
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 880,
+      "height": 559,
+      "resizing": true
+    },
+    {
+      "id": "geojson-viewer-4",
+      "type": "geojson-viewer",
+      "position": {
+        "x": 2400,
+        "y": 400
+      },
+      "data": {
+        "size": {
+          "width": 808,
+          "height": 1240
+        }
+      },
+      "measured": {
+        "width": 808,
+        "height": 1240
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 808,
+      "height": 1240,
+      "resizing": true
+    },
+    {
+      "id": "geojson-merge-2",
+      "type": "geojson-merge",
+      "position": {
+        "x": 1120,
+        "y": 880
+      },
+      "data": {},
+      "measured": {
+        "width": 360,
+        "height": 160
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "qlever-sparql-loader-1-copy",
+      "type": "qlever-sparql-loader",
+      "position": {
+        "x": 160,
+        "y": 980
+      },
+      "data": {
+        "query": "PREFIX osmkey: <https://www.openstreetmap.org/wiki/Key:>\nPREFIX geo: <http://www.opengis.net/ont/geosparql#>\nPREFIX ogc: <http://www.opengis.net/rdf#>\nPREFIX osmrel: <https://www.openstreetmap.org/relation/>\n\nSELECT DISTINCT ?type ?name ?website ?wikipedia ?wikidata ?wkt WHERE {\n  osmrel:218657 ogc:sfContains ?osm_id .\n\n  {\n    ?osm_id osmkey:tourism ?type .\n    VALUES ?type { \"attraction\" \"activity\" \"tourism\" \"museum\" }\n  }\n  UNION\n  {\n    ?osm_id osmkey:natural \"cave_entrance\" .\n    BIND(\"cave\" AS ?type)\n  }\n  UNION\n  {\n    ?osm_id osmkey:leisure \"water_park\" .\n    BIND(\"water_park\" AS ?type)\n  }\n  UNION\n  {\n    ?osm_id osmkey:sport ?type .\n    VALUES ?type { \"canyoning\" \"whitewater_rafting\" }\n  }\n\n  ?osm_id osmkey:name ?name ;\n          osmkey:website ?website ;\n          geo:hasGeometry/geo:asWKT ?wkt .\n\n  OPTIONAL { ?osm_id osmkey:wikipedia ?wikipedia }\n  OPTIONAL { ?osm_id osmkey:wikidata ?wikidata }\n\n  FILTER(BOUND(?wikipedia) || BOUND(?wikidata))\n}\nLIMIT 200",
+        "fileKey": "geojson-file-1791756981234-33tj6u",
+        "fetchedAt": 1791756981237,
+        "featureCount": 69,
+        "size": {
+          "width": 880,
+          "height": 559
+        }
+      },
+      "measured": {
+        "width": 880,
+        "height": 559
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 880,
+      "height": 559,
+      "resizing": true
+    },
+    {
+      "id": "post-it-1",
+      "type": "post-it",
+      "position": {
+        "x": 1060,
+        "y": 400
+      },
+      "data": {
+        "text": "Slovenia"
+      },
+      "measured": {
+        "width": 280,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "post-it-2",
+      "type": "post-it",
+      "position": {
+        "x": 1060,
+        "y": 1300
+      },
+      "data": {
+        "text": "Slovakia"
+      },
+      "measured": {
+        "width": 280,
+        "height": 220
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "geojson-heatmap-6",
+      "type": "geojson-heatmap",
+      "position": {
+        "x": 1960,
+        "y": 560
+      },
+      "data": {
+        "heatmap": {
+          "granularity": 1,
+          "complexity": 10,
+          "smoothing": 1,
+          "intensityKey": ""
+        },
+        "size": {
+          "width": 415,
+          "height": 406
+        }
+      },
+      "measured": {
+        "width": 415,
+        "height": 406
+      },
+      "selected": false,
+      "width": 415,
+      "height": 406,
+      "resizing": true,
+      "dragging": false
+    },
+    {
+      "id": "gps-map-2-copy",
+      "type": "gps-map",
+      "position": {
+        "x": 1380,
+        "y": 300
+      },
+      "data": {
+        "size": {
+          "width": 528,
+          "height": 442
+        }
+      },
+      "measured": {
+        "width": 528,
+        "height": 442
+      },
+      "selected": false,
+      "dragging": false,
+      "width": 528,
+      "height": 442,
+      "resizing": true
+    }
+  ],
+  "edges": [
+    {
+      "type": "default",
+      "source": "geojson-merge-2",
+      "sourceHandle": "geojson",
+      "target": "gps-map-2",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-merge-2geojson-gps-map-2geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-2",
+      "sourceHandle": "geojson",
+      "target": "geojson-viewer-4",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-merge-2geojson-geojson-viewer-4geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-merge-2",
+      "sourceHandle": "geojson",
+      "target": "geojson-heatmap-6",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-merge-2geojson-geojson-heatmap-6geojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "geojson-heatmap-6",
+      "sourceHandle": "geojson",
+      "target": "gps-map-2-copy",
+      "targetHandle": "geojson",
+      "id": "xy-edge__geojson-heatmap-6geojson-gps-map-2-copygeojson",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "qlever-sparql-loader-1",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-2",
+      "targetHandle": "geojson-1",
+      "id": "xy-edge__qlever-sparql-loader-1geojson-geojson-merge-2geojson-1",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    },
+    {
+      "type": "default",
+      "source": "qlever-sparql-loader-1-copy",
+      "sourceHandle": "geojson",
+      "target": "geojson-merge-2",
+      "targetHandle": "geojson-2",
+      "id": "xy-edge__qlever-sparql-loader-1-copygeojson-geojson-merge-2geojson-2",
+      "style": {
+        "strokeWidth": 2,
+        "stroke": "rgba(113, 82, 248, 0.6)"
+      }
+    }
+  ]
+}

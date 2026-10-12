@@ -27,6 +27,7 @@ import { VIEWER_NODE_TYPES } from "@/types/types";
 import type { GeoJsonFeatureCollectionArray } from "@/types/types";
 import { useTranslation } from 'react-i18next';
 import { downloadPipelineFile, readPipelineFile } from './pipelineApi';
+import { isStarterPipelineId } from './starterTemplates';
 import {
   EDGE_TYPE,
   INITIAL_EDGES,
@@ -289,7 +290,7 @@ function Pipeline() {
 
     const normalizedName = name.trim() || t('untitledPipeline');
 
-    if (currentPipelineId) {
+    if (currentPipelineId && !isStarterPipelineId(currentPipelineId)) {
       updateById(currentPipelineId, normalizedName, { nodes, edges });
       setCurrentPipeline({ ...currentPipeline, name: normalizedName, isDirty: false });
       return;

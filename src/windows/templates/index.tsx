@@ -2,9 +2,10 @@ import SectionHeader from '@/components/SectionHeader';
 import { usePipelineStore } from '@/context/pipelineStore';
 import { useSettings } from '@/context/settingsStore';
 import PipelineSelectorItems from '@/pipeline/components/PipelineSelectorItems';
+import { getStarterTemplates } from '@/pipeline/starterTemplates';
 import PipelineSelectorItem from '@/windows/templates/PipelineSelectorItem';
 import { Box, Chip, TextField } from '@mui/material';
-import { GalleryHorizontalEnd, User } from 'lucide-react';
+import { GalleryHorizontalEnd, Sparkles, User } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -31,6 +32,13 @@ export default function Templates() {
       icon: <User />,
       data: pipelines
         .filter(p => p.type === 'user')
+    },
+    {
+      type: 'starter',
+      name: 'templatesStarterName',
+      description: 'templatesStarterDescription',
+      icon: <Sparkles />,
+      data: getStarterTemplates()
     }
   ]
 
@@ -40,6 +48,9 @@ export default function Templates() {
     },
     {
       label: 'templatesFilterUser', value: 'user'
+    },
+    {
+      label: 'templatesFilterStarter', value: 'starter'
     },
   ]
 

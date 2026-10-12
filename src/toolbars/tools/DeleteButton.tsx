@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { usePipelineStore } from '@/context/pipelineStore';
 import { usePipelineTrash } from '@/hooks/usePipelineTrash';
+import { isStarterPipelineId } from '@/pipeline/starterTemplates';
 import { INITIAL_EDGES, INITIAL_NODES } from '../../pipeline/pipelineConfig';
 
 export default function DeleteButton() {
@@ -11,9 +12,10 @@ export default function DeleteButton() {
   const { currentPipeline, deleteById, setCurrentPipeline } = usePipelineStore();
   const { trashActive, trashRef } = usePipelineTrash();
   const currentPipelineId = currentPipeline.id;
+  const canDelete = Boolean(currentPipelineId) && !isStarterPipelineId(currentPipelineId);
 
   const onDelete = () => {
-    if (!currentPipelineId) return;
+    if (!canDelete) return;
     if (!window.confirm(t('deletePipelineConfirm', { name: currentPipeline.name }))) return;
 
     deleteById(currentPipelineId);
@@ -21,13 +23,13 @@ export default function DeleteButton() {
   };
 
   return <>
-    <Tooltip title={currentPipelineId ? t('deleteCurrentPipeline') : t('noSavedPipelineSelected')} placement="right">
+    <Tooltip title={canDelete ? t('deleteCurrentPipeline') : t('noSavedPipelineSelected')} placement="right">
       <span>
         <Button
           type="button"
           fullWidth={true}
-          aria-label={currentPipelineId ? t('deleteCurrentPipeline') : t('noSavedPipelineSelected')}
-          disabled={!currentPipelineId}
+          aria-label={canDelete ? t('deleteCurrentPipeline') : t('noSavedPipelineSelected')}
+          disabled={!canDelete}
           ref={trashRef}
           sx={{
             minWidth: 'unset',
