@@ -15,7 +15,7 @@ export function OutputHandle({ id, position, style, color }: { id: string; posit
       id={id}
     >
       <Box sx={{ position: 'relative',
-        opacity: 0.5,
+        opacity: 0.75,
         filter: 'grayscale(0.5)',
         transition: 'opacity 0.25s ease, filter 0.25s ease',
         '&:hover': {
@@ -26,7 +26,7 @@ export function OutputHandle({ id, position, style, color }: { id: string; posit
         <Square size={10} style={{
           position: 'absolute',
           right: '2px',
-          stroke: theme.palette.divider,
+          stroke: theme.palette.primary.main,
           fill: color || theme.palette.primary.main,
         }} />
       </Box>

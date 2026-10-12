@@ -6,7 +6,7 @@ import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { GEOJSON_JSONATA_COUNTS_EVENT, type GeoJsonFeatureCollectionArray } from '@/types/types';
 import { Box, FormControlLabel, Switch, TextField } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { Layers, LogIn, LogOut } from 'lucide-react';
+import { LogIn, LogOut } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -80,8 +80,6 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
     window.dispatchEvent(new CustomEvent('pipeline:changed'));
   }, [id, setNodes]);
 
-  const collections = data.geojson ?? [];
-
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
@@ -110,7 +108,6 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
         tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-jsonata'} />}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', pb: 1 }}>
-          <NewChip count={collections.length} label={t('pipelineGeoJsonCollections')} fontSize={16} icon={<Layers size={16} />} sx={{ height: 38 }} />
           <FormControlLabel
             className="nodrag nopan"
             label={t('pipelineGeoJsonJsonataNegate')}

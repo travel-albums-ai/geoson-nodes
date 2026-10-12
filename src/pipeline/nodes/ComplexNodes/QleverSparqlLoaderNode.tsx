@@ -100,17 +100,17 @@ function QleverSparqlLoaderNode({ id, data }: NodeProps<Node<QleverSparqlLoaderN
 
   return (
     <NodeWrapper type="qlever-sparql-loader"
+      defaultSize={{ height: 420 }}
       outputCounts={<>
-        <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />
+        {data.featureCount !== undefined && <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />}
       </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'qlever-sparql-loader'} />}>
-      <Stack spacing={1} sx={{ minWidth: 320 }} className="nodrag nopan">
+      <Stack spacing={1} sx={{ minWidth: 320, flex: 1, minHeight: 0 }} className="nodrag nopan">
         <Typography variant="body2">{t('pipelineQleverSparqlLoaderHint')}</Typography>
         <TextField
           className="nowheel"
           multiline
-          minRows={6}
-          maxRows={14}
+          rows={6}
           fullWidth
           size="small"
           value={draft}
@@ -118,11 +118,16 @@ function QleverSparqlLoaderNode({ id, data }: NodeProps<Node<QleverSparqlLoaderN
           label={t('pipelineQleverSparqlLoaderQueryLabel')}
           placeholder={t('pipelineQleverSparqlLoaderPlaceholder')}
           helperText={t('pipelineQleverSparqlLoaderQueryHint')}
-          sx={{ '& textarea': { fontFamily: 'monospace' } }}
+          sx={{
+            flex: 1,
+            minHeight: 0,
+            '& .MuiInputBase-root': { flex: 1, minHeight: 0, alignItems: 'stretch' },
+            '& textarea': { fontFamily: 'monospace', height: '100% !important', boxSizing: 'border-box' },
+          }}
         />
         <Stack direction="row" spacing={1}>
           <Button
-            variant="outlined"
+            variant="contained"
             startIcon={<Database size={16} />}
             onClick={runQuery}
             disabled={loading || draft.trim() === ''}
