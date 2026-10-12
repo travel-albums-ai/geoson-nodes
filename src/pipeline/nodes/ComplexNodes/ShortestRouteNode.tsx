@@ -76,7 +76,7 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
     window.dispatchEvent(new CustomEvent('pipeline:changed'));
   }, [id, setNodes]);
 
-  const airportOptionLabel = (airport: Airport) => airport.iata;
+  const airportOptionLabel = (airport: Airport) => `${airport.name} (${airport.iata})`;
   const renderAirportOption = ({ key, ...props }: HTMLAttributes<HTMLLIElement> & { key: Key }, airport: Airport) => (
     <li key={key} {...props}>
       {`${airport.iata} · ${airport.city}, ${airport.country}`}
