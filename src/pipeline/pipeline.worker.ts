@@ -37,7 +37,7 @@ import { loadGeoJsonFile } from "@/lib/geojsonFileStore";
 import { commonPropertyKeys, zipGeoJsonByKey } from "@/lib/geojsonZip";
 import { runGeoJsonQuery } from "@/lib/geojsonQuery";
 import { buildFlightPathCollections } from "@/lib/flights";
-import { filterFlightRoutes } from "@/lib/flightRoutes";
+import { filterFlightRoutes, toAirportList } from "@/lib/flightRoutes";
 import { hashString } from "@/lib/contentHash";
 import { cachePhaseOutput, getCachedPhaseOutput } from "@/pipeline/phaseOutputCache";
 
@@ -385,7 +385,7 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
 
       const collections = (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [];
       const from = (inputs.from as Airport | null | undefined)?.iata;
-      const to = (inputs.to as Airport | null | undefined)?.iata;
+      const to = toAirportList(inputs.to as Airport | Airport[] | null | undefined).map((airport) => airport.iata);
       const via = ((inputs.via as Airport[] | undefined) ?? []).map((airport) => airport.iata);
       const geojson = filterFlightRoutes(collections, from, to, via);
 

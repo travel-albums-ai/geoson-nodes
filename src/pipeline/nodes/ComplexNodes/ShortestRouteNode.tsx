@@ -1,5 +1,6 @@
 import NewChip from '@/components/NewChip';
 import { loadAirports } from '@/lib/airports';
+import { toAirportList } from '@/lib/flightRoutes';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
@@ -12,8 +13,8 @@ import { LogIn, LogOut } from 'lucide-react';
 import { useCallback, useEffect, useState, type HTMLAttributes, type Key } from 'react';
 import { useTranslation } from 'react-i18next';
 
-type ShortestRouteNodeData = { from?: Airport | null; to?: Airport | null; via?: Airport[] };
-type EndpointSide = 'from' | 'to';
+// "to" is a list of airports the route must reach. A single airport from before it was a list is still accepted.
+type ShortestRouteNodeData = { from?: Airport | null; to?: Airport | Airport[] | null; via?: Airport[] };
 
 type ShortestRouteCountsEventDetail = {
   nodeId: string;
@@ -32,8 +33,10 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
   const [airports, setAirports] = useState<Airport[]>([]);
   const [loadIssue, setLoadIssue] = useState<string | null>(null);
   const [counts, setCounts] = useState<ShortestRouteCountsEventDetail | null>(null);
-  const sameEndpoints = data.from && data.to && data.from.iata === data.to.iata;
+  const toAirports = toAirportList(data.to);
   const hasStops = (data.via?.length ?? 0) > 0;
+  const returnsToStart = !!data.from && toAirports.some((airport) => airport.iata === data.from?.iata);
+  const roundTripNeedsStop = returnsToStart && !hasStops;
 
   useEffect(() => {
     const handleCounts = (event: Event) => {
@@ -79,15 +82,33 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
     </li>
   );
 
-  const renderEndpointField = (side: EndpointSide, label: string) => (
+  const renderFromField = () => (
     <Autocomplete<Airport>
       className="nodrag nopan"
       size="small"
       options={airports}
       loading={airports.length === 0 && loadIssue === null}
-      value={data[side] ?? null}
-      onChange={(_event, airport) => commit({ [side]: airport })}
+      value={data.from ?? null}
+      onChange={(_event, airport) => commit({ from: airport })}
       filterOptions={filterAirports}
+      isOptionEqualToValue={(option, value) => option.iata === value.iata}
+      getOptionLabel={airportOptionLabel}
+      renderOption={renderAirportOption}
+      renderInput={(params) => <TextField {...params} label={t('pipelineShortestRouteFrom')} />}
+    />
+  );
+
+  const renderAirportListField = (field: 'via' | 'to', label: string) => (
+    <Autocomplete<Airport, true>
+      className="nodrag nopan"
+      multiple
+      size="small"
+      options={airports}
+      loading={airports.length === 0 && loadIssue === null}
+      value={field === 'to' ? toAirports : data.via ?? []}
+      onChange={(_event, list) => commit({ [field]: list })}
+      filterOptions={filterAirports}
+      filterSelectedOptions
       isOptionEqualToValue={(option, value) => option.iata === value.iata}
       getOptionLabel={airportOptionLabel}
       renderOption={renderAirportOption}
@@ -125,25 +146,11 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
           {t('pipelineShortestRouteHint')}
         </Typography>
         <Stack spacing={1} sx={{ minWidth: 220 }}>
-          {renderEndpointField('from', t('pipelineShortestRouteFrom'))}
-          <Autocomplete<Airport, true>
-            className="nodrag nopan"
-            multiple
-            size="small"
-            options={airports}
-            loading={airports.length === 0 && loadIssue === null}
-            value={data.via ?? []}
-            onChange={(_event, stops) => commit({ via: stops })}
-            filterOptions={filterAirports}
-            filterSelectedOptions
-            isOptionEqualToValue={(option, value) => option.iata === value.iata}
-            getOptionLabel={airportOptionLabel}
-            renderOption={renderAirportOption}
-            renderInput={(params) => <TextField {...params} label={t('pipelineShortestRouteVia')} />}
-          />
-          {renderEndpointField('to', t('pipelineShortestRouteTo'))}
+          {renderFromField()}
+          {renderAirportListField('via', t('pipelineShortestRouteVia'))}
+          {renderAirportListField('to', t('pipelineShortestRouteTo'))}
         </Stack>
-        {sameEndpoints && !hasStops && (
+        {roundTripNeedsStop && (
           <Typography variant="caption" color="error" component="div" sx={{ pt: 1 }}>
             {t('pipelineShortestRouteRoundTripHint')}
           </Typography>

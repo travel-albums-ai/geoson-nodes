@@ -36,14 +36,16 @@
           "lat": 52.3617,
           "lon": 13.5023
         },
-        "to": {
-          "iata": "BER",
-          "name": "Berlin Brandenburg Airport",
-          "city": "Berlin",
-          "country": "DE",
-          "lat": 52.3617,
-          "lon": 13.5023
-        },
+        "to": [
+          {
+            "iata": "BER",
+            "name": "Berlin Brandenburg Airport",
+            "city": "Berlin",
+            "country": "DE",
+            "lat": 52.3617,
+            "lon": 13.5023
+          }
+        ],
         "via": [
           {
             "iata": "FRA",

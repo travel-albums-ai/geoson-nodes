@@ -1,4 +1,4 @@
-import type { GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/types/types';
+import type { Airport, GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/types/types';
 
 // Caps the routes returned and the flight checks made, so a long list of optional stops cannot freeze the pipeline.
 // The search keeps only the cheapest routes, so memory stays flat and a larger step budget only costs time.
@@ -243,23 +243,34 @@ function buildRouteFeature(route: Leg[]): GeoJsonFeature {
   };
 }
 
-// Returns one feature per viable route from one airport to another, cheapest first, as a single collection.
-// Intermediate stops are optional: a route may only pass through the listed airports, in any order,
-// and may skip them. The start and end may be the same airport for a round trip through a stop.
-// Routes with an unpriced or mixed-currency flight are listed after the fully priced ones.
-// Returns an empty list when the airports are missing or no route connects them.
+// Returns the routes from the start airport to each "to" airport, as a single collection. Each destination is searched
+// on its own: its routes are the cheapest flights from the start to it, using any of the optional stops (none, some or
+// all, in any order) when that helps. Flights to other destinations are not used, so a route to one destination never
+// passes through another. Routes to each destination are listed cheapest first, grouped in the order of the "to" list.
+// Routes with an unpriced or mixed-currency flight are listed after the fully priced ones. A destination with no route
+// is left out, and an empty list means no route connects the start to any destination.
 export function filterFlightRoutes(
   collections: GeoJsonFeatureCollectionArray,
   fromIata: string | undefined,
-  toIata: string | undefined,
+  toIatas: readonly string[] = [],
   viaIatas: readonly string[] = [],
 ): GeoJsonFeatureCollectionArray {
-  if (!fromIata || !toIata) return [];
+  if (!fromIata || toIatas.length === 0) return [];
 
-  const allowed = new Set([fromIata, toIata, ...viaIatas]);
-  const legs = readLegs(collections).filter((leg) => allowed.has(leg.from) && allowed.has(leg.to));
-  const routes = findRoutes(legs, fromIata, toIata);
-  if (routes.length === 0) return [];
+  const flights = readLegs(collections);
+  const features: GeoJsonFeature[] = [];
+  for (const toIata of new Set(toIatas)) {
+    const allowed = new Set([fromIata, toIata, ...viaIatas]);
+    const legs = flights.filter((leg) => allowed.has(leg.from) && allowed.has(leg.to));
+    features.push(...findRoutes(legs, fromIata, toIata).map(buildRouteFeature));
+  }
+  if (features.length === 0) return [];
 
-  return [{ type: 'FeatureCollection', source: 'Flight routes', features: routes.map(buildRouteFeature) }];
+  return [{ type: 'FeatureCollection', source: 'Flight routes', features }];
+}
+
+// Pipelines saved before "to" became a list store a single airport there, so it is read as a one-item list.
+export function toAirportList(value: Airport | readonly Airport[] | null | undefined): Airport[] {
+  if (!value) return [];
+  return Array.isArray(value) ? [...value] : [value as Airport];
 }
