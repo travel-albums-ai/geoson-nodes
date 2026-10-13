@@ -259,7 +259,7 @@ export default function NodeWrapper({
                 : alpha(theme.palette.background.paper, 1),
           }}
         >
-          {hint && <Typography variant="caption" color="primary">{hint}</Typography>}
+          {hint && <Typography variant="caption" color="primary" sx={{ maxWidth: NODE_MIN_WIDTH }}>{hint}</Typography>}
           {children}
         </Box>}
         {(inputCounts || outputCounts) && <Box sx={{ p: 1, display: 'flex', flexDirection: 'row', gap: 1, justifyContent: 'space-between',

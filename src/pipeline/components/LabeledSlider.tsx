@@ -24,7 +24,7 @@ function LabeledSlider({ label, value, valueText, min, max, step, onChange }: La
         onChange={(_, next) => onChange(next as number)}
       />
       <Box sx={{ flex: '0 0 60px'}}>
-        <NewChip label={valueText} />
+        <NewChip label={valueText} fontSize={14} />
       </Box>
     </Box>
   );
