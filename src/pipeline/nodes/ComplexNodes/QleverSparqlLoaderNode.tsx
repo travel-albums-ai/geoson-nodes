@@ -100,13 +100,13 @@ function QleverSparqlLoaderNode({ id, data }: NodeProps<Node<QleverSparqlLoaderN
 
   return (
     <NodeWrapper type="qlever-sparql-loader"
+      hint={<>{t('pipelineQleverSparqlLoaderHint')}</>}
       defaultSize={{ height: 420 }}
       outputCounts={<>
         <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />
       </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'qlever-sparql-loader'} />}>
       <Stack spacing={1} sx={{ minWidth: 320, flex: 1, minHeight: 0 }} className="nodrag nopan">
-        <Typography variant="body2">{t('pipelineQleverSparqlLoaderHint')}</Typography>
         <TextField
           className="nowheel"
           multiline

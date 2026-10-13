@@ -89,7 +89,7 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
 
   return (
     <NodeWrapper type="gdelt-events-loader"
-
+      hint={<>{t('pipelineGdeltEventsLoaderHint')}</>}
       outputCounts={<>
         {!error && data.fetchedAt !== undefined && (
           <NewChip count={new Date(data.fetchedAt).toLocaleTimeString(i18n.language)} icon={<Clock />} label="Loaded" fontSize={12} />
@@ -98,7 +98,6 @@ function GdeltEventsLoaderNode({ id, data }: NodeProps<Node<GdeltEventsLoaderNod
       </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'gdelt-events-loader'} />}>
       <Box sx={{ minWidth: 280, display: 'flex', flexDirection: 'column', gap: 2 }} className="nodrag nopan">
-        <Typography variant="caption" color="textSecondary">{t('pipelineGdeltEventsLoaderHint')}</Typography>
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'stretch' }}>
           <TextField
             select

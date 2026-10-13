@@ -52,6 +52,7 @@ function GeoBoundsFilterNode({ id, data }: NodeProps<Node<{ bounds?: GeoBounds }
     <>
       <InputHandle id="geojson" position={Position.Top} />
       <NodeWrapper
+        hint={<>{t('pipelineBoundsFilterLoaderHint')}</>}
         type="geo-bounds-filter"
         defaultSize={{ width: 448 }}
         inputCounts={

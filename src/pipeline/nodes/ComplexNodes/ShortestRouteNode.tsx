@@ -105,6 +105,7 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
     <>
       <InputHandle id="geojson" position={Position.Top} />
       <NodeWrapper
+        hint={<>{t('pipelineShortestRouteHint')}</>}
         type="shortest-route"
         inputCounts={
           <NewChip
@@ -127,9 +128,6 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
         }
         tools={<PipelineStageTiming nodeId={id} nodeType={'shortest-route'} />}
       >
-        <Typography variant="caption" color="text.secondary" component="div" sx={{ pb: 1 }}>
-          {t('pipelineShortestRouteHint')}
-        </Typography>
         <Stack spacing={1} sx={{ minWidth: 220 }}>
           {renderAirportListField('from', t('pipelineShortestRouteFrom'))}
           {renderAirportListField('via', t('pipelineShortestRouteVia'))}

@@ -1,9 +1,9 @@
 import { DEFAULT_GEOJSON_STYLE, GEOJSON_STROKE_WIDTH, listFeaturePropertyKeys, readGeoJsonStyleSettings, type GeoJsonColorSource, type GeoJsonStyleSettings } from '@/lib/geojsonStyle';
 import { InputHandle } from '@/pipeline/components/InputHandle';
-import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import LabeledSlider from '@/pipeline/components/LabeledSlider';
-import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
+import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
 import { Box, MenuItem, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
@@ -103,10 +103,11 @@ function GeoJsonStyleNode({ id, data }: NodeProps<Node<{ style?: Partial<GeoJson
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geojson-style" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-style'} />}>
-        <Typography variant="caption" color="text.secondary" component="div" sx={{ pb: 1 }}>
-          {t('pipelineGeoJsonStyleHint')}
-        </Typography>
+      <NodeWrapper
+        type="geojson-style"
+        hint={<>{t('pipelineGeoJsonStyleHint')}</>}
+        tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-style'} />}
+      >
         <Box className="nodrag nopan" sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
           <ColorField
             label={t('pipelineGeoJsonStyleFill')}

@@ -119,6 +119,7 @@ function UrlGeoJsonLoaderNode({ id, data }: NodeProps<Node<UrlGeoJsonLoaderNodeD
 
   return (
     <NodeWrapper
+      hint={<>{t('pipelineUrlGeoJsonLoaderHint')}</>}
       type="url-geojson-loader"
       outputCounts={<>
         {!error && data.fetchedAt !== undefined && (
@@ -136,7 +137,6 @@ function UrlGeoJsonLoaderNode({ id, data }: NodeProps<Node<UrlGeoJsonLoaderNodeD
       tools={<PipelineStageTiming nodeId={id} nodeType={'url-geojson-loader'} />}
     >
       <Box sx={{ minWidth: 280, display: 'flex', flexDirection: 'column', gap: 2 }} className="nodrag nopan">
-        <Typography variant="caption" color="textSecondary">{t('pipelineUrlGeoJsonLoaderHint')}</Typography>
         <TextField
           select
           size="small"

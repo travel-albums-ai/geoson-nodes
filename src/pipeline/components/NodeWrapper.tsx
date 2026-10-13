@@ -4,7 +4,7 @@ import NodeHeader from '@/pipeline/components/NodeHeader';
 import { PreviewDemoStatic } from '@/pipeline/components/PreviewDemoStatic';
 import { paletteItemsByType } from '@/pipeline/NodePalette';
 import { NODE_MIN_HEIGHT, NODE_MIN_WIDTH, readNodeSize, type NodeSize } from '@/pipeline/nodeSizes';
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { NodeResizer, NodeToolbar, Position, useNodeConnections, useNodeId, useNodesData, useReactFlow, useStore } from '@xyflow/react';
 import { Copy, FastForward, HelpCircle, RotateCcw, Trash2 } from 'lucide-react';
@@ -19,6 +19,7 @@ type NodeWrapperProps = {
   tools?: React.ReactNode;
   inputCounts?: React.ReactNode;
   outputCounts?: React.ReactNode;
+  hint?: React.ReactNode;
   // Used until the user resizes the node, for content that needs an explicit starting size.
   defaultSize?: Partial<NodeSize>;
 };
@@ -31,6 +32,7 @@ export default function NodeWrapper({
   defaultSize,
   inputCounts,
   outputCounts,
+  hint,
 }: NodeWrapperProps) {
   const nodeId = useNodeId();
   const nodeData = useNodesData(nodeId ?? '');
@@ -257,6 +259,7 @@ export default function NodeWrapper({
                 : alpha(theme.palette.background.paper, 1),
           }}
         >
+          {hint && <Typography variant="caption" color="primary">{hint}</Typography>}
           {children}
         </Box>}
         {(inputCounts || outputCounts) && <Box sx={{ p: 1, display: 'flex', flexDirection: 'row', gap: 1, justifyContent: 'space-between',
