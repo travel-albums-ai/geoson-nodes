@@ -1,7 +1,7 @@
 import { getHandleAnchorStyle, useHandleAnchor } from '@/hooks/useHandleAnchor';
 import { alpha, Box, useTheme } from '@mui/material';
 import { Handle, Position } from "@xyflow/react";
-import { ChevronsRight } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 
 export function OutputHandle({ id, position, style, color }: { id: string; position?: Position; style?: React.CSSProperties; color?: string }) {
   const theme = useTheme()
@@ -27,10 +27,10 @@ export function OutputHandle({ id, position, style, color }: { id: string; posit
           filter: 'grayscale(0)',
         },
       }}>
-        <ChevronsRight size={12} style={{
+        <LogOut size={10} style={{
           position: 'absolute',
           right: '1px',
-          top: '1px',
+          top: '2px',
           stroke: theme.palette.background.paper,
           strokeWidth: 2,
           fill: color || theme.palette.background.paper,
