@@ -57,7 +57,7 @@ function ColorField({ label, value, propertyKeys, onChange }: ColorFieldProps) {
           fullWidth
         />
       ) : (
-        <>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
           <TextField
             size="small"
             type="color"
@@ -79,7 +79,7 @@ function ColorField({ label, value, propertyKeys, onChange }: ColorFieldProps) {
               <MenuItem key={key} value={key}>{key}</MenuItem>
             ))}
           </TextField>
-        </>
+        </Box>
       )}
     </Box>
   );
