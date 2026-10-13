@@ -1,5 +1,5 @@
 import { getHandleAnchorStyle, useHandleAnchor } from '@/hooks/useHandleAnchor';
-import { alpha, Box, Typography, useTheme } from '@mui/material';
+import { alpha, Typography, useTheme } from '@mui/material';
 import { Handle, Position } from "@xyflow/react";
 import { ChevronsLeft } from 'lucide-react';
 import type { CSSProperties } from 'react';
@@ -15,13 +15,15 @@ export function InputHandle({
   index,
   position,
   style,
-  color
+  color,
+  indexValues
 }: {
   id: string;
   index?: number;
   position?: Position;
   style?: CSSProperties;
   color?: string;
+  indexValues?: string[];
 }) {
   const theme = useTheme()
   const anchor = useHandleAnchor('target', id);
@@ -39,34 +41,24 @@ export function InputHandle({
       position={side}
       id={id}
     >
-      <Box sx={{ position: 'relative',
-        opacity: 0.75,
-        filter: 'grayscale(0.5)',
-        transition: 'opacity 0.25s ease, filter 0.25s ease',
-        '&:hover': {
-          opacity: 1,
-          filter: 'grayscale(0)',
-        },
-      }}>
-        {index !== undefined && <>
-          <Typography variant="caption" sx={{
-            color: theme.palette.background.paper,
-            fontSize: '0.65rem',
-            position: 'absolute', left: '4px', top: '-2px'
-          }}>
-            {`${index}`}
-          </Typography>
-        </>}
-        {index === undefined && <>
-          <ChevronsLeft size={10} style={{
-            margin: '0px 0px 4px 2px',
-            stroke: theme.palette.background.paper,
-            strokeWidth: 2,
-            fill: color || theme.palette.background.paper,
-            transform: `rotate(${ICON_ROTATION_BY_SIDE[side]}deg)`,
-          }} />
-        </>}
-      </Box>
+      {index !== undefined && <>
+        <Typography variant="caption" sx={{
+          color: theme.palette.background.paper,
+          fontSize: '0.65rem',
+          position: 'absolute', left: '4px', top: '-2px'
+        }}>
+          {`${indexValues?.[index] ? `${indexValues[index]}` : `${index}`}`}
+        </Typography>
+      </>}
+      {index === undefined && <>
+        <ChevronsLeft size={12} style={{
+          margin: '0px 0px 4px 1px',
+          stroke: theme.palette.background.paper,
+          strokeWidth: 2,
+          fill: color || theme.palette.background.paper,
+          transform: `rotate(${ICON_ROTATION_BY_SIDE[side]}deg)`,
+        }} />
+      </>}
     </Handle>
   </>;
 }

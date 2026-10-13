@@ -33,6 +33,8 @@ function GeoJsonSetNode({ id, type, data }: NodeProps<Node<{ reversed?: boolean 
     <>
       {GEOJSON_SET_INPUT_HANDLES.map((handleId, index) => (
         <InputHandle
+          index={index}
+          indexValues={['A', "B"]}
           key={handleId}
           id={handleId}
           position={Position.Top}

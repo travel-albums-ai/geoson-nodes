@@ -28,8 +28,8 @@ export function OutputHandle({ id, position, style, color }: { id: string; posit
       position={side}
       id={id}
     >
-      <ChevronsRight size={10} style={{
-        margin: '0px 0px 4px 2px',
+      <ChevronsRight size={12} style={{
+        margin: '0px 0px 4px 1px',
         stroke: theme.palette.background.paper,
         strokeWidth: 2,
         fill: color || theme.palette.background.paper,
