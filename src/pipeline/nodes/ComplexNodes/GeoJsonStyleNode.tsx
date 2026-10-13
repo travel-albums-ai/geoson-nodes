@@ -59,6 +59,7 @@ function ColorField({ label, value, propertyKeys, onChange }: ColorFieldProps) {
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
           <TextField
+            sx={{ flex: '0 0 100px'}}
             size="small"
             type="color"
             label={t('pipelineGeoJsonStyleBaseColor')}
@@ -67,6 +68,7 @@ function ColorField({ label, value, propertyKeys, onChange }: ColorFieldProps) {
             fullWidth
           />
           <TextField
+            sx={{ flex: '0 1 300px'}}
             size="small"
             select
             label={t('pipelineGeoJsonStyleKey')}

@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { VirtuosoGrid, type GridComponents } from 'react-virtuoso';
 
 const CARD_HEIGHT = 240;
-const CARD_MIN_WIDTH = 280;
+const CARD_MIN_WIDTH =320;
 
 type FeatureEntry = { key: string; feature: GeoJsonFeature };
 
