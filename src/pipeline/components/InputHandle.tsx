@@ -1,7 +1,14 @@
 import { getHandleAnchorStyle, useHandleAnchor } from '@/hooks/useHandleAnchor';
 import { alpha, Box, Typography, useTheme } from '@mui/material';
 import { Handle, Position } from "@xyflow/react";
+import { ChevronsLeft } from 'lucide-react';
 import type { CSSProperties } from 'react';
+const ICON_ROTATION_BY_SIDE: Record<Position, number> = {
+  [Position.Right]: 0,
+  [Position.Bottom]: 90,
+  [Position.Left]: 180,
+  [Position.Top]: -90,
+};
 
 export function InputHandle({
   id,
@@ -18,6 +25,7 @@ export function InputHandle({
 }) {
   const theme = useTheme()
   const anchor = useHandleAnchor('target', id);
+  const side = anchor?.position ?? position ?? Position.Left;
 
   return <>
     <Handle
@@ -28,7 +36,7 @@ export function InputHandle({
         backgroundColor: alpha(theme.palette.primary.main, 0.5),
         border: 0,
         ...style, ...getHandleAnchorStyle(anchor) }}
-      position={anchor?.position ?? position ?? Position.Left}
+      position={side}
       id={id}
     >
       <Box sx={{ position: 'relative',
@@ -48,6 +56,15 @@ export function InputHandle({
           }}>
             {`${index}`}
           </Typography>
+        </>}
+        {index === undefined && <>
+          <ChevronsLeft size={10} style={{
+            margin: '0px 0px 4px 2px',
+            stroke: theme.palette.background.paper,
+            strokeWidth: 2,
+            fill: color || theme.palette.background.paper,
+            transform: `rotate(${ICON_ROTATION_BY_SIDE[side]}deg)`,
+          }} />
         </>}
       </Box>
     </Handle>

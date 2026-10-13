@@ -1,7 +1,7 @@
 import { getHandleAnchorStyle, useHandleAnchor } from '@/hooks/useHandleAnchor';
 import { alpha, useTheme } from '@mui/material';
 import { Handle, Position } from "@xyflow/react";
-import { LogOut } from 'lucide-react';
+import { ChevronsRight } from 'lucide-react';
 
 // LogOut icon points right by default; rotate it to face the side the handle sits on.
 const ICON_ROTATION_BY_SIDE: Record<Position, number> = {
@@ -28,7 +28,7 @@ export function OutputHandle({ id, position, style, color }: { id: string; posit
       position={side}
       id={id}
     >
-      <LogOut size={10} style={{
+      <ChevronsRight size={10} style={{
         margin: '0px 0px 4px 2px',
         stroke: theme.palette.background.paper,
         strokeWidth: 2,
