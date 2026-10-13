@@ -6,7 +6,7 @@ import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { SHORTEST_ROUTE_COUNTS_EVENT, type Airport } from '@/types/types';
-import { Chip, Stack, TextField, Typography } from '@mui/material';
+import { Box, Chip, TextField, Typography } from '@mui/material';
 import Autocomplete, { createFilterOptions, type AutocompleteRenderValueGetItemProps } from '@mui/material/Autocomplete';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { LogIn, LogOut } from 'lucide-react';
@@ -108,7 +108,6 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
     <Autocomplete<Airport, true>
       className="nodrag nopan"
       multiple
-      size="small"
       options={airports}
       loading={airports.length === 0 && loadIssue === null}
       value={field === 'from' ? fromAirports : field === 'to' ? toAirports : data.via ?? []}
@@ -150,11 +149,11 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
         }
         tools={<PipelineStageTiming nodeId={id} nodeType={'shortest-route'} />}
       >
-        <Stack spacing={1} sx={{ minWidth: 220 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {renderAirportListField('from', t('pipelineShortestRouteFrom'))}
           {renderAirportListField('via', t('pipelineShortestRouteVia'))}
           {renderAirportListField('to', t('pipelineShortestRouteTo'))}
-        </Stack>
+        </Box>
         {roundTripNeedsStop && (
           <Typography variant="caption" color="error" component="div" sx={{ pt: 1 }}>
             {t('pipelineShortestRouteRoundTripHint')}
