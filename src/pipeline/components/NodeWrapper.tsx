@@ -250,9 +250,8 @@ export default function NodeWrapper({
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
             gap: 2,
-            p: 1.5,
-            pt: 1,
-            pr: 1.5,
+            p: 2,
+            pt: 0.5,
             bgcolor: theme =>
               hasUnconnectedHandle
                 ? `color-mix(in srgb, ${theme.palette.primary.light} 10%, ${theme.palette.background.paper} 85%)`
@@ -262,7 +261,7 @@ export default function NodeWrapper({
           {hint && <Typography variant="caption" color="primary" sx={{ maxWidth: NODE_MIN_WIDTH }}>{hint}</Typography>}
           {children}
         </Box>}
-        {(inputCounts || outputCounts) && <Box sx={{ p: 1, display: 'flex', flexDirection: 'row', gap: 1, justifyContent: 'space-between',
+        {(inputCounts || outputCounts) && <Box sx={{ px: 2, pb: 1, display: 'flex', flexDirection: 'row', gap: 1, justifyContent: 'space-between',
           bgcolor: theme =>
             hasUnconnectedHandle
               ? `color-mix(in srgb, ${theme.palette.primary.light} 10%, ${theme.palette.background.paper} 85%)`
