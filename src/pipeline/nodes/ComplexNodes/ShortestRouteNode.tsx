@@ -104,7 +104,8 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
       );
     });
 
-  const renderAirportListField = (field: 'from' | 'via' | 'to', label: string) => (
+  const renderAirportListField = (field: 'from' | 'via' | 'to', label: string) => (<>
+    <textarea readOnly value={data[field]?.map(airport => airport.iata).join("|") ?? []} />
     <Autocomplete<Airport, true>
       className="nodrag nopan"
       multiple
@@ -120,7 +121,7 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
       renderValue={renderAirportValue}
       renderInput={(params) => <TextField {...params} label={label} />}
     />
-  );
+  </>);
 
   return (
     <>
