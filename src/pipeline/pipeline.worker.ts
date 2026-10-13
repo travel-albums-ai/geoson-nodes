@@ -220,6 +220,7 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   "geojson-viewer": geoJsonPassthroughNode,
   "geojson-first-feature": geoJsonPassthroughNode,
   "geojson-chart": geoJsonPassthroughNode,
+  "ask-gpt": geoJsonPassthroughNode,
   "geo-bounds-filter": {
     async execute(inputs) {
       await Promise.resolve();

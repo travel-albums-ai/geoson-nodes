@@ -10,6 +10,7 @@ import GeoJsonMergeNode from '@/pipeline/nodes/ComplexNodes/GeoJsonMergeNode';
 import GeoJsonSetNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSetNode';
 import GeoJsonStyleNode from '@/pipeline/nodes/ComplexNodes/GeoJsonStyleNode';
 import GeoJsonHeatmapNode from '@/pipeline/nodes/ComplexNodes/GeoJsonHeatmapNode';
+import AskGptNode from '@/pipeline/nodes/ComplexNodes/AskGptNode';
 import GeoJsonChartNode from '@/pipeline/nodes/ComplexNodes/GeoJsonChartNode';
 import GeoJsonSwitchNode from '@/pipeline/nodes/ComplexNodes/GeoJsonSwitchNode';
 import GeoJsonViewerNode from '@/pipeline/nodes/ComplexNodes/GeoJsonViewerNode';
@@ -39,6 +40,7 @@ export const pipelineNodeTypes = {
   'geojson-viewer': GeoJsonViewerNode,
   'geojson-first-feature': GeoJsonFirstFeatureNode,
   'geojson-chart': GeoJsonChartNode,
+  'ask-gpt': AskGptNode,
   'gps-map': GpsMapNode,
   'geo-bounds-filter': GeoBoundsFilterNode,
   'geojson-within-area': GeoJsonWithinAreaNode,
