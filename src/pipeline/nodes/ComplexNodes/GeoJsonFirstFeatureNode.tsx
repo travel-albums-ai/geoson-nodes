@@ -17,7 +17,9 @@ function GeoJsonFirstFeatureNode({ id, data }: NodeProps<Node<{ geojson?: GeoJso
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geojson-first-feature" defaultSize={{ width: 400 }} tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-first-feature'} />}>
+      <NodeWrapper
+        hint={<>{"Here you can see the first feature of the GeoJSON collection as an object"}</>}
+        type="geojson-first-feature" defaultSize={{ width: 400 }} tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-first-feature'} />}>
         {firstFeature ? (<>
           <Box
             component="textarea"

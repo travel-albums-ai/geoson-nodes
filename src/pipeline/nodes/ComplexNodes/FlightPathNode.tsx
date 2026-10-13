@@ -7,7 +7,7 @@ import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { FlightEntry } from '@/types/types';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { File, LogOut, Upload } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -127,18 +127,15 @@ function FlightPathNode({ id, data }: NodeProps<Node<FlightPathNodeData>>) {
   };
 
   return (
-    <NodeWrapper type="flight-path" outputCounts={<>
-      {data.flightsFileName && (
-        <NewChip count={''} label={data.flightsFileName} fontSize={16} icon={<File size={16} />} />
-      )}
-      <NewChip count={completeCount ?? 0} variant="important" label={""} fontSize={16} icon={<LogOut size={16} />} />
+    <NodeWrapper type="flight-path"
+      hint={<>{t('pipelineFlightPathHint')}</>}
+      outputCounts={<>
+        {data.flightsFileName && (
+          <NewChip count={''} label={data.flightsFileName} fontSize={16} icon={<File size={16} />} />
+        )}
+        <NewChip count={completeCount ?? 0} variant="important" label={""} fontSize={16} icon={<LogOut size={16} />} />
 
-    </>} tools={<PipelineStageTiming nodeId={id} nodeType={'flight-path'} />}>
-      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-      </Box>
-      <Typography variant="caption" color="text.secondary">
-        {t('pipelineFlightPathHint')}
-      </Typography>
+      </>} tools={<PipelineStageTiming nodeId={id} nodeType={'flight-path'} />}>
       <Stack direction="row" spacing={1} sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
         <Button
           fullWidth

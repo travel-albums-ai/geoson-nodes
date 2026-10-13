@@ -5,7 +5,7 @@ import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { GEOJSON_HEATMAP_KEYS_EVENT } from '@/types/types';
-import { Box, MenuItem, TextField, Typography } from '@mui/material';
+import { Box, MenuItem, TextField } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -46,10 +46,11 @@ function GeoJsonHeatmapNode({ id, data }: NodeProps<Node<{ heatmap?: Partial<Geo
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geojson-heatmap" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-heatmap'} />}>
-        <Typography variant="caption" color="text.secondary" component="div" sx={{ pb: 1 }}>
-          {t('pipelineGeoJsonHeatmapHint')}
-        </Typography>
+      <NodeWrapper
+        hint={<>{t('pipelineGeoJsonHeatmapHint')}</>}
+        type="geojson-heatmap"
+        tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-heatmap'} />}
+      >
         <Box className="nodrag nopan" sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
           <LabeledSlider
             label={t('pipelineGeoJsonHeatmapGranularity')}

@@ -1,7 +1,7 @@
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
-import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { GEOJSON_FEATURE_COUNT_EVENT } from '@/types/types';
 import { Box, Slider, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
@@ -43,10 +43,9 @@ function GeoJsonFeaturePickerNode({ id, data }: NodeProps<Node<GeoJsonFeaturePic
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="geojson-feature-picker" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-feature-picker'} />}>
-        <Typography variant="caption" color="text.secondary" component="div" sx={{ pb: 1 }}>
-          {t('pipelineGeoJsonFeaturePickerHint')}
-        </Typography>
+      <NodeWrapper
+        hint={<>{t('pipelineGeoJsonFeaturePickerHint')}</>}
+        type="geojson-feature-picker" tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-feature-picker'} />}>
         <Box className="nodrag nopan" sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <Typography variant="body2" color="text.secondary">
             {featureCount === 0
