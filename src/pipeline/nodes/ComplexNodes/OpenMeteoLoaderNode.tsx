@@ -10,7 +10,7 @@ import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { GeoBounds } from '@/types/types';
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, TextField, Typography } from '@mui/material';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { Clock, CloudSun, LogOut } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Clock, CloudSun, LogOut } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -125,20 +125,18 @@ function OpenMeteoLoaderNode({ id, data }: NodeProps<Node<OpenMeteoLoaderNodeDat
 
   return (
     <NodeWrapper type="open-meteo-loader"
+      hint={<>{t('pipelineOpenMeteoLoaderHint')}</>}
       defaultSize={{ width: 448 }}
       outputCounts={<>
         <NewChip variant="important" count={data.featureCount || 0} icon={<LogOut />} label="" fontSize={12} />
       </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'open-meteo-loader'} />}>
-      <Typography variant="body2">{t('pipelineOpenMeteoLoaderHint')}</Typography>
-      <Typography variant="body2" color="text.secondary">
-        {t('pipelineGpsBoundsValues', {
-          west: formatDegrees(bounds.west),
-          east: formatDegrees(bounds.east),
-          south: formatDegrees(bounds.south),
-          north: formatDegrees(bounds.north),
-        })}
-      </Typography>
+      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+        <NewChip count={formatDegrees(bounds.west)} icon={<ArrowLeft />} label="West" sx={{ height: 30 }} fontSize={12} />
+        <NewChip count={formatDegrees(bounds.east)} icon={<ArrowRight />} label="East" sx={{ height: 30 }} fontSize={12} />
+        <NewChip count={formatDegrees(bounds.south)} icon={<ArrowDown />} label="South" sx={{ height: 30 }} fontSize={12} />
+        <NewChip count={formatDegrees(bounds.north)} icon={<ArrowUp />} label="North" sx={{ height: 30 }} fontSize={12} />
+      </Box>
       <GeoBoundsPicker bounds={bounds} onCommit={commitBounds} />
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         <TextField

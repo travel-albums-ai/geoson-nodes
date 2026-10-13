@@ -5,7 +5,7 @@ import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { GEOJSON_MERGE_COUNTS_EVENT, GEOJSON_MERGE_INPUT_HANDLES } from '@/types/types';
 import { Position, type NodeProps } from '@xyflow/react';
-import { LogIn, LogOut } from 'lucide-react';
+import { Link, LogIn, LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -46,6 +46,7 @@ function GeoJsonMergeNode({ id }: NodeProps) {
         />
       ))}
       <NodeWrapper type="geojson-merge"
+        hint={<>{"Merge multiple GeoJSON arrays into one."}</>}
         inputCounts={<>
           {GEOJSON_MERGE_INPUT_HANDLES
             .filter((handleId) => counts?.inputCounts[handleId] ?? 0 > 0)
@@ -61,7 +62,15 @@ function GeoJsonMergeNode({ id }: NodeProps) {
               />
             ))}
         </>}
-        outputCounts={
+        outputCounts={<>
+          <NewChip
+            count={GEOJSON_MERGE_INPUT_HANDLES
+              .filter((handleId) => counts?.inputCounts[handleId] ?? 0 > 0).length}
+            label={''}
+            icon={<Link size={16} />}
+            tooltip={t('pipelineGeoJsonSwitchLeaving')}
+            fontSize={12}
+          />
           <NewChip
             variant="important"
             count={counts?.outputCount ?? 0}
@@ -70,8 +79,9 @@ function GeoJsonMergeNode({ id }: NodeProps) {
             tooltip={t('pipelineGeoJsonMergeLeaving')}
             fontSize={12}
           />
-        }
+        </>}
         tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-merge'} />}>
+        <></>
       </NodeWrapper>
       <OutputHandle id="geojson" position={Position.Bottom} />
     </>

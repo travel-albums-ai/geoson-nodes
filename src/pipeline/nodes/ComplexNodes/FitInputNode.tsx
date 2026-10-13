@@ -123,15 +123,17 @@ function FitInputNode({ id, data }: NodeProps<Node<{ fileKey?: string }>>) {
   };
 
   return (
-    <NodeWrapper type="fit-input" tools={
-      <PipelineStageTiming nodeId={id} nodeType={'fit-input'}  />
-    }
-    inputCounts={<>
-      <NewChip count={files.length} label={''} fontSize={12} icon={<LogIn size={16} />} />
-    </>}
-    outputCounts={<>
-      <NewChip count={counts?.features ?? 0} label={''} variant="important" fontSize={12} icon={<LogOut size={16} />} />
-    </>}
+    <NodeWrapper type="fit-input"
+      hint={<>{"Load Strava .fit activity files. Local upload, not cloud-based."}</>}
+      tools={
+        <PipelineStageTiming nodeId={id} nodeType={'fit-input'}  />
+      }
+      inputCounts={<>
+        <NewChip count={files.length} label={''} fontSize={12} icon={<LogIn size={16} />} />
+      </>}
+      outputCounts={<>
+        <NewChip count={counts?.features ?? 0} label={''} variant="important" fontSize={12} icon={<LogOut size={16} />} />
+      </>}
     >
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>

@@ -1,10 +1,12 @@
+import NewChip from '@/components/NewChip';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
-import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
+import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { GEOJSON_SET_INPUT_HANDLES } from '@/types/types';
-import { FormControlLabel, Switch, Typography } from '@mui/material';
+import { Box, FormControlLabel, Switch } from '@mui/material';
 import { Position, useNodeConnections, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
+import { Link } from 'lucide-react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -37,24 +39,29 @@ function GeoJsonSetNode({ id, type, data }: NodeProps<Node<{ reversed?: boolean 
           style={{ left: handleLeft(index) }}
         />
       ))}
-      <NodeWrapper type={type} tools={<PipelineStageTiming nodeId={id} nodeType={type} />}>
-        <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
-          {t('pipelineGeoJsonSetConnected', {
-            connected: connectedCount,
-            total: GEOJSON_SET_INPUT_HANDLES.length,
-          })}
-        </Typography>
-        <FormControlLabel
-          className="nodrag nopan"
-          label={t('pipelineGeoJsonSetSwapInputs')}
-          control={
-            <Switch
-              size="small"
-              checked={data.reversed === true}
-              onChange={(event) => toggleReversed(event.target.checked)}
-            />
-          }
-        />
+      <NodeWrapper type={type}
+        outputCounts={<>
+          <NewChip
+            count={connectedCount ?? 0}
+            label={''}
+            icon={<Link size={16} />}
+            tooltip={t('pipelineGeoJsonSwitchLeaving')}
+            fontSize={12}
+          />
+        </>}
+        tools={<PipelineStageTiming nodeId={id} nodeType={type} />}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <FormControlLabel
+            className="nodrag nopan"
+            label={t('pipelineGeoJsonSetSwapInputs')}
+            control={
+              <Switch
+                checked={data.reversed === true}
+                onChange={(event) => toggleReversed(event.target.checked)}
+              />
+            }
+          />
+        </Box>
         <OutputHandle id="geojson" position={Position.Bottom} />
       </NodeWrapper>
     </>
