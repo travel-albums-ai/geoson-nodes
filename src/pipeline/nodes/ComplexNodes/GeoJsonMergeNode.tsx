@@ -40,6 +40,7 @@ function GeoJsonMergeNode({ id }: NodeProps) {
       {GEOJSON_MERGE_INPUT_HANDLES.map((handleId, index) => (
         <InputHandle
           key={handleId}
+          index={index}
           id={handleId}
           position={Position.Top}
           style={{ left: handleLeft(index) }}

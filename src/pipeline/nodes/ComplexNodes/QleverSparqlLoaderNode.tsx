@@ -103,7 +103,7 @@ function QleverSparqlLoaderNode({ id, data }: NodeProps<Node<QleverSparqlLoaderN
       hint={<>{t('pipelineQleverSparqlLoaderHint')}</>}
       defaultSize={{ height: 420 }}
       outputCounts={<>
-        <NewChip variant="important" count={data.featureCount} icon={<LogOut />} label="" fontSize={12} />
+        <NewChip variant="important" count={data.featureCount || 0} icon={<LogOut />} label="" fontSize={12} />
       </>}
       tools={<PipelineStageTiming nodeId={id} nodeType={'qlever-sparql-loader'} />}>
       <Stack spacing={1} sx={{ minWidth: 320, flex: 1, minHeight: 0 }} className="nodrag nopan">
@@ -117,7 +117,6 @@ function QleverSparqlLoaderNode({ id, data }: NodeProps<Node<QleverSparqlLoaderN
           onChange={(event) => setDraft(event.target.value)}
           label={t('pipelineQleverSparqlLoaderQueryLabel')}
           placeholder={t('pipelineQleverSparqlLoaderPlaceholder')}
-          helperText={t('pipelineQleverSparqlLoaderQueryHint')}
           sx={{
             flex: 1,
             minHeight: 0,
@@ -127,6 +126,7 @@ function QleverSparqlLoaderNode({ id, data }: NodeProps<Node<QleverSparqlLoaderN
         />
         <Stack direction="row" spacing={1}>
           <Button
+            fullWidth
             variant="contained"
             startIcon={<Database size={16} />}
             onClick={runQuery}
@@ -135,6 +135,7 @@ function QleverSparqlLoaderNode({ id, data }: NodeProps<Node<QleverSparqlLoaderN
             {loading ? t('pipelineQleverSparqlLoaderRunning') : t('pipelineQleverSparqlLoaderRun')}
           </Button>
           <Button
+            sx={{ flex: '0 0 auto' }}
             variant="outlined"
             startIcon={<MessageSquare size={16} />}
             onClick={openInChatGpt}

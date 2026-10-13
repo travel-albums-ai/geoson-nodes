@@ -233,7 +233,7 @@
   "pipelineGeoJsonZipHint": "A: full data. B: partial data. Each A feature takes the properties of the matching B feature.",
   "pipelineGeoJsonZipKeyLabel": "Match key",
   "pipelineGeoJsonZipNoCommonKeys": "Connect both inputs to list the shared keys.",
-  "pipelineGeoJsonFeaturePicker": "GeoJSON Feature Picker",
+  "pipelineGeoJsonFeaturePicker": "Array of Index",
   "pipelineGeoJsonFeaturePickerHint": "Slide to pick one feature by its position in the input. Only that feature is passed on.",
   "pipelineGeoJsonFeaturePickerNoFeatures": "No features to pick from. Connect a GeoJSON input.",
   "pipelineGeoJsonFeaturePickerIndex": "Feature {{index}} of {{total}}",

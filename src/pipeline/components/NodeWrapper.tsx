@@ -261,7 +261,7 @@ export default function NodeWrapper({
           {hint && <Typography variant="subtitle2" color="textSecondary" sx={{ maxWidth: NODE_MIN_WIDTH }}>{hint}</Typography>}
           {children}
         </Box>}
-        {(inputCounts || outputCounts) && <Box sx={{ px: 2, pb: 1, display: 'flex', flexDirection: 'row', gap: 1, justifyContent: 'space-between',
+        {(inputCounts || outputCounts) && <Box sx={{ px: 2, pb: 1.5, display: 'flex', flexDirection: 'row', gap: 1, justifyContent: 'space-between',
           bgcolor: theme =>
             hasUnconnectedHandle
               ? `color-mix(in srgb, ${theme.palette.primary.light} 10%, ${theme.palette.background.paper} 85%)`

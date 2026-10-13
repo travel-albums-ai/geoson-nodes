@@ -1,7 +1,7 @@
 import { getHandleAnchorStyle, useHandleAnchor } from '@/hooks/useHandleAnchor';
-import { Box, useTheme } from '@mui/material';
+import { alpha, Box, useTheme } from '@mui/material';
 import { Handle, Position } from "@xyflow/react";
-import { Square } from 'lucide-react';
+import { ChevronsRight } from 'lucide-react';
 
 export function OutputHandle({ id, position, style, color }: { id: string; position?: Position; style?: React.CSSProperties; color?: string }) {
   const theme = useTheme()
@@ -10,7 +10,11 @@ export function OutputHandle({ id, position, style, color }: { id: string; posit
   return <>
     <Handle
       type="source"
-      style={{ width: '12px', height: '12px', backgroundColor: 'transparent', border: 0, ...style, ...getHandleAnchorStyle(anchor) }}
+      style={{
+        width: '14px', height: '14px',
+        backgroundColor: alpha(theme.palette.primary.main, 0.5),
+        border: 0,
+        ...style, ...getHandleAnchorStyle(anchor) }}
       position={anchor?.position ?? position ?? Position.Right}
       id={id}
     >
@@ -23,11 +27,13 @@ export function OutputHandle({ id, position, style, color }: { id: string; posit
           filter: 'grayscale(0)',
         },
       }}>
-        <Square size={10} style={{
+        <ChevronsRight size={12} style={{
           position: 'absolute',
-          right: '2px',
-          stroke: theme.palette.primary.main,
-          fill: color || theme.palette.primary.main,
+          right: '1px',
+          top: '1px',
+          stroke: theme.palette.background.paper,
+          strokeWidth: 2,
+          fill: color || theme.palette.background.paper,
         }} />
       </Box>
     </Handle>
