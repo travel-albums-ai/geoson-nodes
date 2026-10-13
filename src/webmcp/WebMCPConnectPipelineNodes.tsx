@@ -38,6 +38,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: [],
     targets: ['geojson'],
   },
+  'geojson-chart': {
+    sources: [],
+    targets: ['geojson'],
+  },
   'geojson-first-feature': {
     sources: [],
     targets: ['geojson'],

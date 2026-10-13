@@ -237,6 +237,15 @@
   "pipelineGeoJsonFeaturePickerHint": "Slide to pick one feature by its position in the input. Only that feature is passed on.",
   "pipelineGeoJsonFeaturePickerNoFeatures": "No features to pick from. Connect a GeoJSON input.",
   "pipelineGeoJsonFeaturePickerIndex": "Feature {{index}} of {{total}}",
+  "pipelineGeoJsonChart": "Chart",
+  "pipelineGeoJsonChartHint": "Plots the numeric property you pick for every feature of the input, in input order.",
+  "pipelineGeoJsonChartKey": "Numeric key",
+  "pipelineGeoJsonChartKeyHint": "Only numeric properties are listed.",
+  "pipelineGeoJsonChartKeyPlaceholder": "Pick a numeric key",
+  "pipelineGeoJsonChartNoNumericKeys": "The input has no numeric properties.",
+  "pipelineGeoJsonChartConnect": "Connect a GeoJSON input to chart its properties.",
+  "pipelineGeoJsonChartPickKey": "Pick a numeric key to draw the chart.",
+  "pipelineGeoJsonChartFeatureAxis": "Feature",
   "pipelineGeoJsonJsonata": "JSONata Query",
   "pipelineGeoJsonJsonataQueryLabel": "JSONata query",
   "pipelineGeoJsonJsonataPlaceholder": "features[properties.city = \"Rome\"]",
@@ -396,6 +405,7 @@
   "pipelineGeoJsonSymmetricDifferenceDescription": "Keeps the features that appear in exactly one of the two inputs.",
   "pipelineGeoJsonJsonataDescription": "Runs a JSONata query over the list of GeoJSON collections and passes the result on. The query re-runs as you type. With negate on, passes on the features the query leaves out instead.",
   "pipelinePostItDescription": "A free-form sticky note for comments. The text shrinks as you type more. It does not take part in the pipeline.",
+  "pipelineGeoJsonChartDescription": "Draws a line chart of one numeric property across the features of the input, in input order. Pick the key from the dropdown, which lists only properties whose values are numbers. Features without a value leave a gap in the line.",
   "pipelineGeoJsonViewerDescription": "Plots GeoJSON features on a map and lists each collection with its city, source and feature count, with a small preview of each feature.",
   "pipelineGeoJsonFirstFeatureDescription": "Shows the properties of the first feature in the list of GeoJSON collections in a read-only text box. It has no output."
 }

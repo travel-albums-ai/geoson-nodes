@@ -46,7 +46,7 @@ const isMissing = (value: unknown): boolean =>
   value === null || value === undefined || (typeof value === 'string' && value.trim() === '');
 
 // Numbers, and strings holding a number, count as numeric.
-const parseNumeric = (value: unknown): number | undefined => {
+export const parseNumeric = (value: unknown): number | undefined => {
   if (typeof value === 'number') return Number.isFinite(value) ? value : undefined;
   if (typeof value === 'string' && value.trim() !== '') {
     const parsed = Number(value);

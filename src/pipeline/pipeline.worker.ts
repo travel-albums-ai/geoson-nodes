@@ -219,6 +219,7 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
   "gps-map": geoJsonPassthroughNode,
   "geojson-viewer": geoJsonPassthroughNode,
   "geojson-first-feature": geoJsonPassthroughNode,
+  "geojson-chart": geoJsonPassthroughNode,
   "geo-bounds-filter": {
     async execute(inputs) {
       await Promise.resolve();
