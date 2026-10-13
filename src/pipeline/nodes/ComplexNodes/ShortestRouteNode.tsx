@@ -6,11 +6,11 @@ import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import { SHORTEST_ROUTE_COUNTS_EVENT, type Airport } from '@/types/types';
-import { Stack, TextField, Typography } from '@mui/material';
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import { Chip, Stack, TextField, Typography } from '@mui/material';
+import Autocomplete, { createFilterOptions, type AutocompleteRenderValueGetItemProps } from '@mui/material/Autocomplete';
 import { Position, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { LogIn, LogOut } from 'lucide-react';
-import { useCallback, useEffect, useState, type HTMLAttributes, type Key } from 'react';
+import { useCallback, useEffect, useState, type CSSProperties, type HTMLAttributes, type Key } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // "from" and "to" are lists of airports. A single airport from before they were lists is still accepted.
@@ -21,6 +21,9 @@ type ShortestRouteCountsEventDetail = {
   inputCount: number;
   outputCount: number;
 };
+
+// Countries without a sprite in freakflags.css. Without a matching class the flag would show the wrong part of the sprite.
+const COUNTRIES_WITHOUT_FLAG = new Set(['IO', 'MF', 'UM']);
 
 const filterAirports = createFilterOptions<Airport>({
   limit: 50,
@@ -77,11 +80,29 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
   }, [id, setNodes]);
 
   const airportOptionLabel = (airport: Airport) => `${airport.name} (${airport.iata})`;
+  const renderFlag = (country: string, style?: CSSProperties) =>
+    COUNTRIES_WITHOUT_FLAG.has(country) ? null : (
+      <span className={`fflag ff-sm fflag-${country}`} aria-hidden style={{ width: '16px', height: "16px", flexShrink: 0, borderRadius: '50%', overflow: 'hidden', ...style }} />
+    );
   const renderAirportOption = ({ key, ...props }: HTMLAttributes<HTMLLIElement> & { key: Key }, airport: Airport) => (
     <li key={key} {...props}>
+      {renderFlag(airport.country, { marginRight: 8 })}
       {`${airport.iata} · ${airport.city}, ${airport.country}`}
     </li>
   );
+  const renderAirportValue = (airports: Airport[], getItemProps: AutocompleteRenderValueGetItemProps<true>) =>
+    airports.map((airport, index) => {
+      const { key, ...itemProps } = getItemProps({ index });
+      return (
+        <Chip
+          key={key}
+          {...itemProps}
+          size="small"
+          label={airportOptionLabel(airport)}
+          icon={renderFlag(airport.country) ?? undefined}
+        />
+      );
+    });
 
   const renderAirportListField = (field: 'from' | 'via' | 'to', label: string) => (
     <Autocomplete<Airport, true>
@@ -97,6 +118,7 @@ function ShortestRouteNode({ id, data }: NodeProps<Node<ShortestRouteNodeData>>)
       isOptionEqualToValue={(option, value) => option.iata === value.iata}
       getOptionLabel={airportOptionLabel}
       renderOption={renderAirportOption}
+      renderValue={renderAirportValue}
       renderInput={(params) => <TextField {...params} label={label} />}
     />
   );

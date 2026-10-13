@@ -3,7 +3,7 @@ import type { Airport, GeoJsonFeature, GeoJsonFeatureCollectionArray } from '@/t
 // Caps the routes returned and the flight checks made, so a long list of optional stops cannot freeze the pipeline.
 // The search keeps only the cheapest routes, so memory stays flat and a larger step budget only costs time.
 const MAX_ROUTES = 1000;
-const MAX_STEPS = 5_000_000;
+const MAX_STEPS = 15_000_000;
 
 // A flight line from the flight path node, read as one leg of the route network.
 type Leg = { feature: GeoJsonFeature; from: string; to: string; price: number | null; currency: string | null };
