@@ -22,6 +22,7 @@ import {
 import { usePipelineStore, usePipelineStoreSelector } from '@/context/pipelineStore';
 import { useSettingsStoreSelector } from '@/context/settingsStore';
 import { usePipelineCanvas } from '@/hooks/usePipelineCanvas';
+import { usePipelineClipboard } from '@/hooks/usePipelineClipboard';
 import { usePipelineTrash } from '@/hooks/usePipelineTrash';
 import type { GeoJsonFeatureCollectionArray } from "@/types/types";
 import { VIEWER_NODE_TYPES } from "@/types/types";
@@ -87,6 +88,13 @@ function Pipeline() {
   useEffect(() => {
     setEdges((current) => styleEdges(current));
   }, [setEdges, styleEdges]);
+
+  // Viewer mode locks the canvas, so pasting is disabled there too.
+  usePipelineClipboard(canvasRef, {
+    enabled: !lockReactflow,
+    styleEdges,
+    onPasted: () => setCurrentPipelineDirty(true),
+  });
 
   const fitPipelineView = useCallback(async () => {
     const fitted = await fitView({ padding: 0.25 });
