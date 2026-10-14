@@ -1,3 +1,4 @@
+import { usePipelineStoreSelector } from '@/context/pipelineStore';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import { Box, TextField, Typography } from '@mui/material';
@@ -10,6 +11,8 @@ type GeoJsonReceiverNodeData = { hash?: string };
 function GeoJsonReceiverNode({ id, data }: NodeProps<Node<GeoJsonReceiverNodeData>>) {
   const { t } = useTranslation();
   const { setNodes } = useReactFlow();
+  const savedPipelines = usePipelineStoreSelector((state) => state.pipelines);
+  const currentPipeline = usePipelineStoreSelector((state) => state.currentPipeline);
   const storedHash = typeof data.hash === 'string' ? data.hash : '';
   const [draft, setDraft] = useState(storedHash);
   const [syncedHash, setSyncedHash] = useState(storedHash);
@@ -18,6 +21,13 @@ function GeoJsonReceiverNode({ id, data }: NodeProps<Node<GeoJsonReceiverNodeDat
     setSyncedHash(storedHash);
     setDraft(storedHash);
   }
+
+  // The open graph is read from the store, which mirrors the canvas, so it is not listed twice.
+  const broadcastPipelineNames = storedHash
+    ? [...savedPipelines.filter((pipeline) => pipeline.id !== currentPipeline.id), currentPipeline]
+      .filter((pipeline) => pipeline.nodes.some((node) => node.type === 'geojson-broadcast' && node.data.hash === storedHash))
+      .map((pipeline) => pipeline.name || t('untitledPipeline'))
+    : [];
 
   const commit = () => {
     const hash = draft.trim();
@@ -52,6 +62,15 @@ function GeoJsonReceiverNode({ id, data }: NodeProps<Node<GeoJsonReceiverNodeDat
           <Box sx={{ mt: 1 }}>
             <Typography variant="body2" color="text.secondary">
               {t('pipelineGeoJsonReceiverEmpty')}
+            </Typography>
+          </Box>
+        )}
+        {storedHash && (
+          <Box sx={{ mt: 1 }}>
+            <Typography variant="body2" color="text.secondary">
+              {broadcastPipelineNames.length > 0
+                ? t('pipelineGeoJsonReceiverSourcePipelines', { names: broadcastPipelineNames.join(', ') })
+                : t('pipelineGeoJsonReceiverSourceNone')}
             </Typography>
           </Box>
         )}
