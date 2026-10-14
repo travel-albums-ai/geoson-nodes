@@ -21,10 +21,11 @@ import type {
 } from "@/types/types";
 import { GEO_BOUNDS_FILTER_COUNTS_EVENT, GEOJSON_FEATURE_COUNT_EVENT, GEOJSON_HEATMAP_KEYS_EVENT, GEOJSON_JSONATA_COUNTS_EVENT, GEOJSON_MERGE_COUNTS_EVENT, GEOJSON_SET_COUNTS_EVENT, GEOJSON_SET_KEYS_EVENT, GEOJSON_SWITCH_COUNTS_EVENT, GEOJSON_WITHIN_AREA_COUNTS_EVENT, GEOJSON_ZIP_KEYS_EVENT, SHORTEST_ROUTE_COUNTS_EVENT, URL_GEOJSON_LOADER_COUNTS_EVENT, VIEWER_NODE_TYPES, WORKER_NODE_TYPES } from "@/types/types";
 import type { Edge, Node } from "@xyflow/react";
+import { ensureBroadcastListener, getReceivedBroadcast, postGeoJsonBroadcast } from "./geojsonBroadcast";
 
 // node.data keys the engine reads. Everything else (React Flow internals)
 // stays on the main thread. Flight lists are handled separately, see projectNode.
-const NODE_DATA_KEYS = ["geojsonFile", "fileKey", "skip", "bounds", "gridStep", "query", "negate", "reversed", "outside", "key", "serveB", "style", "heatmap", "featureIndex", "from", "to", "via", "variables"] as const;
+const NODE_DATA_KEYS = ["geojsonFile", "fileKey", "skip", "bounds", "gridStep", "query", "negate", "reversed", "outside", "key", "serveB", "style", "heatmap", "featureIndex", "from", "to", "via", "variables", "hash"] as const;
 
 type PendingViewer = {
   evaluationId: number;
@@ -37,6 +38,9 @@ let activeEvaluationId = 0;
 
 // Hashes of flight lists the current worker already holds (see evaluatePipeline).
 let workerFlightHashes = new Set<string>();
+
+// Digests of broadcast payloads the current worker already holds (see evaluatePipeline).
+let workerBroadcastDigests = new Set<string>();
 
 // Flight lists are large, so each array is hashed once per identity rather than on every run.
 const flightsHashes = new WeakMap<FlightEntry[], string>();
@@ -56,6 +60,13 @@ const pendingViewers = new Map<string, PendingViewer>();
 
 function handleWorkerMessage(event: MessageEvent<PipelineWorkerOutbound>) {
   const message = event.data;
+
+  // Broadcasts are not dropped with superseded evaluations: the worker posts each
+  // change only once, so a dropped one would never be sent again.
+  if (message.type === "geojson-broadcast") {
+    postGeoJsonBroadcast(message.hash, message.geojson);
+    return;
+  }
 
   // Anything from a superseded evaluation is dropped; its pending
   // viewers were already settled when the newer run started.
@@ -298,6 +309,7 @@ function getWorker(): Worker {
 
   // A fresh worker holds no flight payloads yet.
   workerFlightHashes = new Set();
+  workerBroadcastDigests = new Set();
 
   worker.onmessage = handleWorkerMessage;
 
@@ -347,7 +359,9 @@ function projectNode(
   node: Node,
   flightLists: Map<string, FlightEntry[]>,
   referencedFlightHashes: Set<string>,
-  flightPayloads: Record<string, FlightEntry[]>
+  flightPayloads: Record<string, FlightEntry[]>,
+  referencedBroadcastDigests: Set<string>,
+  receivedPayloads: Record<string, GeoJsonFeatureCollectionArray>
 ): PipelineWorkerNode {
   const data: Record<string, unknown> = {};
 
@@ -370,6 +384,20 @@ function projectNode(
     data.flightsHash = hash;
   }
 
+  if (node.type === "geojson-receiver") {
+    const broadcast = typeof node.data.hash === "string" ? getReceivedBroadcast(node.data.hash) : undefined;
+
+    if (broadcast) {
+      referencedBroadcastDigests.add(broadcast.digest);
+
+      if (!workerBroadcastDigests.has(broadcast.digest)) {
+        receivedPayloads[broadcast.digest] = broadcast.geojson;
+      }
+
+      data.payloadDigest = broadcast.digest;
+    }
+  }
+
   return { id: node.id, type: node.type, data };
 }
 
@@ -389,6 +417,7 @@ export async function evaluatePipeline(
   edges: Edge[]
 ): Promise<Map<string, Promise<GeoJsonFeatureCollectionArray>>> {
   const evaluationId = ++activeEvaluationId;
+  ensureBroadcastListener();
   window.dispatchEvent(new CustomEvent('pipeline:evaluationStarted', {
     detail: { evaluationId },
   }));
@@ -436,20 +465,24 @@ export async function evaluatePipeline(
     const activeWorker = getWorker();
     const flightPayloads: Record<string, FlightEntry[]> = {};
     const referencedFlightHashes = new Set<string>();
+    const receivedPayloads: Record<string, GeoJsonFeatureCollectionArray> = {};
+    const referencedBroadcastDigests = new Set<string>();
 
     const message: PipelineEvaluateMessage = {
       type: "evaluate",
       evaluationId,
       sequentialMode: getSettingsStore().pipelineSequentialMode,
-      nodes: supportedNodes.map((node) => projectNode(node, flightLists, referencedFlightHashes, flightPayloads)),
+      nodes: supportedNodes.map((node) => projectNode(node, flightLists, referencedFlightHashes, flightPayloads, referencedBroadcastDigests, receivedPayloads)),
       edges: supportedEdges.map(projectEdge),
       flightPayloads: Object.keys(flightPayloads).length > 0 ? flightPayloads : undefined,
+      receivedPayloads: Object.keys(receivedPayloads).length > 0 ? receivedPayloads : undefined,
     };
 
     activeWorker.postMessage(message);
 
     // The worker keeps only the flight lists this graph references.
     workerFlightHashes = referencedFlightHashes;
+    workerBroadcastDigests = referencedBroadcastDigests;
   } catch (error) {
     for (const [nodeId, pending] of pendingViewers) {
       if (pending.evaluationId !== evaluationId) continue;

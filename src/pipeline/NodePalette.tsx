@@ -1,4 +1,4 @@
-import { AppWindow, Bike, Blend, Braces, ChartLine, CloudSun, Combine, Crop, Database, Diff, FileJson, Flame, GitFork, Globe, Layers, Link2, Merge, MapPinned, MessageSquare, Newspaper, Palette, Plane, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote, TextCursorInput } from 'lucide-react';
+import { AppWindow, Bike, Blend, Braces, ChartLine, CloudSun, Combine, Crop, Database, Diff, FileJson, Flame, GitFork, Globe, Inbox, Layers, Link2, Merge, MapPinned, MessageSquare, Newspaper, Palette, Plane, RadioTower, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote, TextCursorInput } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
@@ -29,6 +29,8 @@ export enum NodeType {
   AskGpt = 'ask-gpt',
   PostIt = 'post-it',
   Iframe = 'iframe',
+  GeoJsonBroadcast = 'geojson-broadcast',
+  GeoJsonReceiver = 'geojson-receiver',
 }
 
 export enum NodeProcessing {
@@ -71,6 +73,12 @@ const sourceStages: Array<NodeStageItem> = [
     labelKey: "pipelineGeoJsonInput", icon: <FileJson size={16} />,
     processing: 'static',
     labelDescription: 'pipelineGeoJsonInputDescription',
+  },
+  {
+    type: NodeType.GeoJsonReceiver,
+    labelKey: "pipelineGeoJsonReceiver", icon: <Inbox size={16} />,
+    processing: 'static',
+    labelDescription: 'pipelineGeoJsonReceiverDescription',
   },
   {
     type: NodeType.FlightPath,
@@ -200,6 +208,10 @@ const outputStages: Array<NodeStageItem> = [
   {
     type: NodeType.Iframe, labelKey: "pipelineIframe", icon: <AppWindow size={16} />,
     processing: 'static', labelDescription: 'pipelineIframeDescription'
+  },
+  {
+    type: NodeType.GeoJsonBroadcast, labelKey: "pipelineGeoJsonBroadcast", icon: <RadioTower size={16} />,
+    processing: 'static', labelDescription: 'pipelineGeoJsonBroadcastDescription'
   },
 ]
 

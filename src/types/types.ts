@@ -50,7 +50,7 @@ export type FlightEntry = {
 };
 
 // Node types the pipeline engine can evaluate.
-export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-style', 'geojson-heatmap', 'geojson-zip', 'geojson-feature-picker', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer', 'geojson-first-feature', 'geojson-chart', 'flight-path', 'url-geojson-loader', 'gdelt-events-loader', 'qlever-sparql-loader', 'open-meteo-loader', 'fit-input', 'shortest-route', 'ask-gpt']);
+export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-style', 'geojson-heatmap', 'geojson-zip', 'geojson-feature-picker', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer', 'geojson-first-feature', 'geojson-chart', 'flight-path', 'url-geojson-loader', 'gdelt-events-loader', 'qlever-sparql-loader', 'open-meteo-loader', 'fit-input', 'shortest-route', 'ask-gpt', 'geojson-broadcast', 'geojson-receiver']);
 
 // Canvas-only nodes (e.g. notes). They are saved with the pipeline but never sent to the engine.
 export const ANNOTATION_NODE_TYPES = new Set(['post-it', 'iframe']);
@@ -149,6 +149,8 @@ export type PipelineEvaluateMessage = {
   edges: PipelineWorkerEdge[];
   // Flight lists the worker does not hold yet, keyed by content hash.
   flightPayloads?: Record<string, FlightEntry[]>;
+  // Broadcast payloads the worker does not hold yet, keyed by content digest.
+  receivedPayloads?: Record<string, GeoJsonFeatureCollectionArray>;
 };
 
 // worker -> main thread
@@ -280,6 +282,13 @@ export type PipelineErrorMessage = {
   message: string;
 };
 
+export type PipelineGeoJsonBroadcastMessage = {
+  type: "geojson-broadcast";
+  nodeId: string;
+  hash: string;
+  geojson: GeoJsonFeatureCollectionArray;
+};
+
 export type PipelineWorkerOutbound =
   | PipelineStageTimingMessage
   | PipelineStageStartedMessage
@@ -296,5 +305,6 @@ export type PipelineWorkerOutbound =
   | PipelineGeoJsonWithinAreaCountsMessage
   | PipelineShortestRouteCountsMessage
   | PipelineUrlGeoJsonLoaderCountsMessage
+  | PipelineGeoJsonBroadcastMessage
   | PipelineDoneMessage
   | PipelineErrorMessage;

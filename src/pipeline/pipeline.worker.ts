@@ -139,6 +139,37 @@ function resolveFlightPayloads(message: PipelineEvaluateMessage): Map<string, Fl
   return next;
 }
 
+// Broadcast payloads sent by the client, keyed by content digest. Retained
+// the same way as flight lists.
+let retainedReceived = new Map<string, GeoJsonFeatureCollectionArray>();
+
+function resolveReceivedPayloads(message: PipelineEvaluateMessage): Map<string, GeoJsonFeatureCollectionArray> {
+  const next = new Map<string, GeoJsonFeatureCollectionArray>();
+
+  for (const node of message.nodes) {
+    if (node.type !== "geojson-receiver") continue;
+
+    const digest = node.data.payloadDigest as string | undefined;
+
+    if (digest === undefined || next.has(digest)) continue;
+
+    const collections = message.receivedPayloads?.[digest] ?? retainedReceived.get(digest);
+
+    if (!collections) {
+      throw new Error(`Broadcast payload ${digest} was not sent to the worker`);
+    }
+
+    next.set(digest, collections);
+  }
+
+  retainedReceived = next;
+
+  return next;
+}
+
+// Last broadcast signature posted per node, so unchanged runs do not re-post.
+const lastBroadcastSignatures = new Map<string, string>();
+
 const withinAreaInputCounts = (inputs: NodeInputs): Record<string, number> =>
   Object.fromEntries(
     GEOJSON_WITHIN_AREA_INPUT_HANDLES.map((handle) => [
@@ -390,6 +421,20 @@ const nodeDefinitions: Record<string, PipelineNodeDefinition> = {
       return { geojson: buildFlightPathCollections(inputs.flights as FlightEntry[] | undefined) };
     },
   },
+  "geojson-broadcast": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      return { geojson: (inputs.geojson as GeoJsonFeatureCollectionArray | undefined) ?? [] };
+    },
+  },
+  "geojson-receiver": {
+    async execute(inputs) {
+      await Promise.resolve();
+
+      return { geojson: (inputs.received as GeoJsonFeatureCollectionArray | undefined) ?? [] };
+    },
+  },
   "shortest-route": {
     async execute(inputs) {
       await Promise.resolve();
@@ -413,6 +458,7 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
   const { evaluationId, nodes, edges } = message;
   const startedAt = performance.now();
   const flightsByHash = resolveFlightPayloads(message);
+  const receivedByDigest = resolveReceivedPayloads(message);
 
   const outputs = new Map<string, Promise<NodeOutputs>>();
   const signatures = new Map<string, string>();
@@ -512,6 +558,10 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
       if (node.type === "flight-path") {
         inputs.flights = flightsByHash.get(node.data.flightsHash as string);
+      }
+
+      if (node.type === "geojson-receiver") {
+        inputs.received = receivedByDigest.get(node.data.payloadDigest as string);
       }
 
       if (node.type === "url-geojson-loader" || node.type === "gdelt-events-loader" || node.type === "qlever-sparql-loader" || node.type === "open-meteo-loader" || node.type === "fit-input") {
@@ -770,6 +820,24 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       nodeId: node.id,
       inputCounts: nodeOutputs.inputCounts as Record<string, number>,
       outputCount: (nodeOutputs.outputCount as number | undefined) ?? 0,
+    });
+  }
+
+  for (const node of nodes.filter((candidate) => candidate.type === "geojson-broadcast")) {
+    const nodeOutputs = await settleNode(node.id);
+    const signature = signatures.get(node.id);
+    const hash = node.data.hash;
+
+    if (!nodeOutputs || signature === undefined || typeof hash !== "string" || hash === "") continue;
+    if (lastBroadcastSignatures.get(node.id) === signature) continue;
+
+    lastBroadcastSignatures.set(node.id, signature);
+
+    workerScope.postMessage({
+      type: "geojson-broadcast",
+      nodeId: node.id,
+      hash,
+      geojson: nodeOutputs.geojson as GeoJsonFeatureCollectionArray,
     });
   }
 

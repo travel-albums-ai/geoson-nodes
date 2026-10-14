@@ -110,6 +110,14 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: [],
     targets: [],
   },
+  'geojson-broadcast': {
+    sources: ['geojson'],
+    targets: ['geojson'],
+  },
+  'geojson-receiver': {
+    sources: ['geojson'],
+    targets: [],
+  },
 };
 
 function getNodeHandles(node: { type?: string }, direction: 'sources' | 'targets') {

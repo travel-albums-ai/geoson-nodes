@@ -26,6 +26,8 @@ import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
 import PostItNode from '@/pipeline/nodes/ComplexNodes/PostItNode';
 import ShortestRouteNode from '@/pipeline/nodes/ComplexNodes/ShortestRouteNode';
 import IframeNode from '@/pipeline/nodes/ComplexNodes/IframeNode';
+import GeoJsonBroadcastNode from '@/pipeline/nodes/ComplexNodes/GeoJsonBroadcastNode';
+import GeoJsonReceiverNode from '@/pipeline/nodes/ComplexNodes/GeoJsonReceiverNode';
 
 export const EDGE_TYPE = ConnectionLineType.Bezier;
 export const INITIAL_NODES: Node[] = [];
@@ -65,4 +67,6 @@ export const pipelineNodeTypes = {
   'geojson-jsonata': GeoJsonJsonataNode,
   'post-it': PostItNode,
   'iframe': IframeNode,
+  'geojson-broadcast': GeoJsonBroadcastNode,
+  'geojson-receiver': GeoJsonReceiverNode,
 };
