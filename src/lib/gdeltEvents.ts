@@ -71,6 +71,39 @@ function parseCoordinate(value: string, limit: number): number | null {
   return Number.isFinite(coordinate) && Math.abs(coordinate) <= limit ? coordinate : null;
 }
 
+const UUID_PATTERN = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi;
+
+// Long numbers, or letter-and-digit tokens such as article or session IDs.
+function isMagicId(token: string): boolean {
+  if (/^\d{5,}$/.test(token)) return true;
+  return token.length >= 6 && /\d/.test(token) && /\p{L}/u.test(token);
+}
+
+function safeDecodeURIComponent(text: string): string {
+  try {
+    return decodeURIComponent(text);
+  } catch {
+    return text;
+  }
+}
+
+// The readable words of a source URL: no scheme, hostname, separators, UUIDs or magic IDs.
+// e.g. https://news.example.com/world/ukraine-talks-550e8400-e29b-41d4-a716-446655440000.html?id=8f3a9c2d1 -> "world ukraine talks html id"
+function sourceUrlWords(sourceUrl: string): string | null {
+  let url: URL;
+  try {
+    url = new URL(sourceUrl);
+  } catch {
+    return null;
+  }
+
+  const path = safeDecodeURIComponent(`${url.pathname}${url.search}${url.hash}`).replace(UUID_PATTERN, ' ');
+  return path
+    .split(/[^\p{L}\p{M}\p{N}]+/u)
+    .filter((word) => word !== '' && !isMagicId(word))
+    .join(' ');
+}
+
 // One point per event at its action location. Events without a usable location are skipped.
 function parseGdeltEventsTsv(text: string): GeoJsonFeature[] {
   const features: GeoJsonFeature[] = [];
@@ -102,6 +135,11 @@ function parseGdeltEventsTsv(text: string): GeoJsonFeature[] {
 
     const locationName = fields[ACTION_GEO_FULL_NAME];
     if (locationName !== '') properties.name = locationName;
+
+    if (typeof properties.SOURCEURL === 'string') {
+      const sourceUrlText = sourceUrlWords(properties.SOURCEURL);
+      if (sourceUrlText) properties.SOURCEURL_PATH = sourceUrlText;
+    }
 
     features.push({
       type: 'Feature',

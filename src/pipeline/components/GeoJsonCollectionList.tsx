@@ -33,7 +33,7 @@ const isWebsiteLike = (token: string) =>
 
 const isNumberOnly = (token: string) => /^\d+([.,]\d+)*$/.test(token);
 
-const parseProperties = ['SOURCEURL']
+const parseProperties = ['SOURCEURL_PATH']
 
 function FeatureRow({ feature }: { feature: GeoJsonFeature }) {
   const { t } = useTranslation();
