@@ -85,6 +85,7 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
       <InputHandle id="geojson" position={Position.Top} />
       <NodeWrapper
         type="geojson-jsonata"
+        defaultSize={{ height: 420 }}
         inputCounts={
           <NewChip
             count={counts?.inputCount ?? 0}
@@ -107,7 +108,7 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
         }
         tools={<PipelineStageTiming nodeId={id} nodeType={'geojson-jsonata'} />}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', pb: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', pb: 1, flex: '0 0 auto' }}>
           <FormControlLabel
             className="nodrag nopan"
             label={t('pipelineGeoJsonJsonataNegate')}
@@ -123,8 +124,7 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
         <TextField
           className="nowheel"
           multiline
-          minRows={3}
-          maxRows={10}
+          rows={6}
           fullWidth
           size="small"
           value={draft}
@@ -133,7 +133,12 @@ function GeoJsonJsonataNode({ id, data }: NodeProps<Node<GeoJsonJsonataNodeData>
           label={t('pipelineGeoJsonJsonataQueryLabel')}
           error={data.error !== undefined}
           helperText={data.error ?? t('pipelineGeoJsonJsonataHint')}
-          sx={{ '& textarea': { fontFamily: 'monospace' } }}
+          sx={{
+            flex: 1,
+            minHeight: 0,
+            '& .MuiInputBase-root': { flex: 1, minHeight: 0, alignItems: 'stretch' },
+            '& textarea': { fontFamily: 'monospace', height: '100% !important', boxSizing: 'border-box' },
+          }}
         />
 
         <OutputHandle id="geojson" position={Position.Bottom} />

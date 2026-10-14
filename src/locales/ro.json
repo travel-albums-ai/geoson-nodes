@@ -25,6 +25,7 @@
   "nodeEnable": "Activează nodul",
   "nodeSkip": "Omite nodul",
   "nodeReset": "Resetează nodul",
+  "nodeResetSize": "Resetează dimensiunea nodului",
   "nodeDelete": "Șterge nodul",
   "newVersionAvailableTitle": "Versiune nouă disponibilă",
   "newVersionAvailableBody": "O versiune nouă este pregătită. Reîncărcați pentru a aplica actualizarea.",

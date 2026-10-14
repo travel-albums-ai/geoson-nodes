@@ -137,6 +137,7 @@
   "nodeEnable": "Knoten aktivieren",
   "nodeSkip": "Knoten überspringen",
   "nodeReset": "Knoten zurücksetzen",
+  "nodeResetSize": "Knotengröße zurücksetzen",
   "nodeDelete": "Knoten löschen",
   "pipelineNodesTooltip": "Anzahl der Knoten in der aktuellen Pipeline",
   "pipelineTotalTimeTooltip": "Gesamtdauer der aktuellen Pipeline",

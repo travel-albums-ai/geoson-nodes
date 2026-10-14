@@ -28,6 +28,7 @@
   "nodeEnable": "Enable node",
   "nodeSkip": "Skip node",
   "nodeReset": "Reset node",
+  "nodeResetSize": "Reset node size",
   "nodeDelete": "Delete node",
   "newVersionAvailableTitle": "New version available",
   "newVersionAvailableBody": "A new version is ready. Reload to apply the update.",

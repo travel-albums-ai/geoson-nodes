@@ -7,7 +7,7 @@ import { NODE_MIN_HEIGHT, NODE_MIN_WIDTH, readNodeSize, type NodeSize } from '@/
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { NodeResizer, NodeToolbar, Position, useNodeConnections, useNodeId, useNodesData, useReactFlow, useStore } from '@xyflow/react';
-import { Copy, FastForward, HelpCircle, RotateCcw, Trash2 } from 'lucide-react';
+import { Copy, FastForward, HelpCircle, RotateCcw, Scaling, Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import stc from 'string-to-color';
@@ -97,6 +97,19 @@ export default function NodeWrapper({
     window.dispatchEvent(new CustomEvent('pipeline:changed'));
   };
 
+  // Dropping the stored size lets the node fall back to its defaultSize. React Flow keeps its own
+  // width/height from the last resize, so those are cleared too or the outer node stays large.
+  const resetSize = () => {
+    if (!nodeId) return;
+
+    setNodes((current) => current.map((node) =>
+      node.id === nodeId
+        ? { ...node, width: undefined, height: undefined, data: { ...node.data, size: undefined } }
+        : node
+    ));
+    window.dispatchEvent(new CustomEvent('pipeline:changed'));
+  };
+
   const cloneNode = () => {
     if (!nodeId) return;
 
@@ -172,6 +185,11 @@ export default function NodeWrapper({
           <Tooltip title={t('nodeReset')}>
             <IconButton size="small" aria-label={t('nodeReset')} onClick={resetNode}>
               <RotateCcw size={16} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t('nodeResetSize')}>
+            <IconButton size="small" aria-label={t('nodeResetSize')} onClick={resetSize}>
+              <Scaling size={16} />
             </IconButton>
           </Tooltip>
           <Tooltip title={t('nodeDelete')}>
