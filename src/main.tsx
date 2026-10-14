@@ -1,5 +1,6 @@
 import { setSettingsStore } from '@/context/settingsStore';
 import '@/lib/i18n';
+import { initPipelinePopupWindow } from '@/lib/pipelinePopup';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -22,6 +23,7 @@ import './freakflags.css';
 import './index.css';
 
 const queryClient = new QueryClient()
+initPipelinePopupWindow();
 export const debug = true || import.meta.env.DEV
 export const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 

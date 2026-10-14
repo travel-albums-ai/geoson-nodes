@@ -198,6 +198,7 @@
   "templatesStarterName": "Șabloane de pornire",
   "templatesStarterDescription": "Pipeline-uri gata făcute pentru a explora și personaliza",
   "pipelineOpenSelected": "Deschide pipeline-ul selectat",
+  "pipelineOpenInPopup": "Deschide pipeline-ul într-o fereastră pop-up",
   "deletePipelineTooltip": "Șterge un pipeline făcând clic sau trăgând un element de pipeline",
   "shareFeedbackTooltip": "Trimite feedback dezvoltatorului",
   "manualName": "Manual",

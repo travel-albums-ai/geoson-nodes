@@ -1,13 +1,27 @@
-import { alpha, Box, Button, Tooltip, Typography } from '@mui/material';
+import { alpha, Box, Button, Tooltip, Typography, type SxProps, type Theme } from '@mui/material';
 
 import type { SavedPipeline } from '@/context/pipelineStore';
+import { openPipelinePopup } from '@/lib/pipelinePopup';
 import { MinimapPipeline } from '@/pipeline/components/MinimapPipeline';
-import { ArrowRight } from 'lucide-react';
+import { AppWindow, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 type PipelineSelectorProps = {
   pipeline: SavedPipeline;
   onClick: () => void;
+};
+
+const actionButtonSx: SxProps<Theme> = {
+  minWidth: 'unset',
+  boxShadow: 0,
+  borderRadius: 10,
+  padding: 1,
+  bgcolor: theme => alpha(theme.palette.primary.main, 0.1),
+  color: theme => theme.palette.primary.main,
+  '&:hover': {
+    bgcolor: theme => alpha(theme.palette.primary.main, 0.2),
+    boxShadow: 1,
+  }
 };
 
 export default function PipelineSelectorItem({
@@ -41,19 +55,13 @@ export default function PipelineSelectorItem({
           >
             {pipeline.name}
           </Typography>
+          <Tooltip title={t('pipelineOpenInPopup')} arrow>
+            <Button variant="contained" disableElevation sx={actionButtonSx} onClick={() => openPipelinePopup(pipeline.id)}>
+              <AppWindow size={16} />
+            </Button>
+          </Tooltip>
           <Tooltip title={t('pipelineOpenSelected')} arrow>
-            <Button variant="contained" disableElevation sx={{
-              minWidth: 'unset',
-              boxShadow: 0,
-              borderRadius: 10,
-              padding: 1,
-              bgcolor: theme => alpha(theme.palette.primary.main, 0.1),
-              color: theme => theme.palette.primary.main,
-              '&:hover': {
-                bgcolor: theme => alpha(theme.palette.primary.main, 0.2),
-                boxShadow: 1,
-              }
-            }} onClick={onClick}>
+            <Button variant="contained" disableElevation sx={actionButtonSx} onClick={onClick}>
               <ArrowRight size={16} />
             </Button>
           </Tooltip>

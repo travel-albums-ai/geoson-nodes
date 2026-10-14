@@ -45,7 +45,10 @@ const {
   useStoreSelector: useSettingsStoreSelector,
   getStore: getSettingsStore,
   setStore: setSettingsStore,
-} = createLocalStorageStoreNg<SettingsStore>(defaults, 'settingsStore')
+} = createLocalStorageStoreNg<SettingsStore>(defaults, 'settingsStore', {
+  // Each window keeps its own Templates panel state, so a popup can close its panel without affecting the main window.
+  tabKeys: ['templatesOpen'],
+})
 
 export const useSettings = () => {
   const setSetting = useSetStore()

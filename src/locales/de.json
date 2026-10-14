@@ -190,6 +190,7 @@
   "templatesStarterName": "Startvorlagen",
   "templatesStarterDescription": "Fertige Pipelines zum Ausprobieren und Anpassen",
   "pipelineOpenSelected": "Ausgewählte Pipeline öffnen",
+  "pipelineOpenInPopup": "Pipeline in einem Popup-Fenster öffnen",
   "deletePipelineTooltip": "Pipeline durch Klicken oder Ziehen eines Pipeline-Elements löschen",
   "shareFeedbackTooltip": "Feedback mit dem Entwickler teilen",
   "manualName": "Handbuch",

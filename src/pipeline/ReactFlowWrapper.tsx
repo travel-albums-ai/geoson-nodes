@@ -23,23 +23,23 @@ import { usePipelineStore, usePipelineStoreSelector } from '@/context/pipelineSt
 import { useSettingsStoreSelector } from '@/context/settingsStore';
 import { usePipelineCanvas } from '@/hooks/usePipelineCanvas';
 import { usePipelineTrash } from '@/hooks/usePipelineTrash';
-import { VIEWER_NODE_TYPES } from "@/types/types";
 import type { GeoJsonFeatureCollectionArray } from "@/types/types";
+import { VIEWER_NODE_TYPES } from "@/types/types";
 import { useTranslation } from 'react-i18next';
 import { downloadCanvasScreenshot, downloadPipelineFile, readPipelineFile } from './pipelineApi';
-import { isStarterPipelineId } from './starterTemplates';
 import {
   EDGE_TYPE,
   INITIAL_EDGES,
   INITIAL_NODES,
-  readLastOpenedPipelineId,
-  writeLastOpenedPipelineId,
   PIPELINE_NODE_COUNT_EVENT,
   PIPELINE_NODE_COUNT_REQUEST_EVENT,
   pipelineNodeTypes,
+  readLastOpenedPipelineId,
   SNAP_GRID,
+  writeLastOpenedPipelineId,
 } from './pipelineConfig';
 import { evaluatePipeline, terminatePipelineWorker } from "./pipelineWorkerClient";
+import { isStarterPipelineId } from './starterTemplates';
 
 function Pipeline() {
   const { t } = useTranslation();
@@ -89,7 +89,7 @@ function Pipeline() {
   }, [setEdges, styleEdges]);
 
   const fitPipelineView = useCallback(async () => {
-    const fitted = await fitView({ padding: 0.18 });
+    const fitted = await fitView({ padding: 0.25 });
 
     if (!fitted) return;
 

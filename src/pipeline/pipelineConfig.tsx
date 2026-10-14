@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { ConnectionLineType, type Edge, type Node } from '@xyflow/react';
 
+import { POPUP_PIPELINE_PARAM } from '@/lib/pipelinePopup';
 import FitInputNode from '@/pipeline/nodes/ComplexNodes/FitInputNode';
 import FlightPathNode from '@/pipeline/nodes/ComplexNodes/FlightPathNode';
 import GeoBoundsFilterNode from '@/pipeline/nodes/ComplexNodes/GeoBoundsFilterNode';
@@ -39,6 +40,14 @@ export const LAST_PIPELINE_STORAGE_KEY = 'lastOpenedPipelineId';
 export function readLastOpenedPipelineId(): string {
   try {
     localStorage.removeItem(LAST_PIPELINE_STORAGE_KEY);
+    const url = new URL(window.location.href);
+    const popupPipelineId = url.searchParams.get(POPUP_PIPELINE_PARAM);
+    if (popupPipelineId) {
+      url.searchParams.delete(POPUP_PIPELINE_PARAM);
+      window.history.replaceState(window.history.state, '', url);
+      sessionStorage.setItem(LAST_PIPELINE_STORAGE_KEY, popupPipelineId);
+      return popupPipelineId;
+    }
     return sessionStorage.getItem(LAST_PIPELINE_STORAGE_KEY) ?? '';
   } catch {
     return '';
