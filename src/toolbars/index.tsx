@@ -14,6 +14,7 @@ import DeleteButton from '@/toolbars/tools/DeleteButton';
 import ExtendedMenu from '@/toolbars/tools/ExtendedMenu';
 import FitViewButton from '@/toolbars/tools/FitViewButton';
 import FullscreenToggle from '@/toolbars/tools/FullscreenToggle';
+import GoogleDriveBackupToggles from '@/toolbars/tools/GoogleDriveBackupToggles';
 import HelpToggle from '@/toolbars/tools/HelpToggle';
 import Logo from '@/toolbars/tools/Logo';
 import NewUploadToggle from '@/toolbars/tools/NewUploadToggle';
@@ -81,6 +82,13 @@ export default function Toolbars() {
           <KeyboardMenu />
           <VersionStatus />
         </>,
+      ],
+    },
+    'cloud': {
+      sx: { bottom: TOOLBAR_GAP * 1.5, right: TOOLBAR_GAP, overflow: 'visible', justifyContent: 'flex-end', alignItems: 'center' },
+      floatingSx: { },
+      groups: [
+        <GoogleDriveBackupToggles />
       ],
     },
     'loadingBars': {

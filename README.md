@@ -122,6 +122,8 @@ Files loaded into **GeoJSON Input** and **FIT Input** nodes are stored in the br
 - **Download pipeline** exports the current recipe.
 - **Upload pipeline** imports a `.cep` recipe.
 
+The **Google Drive** toolbar, at the bottom right, backs up all saved pipelines to a `CouchMapper.json` file in your Google Drive. Sign in with Google first. **Restore** replaces the saved pipelines in this browser with that backup after a confirmation. The app only accesses files it creates (`drive.file` scope). Sign-in lasts until the page is reloaded.
+
 The **Starter Templates** group in the templates window lists every `.cep` file in `src/samples/`, found at build time. Starters are read-only: opening one loads it, and saving it creates your own copy. Starters cannot be deleted.
 
 ## ⚙️ Settings, themes, and help
@@ -160,6 +162,8 @@ npm run build    # Create a production build
 npm run preview  # Build and serve a production preview
 npm run lint     # Check the source code
 ```
+
+Google Drive backup needs a Google OAuth Web client ID. Copy `.env.example` to `.env.local` and set `VITE_GOOGLE_CLIENT_ID`. In Google Cloud Console, enable the Google Drive API and add each app origin (for example `http://localhost:5173`) to the client's Authorized JavaScript origins. Without the ID, the Google Drive button is disabled.
 
 The screenshot refresh command used by maintainers is:
 

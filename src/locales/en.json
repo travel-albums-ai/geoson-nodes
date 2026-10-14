@@ -450,5 +450,16 @@
   "pipelineAskGptDescription": "Lets you pick property keys from the GeoJSON features on its input. When you press Ask GPT, the selected keys of every feature are serialized as a JSON array and sent to ChatGPT in a new tab. It has no output.",
   "pipelineGeoJsonFirstFeatureDescription": "Shows the properties of the first feature in the list of GeoJSON collections in a read-only text box. It has no output.",
   "screenshotToggleTooltip": "Save the canvas as a PNG screenshot",
-  "screenshotFailed": "The canvas screenshot could not be saved."
+  "screenshotFailed": "The canvas screenshot could not be saved.",
+  "googleDriveLabel": "Google Drive",
+  "googleDriveSignIn": "Sign in with Google to back up to Google Drive",
+  "googleDriveNotConfigured": "Google Drive backup is not configured (missing VITE_GOOGLE_CLIENT_ID)",
+  "googleDriveSignedIn": "Signed in to Google Drive",
+  "googleDriveSignOut": "Sign out of Google Drive",
+  "googleDriveBackup": "Back up pipelines to Google Drive (CouchMapper.json)",
+  "googleDriveBackupDone": "Backed up {{count}} pipelines to Google Drive",
+  "googleDriveRestore": "Restore pipelines from Google Drive (CouchMapper.json)",
+  "googleDriveRestoreConfirm": "Restoring replaces the pipelines saved in this browser with the backup from Google Drive. Continue?",
+  "googleDriveRestoreDone": "Restored {{count}} pipelines from Google Drive",
+  "googleDriveFailed": "Google Drive request failed"
 }

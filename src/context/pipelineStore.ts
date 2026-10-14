@@ -56,7 +56,9 @@ const {
   Provider: PipelineProvider,
   useStore,
   useSetStore,
-  useStoreSelector: usePipelineStoreSelector
+  useStoreSelector: usePipelineStoreSelector,
+  getStore: getPipelineStore,
+  setStore: setPipelineStore,
 } = createLocalStorageStoreNg<PipelineStore>(defaults, 'pipelineStore', {
   // The open graph and its UI state belong to one tab; the saved pipeline list is shared.
   tabKeys: ['currentPipeline', 'lockReactflow', 'searchTermToolbox'],
@@ -236,4 +238,4 @@ export const usePipelineStore = () => {
   }
 }
 
-export { PipelineProvider, usePipelineStoreSelector };
+export { getPipelineStore, PipelineProvider, setPipelineStore, usePipelineStoreSelector };
