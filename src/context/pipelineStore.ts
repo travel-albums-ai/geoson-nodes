@@ -114,6 +114,17 @@ function withoutEvaluationResults<T extends PipelineGraph>(graph: T): T {
   }
 }
 
+// Saved pipelines plus the open one. The open graph is taken from the store, which mirrors the canvas, so it is listed once.
+export function findPipelinesWithNode(
+  pipelines: SavedPipeline[],
+  currentPipeline: CurrentPipeline,
+  nodeType: string,
+  hash: string,
+): Array<Pick<CurrentPipeline, 'name'>> {
+  return [...pipelines.filter((pipeline) => pipeline.id !== currentPipeline.id), currentPipeline]
+    .filter((pipeline) => pipeline.nodes.some((node) => node.type === nodeType && node.data.hash === hash))
+}
+
 export const usePipelineStore = () => {
   const store = useStore()
   const setState = useSetStore()

@@ -1,4 +1,4 @@
-import { usePipelineStoreSelector } from '@/context/pipelineStore';
+import { findPipelinesWithNode, usePipelineStoreSelector } from '@/context/pipelineStore';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import { Box, TextField, Typography } from '@mui/material';
@@ -22,10 +22,8 @@ function GeoJsonReceiverNode({ id, data }: NodeProps<Node<GeoJsonReceiverNodeDat
     setDraft(storedHash);
   }
 
-  // The open graph is read from the store, which mirrors the canvas, so it is not listed twice.
   const broadcastPipelineNames = storedHash
-    ? [...savedPipelines.filter((pipeline) => pipeline.id !== currentPipeline.id), currentPipeline]
-      .filter((pipeline) => pipeline.nodes.some((node) => node.type === 'geojson-broadcast' && node.data.hash === storedHash))
+    ? findPipelinesWithNode(savedPipelines, currentPipeline, 'geojson-broadcast', storedHash)
       .map((pipeline) => pipeline.name || t('untitledPipeline'))
     : [];
 

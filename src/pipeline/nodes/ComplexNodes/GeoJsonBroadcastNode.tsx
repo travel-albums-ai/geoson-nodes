@@ -1,3 +1,4 @@
+import { findPipelinesWithNode, usePipelineStoreSelector } from '@/context/pipelineStore';
 import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
@@ -18,7 +19,14 @@ function createBroadcastHash(): string {
 function GeoJsonBroadcastNode({ id, data }: NodeProps<Node<GeoJsonBroadcastNodeData>>) {
   const { t } = useTranslation();
   const { setNodes } = useReactFlow();
+  const savedPipelines = usePipelineStoreSelector((state) => state.pipelines);
+  const currentPipeline = usePipelineStoreSelector((state) => state.currentPipeline);
   const hash = typeof data.hash === 'string' ? data.hash : '';
+
+  const receiverPipelineNames = hash
+    ? findPipelinesWithNode(savedPipelines, currentPipeline, 'geojson-receiver', hash)
+      .map((pipeline) => pipeline.name || t('untitledPipeline'))
+    : [];
 
   const storeHash = (nextHash: string) => {
     setNodes((current) => current.map((node) =>
@@ -69,6 +77,15 @@ function GeoJsonBroadcastNode({ id, data }: NodeProps<Node<GeoJsonBroadcastNodeD
             </IconButton>
           </Tooltip>
         </Box>
+        {hash && (
+          <Box sx={{ mt: 1 }}>
+            <Typography variant="body2" color="text.secondary">
+              {receiverPipelineNames.length > 0
+                ? t('pipelineGeoJsonBroadcastReceiversPipelines', { names: receiverPipelineNames.join(', ') })
+                : t('pipelineGeoJsonBroadcastReceiversNone')}
+            </Typography>
+          </Box>
+        )}
       </NodeWrapper>
       <OutputHandle id="geojson" position={Position.Bottom} />
     </>

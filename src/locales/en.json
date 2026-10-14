@@ -434,6 +434,8 @@
   "pipelineGeoJsonBroadcastHint": "Sends the input under this hash to every reachable window and to other tabs of this origin.",
   "pipelineGeoJsonBroadcastCopy": "Copy hash",
   "pipelineGeoJsonBroadcastRegenerate": "Generate a new hash",
+  "pipelineGeoJsonBroadcastReceiversPipelines": "Received in: {{names}}",
+  "pipelineGeoJsonBroadcastReceiversNone": "No Receiver node uses this hash.",
   "pipelineGeoJsonReceiver": "Receiver",
   "pipelineGeoJsonReceiverDescription": "Takes GeoJSON from a Broadcast node in another view of this page. Enter the hash the Broadcast node shows, then press Enter or leave the field. Under the field the node names the pipeline that holds a Broadcast node with that hash. Each update from the broadcast is passed on as this node's output. The node has no inputs. Pages on other origins can also send GeoJSON to this hash with window.postMessage.",
   "pipelineGeoJsonReceiverHint": "Receives GeoJSON broadcast under the hash you enter.",
