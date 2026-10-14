@@ -281,7 +281,7 @@
   "pipelineGeoJsonViewer": "GeoJSON Viewer",
   "pipelineGeoJsonViewerEmpty": "No GeoJSON collections connected.",
   "pipelineGeoJsonViewerEntering": "Features entering the viewer",
-  "pipelineGeoJsonFirstFeature": "GeoJSON First Feature",
+  "pipelineGeoJsonFirstFeature": "GeoJSON Preview",
   "pipelineGeoJsonFirstFeatureEmpty": "No GeoJSON features connected.",
   "pipelineDragToAdd": "Drag to add a {{label}} to your flow",
   "aiActionConverted": "converted",
