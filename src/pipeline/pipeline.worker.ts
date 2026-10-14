@@ -182,10 +182,19 @@ const geoJsonSetNodeDefinition = (operation: GeoJsonSetOperation): PipelineNodeD
     const first = (inputs[firstHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [];
     const second = (inputs[secondHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [];
     const matchKey = typeof inputs.key === "string" && inputs.key !== "" ? inputs.key : undefined;
+    const inputCounts = Object.fromEntries(
+      GEOJSON_SET_INPUT_HANDLES.map((handle) => [
+        handle,
+        countGeoJsonFeatures((inputs[handle] as GeoJsonFeatureCollectionArray | undefined) ?? []),
+      ]),
+    );
+    const geojson = applyGeoJsonSetOperation(operation, first, second, matchKey);
 
     return {
-      geojson: applyGeoJsonSetOperation(operation, first, second, matchKey),
+      geojson,
       keys: listSetPropertyKeys(first, second),
+      inputCounts,
+      outputCount: countGeoJsonFeatures(geojson),
     };
   },
 });
@@ -688,6 +697,19 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       evaluationId,
       nodeId: node.id,
       keys: (nodeOutputs.keys as string[] | undefined) ?? [],
+    });
+  }
+
+  for (const node of nodes.filter((candidate) => SET_NODE_TYPES.has(candidate.type ?? ""))) {
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
+
+    workerScope.postMessage({
+      type: "geojson-set-counts",
+      evaluationId,
+      nodeId: node.id,
+      inputCounts: (nodeOutputs.inputCounts as Record<string, number> | undefined) ?? {},
+      outputCount: (nodeOutputs.outputCount as number | undefined) ?? 0,
     });
   }
 

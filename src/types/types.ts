@@ -79,6 +79,9 @@ export const GEOJSON_ZIP_KEYS_EVENT = 'geojson-zip:keys';
 // Window event carrying the property keys of the set operation node's inputs, so its match key dropdown can list them.
 export const GEOJSON_SET_KEYS_EVENT = 'geojson-set:keys';
 
+// Window event carrying how many features enter each input of the set operation node and how many leave it.
+export const GEOJSON_SET_COUNTS_EVENT = 'geojson-set:counts';
+
 // Window event carrying the numeric property keys of the heatmap node's input, so its intensity dropdown can list them.
 export const GEOJSON_HEATMAP_KEYS_EVENT = 'geojson-heatmap:keys';
 
@@ -188,6 +191,14 @@ export type PipelineGeoJsonSetKeysMessage = {
   keys: string[];
 };
 
+export type PipelineGeoJsonSetCountsMessage = {
+  type: "geojson-set-counts";
+  evaluationId: number;
+  nodeId: string;
+  inputCounts: Record<string, number>;
+  outputCount: number;
+};
+
 export type PipelineGeoJsonHeatmapKeysMessage = {
   type: "geojson-heatmap-keys";
   evaluationId: number;
@@ -275,6 +286,7 @@ export type PipelineWorkerOutbound =
   | PipelineGeoJsonViewerMessage
   | PipelineGeoJsonZipKeysMessage
   | PipelineGeoJsonSetKeysMessage
+  | PipelineGeoJsonSetCountsMessage
   | PipelineGeoJsonHeatmapKeysMessage
   | PipelineGeoJsonFeatureCountMessage
   | PipelineGeoJsonMergeCountsMessage

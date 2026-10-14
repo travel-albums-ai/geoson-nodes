@@ -55,6 +55,8 @@ function GeoJsonSwitchNode({ id, data }: NodeProps<Node<{ serveB?: boolean }>>) 
     <>
       {GEOJSON_SWITCH_INPUT_HANDLES.map((handleId, index) => (
         <InputHandle
+          indexValues={['A', 'B']}
+          index={index}
           key={handleId}
           id={handleId}
           position={Position.Top}

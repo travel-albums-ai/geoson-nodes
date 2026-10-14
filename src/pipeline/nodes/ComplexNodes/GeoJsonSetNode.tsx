@@ -3,10 +3,10 @@ import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
-import { GEOJSON_SET_INPUT_HANDLES, GEOJSON_SET_KEYS_EVENT } from '@/types/types';
+import { GEOJSON_SET_COUNTS_EVENT, GEOJSON_SET_INPUT_HANDLES, GEOJSON_SET_KEYS_EVENT } from '@/types/types';
 import { Box, FormControlLabel, MenuItem, Switch, TextField } from '@mui/material';
 import { Position, useNodeConnections, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
-import { Link } from 'lucide-react';
+import { Link, LogIn, LogOut } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -15,6 +15,10 @@ const handleLeft = (index: number) =>
 
 type GeoJsonSetNodeData = { reversed?: boolean; key?: string };
 type SetKeysEventDetail = { nodeId: string; keys: string[] };
+type SetCountsEventDetail = { nodeId: string; inputCounts: Record<string, number>; outputCount: number };
+
+// Shown on the input handles and chips, in the same order as GEOJSON_SET_INPUT_HANDLES.
+const SET_INPUT_NAMES = ['A', 'B'];
 
 // Empty key: features match on their full content.
 const WHOLE_FEATURE_KEY = '';
@@ -26,6 +30,7 @@ function GeoJsonSetNode({ id, type, data }: NodeProps<Node<GeoJsonSetNodeData>>)
   const connections = useNodeConnections({ handleType: 'target' });
   const connectedCount = new Set(connections.map((connection) => connection.targetHandle)).size;
   const [propertyKeys, setPropertyKeys] = useState<string[]>([]);
+  const [counts, setCounts] = useState<SetCountsEventDetail | null>(null);
   const selectedKey = data.key ?? WHOLE_FEATURE_KEY;
 
   useEffect(() => {
@@ -39,6 +44,19 @@ function GeoJsonSetNode({ id, type, data }: NodeProps<Node<GeoJsonSetNodeData>>)
 
     window.addEventListener(GEOJSON_SET_KEYS_EVENT, handleKeys);
     return () => window.removeEventListener(GEOJSON_SET_KEYS_EVENT, handleKeys);
+  }, [id]);
+
+  useEffect(() => {
+    const handleCounts = (event: Event) => {
+      const detail = (event as CustomEvent<SetCountsEventDetail>).detail;
+
+      if (detail.nodeId === id) {
+        setCounts(detail);
+      }
+    };
+
+    window.addEventListener(GEOJSON_SET_COUNTS_EVENT, handleCounts);
+    return () => window.removeEventListener(GEOJSON_SET_COUNTS_EVENT, handleCounts);
   }, [id]);
 
   const toggleReversed = useCallback((reversed: boolean) => {
@@ -69,7 +87,7 @@ function GeoJsonSetNode({ id, type, data }: NodeProps<Node<GeoJsonSetNodeData>>)
       {GEOJSON_SET_INPUT_HANDLES.map((handleId, index) => (
         <InputHandle
           index={index}
-          indexValues={['A', "B"]}
+          indexValues={SET_INPUT_NAMES}
           key={handleId}
           id={handleId}
           position={Position.Top}
@@ -77,11 +95,31 @@ function GeoJsonSetNode({ id, type, data }: NodeProps<Node<GeoJsonSetNodeData>>)
         />
       ))}
       <NodeWrapper type={type}
+        inputCounts={<>
+          {GEOJSON_SET_INPUT_HANDLES.map((handleId, index) => (
+            <NewChip
+              key={handleId}
+              count={counts?.inputCounts[handleId] ?? 0}
+              label={SET_INPUT_NAMES[index]}
+              icon={<LogIn size={16} />}
+              tooltip={t('pipelineGeoJsonSwitchEntering', { input: SET_INPUT_NAMES[index] })}
+              fontSize={12}
+            />
+          ))}
+        </>}
         outputCounts={<>
           <NewChip
             count={connectedCount ?? 0}
             label={''}
             icon={<Link size={16} />}
+            tooltip={t('pipelineGeoJsonSwitchLeaving')}
+            fontSize={12}
+          />
+          <NewChip
+            variant="important"
+            count={counts?.outputCount ?? 0}
+            label={''}
+            icon={<LogOut size={16} />}
             tooltip={t('pipelineGeoJsonSwitchLeaving')}
             fontSize={12}
           />
