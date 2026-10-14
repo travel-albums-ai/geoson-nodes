@@ -571,7 +571,20 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
       });
 
       const nodeStartedAt = performance.now();
-      const result = await definition.execute(inputs);
+      const result = await definition.execute(inputs).catch((error: unknown) => {
+        // A failed node still stops its timer, otherwise it keeps counting.
+        if (!reportsOwnTiming) {
+          workerScope.postMessage({
+            type: "stageTiming",
+            evaluationId,
+            nodeType: node.type ?? "",
+            nodeId: node.id,
+            durationMs: performance.now() - nodeStartedAt,
+          });
+        }
+
+        throw error;
+      });
       const durationMs = performance.now() - nodeStartedAt;
 
       if (!reportsOwnTiming) {
@@ -596,6 +609,20 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
     outputs.set(nodeId, promise);
 
     return promise;
+  };
+
+  // A failing node reports its error through its own viewer. Letting it reject
+  // here would abort the whole run and fail every viewer.
+  const settleNode = async (nodeId: string): Promise<NodeOutputs | undefined> => {
+    try {
+      return await evaluateNode(nodeId);
+    } catch (error: unknown) {
+      if (error instanceof StaleEvaluationError) {
+        throw error;
+      }
+
+      return undefined;
+    }
   };
 
   // Post each viewer's result as soon as it is ready instead of
@@ -633,15 +660,16 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
   if (message.sequentialMode) {
     for (const node of nodes) {
-      await evaluateNode(node.id);
+      await settleNode(node.id);
     }
   } else {
-    await Promise.all(nodes.map((node) => evaluateNode(node.id)));
+    await Promise.all(nodes.map((node) => settleNode(node.id)));
   }
 
   // Every node has settled at this point, so these lookups return cached outputs.
   for (const node of nodes.filter((candidate) => candidate.type === "geojson-zip")) {
-    const nodeOutputs = await evaluateNode(node.id);
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
 
     workerScope.postMessage({
       type: "geojson-zip-keys",
@@ -652,7 +680,8 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
   }
 
   for (const node of nodes.filter((candidate) => candidate.type === "geojson-heatmap")) {
-    const nodeOutputs = await evaluateNode(node.id);
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
 
     workerScope.postMessage({
       type: "geojson-heatmap-keys",
@@ -673,7 +702,8 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
   }
 
   for (const node of nodes.filter((candidate) => candidate.type === "geojson-feature-picker")) {
-    const nodeOutputs = await evaluateNode(node.id);
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
 
     workerScope.postMessage({
       type: "geojson-feature-count",
@@ -684,7 +714,8 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
   }
 
   for (const node of nodes.filter((candidate) => candidate.type === "geo-bounds-filter")) {
-    const nodeOutputs = await evaluateNode(node.id);
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
 
     workerScope.postMessage({
       type: "geo-bounds-filter-counts",
@@ -696,7 +727,8 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
   }
 
   for (const node of nodes.filter((candidate) => candidate.type === "geojson-merge")) {
-    const nodeOutputs = await evaluateNode(node.id);
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
 
     workerScope.postMessage({
       type: "geojson-merge-counts",
@@ -708,7 +740,8 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
   }
 
   for (const node of nodes.filter((candidate) => candidate.type === "geojson-switch")) {
-    const nodeOutputs = await evaluateNode(node.id);
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
 
     workerScope.postMessage({
       type: "geojson-switch-counts",
@@ -720,7 +753,8 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
   }
 
   for (const node of nodes.filter((candidate) => candidate.type === "geojson-jsonata")) {
-    const nodeOutputs = await evaluateNode(node.id);
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
 
     workerScope.postMessage({
       type: "geojson-jsonata-counts",
@@ -732,7 +766,8 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
   }
 
   for (const node of nodes.filter((candidate) => candidate.type === "shortest-route")) {
-    const nodeOutputs = await evaluateNode(node.id);
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
 
     workerScope.postMessage({
       type: "shortest-route-counts",
@@ -744,7 +779,8 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
   }
 
   for (const node of nodes.filter((candidate) => candidate.type === "geojson-within-area")) {
-    const nodeOutputs = await evaluateNode(node.id);
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
 
     workerScope.postMessage({
       type: "geojson-within-area-counts",
@@ -756,7 +792,8 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
   }
 
   for (const node of nodes.filter((candidate) => candidate.type === "url-geojson-loader")) {
-    const nodeOutputs = await evaluateNode(node.id);
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
 
     workerScope.postMessage({
       type: "url-geojson-loader-counts",
