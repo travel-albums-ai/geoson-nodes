@@ -12,6 +12,7 @@ export function PipelineTrashProvider({ children }: { children: ReactNode }) {
     saveCurrent: () => {},
     saveAsCopy: () => {},
     downloadPipeline: () => {},
+    downloadScreenshot: () => {},
     uploadPipeline: () => {},
     zoomIn: () => {},
     zoomOut: () => {},

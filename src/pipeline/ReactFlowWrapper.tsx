@@ -26,7 +26,7 @@ import { usePipelineTrash } from '@/hooks/usePipelineTrash';
 import { VIEWER_NODE_TYPES } from "@/types/types";
 import type { GeoJsonFeatureCollectionArray } from "@/types/types";
 import { useTranslation } from 'react-i18next';
-import { downloadPipelineFile, readPipelineFile } from './pipelineApi';
+import { downloadCanvasScreenshot, downloadPipelineFile, readPipelineFile } from './pipelineApi';
 import { isStarterPipelineId } from './starterTemplates';
 import {
   EDGE_TYPE,
@@ -327,6 +327,19 @@ function Pipeline() {
     downloadPipelineFile(name, nodes, edges);
   }, [currentPipelineName, edges, nodes]);
 
+  const downloadScreenshot = useCallback(async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const name = currentPipelineName.trim() || t('untitledPipeline');
+    try {
+      await downloadCanvasScreenshot(name, canvas, theme.palette.background.default);
+    } catch (error) {
+      console.error('Screenshot failed:', error);
+      window.alert(t('screenshotFailed'));
+    }
+  }, [currentPipelineName, t, theme.palette.background.default]);
+
   const openPipelineFile = useCallback(async (file: File) => {
     try {
       const { name, graph } = await readPipelineFile(file);
@@ -570,6 +583,7 @@ function Pipeline() {
       saveCurrent,
       saveAsCopy,
       downloadPipeline,
+      downloadScreenshot: () => void downloadScreenshot(),
       openPipelineFile,
       uploadPipeline,
       zoomIn: zoomInCanvas,
@@ -579,7 +593,7 @@ function Pipeline() {
       getZoom,
       addPostIt: addPostItAtCanvasCenter,
     };
-  }, [actionsRef, addPostItAtCanvasCenter, clearWorkspace, downloadPipeline, fitPipelineView, getZoom, openPipelineFile, saveAsCopy, saveCurrent, uploadPipeline, zoomInCanvas, zoomOutCanvas, zoomTo100]);
+  }, [actionsRef, addPostItAtCanvasCenter, clearWorkspace, downloadPipeline, downloadScreenshot, fitPipelineView, getZoom, openPipelineFile, saveAsCopy, saveCurrent, uploadPipeline, zoomInCanvas, zoomOutCanvas, zoomTo100]);
 
   useEffect(() => {
     const launchQueue = (window as Window & {

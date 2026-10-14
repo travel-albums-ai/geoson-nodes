@@ -417,5 +417,7 @@
   "pipelineGeoJsonChartDescription": "Draws a line chart of one numeric property across the features of the input, in input order. Pick the key from the dropdown, which lists only properties whose values are numbers. Features without a value leave a gap in the line.",
   "pipelineGeoJsonViewerDescription": "Plots GeoJSON features on a map and lists each collection with its city, source and feature count, with a small preview of each feature.",
   "pipelineAskGptDescription": "Lets you pick property keys from the GeoJSON features on its input. When you press Ask GPT, the selected keys of every feature are serialized as a JSON array and sent to ChatGPT in a new tab. It has no output.",
-  "pipelineGeoJsonFirstFeatureDescription": "Shows the properties of the first feature in the list of GeoJSON collections in a read-only text box. It has no output."
+  "pipelineGeoJsonFirstFeatureDescription": "Shows the properties of the first feature in the list of GeoJSON collections in a read-only text box. It has no output.",
+  "screenshotToggleTooltip": "Save the canvas as a PNG screenshot",
+  "screenshotFailed": "The canvas screenshot could not be saved."
 }

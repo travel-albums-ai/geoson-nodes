@@ -19,6 +19,7 @@ import Logo from '@/toolbars/tools/Logo';
 import NewUploadToggle from '@/toolbars/tools/NewUploadToggle';
 import PipelineName from '@/toolbars/tools/PipelineName';
 import PointerReactflowToggle from '@/toolbars/tools/PointerReactflowToggle';
+import ScreenshotButton from '@/toolbars/tools/ScreenshotButton';
 import SaveCloneUploadToggle from '@/toolbars/tools/SaveCloneUploadToggle';
 import SettingsWindowToggle from '@/toolbars/tools/SettingsWindowToggle';
 import ShareFeedback from '@/toolbars/tools/ShareFeedback';
@@ -102,6 +103,7 @@ export default function Toolbars() {
             <ZoomInButton />
             <FitViewButton />
             <ZoomTo100Button />
+            <ScreenshotButton />
           </>,
         ]),
         <>

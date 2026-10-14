@@ -1,4 +1,5 @@
 import type { Edge, Node } from '@xyflow/react';
+import { toPng } from 'html-to-image';
 
 import { prepareGraph, type PipelineGraph } from '@/context/pipelineStore';
 import { PIPELINE_FILE_EXTENSION } from './pipelineConfig';
@@ -30,6 +31,17 @@ export function downloadPipelineFile(name: string, nodes: Node[], edges: Edge[])
   link.download = `${name.replace(/[\\/:*?"<>|]+/g, '_')}${PIPELINE_FILE_EXTENSION}`;
   link.click();
   URL.revokeObjectURL(url);
+}
+
+export async function downloadCanvasScreenshot(name: string, canvas: HTMLElement, backgroundColor: string): Promise<void> {
+  const dataUrl = await toPng(canvas, {
+    backgroundColor,
+    pixelRatio: window.devicePixelRatio || 1,
+  });
+  const link = document.createElement('a');
+  link.href = dataUrl;
+  link.download = `${name.replace(/[\\/:*?"<>|]+/g, '_')}.png`;
+  link.click();
 }
 
 export async function readPipelineFile(file: File): Promise<{ name: string; graph: PipelineGraph }> {
