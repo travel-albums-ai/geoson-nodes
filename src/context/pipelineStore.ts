@@ -57,7 +57,10 @@ const {
   useStore,
   useSetStore,
   useStoreSelector: usePipelineStoreSelector
-} = createLocalStorageStoreNg<PipelineStore>(defaults, 'pipelineStore')
+} = createLocalStorageStoreNg<PipelineStore>(defaults, 'pipelineStore', {
+  // The open graph and its UI state belong to one tab; the saved pipeline list is shared.
+  tabKeys: ['currentPipeline', 'lockReactflow', 'searchTermToolbox'],
+})
 
 function createPipelineId() {
   return `pipeline-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`

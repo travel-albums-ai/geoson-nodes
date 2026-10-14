@@ -32,7 +32,8 @@ import {
   EDGE_TYPE,
   INITIAL_EDGES,
   INITIAL_NODES,
-  LAST_PIPELINE_STORAGE_KEY,
+  readLastOpenedPipelineId,
+  writeLastOpenedPipelineId,
   PIPELINE_NODE_COUNT_EVENT,
   PIPELINE_NODE_COUNT_REQUEST_EVENT,
   pipelineNodeTypes,
@@ -132,12 +133,12 @@ function Pipeline() {
 
     restoredPipelineRef.current = true;
 
-    const pipelineId = localStorage.getItem(LAST_PIPELINE_STORAGE_KEY) ?? '';
+    const pipelineId = readLastOpenedPipelineId();
     if (!pipelineId) return;
 
     const pipeline = loadById(pipelineId);
     if (!pipeline) {
-      localStorage.removeItem(LAST_PIPELINE_STORAGE_KEY);
+      writeLastOpenedPipelineId(null);
       return;
     }
 
@@ -147,11 +148,7 @@ function Pipeline() {
   }, [loadById, setCurrentPipeline, setEdges, setNodes, styleEdges]);
 
   useEffect(() => {
-    if (currentPipelineId) {
-      localStorage.setItem(LAST_PIPELINE_STORAGE_KEY, currentPipelineId);
-    } else {
-      localStorage.removeItem(LAST_PIPELINE_STORAGE_KEY);
-    }
+    writeLastOpenedPipelineId(currentPipelineId || null);
   }, [currentPipelineId]);
 
   // Nodes are measured asynchronously, so fitView is deferred a frame

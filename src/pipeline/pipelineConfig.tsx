@@ -33,7 +33,26 @@ export const EDGE_TYPE = ConnectionLineType.Bezier;
 export const INITIAL_NODES: Node[] = [];
 export const INITIAL_EDGES: Edge[] = [];
 export const SNAP_GRID: [number, number] = [20, 20];
+// Stored in sessionStorage (per tab). Older builds kept it in localStorage, shared by all tabs.
 export const LAST_PIPELINE_STORAGE_KEY = 'lastOpenedPipelineId';
+
+export function readLastOpenedPipelineId(): string {
+  try {
+    localStorage.removeItem(LAST_PIPELINE_STORAGE_KEY);
+    return sessionStorage.getItem(LAST_PIPELINE_STORAGE_KEY) ?? '';
+  } catch {
+    return '';
+  }
+}
+
+export function writeLastOpenedPipelineId(pipelineId: string | null) {
+  try {
+    if (pipelineId) sessionStorage.setItem(LAST_PIPELINE_STORAGE_KEY, pipelineId);
+    else sessionStorage.removeItem(LAST_PIPELINE_STORAGE_KEY);
+  } catch {
+    // Storage can be unavailable (private mode, quota); the pipeline still works without restore.
+  }
+}
 export const PIPELINE_FILE_EXTENSION = '.cep';
 export const PIPELINE_NODE_COUNT_EVENT = 'pipeline:node-count';
 export const PIPELINE_NODE_COUNT_REQUEST_EVENT = 'pipeline:node-count-request';
