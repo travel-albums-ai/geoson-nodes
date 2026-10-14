@@ -1,4 +1,4 @@
-import { Bike, Blend, Braces, ChartLine, CloudSun, Combine, Crop, Database, Diff, FileJson, Flame, GitFork, Globe, Layers, Link2, Merge, MapPinned, MessageSquare, Newspaper, Palette, Plane, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote, TextCursorInput } from 'lucide-react';
+import { AppWindow, Bike, Blend, Braces, ChartLine, CloudSun, Combine, Crop, Database, Diff, FileJson, Flame, GitFork, Globe, Layers, Link2, Merge, MapPinned, MessageSquare, Newspaper, Palette, Plane, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote, TextCursorInput } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
@@ -28,6 +28,7 @@ export enum NodeType {
   GeoJsonChart = 'geojson-chart',
   AskGpt = 'ask-gpt',
   PostIt = 'post-it',
+  Iframe = 'iframe',
 }
 
 export enum NodeProcessing {
@@ -195,6 +196,10 @@ const outputStages: Array<NodeStageItem> = [
   {
     type: NodeType.AskGpt, labelKey: "pipelineAskGpt", icon: <MessageSquare size={16} />,
     processing: 'static', labelDescription: 'pipelineAskGptDescription'
+  },
+  {
+    type: NodeType.Iframe, labelKey: "pipelineIframe", icon: <AppWindow size={16} />,
+    processing: 'static', labelDescription: 'pipelineIframeDescription'
   },
 ]
 

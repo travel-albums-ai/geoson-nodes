@@ -53,7 +53,7 @@ export type FlightEntry = {
 export const WORKER_NODE_TYPES = new Set(['geojson-input', 'geo-bounds-filter', 'geojson-within-area', 'geojson-switch', 'geojson-style', 'geojson-heatmap', 'geojson-zip', 'geojson-feature-picker', 'geojson-merge', 'geojson-union', 'geojson-intersection', 'geojson-difference', 'geojson-symmetric-difference', 'geojson-jsonata', 'gps-map', 'geojson-viewer', 'geojson-first-feature', 'geojson-chart', 'flight-path', 'url-geojson-loader', 'gdelt-events-loader', 'qlever-sparql-loader', 'open-meteo-loader', 'fit-input', 'shortest-route', 'ask-gpt']);
 
 // Canvas-only nodes (e.g. notes). They are saved with the pipeline but never sent to the engine.
-export const ANNOTATION_NODE_TYPES = new Set(['post-it']);
+export const ANNOTATION_NODE_TYPES = new Set(['post-it', 'iframe']);
 
 // Input handles of the GeoJSON merge node, concatenated in this order.
 export const GEOJSON_MERGE_INPUT_HANDLES = ['geojson-1', 'geojson-2', 'geojson-3', 'geojson-4'] as const;

@@ -25,6 +25,7 @@ import OpenMeteoLoaderNode from '@/pipeline/nodes/ComplexNodes/OpenMeteoLoaderNo
 import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
 import PostItNode from '@/pipeline/nodes/ComplexNodes/PostItNode';
 import ShortestRouteNode from '@/pipeline/nodes/ComplexNodes/ShortestRouteNode';
+import IframeNode from '@/pipeline/nodes/ComplexNodes/IframeNode';
 
 export const EDGE_TYPE = ConnectionLineType.Bezier;
 export const INITIAL_NODES: Node[] = [];
@@ -63,4 +64,5 @@ export const pipelineNodeTypes = {
   'geojson-symmetric-difference': GeoJsonSetNode,
   'geojson-jsonata': GeoJsonJsonataNode,
   'post-it': PostItNode,
+  'iframe': IframeNode,
 };

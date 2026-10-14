@@ -106,6 +106,10 @@ const NODE_HANDLES: Record<string, { sources: string[]; targets: string[] }> = {
     sources: [],
     targets: [],
   },
+  'iframe': {
+    sources: [],
+    targets: [],
+  },
 };
 
 function getNodeHandles(node: { type?: string }, direction: 'sources' | 'targets') {
