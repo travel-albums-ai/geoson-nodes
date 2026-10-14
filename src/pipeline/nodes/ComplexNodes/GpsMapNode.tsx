@@ -4,7 +4,7 @@ import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
 import type { GeoJsonFeatureCollectionArray } from '@/types/types';
-import { Box, Chip } from '@mui/material';
+import { Box } from '@mui/material';
 import { Position, type Node, type NodeProps } from '@xyflow/react';
 import { LogIn } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -63,7 +63,7 @@ function GpsMapNode({ id, data }: NodeProps<Node<{ geojson?: GeoJsonFeatureColle
   return (
     <>
       <InputHandle id="geojson" position={Position.Top} />
-      <NodeWrapper type="gps-map" defaultSize={{ width: 528 }}
+      <NodeWrapper type="gps-map" defaultSize={{ width: 528, height: 400 }}
         inputCounts={<>
           <NewChip count={features.length} label="" fontSize={12} icon={<LogIn />} sx={{ height: 30 }} />
         </>}
@@ -71,7 +71,7 @@ function GpsMapNode({ id, data }: NodeProps<Node<{ geojson?: GeoJsonFeatureColle
           <PipelineStageTiming nodeId={id} nodeType={'gps-map'} />
         </>}>
         <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1 1 auto', minHeight: 0, gap: 1 }}>
-          {propertyKeys.length > 0 && (
+          {/* {propertyKeys.length > 0 && (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, maxHeight: '100px', overflow: 'auto' }}>
               {propertyKeys.map((key) => {
                 const selected = selectedKeys.includes(key);
@@ -87,7 +87,7 @@ function GpsMapNode({ id, data }: NodeProps<Node<{ geojson?: GeoJsonFeatureColle
                 );
               })}
             </Box>
-          )}
+          )} */}
           {data.skip !== true && (
             <GeoJsonMap
               features={features}

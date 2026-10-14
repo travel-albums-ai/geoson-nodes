@@ -26,7 +26,7 @@ import {
   parseGeoJsonFeatureCollections,
   pickGeoJsonFeature,
 } from "@/lib/geojson";
-import { applyGeoJsonSetOperation, type GeoJsonSetOperation } from "@/lib/geojsonSets";
+import { applyGeoJsonSetOperation, listSetPropertyKeys, type GeoJsonSetOperation } from "@/lib/geojsonSets";
 import { applyGeoJsonStyle, readGeoJsonStyleSettings } from "@/lib/geojsonStyle";
 import { buildGeoJsonHeatmap, listNumericPropertyKeys } from "@/lib/geojsonHeatmap";
 import { filterGeoJsonWithinArea } from "@/lib/geojsonWithinArea";
@@ -179,13 +179,13 @@ const geoJsonSetNodeDefinition = (operation: GeoJsonSetOperation): PipelineNodeD
     const [firstHandle, secondHandle] = inputs.reversed === true
       ? [...GEOJSON_SET_INPUT_HANDLES].reverse()
       : GEOJSON_SET_INPUT_HANDLES;
+    const first = (inputs[firstHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [];
+    const second = (inputs[secondHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [];
+    const matchKey = typeof inputs.key === "string" && inputs.key !== "" ? inputs.key : undefined;
 
     return {
-      geojson: applyGeoJsonSetOperation(
-        operation,
-        (inputs[firstHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
-        (inputs[secondHandle] as GeoJsonFeatureCollectionArray | undefined) ?? [],
-      ),
+      geojson: applyGeoJsonSetOperation(operation, first, second, matchKey),
+      keys: listSetPropertyKeys(first, second),
     };
   },
 });
@@ -673,6 +673,18 @@ async function runEvaluation(message: PipelineEvaluateMessage): Promise<void> {
 
     workerScope.postMessage({
       type: "geojson-zip-keys",
+      evaluationId,
+      nodeId: node.id,
+      keys: (nodeOutputs.keys as string[] | undefined) ?? [],
+    });
+  }
+
+  for (const node of nodes.filter((candidate) => SET_NODE_TYPES.has(candidate.type ?? ""))) {
+    const nodeOutputs = await settleNode(node.id);
+    if (!nodeOutputs) continue;
+
+    workerScope.postMessage({
+      type: "geojson-set-keys",
       evaluationId,
       nodeId: node.id,
       keys: (nodeOutputs.keys as string[] | undefined) ?? [],

@@ -76,6 +76,9 @@ export const GEOJSON_ZIP_DEFAULT_KEY = 'name';
 // Window event carrying the keys that A and B share, so the zip node can fill its key dropdown.
 export const GEOJSON_ZIP_KEYS_EVENT = 'geojson-zip:keys';
 
+// Window event carrying the property keys of the set operation node's inputs, so its match key dropdown can list them.
+export const GEOJSON_SET_KEYS_EVENT = 'geojson-set:keys';
+
 // Window event carrying the numeric property keys of the heatmap node's input, so its intensity dropdown can list them.
 export const GEOJSON_HEATMAP_KEYS_EVENT = 'geojson-heatmap:keys';
 
@@ -178,6 +181,13 @@ export type PipelineGeoJsonZipKeysMessage = {
   keys: string[];
 };
 
+export type PipelineGeoJsonSetKeysMessage = {
+  type: "geojson-set-keys";
+  evaluationId: number;
+  nodeId: string;
+  keys: string[];
+};
+
 export type PipelineGeoJsonHeatmapKeysMessage = {
   type: "geojson-heatmap-keys";
   evaluationId: number;
@@ -264,6 +274,7 @@ export type PipelineWorkerOutbound =
   | PipelineStageStartedMessage
   | PipelineGeoJsonViewerMessage
   | PipelineGeoJsonZipKeysMessage
+  | PipelineGeoJsonSetKeysMessage
   | PipelineGeoJsonHeatmapKeysMessage
   | PipelineGeoJsonFeatureCountMessage
   | PipelineGeoJsonMergeCountsMessage

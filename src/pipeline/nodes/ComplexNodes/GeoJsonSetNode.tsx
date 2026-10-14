@@ -3,22 +3,43 @@ import { InputHandle } from '@/pipeline/components/InputHandle';
 import NodeWrapper from '@/pipeline/components/NodeWrapper';
 import { OutputHandle } from '@/pipeline/components/OutputHandle';
 import PipelineStageTiming from '@/pipeline/components/PipelineStageTiming';
-import { GEOJSON_SET_INPUT_HANDLES } from '@/types/types';
-import { Box, FormControlLabel, Switch } from '@mui/material';
+import { GEOJSON_SET_INPUT_HANDLES, GEOJSON_SET_KEYS_EVENT } from '@/types/types';
+import { Box, FormControlLabel, MenuItem, Switch, TextField } from '@mui/material';
 import { Position, useNodeConnections, useReactFlow, type Node, type NodeProps } from '@xyflow/react';
 import { Link } from 'lucide-react';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const handleLeft = (index: number) =>
   `${((index + 1) / (GEOJSON_SET_INPUT_HANDLES.length + 1)) * 100}%`;
 
+type GeoJsonSetNodeData = { reversed?: boolean; key?: string };
+type SetKeysEventDetail = { nodeId: string; keys: string[] };
+
+// Empty key: features match on their full content.
+const WHOLE_FEATURE_KEY = '';
+
 // Shared by every set operation node; React Flow passes the node's own type.
-function GeoJsonSetNode({ id, type, data }: NodeProps<Node<{ reversed?: boolean }>>) {
+function GeoJsonSetNode({ id, type, data }: NodeProps<Node<GeoJsonSetNodeData>>) {
   const { t } = useTranslation();
   const { setNodes } = useReactFlow();
   const connections = useNodeConnections({ handleType: 'target' });
   const connectedCount = new Set(connections.map((connection) => connection.targetHandle)).size;
+  const [propertyKeys, setPropertyKeys] = useState<string[]>([]);
+  const selectedKey = data.key ?? WHOLE_FEATURE_KEY;
+
+  useEffect(() => {
+    const handleKeys = (event: Event) => {
+      const detail = (event as CustomEvent<SetKeysEventDetail>).detail;
+
+      if (detail.nodeId === id) {
+        setPropertyKeys(detail.keys);
+      }
+    };
+
+    window.addEventListener(GEOJSON_SET_KEYS_EVENT, handleKeys);
+    return () => window.removeEventListener(GEOJSON_SET_KEYS_EVENT, handleKeys);
+  }, [id]);
 
   const toggleReversed = useCallback((reversed: boolean) => {
     setNodes((current) => current.map((node) =>
@@ -28,6 +49,20 @@ function GeoJsonSetNode({ id, type, data }: NodeProps<Node<{ reversed?: boolean 
     ));
     window.dispatchEvent(new CustomEvent('pipeline:changed'));
   }, [id, setNodes]);
+
+  const changeKey = useCallback((key: string) => {
+    setNodes((current) => current.map((node) =>
+      node.id === id
+        ? { ...node, data: { ...node.data, key } }
+        : node
+    ));
+    window.dispatchEvent(new CustomEvent('pipeline:changed'));
+  }, [id, setNodes]);
+
+  // The saved key stays selectable even before the inputs carry it.
+  const keyOptions = selectedKey === WHOLE_FEATURE_KEY || propertyKeys.includes(selectedKey)
+    ? propertyKeys
+    : [selectedKey, ...propertyKeys];
 
   return (
     <>
@@ -64,6 +99,22 @@ function GeoJsonSetNode({ id, type, data }: NodeProps<Node<{ reversed?: boolean 
             }
           />
         </Box>
+        <TextField
+          select
+          className="nodrag nopan"
+          fullWidth
+          size="small"
+          label={t('pipelineGeoJsonSetKeyLabel')}
+          value={selectedKey}
+          onChange={(event) => changeKey(event.target.value)}
+          helperText={propertyKeys.length === 0 ? t('pipelineGeoJsonSetNoKeys') : undefined}
+          sx={{ mt: 1 }}
+        >
+          <MenuItem value={WHOLE_FEATURE_KEY}>{t('pipelineGeoJsonSetWholeFeature')}</MenuItem>
+          {keyOptions.map((key) => (
+            <MenuItem key={key} value={key}>{key}</MenuItem>
+          ))}
+        </TextField>
         <OutputHandle id="geojson" position={Position.Bottom} />
       </NodeWrapper>
     </>

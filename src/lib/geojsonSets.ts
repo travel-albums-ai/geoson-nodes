@@ -25,11 +25,46 @@ export const featureKey = (feature: GeoJsonFeature): string =>
       ? Object.fromEntries(Object.entries(value).sort(compareKeys))
       : value);
 
+// Property names found on the features of either input, sorted for display.
+export function listSetPropertyKeys(
+  first: GeoJsonFeatureCollectionArray,
+  second: GeoJsonFeatureCollectionArray,
+): string[] {
+  const keys = new Set<string>();
+
+  for (const collection of [...first, ...second]) {
+    for (const feature of collection.features) {
+      for (const key of Object.keys(feature.properties ?? {})) {
+        keys.add(key);
+      }
+    }
+  }
+
+  return [...keys].sort((left, right) => left.localeCompare(right));
+}
+
+// Without a match key, features match on their full content. With one, they match on that property's
+// value, and a feature that lacks the property falls back to full-content matching.
+const identityOf = (feature: GeoJsonFeature, matchKey: string | undefined): string => {
+  if (matchKey === undefined) return featureKey(feature);
+
+  const { properties } = feature;
+
+  if (properties === null || !Object.hasOwn(properties, matchKey)) {
+    return `content:${featureKey(feature)}`;
+  }
+
+  return `value:${JSON.stringify(properties[matchKey])}`;
+};
+
 // Each feature is serialized once; key sets and the output are both derived from these keys.
-const keyCollections = (collections: GeoJsonFeatureCollectionArray): KeyedCollection[] =>
+const keyCollections = (
+  collections: GeoJsonFeatureCollectionArray,
+  matchKey: string | undefined,
+): KeyedCollection[] =>
   collections.map((collection) => ({
     collection,
-    features: collection.features.map((feature) => ({ feature, key: featureKey(feature) })),
+    features: collection.features.map((feature) => ({ feature, key: identityOf(feature, matchKey) })),
   }));
 
 const keySet = (keyed: KeyedCollection[]): Set<string> =>
@@ -61,36 +96,37 @@ function collectDistinct(sources: SetSource[]): GeoJsonFeatureCollectionArray {
   return result;
 }
 
-// Features are the set elements; two features are equal when their full content matches.
+// Features are the set elements; two features are equal when their identity matches (see identityOf).
 // Results list the first operand's collections before the second's, each keeping its own metadata.
 export function applyGeoJsonSetOperation(
   operation: GeoJsonSetOperation,
   first: GeoJsonFeatureCollectionArray,
   second: GeoJsonFeatureCollectionArray,
+  matchKey?: string,
 ): GeoJsonFeatureCollectionArray {
   switch (operation) {
     case 'union':
       return collectDistinct([
-        { collections: keyCollections(first), keep: () => true },
-        { collections: keyCollections(second), keep: () => true },
+        { collections: keyCollections(first, matchKey), keep: () => true },
+        { collections: keyCollections(second, matchKey), keep: () => true },
       ]);
     case 'intersection': {
-      const secondKeys = keySet(keyCollections(second));
+      const secondKeys = keySet(keyCollections(second, matchKey));
 
       return collectDistinct([
-        { collections: keyCollections(first), keep: (key) => secondKeys.has(key) },
+        { collections: keyCollections(first, matchKey), keep: (key) => secondKeys.has(key) },
       ]);
     }
     case 'difference': {
-      const secondKeys = keySet(keyCollections(second));
+      const secondKeys = keySet(keyCollections(second, matchKey));
 
       return collectDistinct([
-        { collections: keyCollections(first), keep: (key) => !secondKeys.has(key) },
+        { collections: keyCollections(first, matchKey), keep: (key) => !secondKeys.has(key) },
       ]);
     }
     case 'symmetricDifference': {
-      const firstKeyed = keyCollections(first);
-      const secondKeyed = keyCollections(second);
+      const firstKeyed = keyCollections(first, matchKey);
+      const secondKeyed = keyCollections(second, matchKey);
       const firstKeys = keySet(firstKeyed);
       const secondKeys = keySet(secondKeyed);
 
