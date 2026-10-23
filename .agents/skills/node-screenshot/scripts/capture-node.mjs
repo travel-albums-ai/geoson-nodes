@@ -20,7 +20,7 @@
 // a Vite dev server is started and stopped automatically.
 import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
@@ -143,6 +143,15 @@ const isolateCss = ({ keepHandles, transparent, background }) => `
   * { caret-color: transparent !important; }
 `;
 
+// Deletes earlier captures of the same node type in the folder, so one file per type remains.
+function removeOlderScreenshots(dir, type, keep) {
+  const pattern = new RegExp(`^node-${type}(\\.[0-9a-f]{8})?\\.png$`);
+  for (const name of readdirSync(dir)) {
+    const path = resolve(dir, name);
+    if (path !== keep && pattern.test(name)) unlinkSync(path);
+  }
+}
+
 async function capture(browser, type, mode, theme, opts) {
   const outDir = opts.out ? dirname(resolve(root, opts.out)) : resolve(root, `screenshots-${mode}-${theme.slug}`);
   mkdirSync(outDir, { recursive: true });
@@ -246,6 +255,7 @@ async function capture(browser, type, mode, theme, opts) {
     const hash = createHash('sha256').update(screenshot).digest('hex').slice(0, 8);
     const out = opts.out ? resolve(root, opts.out) : resolve(outDir, `node-${type}.${hash}.png`);
     writeFileSync(out, screenshot);
+    if (!opts.out) removeOlderScreenshots(outDir, type, out);
     console.log(`${type} [${mode}, ${theme.slug}] -> ${out} (node ${Math.round(box.width)}x${Math.round(box.height)}, ${statSync(out).size} bytes)`);
     if (problems.length) console.log(`  page errors: ${problems.slice(0, 3).join(' | ')}`);
     return true;
