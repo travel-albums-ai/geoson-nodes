@@ -5,8 +5,10 @@
 //   node .agents/skills/node-screenshot/scripts/capture-node.mjs --all
 //
 // Options:
-//   --out <file>          Output PNG (default: screenshots/node-<type>.png)
-//   --theme <light|dark>  Default: light
+//   --out <file>          Output PNG (default: screenshots-<mode>-<theme>/node-<type>.png)
+//   --theme <id|slug>     Limit to one theme (repeatable)
+//   --mode <light|dark>   Limit to one mode (repeatable)
+//   --concurrency <1-4>   Captures to run at once (default: 1)
 //   --transparent         Transparent PNG background instead of the canvas colour
 //   --handles             Keep the connection handles (hidden by default)
 //   --wait <ms>           Settle time after the node renders (default 800)
@@ -28,15 +30,17 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..');
 const themesRoot = resolve(root, 'src/themes');
 const baseUrl = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:5173';
 const MODES = ['light', 'dark'];
+const MAX_CONCURRENCY = 4;
 
 function parseArgs(argv) {
-  const opts = { types: [], themes: [], modes: [], wait: 800 };
+  const opts = { types: [], themes: [], modes: [], wait: 800, concurrency: 1 };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === '--out') opts.out = argv[++i];
     else if (arg === '--theme') opts.themes.push(argv[++i]);
     else if (arg === '--mode') opts.modes.push(argv[++i]);
     else if (arg === '--wait') opts.wait = Number(argv[++i]);
+    else if (arg === '--concurrency') opts.concurrency = Number(argv[++i]);
     else if (arg === '--transparent') opts.transparent = true;
     else if (arg === '--handles') opts.handles = true;
     else if (arg === '--headed') opts.headed = true;
@@ -294,24 +298,36 @@ if (opts.out && (types.length !== 1 || selectedThemes.length !== 1 || selectedMo
   console.error('--out requires one node type, one --theme, and one --mode');
   process.exit(2);
 }
+if (!Number.isInteger(opts.concurrency) || opts.concurrency < 1 || opts.concurrency > MAX_CONCURRENCY) {
+  console.error(`--concurrency must be an integer from 1 to ${MAX_CONCURRENCY}`);
+  process.exit(2);
+}
 
 const stopServer = await ensureServer();
 let browser;
 let failed = false;
 try {
   browser = await chromium.launch({ headless: !opts.headed });
+  const jobs = [];
   for (const theme of selectedThemes) {
     for (const mode of selectedModes) {
-      for (const type of types) {
-        try {
-          if (!(await capture(browser, type, mode, theme, opts))) failed = true;
-        } catch (error) {
-          failed = true;
-          console.error(`${type} [${mode}, ${theme.slug}] FAILED: ${error.message}`);
-        }
-      }
+      for (const type of types) jobs.push({ type, mode, theme });
     }
   }
+  // Each capture gets its own browser context, so workers share only the browser and dev server.
+  let next = 0;
+  const worker = async () => {
+    while (next < jobs.length) {
+      const { type, mode, theme } = jobs[next++];
+      try {
+        if (!(await capture(browser, type, mode, theme, opts))) failed = true;
+      } catch (error) {
+        failed = true;
+        console.error(`${type} [${mode}, ${theme.slug}] FAILED: ${error.message}`);
+      }
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(opts.concurrency, jobs.length) }, worker));
 } finally {
   await browser?.close();
   stopServer();

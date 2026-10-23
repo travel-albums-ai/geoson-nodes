@@ -36,6 +36,8 @@ node .agents/skills/node-screenshot/scripts/capture-node.mjs <node-type> [option
 
 `--theme <id-or-slug>` narrows the capture to one discovered theme; repeat it to choose several. `--mode <light|dark>` narrows to one mode; repeat it to choose both. Without either option, all discovered themes and both modes are captured. Outputs go into `screenshots-<mode>-<theme-slug>/node-<node-type>.png`, for example `screenshots-dark-catppuccin/node-geojson-input.png`. `--all` expands the node selection to every registered type and still captures every selected theme/mode combination.
 
+`--concurrency <1-4>` sets how many captures run at once (default `1`, sequential). Each capture uses its own browser context, so higher values reduce wall-clock time without changing the output. For example, `npm run capture:nodes -- --mode light --theme default --concurrency 4`.
+
 `--out` overrides the output path and therefore requires exactly one node, one theme, and one mode to be selected. Set `PLAYWRIGHT_BASE_URL` to use an already-running Vite app at a different URL. Use `--headed` to inspect the browser and `--wait <ms>` if a node needs more time to settle.
 
 ## Isolation and styling guidance
