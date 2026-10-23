@@ -1,4 +1,4 @@
-import { AppWindow, Bike, Blend, Braces, ChartLine, CloudSun, Combine, Crop, Database, Diff, FileJson, Flame, GitFork, Globe, Inbox, Layers, Link2, Merge, MapPinned, MessageSquare, Newspaper, Palette, Plane, RadioTower, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote, TextCursorInput } from 'lucide-react';
+import { AppWindow, Bike, Blend, Braces, ChartLine, CloudSun, Combine, Crop, Database, Diff, FileJson, Flame, Images, GitFork, Globe, Inbox, Layers, Link2, Merge, MapPinned, MessageSquare, Newspaper, Palette, Plane, RadioTower, Route, ScanSearch, SlidersHorizontal, SquaresIntersect, StickyNote, TextCursorInput } from 'lucide-react';
 
 export enum NodeType {
   GeoJsonInput = 'geojson-input',
@@ -29,6 +29,7 @@ export enum NodeType {
   AskGpt = 'ask-gpt',
   PostIt = 'post-it',
   Iframe = 'iframe',
+  PhotoFolderLoader = 'photo-folder-loader',
   GeoJsonBroadcast = 'geojson-broadcast',
   GeoJsonReceiver = 'geojson-receiver',
 }
@@ -66,6 +67,13 @@ export type NodeStageItem = {
 export type NodePaletteItem = NodeStageItem & {
   groupKey: string;
 }
+
+const devStages: Array<NodeStageItem> = [
+  {
+    type: NodeType.PhotoFolderLoader, labelKey: "pipelinePhotoFolderLoader", icon: <Images size={16} />,
+    processing: 'static', labelDescription: 'pipelinePhotoFolderLoaderDescription'
+  },
+];
 
 const sourceStages: Array<NodeStageItem> = [
   {
@@ -220,6 +228,7 @@ export const paletteItems: Array<NodePaletteItem> = [
   ...(filterStages.map(stage => ({ ...stage, groupKey: "pipelineGroupFilter" }))),
   ...(utilityStages.map(stage => ({ ...stage, groupKey: "pipelineGroupUtility" }))),
   ...(outputStages.map(stage => ({ ...stage, groupKey: "pipelineGroupOutput" }))),
+  ...(devStages.map(stage => ({ ...stage, groupKey: "pipelineGroupDev" }))),
 ];
 
 export const groupedPaletteItems = paletteItems.reduce((acc, item) => {

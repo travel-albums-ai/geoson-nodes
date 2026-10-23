@@ -26,6 +26,7 @@ import OpenMeteoLoaderNode from '@/pipeline/nodes/ComplexNodes/OpenMeteoLoaderNo
 import GpsMapNode from '@/pipeline/nodes/ComplexNodes/GpsMapNode';
 import PostItNode from '@/pipeline/nodes/ComplexNodes/PostItNode';
 import ShortestRouteNode from '@/pipeline/nodes/ComplexNodes/ShortestRouteNode';
+import PhotoFolderLoaderNode from '@/pipeline/nodes/ComplexNodes/PhotoFolderLoaderNode';
 import IframeNode from '@/pipeline/nodes/ComplexNodes/IframeNode';
 import GeoJsonBroadcastNode from '@/pipeline/nodes/ComplexNodes/GeoJsonBroadcastNode';
 import GeoJsonReceiverNode from '@/pipeline/nodes/ComplexNodes/GeoJsonReceiverNode';
@@ -95,6 +96,7 @@ export const pipelineNodeTypes = {
   'geojson-jsonata': GeoJsonJsonataNode,
   'post-it': PostItNode,
   'iframe': IframeNode,
+  'photo-folder-loader': PhotoFolderLoaderNode,
   'geojson-broadcast': GeoJsonBroadcastNode,
   'geojson-receiver': GeoJsonReceiverNode,
 };
