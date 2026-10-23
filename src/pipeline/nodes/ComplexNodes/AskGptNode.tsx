@@ -44,7 +44,7 @@ function AskGptNode({ id, data }: NodeProps<Node<AskGptNodeData>>) {
         type="ask-gpt"
         defaultSize={{ width: 360 }}
         tools={<PipelineStageTiming nodeId={id} nodeType={'ask-gpt'} />}
-      >
+      >fggggAAA
         <Box className="nodrag nopan" sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
           <Autocomplete<string, true>
             multiple

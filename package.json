@@ -17,6 +17,7 @@
     "knip": "knip",
     "capture:node": "node .agents/skills/node-screenshot/scripts/capture-node.mjs",
     "capture:nodes": "node .agents/skills/node-screenshot/scripts/capture-node.mjs --all",
+    "capture:watch": "node .agents/skills/node-screenshot/scripts/watch-nodes.mjs",
     "next": "semantic-release",
     "package": "npm run prepare:build",
     "preview": "npm run build && vite preview",

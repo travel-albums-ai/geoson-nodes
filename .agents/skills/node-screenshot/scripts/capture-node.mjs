@@ -5,7 +5,7 @@
 //   node .agents/skills/node-screenshot/scripts/capture-node.mjs --all
 //
 // Options:
-//   --out <file>          Output PNG (default: screenshots-<mode>-<theme>/node-<type>.png)
+//   --out <file>          Output PNG, used as given (default: screenshots-<mode>-<theme>/node-<type>.<hash>.png)
 //   --theme <id|slug>     Limit to one theme (repeatable)
 //   --mode <light|dark>   Limit to one mode (repeatable)
 //   --concurrency <1-4>   Captures to run at once (default: 1)
@@ -19,6 +19,7 @@
 // Env: PLAYWRIGHT_BASE_URL (default http://localhost:5173). If nothing answers there,
 // a Vite dev server is started and stopped automatically.
 import { spawn } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -143,8 +144,8 @@ const isolateCss = ({ keepHandles, transparent, background }) => `
 `;
 
 async function capture(browser, type, mode, theme, opts) {
-  const out = resolve(root, opts.out ?? `screenshots-${mode}-${theme.slug}/node-${type}.png`);
-  mkdirSync(dirname(out), { recursive: true });
+  const outDir = opts.out ? dirname(resolve(root, opts.out)) : resolve(root, `screenshots-${mode}-${theme.slug}`);
+  mkdirSync(outDir, { recursive: true });
 
   const context = await browser.newContext({
     viewport: { width: WIDTH, height: HEIGHT },
@@ -242,6 +243,8 @@ async function capture(browser, type, mode, theme, opts) {
     if (screenshot.readUInt32BE(16) !== WIDTH || screenshot.readUInt32BE(20) !== HEIGHT) {
       throw new Error(`Expected an ${WIDTH}x${HEIGHT} PNG, got ${screenshot.readUInt32BE(16)}x${screenshot.readUInt32BE(20)}`);
     }
+    const hash = createHash('sha256').update(screenshot).digest('hex').slice(0, 8);
+    const out = opts.out ? resolve(root, opts.out) : resolve(outDir, `node-${type}.${hash}.png`);
     writeFileSync(out, screenshot);
     console.log(`${type} [${mode}, ${theme.slug}] -> ${out} (node ${Math.round(box.width)}x${Math.round(box.height)}, ${statSync(out).size} bytes)`);
     if (problems.length) console.log(`  page errors: ${problems.slice(0, 3).join(' | ')}`);
